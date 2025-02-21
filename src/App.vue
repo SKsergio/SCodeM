@@ -1,7 +1,19 @@
 <template>
-    <div>
-        <h1>Hola de nuevo Vue</h1>
-    </div>
+    <!-- cabecera -->
+   <header>
+
+   </header>
+
+   <!-- bidy to the system -->
+   <main>
+    <h1>Holaa</h1>
+   </main>
+
+   <!-- foooter to the system -->
+   <footer>
+
+   </footer>
+
 </template>
 
 <script setup lang="ts">

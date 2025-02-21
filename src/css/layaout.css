@@ -1,0 +1,21 @@
+@import url(./variables.css);
+
+#app{
+    display: grid;
+    gap: 40px;
+    background: var(--color-primary);
+    grid-template-areas: "header header header"
+    "main main main"
+    "footer footer footer";
+}
+#app header{
+    grid-area: header;
+    position: relative;
+}
+#app main{
+    display: grid;
+    grid-area: main;
+}
+#app footer{
+    grid-area: footer;
+}
