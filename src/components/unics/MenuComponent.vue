@@ -1,0 +1,254 @@
+<template>
+    <div class="menu_bar" ref="sidebar">
+        <div class="name_institution">
+            <AcademicCapIcon class="icon_main_menu" @click="sickMenu"></AcademicCapIcon>
+            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Colegio Nuevo</span> 
+        </div>
+        <!-- navegation menu -->
+        <nav class="navegation">
+            <ul class="list_navegation">
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/Register.svg" class="svg_item">
+                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/Students.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/Course.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Teachers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/books.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Courses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <!-- <UserIcon class="svg_item"></UserIcon> -->
+                        <img src="../../assets/icons/LightMode/Register.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Administration</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- line -->
+        <div class="line"></div>
+
+        <!--container to dark mode -->
+        <div class="dark_mode">
+
+            <div class="info_mode">
+                <MoonIcon class="icon-dark"></MoonIcon>
+                <span>Dark Mode</span>
+            </div>
+
+            <div class="switch_container">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+    
+</template>
+
+<script setup lang="ts">
+    import { AcademicCapIcon, MoonIcon } from '@heroicons/vue/20/solid';//importando iconos
+    import { onMounted, ref, Ref } from 'vue';
+
+    //variables and consts
+    const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
+    const SpanRefs:Ref<Array<HTMLElement | null>> = ref([])//Dom elements array
+
+    //function to asigne one space to objects in array 
+    const setRef = (element: HTMLElement | null) => {
+        if (element) {
+            SpanRefs.value.push(element);
+        }
+    };
+    
+    //function to use in the Botton
+    const sickMenu = () => {
+        sidebar.value?.classList.toggle('mini_barra')
+        SpanRefs.value.forEach((span)=>{
+            if (span) {
+                span.classList.toggle('hide_sick') 
+            }
+        })
+    }
+
+</script>
+
+<style scoped>
+@import url(../../css/variables.css);
+    /* design to menu */
+    .menu_bar{
+        width: 100%;
+        height: 100%;
+        padding: 20px 15px;
+        background: var(--color-third);
+        font-family: var(--font-v2);
+        transition: width .5s ease;
+        overflow: hidden;
+    }
+    .name_institution{
+        width: 100%;
+        height: 53px;
+        display: flex;
+        font-family: var(--font-v1);
+        flex-direction: row;
+        align-items: center;
+    }
+    /* icon menu disign */
+    .icon_main_menu{
+        width: 50px;
+        min-width: 50px;
+        cursor: pointer;
+    }
+    .name_span, .list_span{
+        font-size: 25px;
+        margin-left: 7px;
+        opacity: 1;
+        transition: opacity .5s ease;
+    }
+    .list_span{
+        font-size: 17px;
+    }
+    .mini_barra{
+        width: 85px;
+    }
+    .hide_sick{
+        opacity: 0;
+    }
+    /* options menu design */
+    .list_navegation:first-child{
+        margin-top: 40px;
+    }
+    .list_navegation li{
+        list-style: none;
+        display: flex;
+        margin-bottom: 19px;
+        margin-top: 19px;
+        padding: 4px;
+        
+        /* disign to the links */
+        >a{
+            width: 100%;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 10px;
+            background: var(--color-third);
+            color: var(--color-text1);
+            gap: 12px;
+        }
+        >a:hover{
+            background: var(--color-text-hover);
+        }
+        /* design to the icons */
+        .svg_item{
+            min-width: 37px;
+            width: 37px;
+            margin-left: 4px;
+        }
+    }
+    .line{
+        width: 100%;
+        height: 3px;
+        background: var(--color-lines);
+    }
+    /* dark mode */
+    .dark_mode{
+        margin-top: 15px;
+        width: 100%;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .dark_mode .info_mode{
+        width: 150px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        color: var(--color-text1);
+        overflow: hidden;
+    }
+    .dark_mode .info_mode .icon-dark{
+        width: 37px;
+        min-width: 37px;
+        font-size: 20px;
+        margin-left: 4px;
+    }
+    /* switch */
+    .switch_container{
+        min-width: 50px;
+        height: 45px;
+    }
+    /* The switch - the box around the slider */
+    .switch {
+        font-size: 17px;
+        position: relative;
+        display: inline-block;
+        width: 3.5em;
+        height: 2em;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        border: 2px solid #414141;
+        border-radius: 50px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 1.4em;
+        width: 1.4em;
+        left: 0.2em;
+        bottom: 0.2em;
+        background-color: rgb(139, 136, 136);
+        border-radius: inherit;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .switch input:checked + .slider {
+        box-shadow: 0 0 20px rgba(9, 201, 2, 0.8);
+        border: 2px solid #3eb818;
+    }
+
+    .switch input:checked + .slider:before {
+        transform: translateX(1.5em);
+    }
+
+    
+</style>

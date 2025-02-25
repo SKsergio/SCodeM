@@ -2,20 +2,30 @@
 
 #app{
     display: grid;
-    gap: 40px;
     background: var(--color-primary);
-    grid-template-areas: "header header header"
-    "main main main"
-    "footer footer footer";
+    grid-template-columns: 16% repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
 }
-#app header{
-    grid-area: header;
+#app aside{
+    background: var(--color-seccundary);
     position: relative;
+    grid-column: 1 / 2;
+    grid-row: 1 /4;
 }
 #app main{
     display: grid;
-    grid-area: main;
+    grid-column: 2 /-1;
+    grid-row: 1 /4;
+    background: var(--color-main-bk);
 }
-#app footer{
-    grid-area: footer;
+#app header{
+    display: flex;
+    background: var(--color-black);
+    grid-column: 1 /-1;
+}
+/* Resposinve del layaot */
+@media(width<950px){
+    #app {
+        grid-template-columns: 85px repeat(4, 1fr);
+    }
 }
