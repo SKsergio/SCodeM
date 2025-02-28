@@ -1,7 +1,7 @@
 <template>
    <!-- body to the system -->
     <main>
-        <h1>Holaa</h1>
+        <EjemploComponent></EjemploComponent>
     </main>
 
     <!-- menu container -->
@@ -11,8 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import MenuComponent from './components/unics/MenuComponent.vue';
-
+    import EjemploComponent from './components/buttons/EjemploComponent.vue';
+    import MenuComponent from './components/unics/MenuComponent.vue';
+    
 </script>
 
 <style scoped>

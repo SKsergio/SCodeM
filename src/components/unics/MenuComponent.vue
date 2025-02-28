@@ -1,9 +1,11 @@
 <template>
     <div class="menu_bar" ref="sidebar">
+        <!-- first section -->
         <div class="name_institution">
             <AcademicCapIcon class="icon_main_menu" @click="sickMenu"></AcademicCapIcon>
             <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Colegio Nuevo</span> 
         </div>
+
         <!-- navegation menu -->
         <nav class="navegation">
             <ul class="list_navegation">
@@ -44,34 +46,57 @@
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Administration</span>
                     </a>
                 </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                    </a>
+                </li>
             </ul>
         </nav>
-        <!-- line -->
-        <div class="line"></div>
 
-        <!--container to dark mode -->
-        <div class="dark_mode">
+        <!-- third section-->
+        <div class="section_footer">
+            <!-- line -->
+            <div class="line"></div>
 
-            <div class="info_mode">
-                <MoonIcon class="icon-dark"></MoonIcon>
-                <span>Dark Mode</span>
+            <!--container to dark mode -->
+            <div class="dark_mode">
+                <div class="info_mode">
+                    <MoonIcon class="icon-dark"></MoonIcon>
+                    <span>Dark Mode</span>
+                </div>
+
+                <div class="switch_container">
+                    <label class="switch">
+                        <input type="checkbox" v-model="isChecked">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
 
-            <div class="switch_container">
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
+            <div class="user_profile">
+                <img src="../../assets/images/bwthuke.jpg" alt="avatar">
+                <section class="info_user">
+                    <span class="name_user">Sergio Quintnilla</span>
+                    <span class="email_user">otrocorreorandom.quintanilla@geeks.lol</span>
+                </section>
             </div>
+
         </div>
-
     </div>
-    
 </template>
 
 <script setup lang="ts">
+    import { useThemeStore } from '@/store/Theme';
     import { AcademicCapIcon, MoonIcon } from '@heroicons/vue/20/solid';//importando iconos
-    import { onMounted, ref, Ref } from 'vue';
+    import { watch, ref, Ref,onMounted } from 'vue';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
@@ -79,33 +104,51 @@
 
     //function to asigne one space to objects in array 
     const setRef = (element: HTMLElement | null) => {
-        if (element) {
+        if (element && !SpanRefs.value.includes(element)) { // 💡 Evita duplicados
             SpanRefs.value.push(element);
         }
     };
     
     //function to use in the Botton
     const sickMenu = () => {
-        sidebar.value?.classList.toggle('mini_barra')
-        SpanRefs.value.forEach((span)=>{
+        sidebar.value?.classList.toggle('mini_barra');
+        
+        // Si los spans se están acumulando, reinicia el array
+        SpanRefs.value = SpanRefs.value.filter((span, index, self) => 
+            span && self.indexOf(span) === index // 💡 Filtra duplicados
+        );
+
+        SpanRefs.value.forEach((span) => {
             if (span) {
-                span.classList.toggle('hide_sick') 
+                span.classList.toggle('hide_sick');
             }
-        })
-    }
+        });
+
+        console.log("SpanRefs después de toggle:", SpanRefs.value);
+    };
+
+    //cambiar a modoOscuro
+    //utilizando el store de pinia
+    const themeStore = useThemeStore();
+
+    const isChecked = ref<boolean>(false);
+    watch(isChecked, (newVal, OldVal)=>{
+        let bodyElement = document.body
+        bodyElement.classList.toggle('dark_mode_vars')
+    })
 
 </script>
 
 <style scoped>
 @import url(../../css/variables.css);
-    /* design to menu */
+    /* design to container */
     .menu_bar{
         width: 100%;
         height: 100%;
         padding: 20px 15px;
         background: var(--color-third);
         font-family: var(--font-v2);
-        transition: width .5s ease;
+        transition: width .5s ease, background-color 0.3s ease;
         overflow: hidden;
     }
     .name_institution{
@@ -137,6 +180,7 @@
     .hide_sick{
         opacity: 0;
     }
+
     /* options menu design */
     .list_navegation:first-child{
         margin-top: 40px;
@@ -156,7 +200,6 @@
             align-items: center;
             text-decoration: none;
             border-radius: 10px;
-            background: var(--color-third);
             color: var(--color-text1);
             gap: 12px;
         }
@@ -175,7 +218,8 @@
         height: 3px;
         background: var(--color-lines);
     }
-    /* dark mode */
+
+    /* dark mode design*/
     .dark_mode{
         margin-top: 15px;
         width: 100%;
@@ -191,34 +235,35 @@
         align-items: center;
         color: var(--color-text1);
         overflow: hidden;
+        flex-wrap: wrap;
+        gap: 5px;
     }
     .dark_mode .info_mode .icon-dark{
         width: 37px;
         min-width: 37px;
         font-size: 20px;
-        margin-left: 4px;
+        margin-left: 5px;
     }
     /* switch */
     .switch_container{
         min-width: 50px;
         height: 45px;
+        margin-right: 10px;
+        margin-top: 6px;
     }
     /* The switch - the box around the slider */
     .switch {
-        font-size: 17px;
+        font-size: 16px;
         position: relative;
         display: inline-block;
-        width: 3.5em;
+        width: 3.4em;
         height: 2em;
     }
-
-    /* Hide default HTML checkbox */
     .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
-
     /* The slider */
     .slider {
         position: absolute;
@@ -228,7 +273,6 @@
         border-radius: 50px;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     .slider:before {
         position: absolute;
         content: "";
@@ -249,6 +293,33 @@
     .switch input:checked + .slider:before {
         transform: translateX(1.5em);
     }
-
-    
+    /* usuario section*/
+    .user_profile{
+        margin-top: 80px;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        width: 100%;
+        >img{
+            width: 50px;
+            min-width: 50px;
+            border-radius: 10px;
+        }
+    }
+    .info_user{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        color: var(--color-text1);
+        overflow: hidden;
+        /* name and emial */
+        > .name_user{
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .email_user{
+            font-size: 12px;
+        }
+    }
 </style>
