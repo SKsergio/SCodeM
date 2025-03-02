@@ -58,6 +58,18 @@
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -150,6 +162,9 @@
         font-family: var(--font-v2);
         transition: width .5s ease, background-color 0.3s ease;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     .name_institution{
         width: 100%;
@@ -180,16 +195,28 @@
     .hide_sick{
         opacity: 0;
     }
-
-    /* options menu design */
-    .list_navegation:first-child{
-        margin-top: 40px;
+    .navegation{
+        height: 600px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
+    .navegation::-webkit-scrollbar{
+        width: 5px;
+    }
+    .navegation::-webkit-scrollbar-thumb{
+        background-color: var(--scroll-color);
+        border-radius: 5px;
+    }
+    .navegation::-webkit-scrollbar-thumb:hover{
+        background-color: var(--scroll-color-hover);
+        border-radius: 5px;
+    }
+    /* options menu design */
     .list_navegation li{
         list-style: none;
         display: flex;
-        margin-bottom: 19px;
-        margin-top: 19px;
+        margin-bottom: 15px;
+        margin-top: 15px;
         padding: 4px;
         
         /* disign to the links */
@@ -218,7 +245,6 @@
         height: 3px;
         background: var(--color-lines);
     }
-
     /* dark mode design*/
     .dark_mode{
         margin-top: 15px;
@@ -284,18 +310,21 @@
         border-radius: inherit;
         transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
     }
-
     .switch input:checked + .slider {
         box-shadow: 0 0 20px rgba(9, 201, 2, 0.8);
         border: 2px solid #3eb818;
     }
-
     .switch input:checked + .slider:before {
         transform: translateX(1.5em);
     }
+    /* third section of the menu */
+    .section_footer{
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
     /* usuario section*/
     .user_profile{
-        margin-top: 80px;
         display: flex;
         flex-direction: row;
         gap: 5px;
@@ -320,6 +349,21 @@
         }
         .email_user{
             font-size: 12px;
+        }
+    }
+    /* ----------media querrys for responsive menu */
+    @media (max-height:660px) {
+        .navegation{
+            height: 400px;
+        }
+        .section_footer{
+            gap: 0;
+        }
+    }
+    @media (max-width:820px) {
+        .menu_bar{
+            position: absolute;
+            left: -300px;
         }
     }
 </style>
