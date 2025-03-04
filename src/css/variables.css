@@ -4,7 +4,7 @@
     /* colores */
     --color-main-bk: #0194b6;
     --color-primary: #2C3E50;
-    --color-seccundary: #bac0c2;
+    --color-seccundary: #939596;
     --color-third: #FFFFFF;
     --color-fourth: #2ECC71;
 
@@ -30,7 +30,7 @@
     --profile-content:linear-gradient(315deg, #174A42 18%, #228171 38%, #2e6158 62%, #0a4038 83%);
     --profile-content_publication:linear-gradient(167deg, #215374 11%, #244c7a 33%, #1a5672 60%);
 }
-.dark_mode_vars{
+.dark_mode{
     --color-main-bk: #0194b6;
     --color-primary: #2C3E50;
     --color-seccundary: #bac0c2;

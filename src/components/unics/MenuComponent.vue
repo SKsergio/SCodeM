@@ -3,7 +3,7 @@
         <!-- first section -->
         <div class="name_institution">
             <AcademicCapIcon class="icon_main_menu" @click="sickMenu"></AcademicCapIcon>
-            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Colegio Nuevo</span> 
+            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Instiu Nuevo</span> 
         </div>
 
         <!-- navegation menu -->
@@ -11,62 +11,62 @@
             <ul class="list_navegation">
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/Register.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/Students.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/Course.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Teachers</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/books.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Courses</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <!-- <UserIcon class="svg_item"></UserIcon> -->
-                        <img src="../../assets/icons/LightMode/Register.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Administration</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="../../assets/icons/LightMode/History.svg" class="svg_item">
+                        <BeakerIcon class="size-6 text-blue-500" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
@@ -79,9 +79,9 @@
             <div class="line"></div>
 
             <!--container to dark mode -->
-            <div class="dark_mode">
+            <div class="dark_mode_container">
                 <div class="info_mode">
-                    <MoonIcon class="icon-dark"></MoonIcon>
+                    <IconMoon class="icon-dark" stroke={1} />
                     <span>Dark Mode</span>
                 </div>
 
@@ -107,8 +107,8 @@
 
 <script setup lang="ts">
     import { useThemeStore } from '@/store/Theme';
-    import { AcademicCapIcon, MoonIcon } from '@heroicons/vue/20/solid';//importando iconos
     import { watch, ref, Ref,onMounted } from 'vue';
+    import { BeakerIcon } from '@heroicons/vue/24/solid';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
@@ -146,12 +146,12 @@
     const isChecked = ref<boolean>(false);
     watch(isChecked, (newVal, OldVal)=>{
         let bodyElement = document.body
-        bodyElement.classList.toggle('dark_mode_vars')
+        bodyElement.classList.toggle('dark_mode')
     })
 
 </script>
 
-<style scoped>
+<style>
 @import url(../../css/variables.css);
     /* design to container */
     .menu_bar{
@@ -235,9 +235,7 @@
         }
         /* design to the icons */
         .svg_item{
-            min-width: 37px;
-            width: 37px;
-            margin-left: 4px;
+            font-size: 20px;
         }
     }
     .line{
@@ -246,7 +244,7 @@
         background: var(--color-lines);
     }
     /* dark mode design*/
-    .dark_mode{
+    .dark_mode_container{
         margin-top: 15px;
         width: 100%;
         border-radius: 10px;
@@ -254,7 +252,7 @@
         flex-direction: row;
         justify-content: space-between;
     }
-    .dark_mode .info_mode{
+    .dark_mode_container .info_mode{
         width: 150px;
         height: 45px;
         display: flex;
@@ -264,7 +262,7 @@
         flex-wrap: wrap;
         gap: 5px;
     }
-    .dark_mode .info_mode .icon-dark{
+    .dark_mode_container .info_mode .icon-dark{
         width: 37px;
         min-width: 37px;
         font-size: 20px;
@@ -358,12 +356,6 @@
         }
         .section_footer{
             gap: 0;
-        }
-    }
-    @media (max-width:820px) {
-        .menu_bar{
-            position: absolute;
-            left: -300px;
         }
     }
 </style>

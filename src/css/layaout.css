@@ -3,14 +3,15 @@
 #app{
     display: grid;
     background: var(--color-primary);
-    grid-template-columns: 16% repeat(4, 1fr);
+    grid-template-columns: 260px repeat(4, 1fr);
     grid-template-rows: 1fr 1fr;
 }
 #app aside{
     background: var(--color-seccundary);
-    position: relative;
-    grid-column: 1 / 2;
-    grid-row: 1 /4;
+    position: fixed;
+    height: 100%;
+    min-width: 250px;
+    width: 260px;
 }
 #app main{
     display: grid;
@@ -24,8 +25,14 @@
     grid-column: 1 /-1;
 }
 /* Resposinve del layaot */
-@media(width<950px){
-    #app {
-        grid-template-columns: 85px repeat(4, 1fr);
+@media(width<820px){
+    #app main{
+        display: grid;
+        grid-column: 1 /-1;
+        grid-row: 1 /4;
+        background: var(--color-main-bk);
     }
+   #app aside{
+        left: -300px;
+   }
 }
