@@ -11,62 +11,55 @@
             <ul class="list_navegation">
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <BeakerIcon class="svg_item" />
                         <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <BeakerIcon class="svg_item" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <BeakerIcon class="svg_item"/>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Teachers</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <BeakerIcon class="svg_item"/>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <BeakerIcon class="svg_item" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Courses</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <!-- <UserIcon class="svg_item"></UserIcon> -->
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <UserIcon class="svg_item"></UserIcon>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Administration</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <UserIcon class="svg_item"></UserIcon>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <UserIcon class="svg_item"></UserIcon>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <BeakerIcon class="size-6 text-blue-500" />
+                        <UserIcon class="svg_item"></UserIcon>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
                     </a>
                 </li>
@@ -108,7 +101,7 @@
 <script setup lang="ts">
     import { useThemeStore } from '@/store/Theme';
     import { watch, ref, Ref,onMounted } from 'vue';
-    import { BeakerIcon } from '@heroicons/vue/24/solid';
+    import { BeakerIcon,UserIcon } from '@heroicons/vue/24/solid';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
@@ -235,7 +228,9 @@
         }
         /* design to the icons */
         .svg_item{
-            font-size: 20px;
+            min-width: 30px;
+            width: 30px;
+            margin-left: 4px;
         }
     }
     .line{
