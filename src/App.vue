@@ -17,8 +17,6 @@
 import EjemploComponent from './components/buttons/EjemploComponent.vue';
 import MenuComponent from './components/unics/MenuComponent.vue';
 import MenuBtnComponent from './components/buttons/MenuBtnComponent.vue';
-
-
 </script>
 
 <style scoped>
