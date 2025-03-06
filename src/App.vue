@@ -4,10 +4,11 @@
         <EjemploComponent></EjemploComponent>
     </main>
 
-    <!-- menu container -->
+    <!-- responsive boton -->
     <div class="menu">
         <MenuBtnComponent></MenuBtnComponent>
     </div>
+    <!-- menu container -->
     <aside class="aside">
         <MenuComponent></MenuComponent>
     </aside>
@@ -21,7 +22,7 @@ import MenuBtnComponent from './components/buttons/MenuBtnComponent.vue';
 
 <style scoped>
     .aside {
-        transition: all .6s ease;
+        transition: all .3s ease;
     }
     /* menu icon responsive */
     .menu {
