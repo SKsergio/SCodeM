@@ -23,6 +23,11 @@
     --font-v1:"Alegreya Sans SC";
     --font-v2:"Inter";
 
+    /* sizes */
+    --layaout-width: 260px;
+    --columns-layaout: repeat(4, 1fr);
+    --row-layout: 1fr 1fr;
+    --width-aside:260px;
 
     /* mezclas */
     --color-fourth: linear-gradient(315deg, #4dc668 14%, #295c86 45%, #8e1e83 82%);
@@ -46,4 +51,10 @@
     /* scrollbar colors */
     --scroll-color:rgb(68,69,74);
     --scroll-color-hover:rgb(85,85,85);
+}
+
+.responsive_mode{
+    --layaout-width:85px;
+    --width-aside:85px;
+
 }

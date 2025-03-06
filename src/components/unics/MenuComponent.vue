@@ -2,7 +2,7 @@
     <div class="menu_bar" ref="sidebar">
         <!-- first section -->
         <div class="name_institution">
-            <AcademicCapIcon class="icon_main_menu" @click="sickMenu"></AcademicCapIcon>
+            <img src="../../assets/images/logo.svg" alt="logo maestro" class="icon_main_menu" @click="sickMenu">
             <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Instiu Nuevo</span> 
         </div>
 
@@ -74,7 +74,7 @@
             <!--container to dark mode -->
             <div class="dark_mode_container">
                 <div class="info_mode">
-                    <IconMoon class="icon-dark" stroke={1} />
+                    <MoonIcon class="icon-dark"></MoonIcon>
                     <span>Dark Mode</span>
                 </div>
 
@@ -101,7 +101,7 @@
 <script setup lang="ts">
     import { useThemeStore } from '@/store/Theme';
     import { watch, ref, Ref,onMounted } from 'vue';
-    import { BeakerIcon,UserIcon } from '@heroicons/vue/24/solid';
+    import { BeakerIcon, UserIcon, MoonIcon } from '@heroicons/vue/24/solid';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
@@ -117,7 +117,9 @@
     //function to use in the Botton
     const sickMenu = () => {
         sidebar.value?.classList.toggle('mini_barra');
-        
+        let bodyElement = document.body;
+        bodyElement.classList.toggle('responsive_mode')
+
         // Si los spans se están acumulando, reinicia el array
         SpanRefs.value = SpanRefs.value.filter((span, index, self) => 
             span && self.indexOf(span) === index // 💡 Filtra duplicados
