@@ -2,8 +2,8 @@
     <div class="menu_bar" ref="sidebar">
         <!-- first section -->
         <div class="name_institution">
-            <img src="../../assets/images/logo.svg" alt="logo maestro" class="icon_main_menu" @click="sickMenu">
-            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Instiu Nuevo</span> 
+            <logoComponent alt="logo maestro" class="icon_main_menu" @click="sickMenu"></logoComponent>
+            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Instiuto Nuevo</span> 
         </div>
 
         <!-- navegation menu -->
@@ -99,9 +99,9 @@
 </template>
 
 <script setup lang="ts">
-    import { useThemeStore } from '@/store/Theme';
-    import { watch, ref, Ref,onMounted } from 'vue';
+    import { watch, ref, Ref} from 'vue';
     import { BeakerIcon, UserIcon, MoonIcon } from '@heroicons/vue/24/solid';
+    import logoComponent from '../generics/logoComponent.vue';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
@@ -109,7 +109,7 @@
 
     //function to asigne one space to objects in array 
     const setRef = (element: HTMLElement | null) => {
-        if (element && !SpanRefs.value.includes(element)) { // 💡 Evita duplicados
+        if (element && !SpanRefs.value.includes(element)) { //Evita duplicados
             SpanRefs.value.push(element);
         }
     };
@@ -122,7 +122,7 @@
 
         // Si los spans se están acumulando, reinicia el array
         SpanRefs.value = SpanRefs.value.filter((span, index, self) => 
-            span && self.indexOf(span) === index // 💡 Filtra duplicados
+            span && self.indexOf(span) === index // Filtra duplicados
         );
 
         SpanRefs.value.forEach((span) => {
@@ -130,14 +130,9 @@
                 span.classList.toggle('hide_sick');
             }
         });
-
-        console.log("SpanRefs después de toggle:", SpanRefs.value);
     };
 
     //cambiar a modoOscuro
-    //utilizando el store de pinia
-    const themeStore = useThemeStore();
-
     const isChecked = ref<boolean>(false);
     watch(isChecked, (newVal, OldVal)=>{
         let bodyElement = document.body
@@ -150,19 +145,16 @@
 @import url(../../css/variables.css);
     /* design to container */
     .menu_bar{
-        width: 100%;
         height: 100%;
         padding: 20px 15px;
         background: var(--color-third);
         font-family: var(--font-v2);
-        transition: width .5s ease, background-color 0.3s ease;
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 15px;
     }
     .name_institution{
-        width: 100%;
         height: 53px;
         display: flex;
         font-family: var(--font-v1);
@@ -191,7 +183,7 @@
         opacity: 0;
     }
     .navegation{
-        height: 600px;
+        height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -328,6 +320,7 @@
             width: 50px;
             min-width: 50px;
             border-radius: 10px;
+            cursor: pointer;
         }
     }
     .info_user{

@@ -5,11 +5,10 @@
     background: var(--color-primary);
     grid-template-columns: var(--layaout-width) var(--columns-layaout);
     grid-template-rows: var(--row-layout);
+    transition: all .4s ease;
 }
-#app aside{
-    background: var(--color-seccundary);
+#app .aside{
     position: fixed;
-    height: 100%;
     min-width: var(--width-aside);
     width: var(--width-aside);
 }
@@ -17,7 +16,6 @@
     display: grid;
     grid-column: 2 /-1;
     grid-row: 1 /4;
-    background: var(--color-main-bk);
 }
 #app header{
     display: flex;
@@ -30,9 +28,8 @@
         display: grid;
         grid-column: 1 /-1;
         grid-row: 1 /4;
-        background: var(--color-main-bk);
     }
-   #app aside{
+   #app .aside{
         left: -300px;
    }
 }
