@@ -1,5 +1,5 @@
 <template>
-    <div class="menu_bar" ref="sidebar">
+    <div class="menu_bar" ref="sidebar" :class="{'hidden_menu':isActive}">
         <!-- first section -->
         <div class="name_institution">
             <logoComponent alt="logo maestro" class="icon_main_menu" @click="sickMenu"></logoComponent>
@@ -99,13 +99,49 @@
 </template>
 
 <script setup lang="ts">
-    import { watch, ref, Ref} from 'vue';
+    import { watch, ref, Ref, defineProps,onUnmounted ,onMounted, defineEmits } from 'vue';
     import { BeakerIcon, UserIcon, MoonIcon } from '@heroicons/vue/24/solid';
     import logoComponent from '../generics/logoComponent.vue';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
     const SpanRefs:Ref<Array<HTMLElement | null>> = ref([])//Dom elements array
+    let isActive: Ref<boolean> = ref(false)//tipando un boolenado con vue and ts
+
+    // Emitir eventos al padre
+    const emit = defineEmits(['update:isActiveSignal']);
+
+    //definiendo los props
+    const props = defineProps<{
+        isActiveSignal: boolean
+    }>()
+
+    // chequear los cambios que puedan surgir en el padre
+    watch(() => props.isActiveSignal, (newVal: boolean) => {
+        isActive.value = newVal
+    })
+
+    // Estado del ancho de la ventana
+    const windowWidth = ref(window.innerWidth);
+
+    // Función para actualizar el estado de `isActive`
+    const updateMenuState = () => {
+        windowWidth.value = window.innerWidth;
+        isActive.value = windowWidth.value < 820;
+
+        emit('update:isActiveSignal', isActive.value);
+    };
+
+    // Agregar el evento cuando se monta el componente
+    onMounted(() => {
+        window.addEventListener('resize', updateMenuState);
+        updateMenuState(); // Ejecutarlo al inicio para asegurar que el estado sea correcto
+    });
+
+    // Remover el evento cuando el componente se destruye
+    onUnmounted(() => {
+        window.removeEventListener('resize', updateMenuState);
+    });
 
     //function to asigne one space to objects in array 
     const setRef = (element: HTMLElement | null) => {
@@ -120,7 +156,7 @@
         let bodyElement = document.body;
         bodyElement.classList.toggle('responsive_mode')
 
-        // Si los spans se están acumulando, reinicia el array
+        // Si los spans se están acumulando, reiniciamos el array
         SpanRefs.value = SpanRefs.value.filter((span, index, self) => 
             span && self.indexOf(span) === index // Filtra duplicados
         );
@@ -347,5 +383,9 @@
         .section_footer{
             gap: 0;
         }
+    }
+    /*RESPONSIVE DESIGN TO THE MENU*/
+    .hidden_menu{
+        left: -280px;
     }
 </style>

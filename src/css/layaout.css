@@ -29,7 +29,4 @@
         grid-column: 1 /-1;
         grid-row: 1 /4;
     }
-   #app .aside{
-        left: -300px;
-   }
 }

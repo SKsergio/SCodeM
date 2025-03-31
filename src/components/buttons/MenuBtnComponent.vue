@@ -1,48 +1,76 @@
 <style scoped>
   .hamburger {
+    height: 50px;
+    width: 50px;
+    transform: 0.2s;
+    position: relative;
+  }
+  .hamburger .checkbox {
+    position: absolute;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
     cursor: pointer;
   }
-  .hamburger input {
-    display: none;
-  }
-  .hamburger svg {
-    /* The size of the SVG defines the overall size */
-    height: 3em;
-    /* Define the transition for transforming the SVG */
-    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
   .line {
-    fill: none;
+    transition: 0.5s;
+    stroke-width: 6px;
     stroke: black;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 3;
-    /* Define the transition for transforming the Stroke */
-    transition:
-      stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .line-top-bottom {
-    stroke-dasharray: 12 63;
+  .lineTop {
+    stroke-dasharray: 40 40;
+    stroke-dashoffset: 25;
   }
-  .hamburger input:checked + svg {
-    transform: rotate(-45deg);
+  .lineBottom {
+    stroke-dasharray: 40 40;
+    stroke-dashoffset: 60;
   }
-  .hamburger input:checked + svg .line-top-bottom {
-    stroke-dasharray: 20 300;
-    stroke-dashoffset: -32.42;
+  .lineMid {
+    stroke-dasharray: 40 40;
+  }
+  .hamburger .checkbox:checked + svg .line {
+    stroke: crimson;
+  }
+  .hamburger .checkbox:checked + svg .lineTop {
+    stroke-dashoffset: 0;
+    transform-origin: left;
+    transform: rotateZ(45deg) translate(-7px, -5px);
+  }
+  .hamburger .checkbox:checked + svg .lineMid {
+    stroke-dashoffset: 40;
+  }
+  .hamburger .checkbox:checked + svg .lineBottom {
+    stroke-dashoffset: 0;
+    transform-origin: left;
+    transform: rotateZ(-45deg) translate(-5px, 5px);
   }
 </style>
 
 <template>
-  <label class="hamburger">
-    <input type="checkbox" />
-    <svg viewBox="0 0 32 32">
+  <div class="hamburger">
+    <input class="checkbox" type="checkbox" />
+    <svg fill="none" viewBox="0 0 50 50" height="50" width="50">
       <path
-        class="line line-top-bottom"
-        d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+        class="lineTop line"
+        stroke-linecap="round"
+        stroke-width="4"
+        stroke="black"
+        d="M6 11L44 11"
       ></path>
-      <path class="line" d="M7 16 27 16"></path>
+      <path
+        stroke-linecap="round"
+        stroke-width="4"
+        stroke="black"
+        d="M6 24H43"
+        class="lineMid line"
+      ></path>
+      <path
+        stroke-linecap="round"
+        stroke-width="4"
+        stroke="black"
+        d="M6 37H43"
+        class="lineBottom line"
+      ></path>
     </svg>
-  </label>
+  </div>
 </template>

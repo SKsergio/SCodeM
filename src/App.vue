@@ -4,28 +4,23 @@
         <EjemploComponent></EjemploComponent>
     </main>
     <!-- menu container -->
-    <MenuComponent class="aside" ref="menuDaD"></MenuComponent>
+    <MenuComponent class="aside" v-model:isActiveSignal="isActive"></MenuComponent>
     <!-- responsive boton -->
     <div class="menu">
-        <MenuBtnComponent @click="hide_sickMenu()"></MenuBtnComponent>
+        <MenuBtnComponent @click.stop="hide_sickMenu()"></MenuBtnComponent>
     </div>
-
-
 </template>
 
 <script setup lang="ts">
-    import { Ref, ref } from 'vue';
+    import {ref} from 'vue';
     import EjemploComponent from './components/buttons/EjemploComponent.vue';
     import MenuComponent from './components/unics/MenuComponent.vue';
     import MenuBtnComponent from './components/buttons/MenuBtnComponent.vue';
 
+    const isActive = ref(false)
     //menu
-    const menuDaD: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
     const hide_sickMenu = ()=>{
-        alert('eSTOY AQUI')
-        console.log('eSTOY');
-        
-        menuDaD.value?.classList.toggle('change_menuCt')
+        isActive.value = !isActive.value;
     }
 </script>
 
@@ -45,9 +40,6 @@
         .menu {
             display: flex;
         }
-    }
-    .change_menuCt{
-        left: 300px;
     }
 /* la idea es que al darle clic al componente del boton responsive del menu el contenido se ajuste, para lograr
 esto lo haremos con props para mandarle el evento al boton y que cambie los tamanios del layaout */
