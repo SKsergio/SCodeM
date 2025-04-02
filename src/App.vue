@@ -1,7 +1,7 @@
 <template>
     <!-- body to the system -->
     <main>
-        <EjemploComponent></EjemploComponent>
+        <router-view></router-view>
     </main>
     <!-- menu container -->
     <MenuComponent class="aside" v-model:isActiveSignal="isActive"></MenuComponent>
@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
     import {ref} from 'vue';
-    import EjemploComponent from './components/buttons/EjemploComponent.vue';
     import MenuComponent from './components/unics/MenuComponent.vue';
     import MenuBtnComponent from './components/buttons/MenuBtnComponent.vue';
 

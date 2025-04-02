@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-    import { watch, ref, Ref, defineProps,onUnmounted ,onMounted, defineEmits } from 'vue';
+    import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue';
     import { BeakerIcon, UserIcon, MoonIcon } from '@heroicons/vue/24/solid';
     import logoComponent from '../generics/logoComponent.vue';
 
