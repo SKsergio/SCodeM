@@ -1,0 +1,28 @@
+@import url(./variables.css);
+/*aside animation*/
+.aside {
+    transition: all .4s ease;
+}
+/* menu icon responsive */
+.menu {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    display: none;
+    z-index: 100;
+}
+/* body responsive */
+.container__main{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 10px;
+}
+.container__view{
+    grid-column: 1 /-1;
+}
+/*MEDIAS QUERYS TO DO RESPONSIVE DESIGN*/
+@media (max-width:820px) {
+    .menu {
+        display: flex;
+    }
+}
