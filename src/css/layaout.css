@@ -6,6 +6,7 @@
     grid-template-columns: var(--layaout-width) var(--columns-layaout);
     grid-template-rows: var(--row-layout);
     transition: all .4s ease;
+    color: var(--color-text-content);
 }
 #app .aside{
     position: fixed;

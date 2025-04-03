@@ -11,56 +11,59 @@
             <ul class="list_navegation">
                 <li>
                     <a href="#">
-                        <BeakerIcon class="svg_item" />
-                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
+                        <IdentificationIcon class="svg_item" />
+                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration
+                            <ul>
+                                <li>hola soy un duende</li>
+                                <li>adiossss</li>
+                                <li>salu222</li>
+
+                                <li>adiossss</li>
+
+                            </ul>
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="svg_item" />
+                        <AcademicCapIcon class="svg_item" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="svg_item"/>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Teachers</span>
+                        <InboxIcon class="svg_item"/>
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Degrees</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="svg_item"/>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                        <TrophyIcon class="svg_item"/>
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Evaluations</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <BeakerIcon class="svg_item" />
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Courses</span>
+                        <HandRaisedIcon class="svg_item" />
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Attendance</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <UserIcon class="svg_item"></UserIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Administration</span>
+                        <MegaphoneIcon class="svg_item"></MegaphoneIcon>
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Notices</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <UserIcon class="svg_item"></UserIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                        <CalendarDaysIcon class="svg_item"></CalendarDaysIcon>
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Schedules</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <UserIcon class="svg_item"></UserIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <UserIcon class="svg_item"></UserIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Assists</span>
+                        <ChartPieIcon class="svg_item"></ChartPieIcon>
+                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Reports</span>
                     </a>
                 </li>
             </ul>
@@ -100,7 +103,8 @@
 
 <script setup lang="ts">
     import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue';
-    import { BeakerIcon, UserIcon, MoonIcon } from '@heroicons/vue/24/solid';
+    import { BeakerIcon, MoonIcon, AcademicCapIcon, IdentificationIcon, InboxIcon,
+    HandRaisedIcon, MegaphoneIcon, CalendarDaysIcon, ChartPieIcon, TrophyIcon} from '@heroicons/vue/24/solid';
     import logoComponent from '../generics/logoComponent.vue';
 
     //variables and consts
@@ -183,12 +187,13 @@
     .menu_bar{
         height: 100%;
         padding: 20px 15px;
-        background: var(--color-third);
+        background: var(--color-menu);
         font-family: var(--font-v2);
         overflow: hidden;
         display: flex;
         flex-direction: column;
         gap: 15px;
+        box-shadow: var(--color-shadows)
     }
     .name_institution{
         height: 53px;
@@ -334,8 +339,8 @@
         transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
     }
     .switch input:checked + .slider {
-        box-shadow: 0 0 20px rgba(9, 201, 2, 0.8);
-        border: 2px solid #3eb818;
+        box-shadow: 0 0 20px #256ac4;
+        border: 2px solid #39b6e4;
     }
     .switch input:checked + .slider:before {
         transform: translateX(1.5em);
