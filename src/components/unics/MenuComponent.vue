@@ -10,61 +10,84 @@
         <nav class="navegation">
             <ul class="list_navegation">
                 <li>
-                    <a href="#">
+                    <article>
                         <IdentificationIcon class="svg_item" />
-                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration
-                            <ul>
-                                <li>hola soy un duende</li>
-                                <li>adiossss</li>
-                                <li>salu222</li>
-
-                                <li>adiossss</li>
-
-                            </ul>
-                        </span>
-                    </a>
+                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
+                        <ul class="nav__inner" :class="{'open':isOpen}">
+                            <li class="drop__down">
+                                <a href="">
+                                    hola soy un duende
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    hola soy un duende
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    hola soy un duende
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    hola soy un duende
+                                </a>
+                            </li>
+                        </ul>
+                    </article>
                 </li>
                 <li>
-                    <a href="#">
+                    <article>
                         <AcademicCapIcon class="svg_item" />
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
-                    </a>
+                        <ul class="nav__inner" :class="{'open':isOpen}">
+                            <li class="drop__down">
+                                <a href="">
+                                    ositassss
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    ositassss
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    ositassss
+                                </a>
+                            </li>
+                            <li class="drop__down">
+                                <a href="">
+                                    ositassss
+                                </a>
+                            </li>
+                        </ul>
+                    </article>
                 </li>
                 <li>
-                    <a href="#">
+                    <article>
                         <InboxIcon class="svg_item"/>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Degrees</span>
-                    </a>
+                    </article>
                 </li>
                 <li>
-                    <a href="#">
+                    <article>
                         <TrophyIcon class="svg_item"/>
                         <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Evaluations</span>
-                    </a>
+                    </article>
                 </li>
                 <li>
-                    <a href="#">
-                        <HandRaisedIcon class="svg_item" />
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Attendance</span>
-                    </a>
+                    <OptionMenuComponent :icon="HandRaisedIcon"></OptionMenuComponent>
                 </li>
                 <li>
-                    <a href="#">
-                        <MegaphoneIcon class="svg_item"></MegaphoneIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Notices</span>
-                    </a>
+                    <OptionMenuComponent :icon="MegaphoneIcon"></OptionMenuComponent>
                 </li>
                 <li>
-                    <a href="#">
-                        <CalendarDaysIcon class="svg_item"></CalendarDaysIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Schedules</span>
-                    </a>
+                    <OptionMenuComponent :icon="CalendarDaysIcon"></OptionMenuComponent>
                 </li>
                 <li>
-                    <a href="#">
-                        <ChartPieIcon class="svg_item"></ChartPieIcon>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Reports</span>
-                    </a>
+                    <OptionMenuComponent :icon="ChartPieIcon"></OptionMenuComponent>
                 </li>
             </ul>
         </nav>
@@ -103,14 +126,16 @@
 
 <script setup lang="ts">
     import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue';
-    import { BeakerIcon, MoonIcon, AcademicCapIcon, IdentificationIcon, InboxIcon,
+    import { MoonIcon, AcademicCapIcon, IdentificationIcon, InboxIcon,
     HandRaisedIcon, MegaphoneIcon, CalendarDaysIcon, ChartPieIcon, TrophyIcon} from '@heroicons/vue/24/solid';
     import logoComponent from '../generics/logoComponent.vue';
+    import OptionMenuComponent from '../buttons/OptionMenuComponent.vue';
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
     const SpanRefs:Ref<Array<HTMLElement | null>> = ref([])//Dom elements array
     let isActive: Ref<boolean> = ref(false)//tipando un boolenado con vue and ts
+    let isOpen: Ref<boolean> = ref(false)
 
     // Emitir eventos al padre
     const emit = defineEmits(['update:isActiveSignal']);
@@ -246,27 +271,6 @@
         margin-bottom: 15px;
         margin-top: 15px;
         padding: 4px;
-        
-        /* disign to the links */
-        >a{
-            width: 100%;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            border-radius: 10px;
-            color: var(--color-text1);
-            gap: 12px;
-        }
-        >a:hover{
-            background: var(--color-text-hover);
-        }
-        /* design to the icons */
-        .svg_item{
-            min-width: 30px;
-            width: 30px;
-            margin-left: 4px;
-        }
     }
     .line{
         width: 100%;
@@ -392,5 +396,21 @@
     /*RESPONSIVE DESIGN TO THE MENU*/
     .hidden_menu{
         left: -280px;
+    }
+    /* submenus styles */
+    .nav__inner{
+        list-style: none;
+        padding: 0;
+        width: 229%;
+        margin: 0 auto;
+        display: grid;
+        gap: 1.5em;
+        overflow: hidden;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.4s ease-in-out;
+    }
+    .nav__inner.open{
+        transform: scaleY(1);
     }
 </style>
