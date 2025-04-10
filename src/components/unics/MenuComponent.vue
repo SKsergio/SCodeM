@@ -3,91 +3,15 @@
         <!-- first section -->
         <div class="name_institution">
             <logoComponent alt="logo maestro" class="icon_main_menu" @click="sickMenu"></logoComponent>
-            <span class="name_span" :ref="el => setRef(el as HTMLElement | null)">Instiuto Nuevo</span> 
+            <span class="name_span" :class="{'hide_sick':Sicked}">Instiuto Nuevo</span> 
         </div>
 
         <!-- navegation menu -->
         <nav class="navegation">
-            <ul class="list_navegation">
-                <li>
-                    <article>
-                        <IdentificationIcon class="svg_item" />
-                        <span :ref="el => setRef(el as HTMLElement | null)" class="list_span">Administration</span>
-                        <ul class="nav__inner" :class="{'open':isOpen}">
-                            <li class="drop__down">
-                                <a href="">
-                                    hola soy un duende
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    hola soy un duende
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    hola soy un duende
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    hola soy un duende
-                                </a>
-                            </li>
-                        </ul>
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <AcademicCapIcon class="svg_item" />
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Students</span>
-                        <ul class="nav__inner" :class="{'open':isOpen}">
-                            <li class="drop__down">
-                                <a href="">
-                                    ositassss
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    ositassss
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    ositassss
-                                </a>
-                            </li>
-                            <li class="drop__down">
-                                <a href="">
-                                    ositassss
-                                </a>
-                            </li>
-                        </ul>
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <InboxIcon class="svg_item"/>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Degrees</span>
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <TrophyIcon class="svg_item"/>
-                        <span class="list_span" :ref="el => setRef(el as HTMLElement | null)">Evaluations</span>
-                    </article>
-                </li>
-                <li>
-                    <OptionMenuComponent :icon="HandRaisedIcon"></OptionMenuComponent>
-                </li>
-                <li>
-                    <OptionMenuComponent :icon="MegaphoneIcon"></OptionMenuComponent>
-                </li>
-                <li>
-                    <OptionMenuComponent :icon="CalendarDaysIcon"></OptionMenuComponent>
-                </li>
-                <li>
-                    <OptionMenuComponent :icon="ChartPieIcon"></OptionMenuComponent>
+            <ul class="list_navegation" >
+                <!--iterando sobre los elementos para mostrar los menus  -->
+                <li v-for="(item, index) in items" :key='index'>
+                    <OptionMenuComponent :item-menu="item"></OptionMenuComponent>
                 </li>
             </ul>
         </nav>
@@ -125,17 +49,20 @@
 </template>
 
 <script setup lang="ts">
-    import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue';
-    import { MoonIcon, AcademicCapIcon, IdentificationIcon, InboxIcon,
-    HandRaisedIcon, MegaphoneIcon, CalendarDaysIcon, ChartPieIcon, TrophyIcon} from '@heroicons/vue/24/solid';
-    import logoComponent from '../generics/logoComponent.vue';
-    import OptionMenuComponent from '../buttons/OptionMenuComponent.vue';
+    import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue'; //importando componentes de vue
+    import { MoonIcon} from '@heroicons/vue/24/solid'; //importando iconos
+    import logoComponent from '../generics/logoComponent.vue'; //importando el logo
+    import OptionMenuComponent from '../buttons/OptionMenuComponent.vue'; //importando el componente de items del Menu
+    import {menuItems} from '@/utils/Menu' //importando la estructura del menu
+    import { MenuItems } from '@/interfaces/MenuInterFace';
+
 
     //variables and consts
     const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
-    const SpanRefs:Ref<Array<HTMLElement | null>> = ref([])//Dom elements array
     let isActive: Ref<boolean> = ref(false)//tipando un boolenado con vue and ts
-    let isOpen: Ref<boolean> = ref(false)
+    let Sicked: Ref<boolean> = ref(false)
+    const items = ref<MenuItems[]>([]) //tipadno el array de los items del Menu
+
 
     // Emitir eventos al padre
     const emit = defineEmits(['update:isActiveSignal']);
@@ -163,6 +90,8 @@
 
     // Agregar el evento cuando se monta el componente
     onMounted(() => {
+        //asignando el el menu a la referencuia
+        items.value = menuItems
         window.addEventListener('resize', updateMenuState);
         updateMenuState(); // Ejecutarlo al inicio para asegurar que el estado sea correcto
     });
@@ -172,35 +101,18 @@
         window.removeEventListener('resize', updateMenuState);
     });
 
-    //function to asigne one space to objects in array 
-    const setRef = (element: HTMLElement | null) => {
-        if (element && !SpanRefs.value.includes(element)) { //Evita duplicados
-            SpanRefs.value.push(element);
-        }
-    };
+    let bodyElement = document.body;
     
     //function to use in the Botton
     const sickMenu = () => {
         sidebar.value?.classList.toggle('mini_barra');
-        let bodyElement = document.body;
+        Sicked.value = !Sicked.value
         bodyElement.classList.toggle('responsive_mode')
-
-        // Si los spans se están acumulando, reiniciamos el array
-        SpanRefs.value = SpanRefs.value.filter((span, index, self) => 
-            span && self.indexOf(span) === index // Filtra duplicados
-        );
-
-        SpanRefs.value.forEach((span) => {
-            if (span) {
-                span.classList.toggle('hide_sick');
-            }
-        });
     };
 
     //cambiar a modoOscuro
     const isChecked = ref<boolean>(false);
     watch(isChecked, (newVal, OldVal)=>{
-        let bodyElement = document.body
         bodyElement.classList.toggle('dark_mode')
     })
 
@@ -233,20 +145,14 @@
         min-width: 50px;
         cursor: pointer;
     }
-    .name_span, .list_span{
+    .name_span{
         font-size: 25px;
         margin-left: 7px;
         opacity: 1;
         transition: opacity .5s ease;
     }
-    .list_span{
-        font-size: 17px;
-    }
     .mini_barra{
         width: 85px;
-    }
-    .hide_sick{
-        opacity: 0;
     }
     .navegation{
         height: 100%;
@@ -397,20 +303,7 @@
     .hidden_menu{
         left: -280px;
     }
-    /* submenus styles */
-    .nav__inner{
-        list-style: none;
-        padding: 0;
-        width: 229%;
-        margin: 0 auto;
-        display: grid;
-        gap: 1.5em;
-        overflow: hidden;
-        transform: scaleY(0);
-        transform-origin: top;
-        transition: transform 0.4s ease-in-out;
-    }
-    .nav__inner.open{
-        transform: scaleY(1);
+    .hide_sick{
+        opacity: 0;
     }
 </style>
