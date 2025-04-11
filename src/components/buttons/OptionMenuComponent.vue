@@ -2,33 +2,32 @@
    <article @click="deploy__options">
         <Component :is="itemMenu.icon" class="svg_item" />
         <span class="list_span">{{itemMenu.label}}</span>
-        <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.soons)">
-              <li class="drop__down">
-                <a href="https://codepen.io/trending"  class="nav-link" target="_blank">
-                  todo list
-                </a>
-              </li>
-
-              <li class="drop__down">
-                <a href="https://www.youtube.com/"  class="nav-link" target="_blank">
-                  Calendar
-                </a>
-              </li>
-
-              <li class="drop__down">
-                <a href="#"  class="nav-link">
-                  Remainder
-                </a>
-              </li>
-
-              <li class="drop__down">
-                <a href="#"  class="nav-link">
-                  Planing
-                </a>
-              </li>  
-          </ul>
     </article>
+    <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.soons)">
+        <li class="drop__down">
+            <a href="https://codepen.io/trending"  class="nav-link" target="_blank">
+                todo list
+            </a>
+        </li>
 
+        <li class="drop__down">
+            <a href="#"  class="nav-link" target="_blank">
+                Calendar
+            </a>
+        </li>
+
+        <li class="drop__down">
+            <a href="#"  class="nav-link">
+                Remainder
+            </a>
+        </li>
+
+        <li class="drop__down">
+            <a href="#"  class="nav-link">
+                Planing
+            </a>
+        </li>  
+    </ul>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +50,7 @@
 </script>
 
 <style scoped>
+    @import url(../../css/variables.css);
     /* disign to the links */
     article{
         cursor: pointer;
@@ -83,23 +83,53 @@
     .hide_sick{
         opacity: 0;
     }
-    .nav__inner{
-        list-style: none;
+    .nav__inner {
         padding: 0;
-        width: 229%;
+        width: 75%;
         margin: 0 auto;
-        display: grid;
-        gap: 1.5em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
         overflow: hidden;
-        transform: scaleY(0);
         transform-origin: top;
-        transition: transform 0.4s ease-in-out;
+        transition: max-height 0.4s ease-in-out;
+        max-height: 0;
     }
-    .nav__inner.open{
-        transform: scaleY(1);
+    .nav__inner:nth-child(1){
+        background-color: rebeccapurple;
+        margin-top: 20px;
+    }
+    .nav__inner.open {
+        max-height: 400px;
     }
     .nav-link{
         text-decoration: none;
-        color: var(--Almost-Black);
+        color: var(--color-text1);
     }
+    .drop__down{
+        padding: 8px 0;
+        margin: 0;
+        margin-top: 3px;
+        transform: translateX(-70px);
+        transition: all .5s ease-in-out;
+    }
+    .nav__inner.open .drop__down {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .nav-link::after{
+        content: '';
+        height: 4px;
+        width: 0;
+        background-color: var(--color-fifth);
+        display: block;
+        transition: all 300ms;
+    }
+    .nav-link:hover::after{
+        width: 100%;
+    }
+    .nav-link:hover{
+        color: var(--color-text-line);
+    }
+
 </style>

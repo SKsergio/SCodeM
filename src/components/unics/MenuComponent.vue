@@ -174,9 +174,13 @@
     .list_navegation li{
         list-style: none;
         display: flex;
+        flex-direction: column;
         margin-bottom: 15px;
         margin-top: 15px;
         padding: 4px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        gap: 4px;
     }
     .line{
         width: 100%;

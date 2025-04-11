@@ -50,10 +50,10 @@
     --color-third: #342e3b;
     --color-fourth: #AE88F6;
     --color-seccundary: #3f4041;
-    --color-fifth: #230046;
+    --color-fifth:#036995;
+    --color-seventh: #230046;
     --color-sixth: #330066;
-    --color-seventh:#2b708d;
-    --color-eight:#036995;
+    --color-eight:#2b708d;
 
     /* text colors */
     --color-black-text: rgb(24, 23, 23);
@@ -61,6 +61,7 @@
     --color-text-hover: hsl(203, 11%, 14%);
     --color-lines: rgb(241, 241, 241);
     --color-text-content: #fafafa;
+    --color-text-line: rgb(217, 231, 247);;
 
     /* sahdows */
     --color-shadows: hsl(0, 2%, 11%) 0 0 17px;
