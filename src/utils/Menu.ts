@@ -26,18 +26,24 @@ export const menuItems: MenuItems[]=[
         label:'Degrees',
         icon:InboxIcon,
         soons:[
-            {label:'Degree management',url:'Degrees/pruebas'},
+            {label:'Degree',url:'Degrees/pruebas'},
             {label:'Courses by grade',url:'Degrees/pruebas'},
-            {label:'Classrooms management',url:'Degrees/pruebas'},
+            {label:'Classrooms',url:'Degrees/pruebas'},
+            {label:'Sections',url:'Degrees/pruebas'},
         ],
-        amount:2,
+        amount:4,
         hadSoons:true
     },
     {
         label:'Evaluations',
         icon:TrophyIcon,
-        amount:0,
-        hadSoons:false
+        soons:[
+            {label:'Evaluations', url:'jijija/pruebas'},
+            {label:'Types of evaluations', url:'jijija/pruebas'},
+            {label:'Periods', url:'periodos/pruebas'}
+        ],
+        amount:3,
+        hadSoons:true
     },
     {
         label:'Attendacne',

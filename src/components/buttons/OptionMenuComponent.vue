@@ -3,35 +3,20 @@
         <Component :is="itemMenu.icon" class="svg_item" />
         <span class="list_span">{{itemMenu.label}}</span>
     </article>
-    <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.soons)">
-        <li class="drop__down">
-            <a href="https://codepen.io/trending"  class="nav-link" target="_blank">
-                todo list
-            </a>
-        </li>
+    <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.hadSoons)">
 
-        <li class="drop__down">
-            <a href="#"  class="nav-link" target="_blank">
-                Calendar
-            </a>
-        </li>
-
-        <li class="drop__down">
+        <li v-for="(submenus, index) in itemMenu.soons" :key="index" class="drop__down">
             <a href="#"  class="nav-link">
-                Remainder
+                {{ submenus.label }}
             </a>
         </li>
 
-        <li class="drop__down">
-            <a href="#"  class="nav-link">
-                Planing
-            </a>
-        </li>  
+        
     </ul>
 </template>
 
 <script setup lang="ts">
-    import { MenuItems, SoonsItems } from '@/interfaces/MenuInterFace';//importando la interfaz del Menu
+    import { MenuItems} from '@/interfaces/MenuInterFace';//importando la interfaz del Menu
     import { ref, Ref } from 'vue';
 
     let open_SubMenu: Ref<boolean> = ref(false)
