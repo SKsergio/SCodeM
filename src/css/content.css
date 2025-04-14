@@ -15,7 +15,6 @@
 .container__main{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    padding: 10px;
 }
 .container__view{
     grid-column: 1 /-1;
