@@ -6,7 +6,7 @@
     <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.hadSoons)">
 
         <li v-for="(submenus, index) in itemMenu.soons" :key="index" class="drop__down">
-            <a href="#"  class="nav-link">
+            <a href="#" class="nav-link" @click="goTo(submenus.name)">
                 {{ submenus.label }}
             </a>
         </li>
@@ -18,18 +18,22 @@
 <script setup lang="ts">
     import { MenuItems} from '@/interfaces/MenuInterFace';//importando la interfaz del Menu
     import { ref, Ref } from 'vue';
+    import { useRouter } from 'vue-router';
 
+    const router = useRouter()
     let open_SubMenu: Ref<boolean> = ref(false)
-
 
     //DEFINIENDO LOS PROPS
     defineProps<{
         itemMenu:MenuItems
     }>();
 
-
     const deploy__options=()=>{
         open_SubMenu.value = !open_SubMenu.value 
+    }
+    //redirect to new urls
+    const goTo = (name:string) =>{
+        router.push({name})
     }
 
 </script>

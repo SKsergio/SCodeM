@@ -13,11 +13,11 @@ export const menuItems: MenuItems[]=[
         label:'Students',
         icon:AcademicCapIcon,
         soons:[
-            {label:'Studentes',url:'students/pruebas'},
-            {label:'Parents',url:'students/pruebasParents'},
-            {label:'Academic History',url:'students/pruebasAcademic'},
-            {label:'New entry',url:'students/pruebasAcademic2'},
-            {label:'Registered',url:'students/pruebasAcademic2'}
+            {label:'Studentes',name:'students/pruebas'},
+            {label:'Parents',name:'students/pruebasParents'},
+            {label:'Academic History',name:'students/pruebasAcademic'},
+            {label:'New entry',name:'students/pruebasAcademic2'},
+            {label:'Registered',name:'students/pruebasAcademic2'}
         ],
         amount:5,
         hadSoons:true
@@ -26,10 +26,10 @@ export const menuItems: MenuItems[]=[
         label:'Degrees',
         icon:InboxIcon,
         soons:[
-            {label:'Degree',url:'Degrees/pruebas'},
-            {label:'Courses by grade',url:'Degrees/pruebas'},
-            {label:'Classrooms',url:'Degrees/pruebas'},
-            {label:'Sections',url:'Degrees/pruebas'},
+            {label:'Degree',name:'DegreeMagnament'},
+            {label:'Courses by grade',name:'no hay'},
+            {label:'Classrooms',name:'ClassroomsMagnament'},
+            {label:'Sections',name:'SectionMagnament'},
         ],
         amount:4,
         hadSoons:true
@@ -38,9 +38,9 @@ export const menuItems: MenuItems[]=[
         label:'Evaluations',
         icon:TrophyIcon,
         soons:[
-            {label:'Evaluations', url:'jijija/pruebas'},
-            {label:'Types of evaluations', url:'jijija/pruebas'},
-            {label:'Periods', url:'periodos/pruebas'}
+            {label:'Evaluations', name:'jijija/pruebas'},
+            {label:'Types of evaluations', name:'jijija/pruebas'},
+            {label:'Periods', name:'periodos/pruebas'}
         ],
         amount:3,
         hadSoons:true

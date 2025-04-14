@@ -29,16 +29,17 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'degree',
-        component: DegreeView,
+        name:'degrees',
         children: [
-          { path: 'degrees', name: 'degrees', component: DegreeView },
-          { path: 'section', name: 'sections', component: SectionView },
-          { path: 'classroom', name: 'classrooms', component: ClassroomsView },
+        { path: '', redirect: { name: 'DegreeMagnament' } }, //redirección al hijo por defecto
+          { path: 'degrees', name: 'DegreeMagnament', component: DegreeView },
+          { path: 'section', name: 'SectionMagnament', component: SectionView },
+          { path: 'classroom', name: 'ClassroomsMagnament', component: ClassroomsView },
         ]
       },
     ],
   },
-  // Redirección opcional
+  // Redirección al home
   {
     path: '/',
     redirect: '/dashboard/home'

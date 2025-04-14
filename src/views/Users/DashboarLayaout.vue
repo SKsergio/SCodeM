@@ -14,7 +14,7 @@
 <script setup lang="ts">
     import {ref} from 'vue';
     import MenuBtnComponent from '@/components/buttons/MenuBtnComponent.vue';
-    import MenuComponent from '@/components/unics/MenuComponent.vue';
+    import MenuComponent from '@/components/templates/MenuComponent.vue';
 
     const isActive = ref(false)
     //menu
