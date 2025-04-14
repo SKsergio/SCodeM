@@ -84,10 +84,6 @@
         transition: max-height 0.4s ease-in-out;
         max-height: 0;
     }
-    .nav__inner:nth-child(1){
-        background-color: rebeccapurple;
-        margin-top: 20px;
-    }
     .nav__inner.open {
         max-height: 400px;
     }
@@ -111,8 +107,9 @@
         height: 4px;
         width: 0;
         background-color: var(--color-fifth);
+        border-radius: 10px;
         display: block;
-        transition: all 300ms;
+        transition: all 600ms;
     }
     .nav-link:hover::after{
         width: 100%;
@@ -120,5 +117,4 @@
     .nav-link:hover{
         color: var(--color-text-line);
     }
-
 </style>
