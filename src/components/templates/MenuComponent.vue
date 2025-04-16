@@ -3,7 +3,7 @@
         <!-- first section -->
         <div class="name_institution">
             <logoComponent alt="logo maestro" class="icon_main_menu" @click="sickMenu"></logoComponent>
-            <span class="name_span" :class="{'hide_sick':Sicked}">Instiuto Nuevo</span> 
+            <span class="name_span" :class="{'hide_sick':Sicked}">Instituto Nuevo</span> 
         </div>
 
         <!-- navegation menu -->
@@ -135,7 +135,7 @@
     .name_institution{
         height: 53px;
         display: flex;
-        font-family: var(--font-v1);
+        font-family: var(--font-decoration2);
         flex-direction: row;
         align-items: center;
     }
@@ -147,7 +147,7 @@
     }
     .name_span{
         font-size: 25px;
-        margin-left: 7px;
+        margin-left: 6px;
         opacity: 1;
         transition: opacity .5s ease;
     }

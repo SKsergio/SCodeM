@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h1>JIJIA</h1>
+        <HeaderComponent :title="'Sections'"></HeaderComponent>
     </div>
 </template>
 
-<script setup>
-    import { ref } from 'vue';
-
+<script setup lang="ts">
+    import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 </script>
 
 <style scoped>
+
 </style>

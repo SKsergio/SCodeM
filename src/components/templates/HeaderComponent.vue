@@ -1,18 +1,19 @@
 <template>
-    <div class="container">
-        <div class="header__general">
-            <h1>Degreess</h1>
-        </div>
-    </div>
+    <section class="header__general">
+        <h1>{{title}}</h1>
+    </section>
 </template>
 
 <script setup lang="ts">
+    //defind our props
+    defineProps<{
+        title:string
+    }>()
 
 </script>
 
 <style scoped>
-    @import url('../../css/globalClases.css');
-    @import url('../../css/variables.css');
+    @import url('../../css/variables.css'); /*importamos las variables*/
     .header__general{
         background-color: var(--color-sixth);
         width: 100%;
@@ -21,6 +22,10 @@
         flex-direction: column;
         justify-content: center;
         > h1{
+            font-family: var(--font-decoration1);
+            font-weight: 400;
+            font-size: 2.9rem;
+            font-style: normal;
             color: rgb(236, 232, 225);
             margin-left: 30px;
         }

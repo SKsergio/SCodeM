@@ -1,12 +1,18 @@
 <template>
     <div>
-        <h1>hijija</h1>
+        <HeaderComponent :title="'Classrooms'"></HeaderComponent>
+        <div class="container_crud">
+            
+        </div>
     </div>
 </template>
 
 <script setup>
+    import HeaderComponent from '@/components/templates/HeaderComponent.vue';
+    
 
 </script>
 
 <style scoped>
+
 </style>

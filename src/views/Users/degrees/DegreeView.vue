@@ -1,12 +1,11 @@
 <template>
     <div>
-        <CrudComponent></CrudComponent>
+        <HeaderComponent :title="'Degrees'"></HeaderComponent>
     </div>
 </template>
 
 <script setup lang="ts">
-    import CrudComponent from '@/components/generics/CrudComponent.vue';
-
+    import HeaderComponent from '@/components/templates/HeaderComponent.vue'; 
 </script>
 
 <style scoped>
