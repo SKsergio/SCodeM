@@ -15,12 +15,13 @@
 <style scoped>
     @import url('../../css/variables.css'); /*importamos las variables*/
     .header__general{
-        background-color: var(--color-sixth);
+        background-color: var(--color-fifth);
         width: 100%;
         height: 145px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        border-radius: 0 0 10px 10px;
         > h1{
             font-family: var(--font-decoration1);
             font-weight: 400;

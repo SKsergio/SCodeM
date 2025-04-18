@@ -127,6 +127,7 @@
         background: var(--color-menu);
         font-family: var(--font-v2);
         overflow: hidden;
+        border-radius: 0 20px 20px 0;
         display: flex;
         flex-direction: column;
         gap: 15px;

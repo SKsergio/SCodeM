@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Coming+Soon&family=Inter:opsz@14..32&family=Montserrat:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Coming+Soon&family=Inter:opsz@14..32&family=Montserrat:ital,wght@0,500;1,500&display=swap');
 :root{
     /* colores */
     --color-primary: #fafafa;
     --color-menu: #E9ECF1;
     --color-third: #F4F5F9;
-    --color-fourth: #a6b2b5;
+    --color-fourth: #17907D;
     --color-seccundary: #939596;
     --color-fifth: #52707f;
-    --color-sixth: #7E9AB2;
-    --color-seventh:#CDC3BE;
-    --color-eight:#B79479;
+    --color-sixth: #00382F;
+    --color-seventh:#49746D;
+    --color-eight:#4CB1A1;
 
     /* text colors */
     --color-black-text: rgb(24, 23, 23);

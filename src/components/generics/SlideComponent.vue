@@ -1,13 +1,13 @@
 <template>
-    <div class="slide">
-        <section class="slide_items" v-for="(item, index) in elements" :key="index">
-            <BtnComponent :name="item"></BtnComponent>
+    <div class="slide__cotainer">
+        <section class="slide_content" v-for="(item, index) in elements" :key="index">
+            <CardRecordsComponent :name="item"></CardRecordsComponent>
         </section>
     </div>
 </template>
 
 <script setup lang="ts">
-    import BtnComponent from '../buttons/BtnComponent.vue';
+    import CardRecordsComponent from './CardRecordsComponent.vue';
     defineProps<{
         algo:string
     }>()
@@ -21,26 +21,24 @@
         'Cuarto Grado',
         'Quinto Grado',
         'Sexto Grado',
-        'Seprimo Grado'
+        'Seprimo Grado',
+        'Octavo Grado',
+        'Noveno Grado'
     ]
 </script>
 
 <style scoped>
     @import url('@/css/variables.css');
-    .slide{
-        background: var(--color-eight);  
+    .slide__cotainer{
+        background: var(--color-third);  
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 38px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
         padding: 30px;
-        border-radius: 20px 5px 20px 5px;
+        border-radius: 25px 5px 25px 5px;
     }
-    .slide_items{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        height: 50px;
+    .slide_content{
+        /* margin: 0 40px; */
     }
     .btn_linker{
         background-color: rgb(30, 6, 54);
