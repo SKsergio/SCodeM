@@ -24,7 +24,6 @@
     font-weight: 500;
     min-width: 50px;
 }
-
 .button:hover {
   box-shadow: none;
   opacity: 80%;

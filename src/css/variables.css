@@ -11,6 +11,12 @@
     --color-seventh:#49746D;
     --color-eight:#4CB1A1;
 
+    /*btn asction colors*/ 
+    --color-delete:#af3e3e;
+    --color-update:#1b275a;
+    --color-add:#32cf4c;
+    --color-find:#1265c4;
+
     /* text colors */
     --color-black-text: rgb(24, 23, 23);
     --color-text1: rgb(134, 136, 144);
@@ -61,7 +67,13 @@
     --color-text-hover: hsl(203, 11%, 14%);
     --color-lines: rgb(241, 241, 241);
     --color-text-content: #fafafa;
-    --color-text-line: rgb(217, 231, 247);;
+    --color-text-line: rgb(217, 231, 247);
+
+    /*btn asction colors*/ 
+    --color-delete:#8f3030;
+    --color-update:#313677;
+    --color-add:#32cf4c;
+    --color-find:#1265c4;
 
     /* sahdows */
     --color-shadows: hsl(0, 2%, 11%) 0 0 17px;

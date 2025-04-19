@@ -12,8 +12,8 @@
                 <h4>Created at: 10-04-2025</h4>
 
                 <section class="actions">
-                    <BtnComponent :name="'Delete'"></BtnComponent>
-                    <BtnComponent :name="'Update'"></BtnComponent>
+                    <BtnUpdateComponent></BtnUpdateComponent>
+                    <BtnDeleteComponent></BtnDeleteComponent>
                 </section>
             </div>
         </div>
@@ -21,13 +21,15 @@
 </template>
 
 <script setup lang="ts">
-    import BtnComponent from '../buttons/BtnComponent.vue';
+    import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
+    import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     defineProps<{
         name:string
     }>()
 </script>
 
 <style scoped>
+    @import url('@/css/variables.css');
     .card__wrapper{
         font-family: var( --font-v1);
         font-style:normal;
