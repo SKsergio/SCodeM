@@ -24,7 +24,7 @@
         min-width: 50px;
     }
     .btn_delete:hover {
-    box-shadow: none;
-    opacity: 80%;
+        box-shadow: none;
+        opacity: 80%;
     }
 </style>

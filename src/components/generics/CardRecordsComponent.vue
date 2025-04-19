@@ -31,6 +31,8 @@
 <style scoped>
     @import url('@/css/variables.css');
     .card__wrapper{
+        min-width: 300px;
+        /* width: 300px; */
         font-family: var( --font-v1);
         font-style:normal;
     }

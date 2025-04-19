@@ -131,7 +131,11 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        box-shadow: var(--color-shadows)
+        box-shadow: var(--color-shadows);
+        /* responsives tags fontts */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .name_institution{
         height: 53px;
