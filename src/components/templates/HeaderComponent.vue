@@ -3,7 +3,7 @@
         <h1>{{title}}</h1>
         <div class="action_filters">
             <section class="inputs__continer">
-                <BtnSerarchComponent></BtnSerarchComponent>
+                <BtnSearchComponent></BtnSearchComponent>
                 <BtnAddComponent></BtnAddComponent>
             </section>
         </div>
