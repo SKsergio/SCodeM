@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-    import { MenuItems} from '@/interfaces/MenuInterFace';//importando la interfaz del Menu
+    import { MenuItems} from '@/interfaces/templates/MenuInterFace';//importando la interfaz del Menu
     import { ref, Ref } from 'vue';
     import { useRouter } from 'vue-router';
 

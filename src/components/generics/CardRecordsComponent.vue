@@ -8,6 +8,7 @@
 
             </span>
             <div class="card_content">
+                <!-- estos seran emplazados con los datos que recibamos del registro -->
                 <h2>Code: GRD001</h2>
                 <h4>Created at: 10-04-2025</h4>
 
