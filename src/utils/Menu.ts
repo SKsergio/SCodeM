@@ -1,4 +1,4 @@
-import { MenuItems } from './../interfaces/MenuInterFace';
+import { MenuItems } from '../interfaces/templates/MenuInterFace';
 import {AcademicCapIcon, IdentificationIcon, InboxIcon,
     HandRaisedIcon, MegaphoneIcon, CalendarDaysIcon, ChartPieIcon, TrophyIcon} from '@heroicons/vue/24/solid';
 

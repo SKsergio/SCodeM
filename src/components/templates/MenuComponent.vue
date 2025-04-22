@@ -54,7 +54,7 @@
     import logoComponent from '../generics/logoComponent.vue'; //importando el logo
     import OptionMenuComponent from '../buttons/OptionMenuComponent.vue'; //importando el componente de items del Menu
     import {menuItems} from '@/utils/Menu' //importando la estructura del menu
-    import { MenuItems } from '@/interfaces/MenuInterFace';
+    import { MenuItems } from '@/interfaces/templates/MenuInterFace';
 
 
     //variables and consts
