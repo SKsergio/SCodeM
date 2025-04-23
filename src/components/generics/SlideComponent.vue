@@ -1,6 +1,4 @@
-<template>
-    <!-- <BtnAddComponent></BtnAddComponent> -->
-    
+<template>    
     <div class="slide__cotainer">
         <section class="slide_content" v-for="(item, index) in elements" :key="index">
             <CardRecordsComponent :name="item"></CardRecordsComponent>
@@ -10,9 +8,9 @@
 
 <script setup lang="ts">
     import CardRecordsComponent from './CardRecordsComponent.vue';
-    // import BtnAddComponent from '../buttons/BtnAddComponent.vue';
+    import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';
     defineProps<{
-        algo:string
+        items:DegreeInterface
     }>()
 
     const elements = [
