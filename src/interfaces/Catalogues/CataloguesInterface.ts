@@ -1,9 +1,9 @@
 //abstrac interface to catalogues
 export interface AbstractCatalog{
-    id:number,
-    name:string,
-    code:string,
-    created_at:string,
+    id:number;
+    name:string;
+    code:string;
+    created_at:string;
     updated_at:string
 }
 

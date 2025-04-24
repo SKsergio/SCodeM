@@ -1,7 +1,7 @@
 <template>    
     <div class="slide__cotainer">
-        <section class="slide_content" v-for="(item, index) in elements" :key="index">
-            <CardRecordsComponent :name="item"></CardRecordsComponent>
+        <section class="slide_content" v-for="(item) in records" :key="item.id">
+            <CardRecordsComponent :records="item"></CardRecordsComponent>
         </section>
     </div>
 </template>
@@ -9,10 +9,20 @@
 <script setup lang="ts">
     import CardRecordsComponent from './CardRecordsComponent.vue';
     import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';
-    defineProps<{
-        items:DegreeInterface
+    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
+    import { ref, onMounted } from 'vue';
+
+    const props = defineProps<{
+        metaData:CatalogMetaData<DegreeInterface>
     }>()
 
+    //desuctructurar los componentes de metaData
+    let records = ref<DegreeInterface[]>([])//asi le indicamos que no esta undefined al principio, sino que esta con un array vacio
+
+    onMounted(()=>{
+        records.value = props.metaData.records
+    })
+    
     const elements = [
         'kinder',
         'Preparatoria',

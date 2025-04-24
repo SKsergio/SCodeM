@@ -2,15 +2,17 @@
     <div class="card__wrapper">
         <div class="card">
             <div class="header_card">
-                <h1>{{ name  }}</h1>
+                <h1>{{ records.code  }}</h1>
             </div>
             <span class="overlay">
 
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                <h2>Code: GRD001</h2>
-                <h4>Created at: 10-04-2025</h4>
+                <h2>Code: {{records.code}}</h2>
+                <h2>Name: {{ records.name }}</h2>
+                <h4>Created at:{{ records.created_at }}</h4>
+                <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions">
                     <BtnUpdateComponent></BtnUpdateComponent>
@@ -24,9 +26,12 @@
 <script setup lang="ts">
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
-    defineProps<{
-        name:string
+    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+
+    const props = defineProps<{
+        records : AbstractCatalog
     }>()
+
 </script>
 
 <style scoped>
