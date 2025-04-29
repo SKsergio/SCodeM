@@ -9,9 +9,13 @@
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
+                 <div class="inputs__ct" v-for="(item) in records" :key="records.id">
+                    <InputComponent ></InputComponent>
+
+                 </div>
                 <h2>Code: {{records.code}}</h2>
                 <h2>Name: {{ records.name }}</h2>
-                <h4>Created at:{{ records.created_at }}</h4>
+                <h4>Created at: {{ records.created_at }}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions">
@@ -27,6 +31,7 @@
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+    import InputComponent from '../inputs/InputComponent.vue';
 
     const props = defineProps<{
         records : AbstractCatalog
@@ -37,12 +42,15 @@
 <style scoped>
     @import url('@/css/variables.css');
     .card__wrapper{
-        min-width: 300px;
-        width: 300px;
         font-family: var( --font-v1);
         font-style:normal;
     }
     .card{
+        min-width: 300px;
+        width: 300px;
+        height: 260px;
+        max-height: 270px;
+        /* overflow-y: auto; */
         color: white;
         display: flex;
         flex-direction: column;
@@ -55,7 +63,8 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        gap: 9px;
+        text-align: center;
+        gap: 12px;
         align-items: center;
         padding: 10px, 14px;
     }

@@ -6,14 +6,15 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends AbstractCatalog">
+    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import CardRecordsComponent from './CardRecordsComponent.vue';
     import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { ref, onMounted } from 'vue';
 
     const props = defineProps<{
-        metaData:CatalogMetaData<DegreeInterface>
+        metaData:CatalogMetaData<T>
     }>()
 
     //desuctructurar los componentes de metaData
@@ -22,20 +23,6 @@
     onMounted(()=>{
         records.value = props.metaData.records
     })
-    
-    const elements = [
-        'kinder',
-        'Preparatoria',
-        'Primer grado',
-        'Segundo Grado',
-        'Tercer Grado',
-        'Cuarto Grado',
-        'Quinto Grado',
-        'Sexto Grado',
-        'Seprimo Grado',
-        'Octavo Grado',
-        'Noveno Grado'
-    ]
 </script>
 
 <style scoped>

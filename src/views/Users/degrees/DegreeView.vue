@@ -1,8 +1,8 @@
 <template>
-    <div v-if="metaData">
-        <HeaderComponent :meta-data="metaData"></HeaderComponent>
+    <div v-if="metaDataDegree">
+        <HeaderComponent :meta-data="metaDataDegree"></HeaderComponent>
         <div class="conatiner_crud">
-            <SlideComponent :meta-data="metaData"></SlideComponent>
+            <SlideComponent :meta-data="metaDataDegree"></SlideComponent>
         </div>
     </div>
 </template>
@@ -13,34 +13,34 @@
     import { onMounted, ref } from 'vue';
     import { GetAllDegrees } from '@/services/Catalogues/DegreeService';
     import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
-    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';//metadata interfaz
+    import { AssambleMetaData } from '@/utils/MetaDataProcess';
+    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
 
     //store records of degrees
     const degrees = ref<DegreeInterface[]>([])
-    //store metaData
-    const metaData = ref<CatalogMetaData<DegreeInterface>>()
+
+    //declare the reactive var
+    const metaDataDegree = ref<CatalogMetaData<DegreeInterface>>()
+
 
     onMounted(async()=>{
         try {
+            //set the records of data and asign to the reactive var
             degrees.value = await GetAllDegrees();
-            AssambleMetaData(degrees.value)
-            console.log(degrees);
+    
+            //call the funcion to assmable our structure
+            metaDataDegree.value = AssambleMetaData<DegreeInterface>(
+                degrees.value,
+                'Degrees',
+                'degree',
+                'Teacher'
+            )
         } catch (error) {
             console.error("No se pudieron cargar los grados académicos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
         }
     })
 
-    //FUNCTION TO ASSAMBLE THE INTERFAZ
-    const AssambleMetaData = (Data:DegreeInterface[])=>{
-        metaData.value = {
-            title:'Degrees',
-            api_name: 'degree',
-            records:Data,
-            type_user:'Teacher',
-            actions:[]
-        }
-    }
 
 
 </script>

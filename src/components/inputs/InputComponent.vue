@@ -1,10 +1,11 @@
 <template>
+    <label for=""></label>
     <input type="text">
 </template>
 
 <script setup lang="ts">
     import { ref } from 'vue';
-    defineProps<{
+    const props = defineProps<{
         
     }>()
 </script>
