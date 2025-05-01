@@ -33,7 +33,8 @@
                 degrees.value,
                 'Degrees',
                 'degree',
-                'Teacher'
+                'Teacher',
+                ['code','name']
             )
         } catch (error) {
             console.error("No se pudieron cargar los grados académicos.");

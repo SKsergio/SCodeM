@@ -2,20 +2,20 @@
     <div class="card__wrapper">
         <div class="card">
             <div class="header_card">
-                <h1>{{ records.code  }}</h1>
+                <h1>{{'hola'}}</h1>
             </div>
             <span class="overlay">
 
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                 <div class="inputs__ct" v-for="(item) in records" :key="records.id">
+                 <!-- <div class="inputs__ct" v-for="(item) in records" :key="records.id">
                     <InputComponent ></InputComponent>
 
                  </div>
                 <h2>Code: {{records.code}}</h2>
                 <h2>Name: {{ records.name }}</h2>
-                <h4>Created at: {{ records.created_at }}</h4>
+                <h4>Created at: {{ records.created_at }}</h4> -->
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions">
@@ -27,15 +27,37 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends AbstractCatalog">
+    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
-    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import InputComponent from '../inputs/InputComponent.vue';
+    import { onMounted,ref } from 'vue';
+
+    let actionRecordsv = ref<RecordsActionData<T>>()
+
+    // const props = defineProps<{
+    //     actionsRecords : RecordsActionData<T>
+    // }>()
 
     const props = defineProps<{
-        records : AbstractCatalog
+        records: T,
+        editFiles: (keyof T)[]
     }>()
+
+
+    // onMounted(()=>{
+    //     actionRecordsv.value = props.actionsRecords
+    //     console.log(actionRecordsv.value.records)
+    //     console.log(actionRecordsv.value.editableFields)
+       
+    // })
+
+    onMounted(()=>{
+        console.log(props.records)
+        console.log(props.editFiles)
+    })
 
 </script>
 

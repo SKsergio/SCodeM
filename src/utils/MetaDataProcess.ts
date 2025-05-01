@@ -8,13 +8,15 @@ export function AssambleMetaData <T extends AbstractCatalog>(
     title:string,
     api_name: string,
     type_user: string,
+    editableields: (keyof T)[] = [] //es un array que solo puede contener los tipos de T<>
 ):CatalogMetaData<T>{
     //values to return of function
     return {
-        title,
-        api_name,
-        records: data,
-        type_user,
-        actions:['delete', 'add', 'update']
+        title, //title to show in headers
+        api_name, //names to use in the apis call
+        records: data, //records of the apis
+        type_user, //type user
+        actions:['delete', 'add', 'update'],//action to stay 
+        editableFields:editableields //fields to be a editable
     }
 }

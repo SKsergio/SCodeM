@@ -1,12 +1,12 @@
 //abstrac interface to catalogues
 export interface AbstractCatalog{
-    id:number;
+    readonly id:number;
     name:string;
     code:string;
     description?:string;
-    created_at:string;
-    updated_at:string
+    readonly created_at:string;
+    readonly updated_at:string
 }
 
-export interface DegreeInterface extends AbstractCatalog {} //interface to records of Degrees
+export interface DegreeInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
 export interface SectionInterface extends AbstractCatalog {} //interface to records od Sections
