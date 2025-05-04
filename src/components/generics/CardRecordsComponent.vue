@@ -9,13 +9,10 @@
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                 <!-- <div class="inputs__ct" v-for="(item) in records" :key="records.id">
-                    <InputComponent ></InputComponent>
-
+                 <div class="inputs__ct" v-for="(fields, index) in editFiles" :key="index">
+                    <InputComponent :field="records[fields]" :label="String(fields)"></InputComponent>
                  </div>
-                <h2>Code: {{records.code}}</h2>
-                <h2>Name: {{ records.name }}</h2>
-                <h4>Created at: {{ records.created_at }}</h4> -->
+                <h4>Created at: {{ records.created_at }}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions">
@@ -37,22 +34,10 @@
 
     let actionRecordsv = ref<RecordsActionData<T>>()
 
-    // const props = defineProps<{
-    //     actionsRecords : RecordsActionData<T>
-    // }>()
-
     const props = defineProps<{
         records: T,
         editFiles: (keyof T)[]
     }>()
-
-
-    // onMounted(()=>{
-    //     actionRecordsv.value = props.actionsRecords
-    //     console.log(actionRecordsv.value.records)
-    //     console.log(actionRecordsv.value.editableFields)
-       
-    // })
 
     onMounted(()=>{
         console.log(props.records)
