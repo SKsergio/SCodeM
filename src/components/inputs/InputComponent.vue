@@ -1,19 +1,30 @@
 <template>
-    <label for="">{{ lbl }}</label>
-    <input type="text" v-model="campo">
+    <label :for="lbl">{{ lbl }}</label>
+    <input type="text" v-model="campo" :id="lbl" :readonly="props.editable">
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
 
-    const props = defineProps<{
+    const props = withDefaults(defineProps<{
         field: T[keyof T];
-        label:string
-    }>()
+        label:string,
+        editable?:boolean
+    }>(),{
+        editable:true
+    })
+
+    const flag_input = props.editable
+
 
     let campo = ref(props.field)
     let lbl = ref(props.label)
+
+    onMounted(()=>{
+        console.log('campos a editar:'+ props.label);
+        console.log('dato del campo:'+ props.field);
+    })
 
 </script>
 

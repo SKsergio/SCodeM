@@ -39,8 +39,8 @@
         }).then(async(result) => {
             if (result.isConfirmed) {
                 try {
-                    await DeleteCatalog(id, props.metaData.api_name); // ✅ Espera a que termine
-                    emit('refresh_records'); // ✅ Ahora sí, refresca
+                    await DeleteCatalog(id, props.metaData.api_name);
+                    emit('refresh_records'); 
                     console.log('Elemento eliminado');
                 } catch (e) {
                     console.error('Error al eliminar:', e);

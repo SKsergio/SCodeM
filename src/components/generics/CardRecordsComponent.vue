@@ -9,14 +9,14 @@
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                 <div class="inputs__ct" v-for="(fields, index) in editFiles" :key="index">
-                    <InputComponent :field="records[fields]" :label="String(fields)"></InputComponent>
+                <div class="inputs__ct" v-for="(fields, index) in editFiles" :key="index">
+                    <InputComponent :field="records[fields]" :label="String(fields)" :editable="flag"></InputComponent>
                  </div>
-                <h4>Created at: {{ records.created_at }}</h4>
+                <h4>Created at: {{ records.created_at}}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions">
-                    <BtnUpdateComponent></BtnUpdateComponent>
+                    <BtnUpdateComponent @update_click="(onUpdateClick)"></BtnUpdateComponent>
                     <BtnDeleteComponent @delete_click="(onDeleteClick)"></BtnDeleteComponent>
                 </section>
             </div>
@@ -29,7 +29,9 @@
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
-    import { onMounted,ref } from 'vue';
+    import { ref, Ref } from 'vue';
+
+    let flag : Ref<boolean> = ref(true)
 
     //define emits
     const emit  = defineEmits<{
@@ -42,9 +44,17 @@
         editFiles: (keyof T)[]
     }>()
 
+    //delete event
     const onDeleteClick = ()=>{
         emit('delete_record', props.records.id)
     }
+
+    //update event
+    const onUpdateClick = ()=>{
+        flag.value = false
+        console.log(flag.value);
+    }
+
 
 </script>
 

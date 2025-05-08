@@ -1,10 +1,13 @@
 <template>
-    <button class="btn_update">Update</button>
+    <button class="btn_update" @click="emits('update_click')">Update</button>
 </template>
 
 <script setup lang="ts">
  /*aca lo que ira es un emit que retorne un evento al padre para que el padre 
  de este haga la accion que le corresponde */
+    const emits = defineEmits<{
+        (e:'update_click'):void
+    }>()
 </script>
 
 <style scoped>
