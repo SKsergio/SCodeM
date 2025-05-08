@@ -16,3 +16,16 @@ export async function httpGet<T>(endpoint:string):Promise<T>{
         throw error
     }
 }
+
+export async function deleteRecord(endpoint:string):Promise<void> {
+    try {
+        const response =  await api.delete(endpoint)
+        if (response.status === 204) {
+            //la eliminacion fue correcta
+            return
+        }
+    } catch (error) {
+        console.log(`Error en DELETE ${endpoint}:`, error);
+        throw error
+    }
+}

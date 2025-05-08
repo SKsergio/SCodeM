@@ -10,7 +10,6 @@
                 {{ submenus.label }}
             </a>
         </li>
-
         
     </ul>
 </template>

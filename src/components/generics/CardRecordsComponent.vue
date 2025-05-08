@@ -17,7 +17,7 @@
 
                 <section class="actions">
                     <BtnUpdateComponent></BtnUpdateComponent>
-                    <BtnDeleteComponent></BtnDeleteComponent>
+                    <BtnDeleteComponent @delete_click="(onDeleteClick)"></BtnDeleteComponent>
                 </section>
             </div>
         </div>
@@ -26,23 +26,25 @@
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
     import { onMounted,ref } from 'vue';
 
-    let actionRecordsv = ref<RecordsActionData<T>>()
+    //define emits
+    const emit  = defineEmits<{
+        (e:'delete_record', id:number):void
+    }>()
 
+    //define props
     const props = defineProps<{
         records: T,
         editFiles: (keyof T)[]
     }>()
 
-    onMounted(()=>{
-        console.log(props.records)
-        console.log(props.editFiles)
-    })
+    const onDeleteClick = ()=>{
+        emit('delete_record', props.records.id)
+    }
 
 </script>
 

@@ -2,7 +2,7 @@
     <div v-if="metaDataDegree">
         <HeaderComponent :meta-data="metaDataDegree"></HeaderComponent>
         <div class="conatiner_crud">
-            <SlideComponent :meta-data="metaDataDegree"></SlideComponent>
+            <SlideComponent :meta-data="metaDataDegree!" @refresh_records="refresh"></SlideComponent>
         </div>
     </div>
 </template>
@@ -22,8 +22,15 @@
     //declare the reactive var
     const metaDataDegree = ref<CatalogMetaData<DegreeInterface>>()
 
+    const refresh = ()=>{
+        callRecords()
+    }
 
-    onMounted(async()=>{
+    onMounted(()=>{
+        callRecords()
+    })
+
+    const callRecords = async()=>{
         try {
             //set the records of data and asign to the reactive var
             degrees.value = await GetAllDegrees();
@@ -36,11 +43,12 @@
                 'Teacher',
                 ['code','name']
             )
+            console.log(metaDataDegree.value.records);
         } catch (error) {
             console.error("No se pudieron cargar los grados académicos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
         }
-    })
+    }
 
 
 

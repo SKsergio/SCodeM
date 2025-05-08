@@ -1,9 +1,11 @@
 <template>    
     <div class="slide__cotainer" v-if="actionRecords">
         <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id">
-            <!-- <CardRecordsComponent :actions-records="actionRecords"></CardRecordsComponent> -->
-            <CardRecordsComponent :records="item" :edit-files="actionRecords[0].editableFields"></CardRecordsComponent>
-
+            <CardRecordsComponent 
+                :records="item" 
+                :edit-files="actionRecords[0].editableFields"
+                @delete_record="(HandleDelete)"
+            />
         </section>
     </div>
 </template>
@@ -13,29 +15,67 @@
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import CardRecordsComponent from './CardRecordsComponent.vue';
-    import { ref, Ref ,onMounted } from 'vue';
+    import { DeleteCatalog } from '@/services/Catalogues/DegreeService';
+    import { ref, Ref ,onMounted, computed, watch } from 'vue';
+    import Swal from 'sweetalert2'
+
+    const emit = defineEmits<{
+        (e:'refresh_records'):void
+    }>()
+
+    const mostrarAlerta = (id:number) => {
+        Swal.fire({
+            title: '¿Estás seguro de eliminar el registro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass:{
+                popup:'cont_pop',
+                title:'title_alert',
+                icon:'icon_alert'
+            }
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                try {
+                    await DeleteCatalog(id, props.metaData.api_name); // ✅ Espera a que termine
+                    emit('refresh_records'); // ✅ Ahora sí, refresca
+                    console.log('Elemento eliminado');
+                } catch (e) {
+                    console.error('Error al eliminar:', e);
+                    Swal.fire('Error', 'No se pudo eliminar el elemento.', 'error');
+                }
+            }
+        })
+    }
 
     const props = defineProps<{
         metaData:CatalogMetaData<T>
     }>()
 
     //desuctructurar los componentes de metaData
-    let records: Ref<T[]> = ref([]);//asi le indicamos que no esta undefined al principio, sino que esta con un array vacio
+    // let records: Ref<T[]> = ref([]);//asi le indicamos que no esta undefined al principio, sino que esta con un array vacio
+    let actionRecords = computed<RecordsActionData<T>[]>(()=>[{
+        records:props.metaData.records,
+        editableFields: props.metaData.editableFields//editable fields to metaData
+    }]);
 
-    let actionRecords = ref<RecordsActionData<T>[]>();
+    const HandleDelete=(id:number)=>{
+        mostrarAlerta(id)
+    }
 
-    onMounted(()=>{
-        records.value = props.metaData.records
-        actionRecords.value =[{
-            records:records.value,
-            editableFields: props.metaData.editableFields
-        }]
-        console.log(actionRecords.value);
-
-    })
+    // watch(() => props.metaData.records,(newVal) => {
+    //     console.log(props.metaData.records); 
+    //     records.value = newVal
+    //     actionRecords.value = [{
+    //     records: newVal,
+    //     editableFields: props.metaData.editableFields}]},
+    //     { immediate: true }
+    // )
 </script>
 
-<style scoped>
+<style>
     @import url('@/css/variables.css');
     .slide__cotainer{
         background: var(--color-third);  
@@ -52,5 +92,14 @@
         background-color: rgb(30, 6, 54);
         width: 100%;
         height: 100%;
+    }
+    .cont_pop{
+        font-family: var(--font-decoration2);
+        background: var(--color-third);
+        color: var(--color-text1);
+        border-radius: 24px;
+    }
+    .title_alert{
+        font-size: 22px;
     }
 </style>
