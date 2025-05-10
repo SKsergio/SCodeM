@@ -9,4 +9,8 @@ export interface AbstractCatalog{
 }
 
 export interface DegreeInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
+export interface PeriodInterface extends Omit<AbstractCatalog, 'description'> {
+    date_from:string,
+    date_until:string
+} //interface to records of Periods
 export interface SectionInterface extends AbstractCatalog {} //interface to records od Sections

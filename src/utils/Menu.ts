@@ -40,7 +40,7 @@ export const menuItems: MenuItems[]=[
         soons:[
             {label:'Evaluations', name:'jijija/pruebas'},
             {label:'Types of evaluations', name:'jijija/pruebas'},
-            {label:'Periods', name:'periodos/pruebas'}
+            {label:'Periods', name:'PeriodMagnament'}
         ],
         amount:3,
         hadSoons:true

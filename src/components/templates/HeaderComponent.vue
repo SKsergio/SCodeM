@@ -1,6 +1,6 @@
 <template>
     <div class="header__general">
-        <h1>{{metaData.title}}</h1>
+        <h1>{{props.metaData.title}}</h1>
         <div class="action_filters">
             <section class="inputs__continer">
                 <BtnSearchComponent></BtnSearchComponent>
@@ -10,14 +10,13 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"  generic="T">
     import BtnAddComponent from '../buttons/BtnAddComponent.vue';
     import BtnSearchComponent from '../buttons/BtnSearchComponent.vue';
-    import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
 
-    defineProps<{
-        metaData:CatalogMetaData<DegreeInterface>
+   const props = defineProps<{
+        metaData:CatalogMetaData<T>
     }>()
 
 </script>
