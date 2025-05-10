@@ -16,7 +16,7 @@
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import CardRecordsComponent from './CardRecordsComponent.vue';
     import { DeleteCatalog } from '@/services/Catalogues/DegreeService';
-    import { ref, Ref ,onMounted, computed, watch } from 'vue';
+    import {computed } from 'vue';
     import Swal from 'sweetalert2'
 
     const emit = defineEmits<{
@@ -64,15 +64,6 @@
     const HandleDelete=(id:number)=>{
         mostrarAlerta(id)
     }
-
-    // watch(() => props.metaData.records,(newVal) => {
-    //     console.log(props.metaData.records); 
-    //     records.value = newVal
-    //     actionRecords.value = [{
-    //     records: newVal,
-    //     editableFields: props.metaData.editableFields}]},
-    //     { immediate: true }
-    // )
 </script>
 
 <style>

@@ -15,9 +15,13 @@
                 <h4>Created at: {{ records.created_at}}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
-                <section class="actions">
+                <section class="actions" v-if="flag">
                     <BtnUpdateComponent @update_click="(onUpdateClick)"></BtnUpdateComponent>
                     <BtnDeleteComponent @delete_click="(onDeleteClick)"></BtnDeleteComponent>
+                </section>
+                <section class="actions" v-else>
+                    <BtnSaveComponent></BtnSaveComponent>
+                    <BtnCancelComponent @cancel_click="(onCancelClick)"></BtnCancelComponent>
                 </section>
             </div>
         </div>
@@ -28,6 +32,8 @@
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
+    import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
+    import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
     import { ref, Ref } from 'vue';
 
@@ -48,11 +54,14 @@
     const onDeleteClick = ()=>{
         emit('delete_record', props.records.id)
     }
-
     //update event
     const onUpdateClick = ()=>{
         flag.value = false
         console.log(flag.value);
+    }
+    //delete event
+    const onCancelClick = ()=>{
+       flag.value = true
     }
 
 
@@ -67,8 +76,8 @@
     .card{
         min-width: 300px;
         width: 300px;
-        height: 260px;
-        max-height: 270px;
+        /* height: 260px;
+        max-height: 270px; */
         /* overflow-y: auto; */
         color: white;
         display: flex;

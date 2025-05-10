@@ -15,9 +15,6 @@
         editable:true
     })
 
-    const flag_input = props.editable
-
-
     let campo = ref(props.field)
     let lbl = ref(props.label)
 

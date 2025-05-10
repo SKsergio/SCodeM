@@ -15,6 +15,7 @@
     --color-delete:#af3e3e;
     --color-update:#1b275a;
     --color-add:#32cf4c;
+    --color-save:#266124;
     --color-find:#1265c4;
 
     /* text colors */
@@ -72,6 +73,7 @@
     /*btn asction colors*/ 
     --color-delete:#8f3030;
     --color-update:#313677;
+    --color-save:#1e3663;
     --color-add:#32cf4c;
     --color-find:#1265c4;
 
