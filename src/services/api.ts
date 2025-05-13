@@ -8,6 +8,7 @@ const api = ky.create({
     },
 })
 
+//get generic function
 export async function httpGet<T>(endpoint:string):Promise<T>{
     try {
         return await api.get(endpoint).json<T>()
@@ -17,6 +18,7 @@ export async function httpGet<T>(endpoint:string):Promise<T>{
     }
 }
 
+//delete generic function 
 export async function deleteRecord(endpoint:string):Promise<void> {
     try {
         const response =  await api.delete(endpoint)
@@ -27,5 +29,14 @@ export async function deleteRecord(endpoint:string):Promise<void> {
     } catch (error) {
         console.log(`Error en DELETE ${endpoint}:`, error);
         throw error
+    }
+}
+
+//update generic funcion
+export async function updateRecord<T>(endpoint:string, data:T, id:number):Promise<void>{
+    try {
+        alert('la data es'+JSON.stringify(data)) 
+    } catch (error) {
+        console.log(`Error en update ${endpoint}:`, error);
     }
 }

@@ -10,8 +10,10 @@
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
                 <div class="inputs__ct" v-for="(fields, index) in editFiles" :key="index">
-                    <InputComponent :field="records[fields]" :label="String(fields)" :editable="flag"></InputComponent>
-                 </div>
+                    <InputComponent 
+    
+                    :editable="flag"/>
+                </div>
                 <h4>Created at: {{ records.created_at}}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
@@ -20,7 +22,7 @@
                     <BtnDeleteComponent @delete_click="(onDeleteClick)"></BtnDeleteComponent>
                 </section>
                 <section class="actions" v-else>
-                    <BtnSaveComponent></BtnSaveComponent>
+                    <BtnSaveComponent @save_click="(onSaveClick)"></BtnSaveComponent>
                     <BtnCancelComponent @cancel_click="(onCancelClick)"></BtnCancelComponent>
                 </section>
             </div>
@@ -35,9 +37,12 @@
     import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
     import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
+    import { useEditRecordStore } from '@/store/RecordCatalog';
     import { ref, Ref } from 'vue';
 
     let flag : Ref<boolean> = ref(true)
+    const editStore = useEditRecordStore();
+
 
     //define emits
     const emit  = defineEmits<{
@@ -57,13 +62,18 @@
     //update event
     const onUpdateClick = ()=>{
         flag.value = false
-        console.log(flag.value);
     }
     //delete event
     const onCancelClick = ()=>{
        flag.value = true
     }
+    //save event
+    const onSaveClick = ()=>{
+        alert('vamos actualizar eto')
+    }
 
+    editStore.setRecord(props.records)
+    editStore.setEditFields(props.editFiles)
 
 </script>
 

@@ -7,9 +7,7 @@
     de este haga la accion que le corresponde */
     const emits = defineEmits<{
         (e:'delete_click'):void
-    }>()
-
-    
+    }>()  
 </script>
 
 <style scoped>
