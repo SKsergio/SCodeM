@@ -1,6 +1,6 @@
 <template>
-    <label :for="lbl">{{ lbl }}</label>
-    <input type="text" v-model="campo" :id="lbl" :readonly="props.editable">
+    <label>{{ lbl }}</label>
+    <input type="text" v-model="campo" :readonly="props.editable">
     <h1>{{ campo }}</h1>
 </template>
 
@@ -20,10 +20,10 @@
     })
 
     let campo = ref(editStore.record.code) //label
-    let lbl = ref(editStore.record.code) //campo
+    let lbl = ref(editStore.editFiles) //campo
 
     onMounted(()=>{
-        console.log(campo.value)
+        console.log(lbl.value)
     })
 </script>
 

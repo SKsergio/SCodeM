@@ -3,19 +3,16 @@ import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
 import { updateRecord } from '@/services/api';
 
 export const useEditRecordStore = defineStore('editRecord',{
-    state:():{record:AbstractCatalog}=>({
-        record:{
-            id:0,
-            name:'',
-            code:'',
-            description:'',
-            created_at:'',
-            updated_at:''
-        }
+    state: () => ({
+        record: {} as Partial<AbstractCatalog>,
+        editFiles: [] as (keyof AbstractCatalog)[]
     }),
     actions:{
         setRecord(newRecord:AbstractCatalog){
             this.record = newRecord
+        },
+        setEditFields(editFiles: (keyof AbstractCatalog)[]){
+            this.editFiles = editFiles
         },
         async updateRecord(id:number, updateData:Partial<AbstractCatalog>, url:string){
             try {
