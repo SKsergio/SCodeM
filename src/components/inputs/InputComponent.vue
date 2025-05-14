@@ -1,5 +1,5 @@
 <template>
-    <label>{{ lbl }}</label>
+    <label>{{ field }}</label>
     <input type="text" v-model="campo" :readonly="props.editable">
     <h1>{{ campo }}</h1>
 </template>
@@ -9,18 +9,17 @@
     import { useEditRecordStore } from '@/store/RecordCatalog';
     import {ref, onMounted} from 'vue';
 
-    const editStore = useEditRecordStore();
+    const editStore = useEditRecordStore<T>();
 
     const props = withDefaults(defineProps<{
-        // field: T[keyof T];
-        // label:string,
+        field: keyof T;
         editable?:boolean
     }>(),{
         editable:true
-    })
+    })  
 
-    let campo = ref(editStore.record.code) //label
-    let lbl = ref(editStore.editFiles) //campo
+    let campo = ref(editStore.record[props.field]) //label
+    let lbl = ref(editStore.editFields) //campo
 
     onMounted(()=>{
         console.log(lbl.value)

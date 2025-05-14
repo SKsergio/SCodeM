@@ -33,7 +33,7 @@ export async function deleteRecord(endpoint:string):Promise<void> {
 }
 
 //update generic funcion
-export async function updateRecord<T>(endpoint:string, data:T, id:number):Promise<void>{
+export async function httpPut<T>(endpoint:string, data:T, id:number):Promise<void>{
     try {
         alert('la data es'+JSON.stringify(data)) 
     } catch (error) {

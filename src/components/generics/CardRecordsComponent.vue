@@ -9,10 +9,8 @@
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                <div class="inputs__ct" v-for="(fields, index) in editFiles" :key="index">
-                    <InputComponent 
-    
-                    :editable="flag"/>
+                <div class="inputs__ct" v-for="(fields, index) in editStore.editFields" :key="index">
+                      <InputComponent :field="fields as keyof T" :editable="flag" />
                 </div>
                 <h4>Created at: {{ records.created_at}}</h4>
                 <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
@@ -41,8 +39,7 @@
     import { ref, Ref } from 'vue';
 
     let flag : Ref<boolean> = ref(true)
-    const editStore = useEditRecordStore();
-
+    const editStore = useEditRecordStore<T>();
 
     //define emits
     const emit  = defineEmits<{
@@ -73,7 +70,7 @@
     }
 
     editStore.setRecord(props.records)
-    editStore.setEditFields(props.editFiles)
+    editStore.setEditableFields(props.editFiles)
 
 </script>
 

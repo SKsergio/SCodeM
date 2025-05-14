@@ -1,26 +1,29 @@
 import { defineStore } from 'pinia';
-import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-import { updateRecord } from '@/services/api';
+import { Ref, ref } from 'vue';
+import { httpPut } from '@/services/api';
 
-export const useEditRecordStore = defineStore('editRecord',{
-    state: () => ({
-        record: {} as Partial<AbstractCatalog>,
-        editFiles: [] as (keyof AbstractCatalog)[]
-    }),
-    actions:{
-        setRecord(newRecord:AbstractCatalog){
-            this.record = newRecord
-        },
-        setEditFields(editFiles: (keyof AbstractCatalog)[]){
-            this.editFiles = editFiles
-        },
-        async updateRecord(id:number, updateData:Partial<AbstractCatalog>, url:string){
+export function useEditRecordStore<T>(){
+    return defineStore('editRecord',()=>{
+        const record : Ref<Partial<T>> = ref({})
+        const editFields = ref<(keyof T)[]>([])
+
+        const setRecord = (newRecords:T)=>{
+            record.value = newRecords
+        }
+
+        const setEditableFields=(fields:(keyof T)[])=>{
+            editFields.value = fields
+        }
+
+        async function updateRecord(id:number, updateData:Partial<T>, url:string){
             try {
-                const response = await updateRecord(url,updateData, id)
+                const response = await httpPut(url,updateData, id)
                 console.log(response);
             } catch (error) {
                 
             }
         }
-    }
-});
+
+        return {record, editFields, setRecord, setEditableFields, updateRecord}
+    })()
+}
