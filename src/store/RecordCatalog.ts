@@ -20,7 +20,7 @@ export function useEditRecordStore<T>(){
                 const response = await httpPut(url,updateData, id)
                 console.log(response);
             } catch (error) {
-                
+                console.log(error)
             }
         }
 

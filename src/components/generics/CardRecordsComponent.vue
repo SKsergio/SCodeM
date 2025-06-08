@@ -9,11 +9,10 @@
             </span>
             <div class="card_content">
                 <!-- estos seran emplazados con los datos que recibamos del registro -->
-                <div class="inputs__ct" v-for="(fields, index) in editStore.editFields" :key="index">
-                      <InputComponent :field="fields as keyof T" :editable="flag" />
+                <div class="inputs__ct" v-for="(field) in fields">
+                    <InputComponent :editable="flag" :field="field"></InputComponent> <!--el problema es que si lo mandamos asi no llega tipado-->
                 </div>
                 <h4>Created at: {{ records.created_at}}</h4>
-                <!-- nota: convertir las fehcas a formatos de dias exactos, con horas pero sin milisegundos -->
 
                 <section class="actions" v-if="flag">
                     <BtnUpdateComponent @update_click="(onUpdateClick)"></BtnUpdateComponent>
@@ -36,7 +35,7 @@
     import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
     import { useEditRecordStore } from '@/store/RecordCatalog';
-    import { ref, Ref } from 'vue';
+    import { ref, Ref, computed } from 'vue';
 
     let flag : Ref<boolean> = ref(true)
     const editStore = useEditRecordStore<T>();
@@ -72,6 +71,7 @@
     editStore.setRecord(props.records)
     editStore.setEditableFields(props.editFiles)
 
+    const fields = computed(() => editStore.editFields as (keyof T)[]);
 </script>
 
 <style scoped>

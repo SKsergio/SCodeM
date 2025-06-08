@@ -32,7 +32,7 @@
 
 <style scoped>
     .btn_delete {
-        background: var(--color-delete);
+        background: var(--color-cancel);
         border-radius: 7px;
         border: 2px solid #00000040;
         text-shadow: 1px 1px 1px #00000040;
