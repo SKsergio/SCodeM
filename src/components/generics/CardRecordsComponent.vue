@@ -2,7 +2,7 @@
     <div class="card__wrapper">
         <div class="card">
             <div class="header_card">
-                <h1>{{'hola'}}</h1>
+                <h1>{{records.id}}</h1>
             </div>
             <span class="overlay">
 
