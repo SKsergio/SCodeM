@@ -76,9 +76,6 @@
         padding: 30px;
         border-radius: 25px 5px 25px 5px;
     }
-    .slide_content{
-        /* margin: 0 40px; */
-    }
     .btn_linker{
         background-color: rgb(30, 6, 54);
         width: 100%;

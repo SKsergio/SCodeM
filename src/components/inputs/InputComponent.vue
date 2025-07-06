@@ -1,31 +1,20 @@
 <template>
     <label>{{ field }}</label>
-    <input type="text" v-model="campo" :readonly="props.editable">
-    <h1>{{ campo }}</h1>
+    <input type="text" :readonly="editable" :value="modelValue" @input="onInput" />
+    <h1>{{ modelValue }}</h1>
 </template>
 
-<script setup lang="ts" generic="T">
-    import { useEditRecordStore } from '@/store/RecordCatalog';
-    import {ref, onMounted} from 'vue';
+<script setup lang="ts">
+const props = defineProps<{
+    field: string | number | symbol,
+    editable?: boolean,
+    modelValue: any
+}>()
+const emit = defineEmits(['update:modelValue'])
 
-    const editStore = useEditRecordStore<T>();
-
-    const props = withDefaults(defineProps<{
-        field: keyof T;
-        editable?:boolean
-    }>(),{
-        editable:true
-    })  
-    //idea para arreglar esto
-    /*TIPAR EL FIELD COMO UN T, PERO DE ALGUNA MANERA SACAR YA SEA LOS MEROS VALORES DE T O INCLUSIVE, SACAR EL 
-    KEY DE T PARA QUE COINCIDAN CON EL TIPO DE ARRIBA*/
-
-    let campo = ref(editStore.record[props.field]) //label
-
-    onMounted(()=>{
-        console.log('valor es '+ campo.value)
-        console.log(props.field)
-    })
+function onInput(event: Event) {
+    emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
 </script>
 
 <style scoped>

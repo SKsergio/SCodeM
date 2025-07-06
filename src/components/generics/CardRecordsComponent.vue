@@ -8,9 +8,8 @@
 
             </span>
             <div class="card_content">
-                <!-- estos seran emplazados con los datos que recibamos del registro -->
                 <div class="inputs__ct" v-for="(field) in fields">
-                    <InputComponent :editable="flag" :field="field"></InputComponent> <!--el problema es que si lo mandamos asi no llega tipado-->
+                    <InputComponent :editable="flag" :field="field" v-model="localRecord[field as keyof typeof localRecord]" />
                 </div>
                 <h4>Created at: {{ records.created_at}}</h4>
 
@@ -28,50 +27,49 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
-    import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
-    import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
-    import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
-    import InputComponent from '../inputs/InputComponent.vue';
-    import { useEditRecordStore } from '@/store/RecordCatalog';
-    import { ref, Ref, computed } from 'vue';
+import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
+import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
+import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
+import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
+import InputComponent from '../inputs/InputComponent.vue';
+import { ref, Ref, computed, reactive } from 'vue';
 
-    let flag : Ref<boolean> = ref(true)
-    const editStore = useEditRecordStore<T>();
+let flag : Ref<boolean> = ref(true)
 
-    //define emits
-    const emit  = defineEmits<{
-        (e:'delete_record', id:number):void
-    }>()
+//define emits
+const emit  = defineEmits<{
+    (e:'delete_record', id:number):void
+}>()
 
-    //define props
-    const props = defineProps<{
-        records: T,
-        editFiles: (keyof T)[]
-    }>()
+//define props
+const props = defineProps<{
+    records: T,
+    editFiles: (keyof T)[]
+}>()
 
-    //delete event
-    const onDeleteClick = ()=>{
-        emit('delete_record', props.records.id)
-    }
-    //update event
-    const onUpdateClick = ()=>{
-        flag.value = false
-    }
-    //delete event
-    const onCancelClick = ()=>{
-       flag.value = true
-    }
-    //save event
-    const onSaveClick = ()=>{
-        alert('vamos actualizar eto')
-    }
+// Estado local para el registro editable
+const localRecord = reactive({ ...props.records }) as T
+const fields = computed(() => props.editFiles)
 
-    editStore.setRecord(props.records)
-    editStore.setEditableFields(props.editFiles)
-
-    const fields = computed(() => editStore.editFields as (keyof T)[]);
+//delete event
+const onDeleteClick = ()=>{
+    emit('delete_record', props.records.id)
+}
+//update event
+const onUpdateClick = ()=>{
+    flag.value = false
+}
+//delete event
+const onCancelClick = ()=>{
+   flag.value = true
+}
+//save event
+const onSaveClick = ()=>{
+    alert('vamos actualizar eto')
+    //luego que se actualice el registro lo volvemos a poner en modo no editable
+    flag.value = true
+}
 </script>
 
 <style scoped>
