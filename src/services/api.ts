@@ -19,7 +19,7 @@ export async function httpGet<T>(endpoint:string):Promise<T>{
 }
 
 //delete generic function 
-export async function deleteRecord(endpoint:string):Promise<void> {
+export async function httpDelete(endpoint:string):Promise<void> {
     try {
         const response =  await api.delete(endpoint)
         if (response.status === 204) {
@@ -32,7 +32,18 @@ export async function deleteRecord(endpoint:string):Promise<void> {
     }
 }
 
-//update generic funcion
+//Update generic function type PATCH
+export async function httpPatch<T>(endpoint:string, data:T):Promise<T>{
+    try {
+        const response = await api.patch(`${endpoint}`, {json: data})
+        return response.json<T>()
+    } catch (error) {
+        console.log(`Error en PATCH ${endpoint}:`, error);
+        throw error
+    }
+}
+
+//update generic funcion tyoe PUT
 export async function httpPut<T>(endpoint:string, data:T, id:number):Promise<void>{
     try {
         alert('la data es'+JSON.stringify(data)) 

@@ -4,6 +4,7 @@
             <CardRecordsComponent 
                 :records="item" 
                 :edit-files="actionRecords[0].editableFields"
+                :name-catalogue="metaData.api_name"
                 @delete_record="(HandleDelete)"
             />
         </section>
@@ -15,7 +16,7 @@
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import CardRecordsComponent from './CardRecordsComponent.vue';
-    import { DeleteCatalog } from '@/services/Catalogues/DegreeService';
+    import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
     import {computed } from 'vue';
     import Swal from 'sweetalert2'
 
@@ -41,7 +42,6 @@
                 try {
                     await DeleteCatalog(id, props.metaData.api_name);
                     emit('refresh_records'); 
-                    console.log('Elemento eliminado');
                 } catch (e) {
                     console.error('Error al eliminar:', e);
                     Swal.fire('Error', 'No se pudo eliminar el elemento.', 'error');
@@ -55,7 +55,6 @@
     }>()
 
     //desuctructurar los componentes de metaData
-    // let records: Ref<T[]> = ref([]);//asi le indicamos que no esta undefined al principio, sino que esta con un array vacio
     let actionRecords = computed<RecordsActionData<T>[]>(()=>[{
         records:props.metaData.records,
         editableFields: props.metaData.editableFields//editable fields to metaData

@@ -12,7 +12,7 @@
 
     import HeaderComponent from '@/components/templates/HeaderComponent.vue'; 
     import SlideComponent from '@/components/generics/SlideComponent.vue';
-    import { GetAllRecords } from '@/services/Catalogues/DegreeService';
+    import { GetAllRecordsCatalogues } from '@/services/Catalogues/CatalogueServices';
     import { ClassromInterface } from '@/interfaces/Catalogues/CataloguesInterface';
     import { AssambleMetaData } from '@/utils/MetaDataProcess';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
@@ -34,7 +34,7 @@
     const callRecords = async()=>{
         try {
             //set the records of data and asign to the reactive var
-            classrooms.value = await GetAllRecords<ClassromInterface>('classrooms');
+            classrooms.value = await GetAllRecordsCatalogues<ClassromInterface>('classrooms');
     
             //call the funcion to assmable our structure
             metaDataClassrooms.value = AssambleMetaData<ClassromInterface>(

@@ -33,6 +33,7 @@ import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
 import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
 import InputComponent from '../inputs/InputComponent.vue';
+import { PatchCatalog } from '@/services/Catalogues/CatalogueServices';
 import { ref, Ref, computed, reactive } from 'vue';
 
 let flag : Ref<boolean> = ref(true)
@@ -45,7 +46,8 @@ const emit  = defineEmits<{
 //define props
 const props = defineProps<{
     records: T,
-    editFiles: (keyof T)[]
+    editFiles: (keyof T)[],
+    nameCatalogue:string
 }>()
 
 // Estado local para el registro editable
@@ -67,6 +69,7 @@ const onCancelClick = ()=>{
 //save event
 const onSaveClick = ()=>{
     alert('vamos actualizar eto')
+    PatchCatalog<T>( localRecord.id, localRecord ,props.nameCatalogue)
     //luego que se actualice el registro lo volvemos a poner en modo no editable
     flag.value = true
 }
