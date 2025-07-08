@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 //importar estilos
 import '../src/css/normalice.css'
 import '../src/css/layaout.css'
+import '../src/css/alertDelete.css'
 
 // utilizanod pinia
 const pinia = createPinia()

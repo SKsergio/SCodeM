@@ -18,40 +18,15 @@
     import CardRecordsComponent from './CardRecordsComponent.vue';
     import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
     import {computed } from 'vue';
-    import Swal from 'sweetalert2'
-
-    const emit = defineEmits<{
-        (e:'refresh_records'):void
-    }>()
-
-    const mostrarAlerta = (id:number) => {
-        Swal.fire({
-            title: '¿Estás seguro de eliminar el registro?',
-            text: 'Esta acción no se puede deshacer.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-            customClass:{
-                popup:'cont_pop',
-                title:'title_alert',
-                icon:'icon_alert'
-            }
-        }).then(async(result) => {
-            if (result.isConfirmed) {
-                try {
-                    await DeleteCatalog(id, props.metaData.api_name);
-                    emit('refresh_records'); 
-                } catch (e) {
-                    console.error('Error al eliminar:', e);
-                    Swal.fire('Error', 'No se pudo eliminar el elemento.', 'error');
-                }
-            }
-        })
-    }
-
+    import { ShowDeleteAlert } from '../alerts/DeleteAlertComponent';
+    
+    //PROPS
     const props = defineProps<{
         metaData:CatalogMetaData<T>
+    }>()
+    //EMITS
+    const emit = defineEmits<{
+        (e:'refresh_records'):void
     }>()
 
     //desuctructurar los componentes de metaData
@@ -60,9 +35,18 @@
         editableFields: props.metaData.editableFields//editable fields to metaData
     }]);
 
-    const HandleDelete=(id:number)=>{
-        mostrarAlerta(id)
+
+    //Create delete function
+    const DeleteRecord = async(id:number) =>{
+        await DeleteCatalog(id, props.metaData.api_name);
+        emit('refresh_records'); 
     }
+
+    //Call delete function
+    const HandleDelete=(id:number)=>{
+        ShowDeleteAlert(()=>DeleteRecord(id))
+    }
+
 </script>
 
 <style>
@@ -75,18 +59,5 @@
         padding: 30px;
         border-radius: 25px 5px 25px 5px;
     }
-    .btn_linker{
-        background-color: rgb(30, 6, 54);
-        width: 100%;
-        height: 100%;
-    }
-    .cont_pop{
-        font-family: var(--font-decoration2);
-        background: var(--color-third);
-        color: var(--color-text1);
-        border-radius: 24px;
-    }
-    .title_alert{
-        font-size: 22px;
-    }
+  
 </style>
