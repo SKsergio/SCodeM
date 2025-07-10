@@ -12,13 +12,13 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
+    import {computed } from 'vue';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
-    import CardRecordsComponent from './CardRecordsComponent.vue';
     import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
-    import {computed } from 'vue';
     import { ShowDeleteAlert } from '../alerts/DeleteAlertComponent';
+    import CardRecordsComponent from './CardRecordsComponent.vue';
     
     //PROPS
     const props = defineProps<{

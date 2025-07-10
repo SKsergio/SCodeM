@@ -27,52 +27,71 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
-import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
-import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
-import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
-import InputComponent from '../inputs/InputComponent.vue';
-import { PatchCatalog } from '@/services/Catalogues/CatalogueServices';
-import { ref, Ref, computed, reactive } from 'vue';
+    import { ShowUpdateAlert } from '../alerts/UpdateAlert';
+    import { InfoMessageAlert } from '../alerts/InfoAlert';
+    import { ref, Ref, computed, reactive} from 'vue';
+    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { PatchCatalog } from '@/services/Catalogues/CatalogueServices';
+    import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
+    import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
+    import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
+    import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
+    import InputComponent from '../inputs/InputComponent.vue';
 
-let flag : Ref<boolean> = ref(true)
+    let flag : Ref<boolean> = ref(true)
 
-//define emits
-const emit  = defineEmits<{
-    (e:'delete_record', id:number):void
-}>()
+    //define emits
+    const emit  = defineEmits<{
+        (e:'delete_record', id:number):void
+    }>()
 
-//define props
-const props = defineProps<{
-    records: T,
-    editFiles: (keyof T)[],
-    nameCatalogue:string
-}>()
+    //define props
+    const props = defineProps<{
+        records: T,
+        editFiles: (keyof T)[],
+        nameCatalogue:string
+    }>()
 
-// Estado local para el registro editable
-const localRecord = reactive({ ...props.records }) as T
-const fields = computed(() => props.editFiles)
+    // Estado local para el registro editable
+    const localRecord = reactive({ ...props.records }) as T
+    const fields = computed(() => props.editFiles)
+    let originalRecord = {} as T;//copia del registro en caso que se cancele la accion
 
-//delete event
-const onDeleteClick = ()=>{
-    emit('delete_record', props.records.id)
-}
-//update event
-const onUpdateClick = ()=>{
-    flag.value = false
-}
-//delete event
-const onCancelClick = ()=>{
-   flag.value = true
-}
-//save event
-const onSaveClick = ()=>{
-    alert('vamos actualizar eto')
-    PatchCatalog<T>( localRecord.id, localRecord ,props.nameCatalogue)
-    //luego que se actualice el registro lo volvemos a poner en modo no editable
-    flag.value = true
-}
+    //delete event(manda emit)
+    const onDeleteClick = ()=>{
+        emit('delete_record', props.records.id)
+    }
+
+    //update event(ejecuta la funcion aca)
+    const onUpdateClick = ()=>{
+        flag.value = false
+        //creamos la copia del registro original
+        originalRecord = {...localRecord}
+    }
+
+    //cancel event(ejecuta la funcion aca)
+    const onCancelClick = ()=>{
+        //devolver los valores antiguos
+        Object.assign(localRecord, originalRecord)//sirve para restaurar los valores de un componente  
+        flag.value = true;
+    }
+
+    //save event(ejeuta la funcion aca)
+    const onSaveClick = () =>{
+        //HACEMOS LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
+         if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
+            InfoMessageAlert('Grado')
+            return 0
+        }else{
+            ShowUpdateAlert(originalRecord.code , ()=>SaveRecord())//llamanos la funcion para actualizar
+            flag.value = true
+        }
+    }
+
+    //save function
+    const SaveRecord = async() =>{
+        PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
+    }
 </script>
 
 <style scoped>

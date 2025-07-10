@@ -13,7 +13,7 @@
         Swal.fire({
             title: '¿Estás seguro de cancelar esta accion?',
             text: 'No se guardaran los datos',
-            icon: 'warning',
+            icon: 'info',
             showCancelButton: true,
             confirmButtonText: 'Sí, cancelar',
             cancelButtonText: 'quedarse',
