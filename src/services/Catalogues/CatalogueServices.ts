@@ -31,6 +31,5 @@ export async function PatchCatalog<T>(recordID:number, data:T, url:string):Promi
     } catch (error) {
         console.log(`Error al actualizar el registro ${recordID} en ${url}:`, error);
         throw error;
-        
     }
 }

@@ -1,9 +1,9 @@
 import Swal from 'sweetalert2'
 
-export const ShowUpdateAlert = (code:string, fn: () => Promise<void>) => { //pasamos la funcion como parametro
-    Swal.fire({
-        title:'¿Estás seguro de actualizar el registro?',
-        text: 'El registro '+code+' cambiara permanentemente.',
+export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<boolean> => {
+    return Swal.fire({
+        title: '¿Estás seguro de actualizar el registro?',
+        text: 'El registro ' + code + ' cambiara permanentemente.',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Sí, editar',
@@ -16,12 +16,15 @@ export const ShowUpdateAlert = (code:string, fn: () => Promise<void>) => { //pas
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                await fn(); // Espera a que la función asíncrona termine
+                await fn();
+                return true;
             } catch (e) {
                 Swal.fire('Error', 'No se pudo editar el elemento.', 'error');
-                console.error('Error al editar:', e);
-                //aca vamos a meter la exepcion en una alerta
+                return false;
             }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            return false;
         }
-    })
-}
+        return false;
+    });
+};

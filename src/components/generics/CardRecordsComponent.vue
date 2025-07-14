@@ -77,20 +77,23 @@
     }
 
     //save event(ejeuta la funcion aca)
-    const onSaveClick = () =>{
+    const onSaveClick = async() =>{
         //HACEMOS LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
          if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
             InfoMessageAlert('Grado')
             return 0
         }else{
-            ShowUpdateAlert(originalRecord.code , ()=>SaveRecord())//llamanos la funcion para actualizar
-            flag.value = true
+            const confirmed = await ShowUpdateAlert(originalRecord.code , ()=>SaveRecord())
+            if (confirmed){
+                flag.value = confirmed
+            }
         }
     }
 
     //save function
     const SaveRecord = async() =>{
-        PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
+        let UpdateRecord = await PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
+        Object.assign(localRecord, UpdateRecord)
     }
 </script>
 
