@@ -20,6 +20,7 @@ export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<
                 return true;
             } catch (e) {
                 Swal.fire('Error', 'No se pudo editar el elemento.', 'error');
+                console.error('Error al editar:', e);
                 return false;
             }
         } else if (result.dismiss === Swal.DismissReason.cancel) {
