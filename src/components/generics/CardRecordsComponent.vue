@@ -79,7 +79,7 @@
     //save event(ejeuta la funcion aca)
     const onSaveClick = async() =>{
         //HACEMOS LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
-         if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
+        if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
             InfoMessageAlert('Grado')
             return 0
         }else{
@@ -92,8 +92,14 @@
 
     //save function
     const SaveRecord = async() =>{
-        let UpdateRecord = await PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
-        Object.assign(localRecord, UpdateRecord)
+        let UpdateRecord
+        try {
+            UpdateRecord = await PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
+            Object.assign(localRecord, UpdateRecord)
+        } catch (error:any) {
+            console.log('el erro e:', error);
+            throw error
+        }
     }
 </script>
 

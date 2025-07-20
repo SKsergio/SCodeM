@@ -17,7 +17,7 @@
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
-    import { ShowDeleteAlert } from '../alerts/DeleteAlertComponent';
+    import { ShowDeleteAlert } from '../alerts/DeleteAlert';
     import CardRecordsComponent from './CardRecordsComponent.vue';
     
     //PROPS

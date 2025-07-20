@@ -1,4 +1,4 @@
-import ky from "ky";
+import ky, { HTTPError } from "ky";
 
 const api = ky.create({
     prefixUrl: 'http://127.0.0.1:8000/api/',
@@ -38,8 +38,13 @@ export async function httpPatch<T>(endpoint:string, data:T):Promise<T>{
         const response = await api.patch(`${endpoint}`, {json: data})
         return response.json<T>()
     } catch (error) {
+        if(error instanceof HTTPError){
+            const backendError = await error.response.json();
+            console.log(`Error PATCH ${endpoint}:`, backendError);
+            throw backendError
+        }
         console.log(`Error en PATCH ${endpoint}:`, error);
-        throw error
+        throw error //el throw basicamente escala el error a quien hace uso de la funcion
     }
 }
 
