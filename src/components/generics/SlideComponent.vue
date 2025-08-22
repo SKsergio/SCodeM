@@ -1,6 +1,7 @@
 <template>    
     <div class="slide__cotainer" v-if="actionRecords">
-        <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id">
+        <CreateModalComponent :fields_create="props.metaData.editableFields" :show-modal="showModal"></CreateModalComponent>
+        <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent 
                 :records="item" 
                 :edit-files="actionRecords[0].editableFields"
@@ -12,13 +13,24 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import {computed } from 'vue';
+    import {computed, ref, Ref } from 'vue';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
     import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
     import { ShowDeleteAlert } from '../alerts/DeleteAlert';
     import CardRecordsComponent from './CardRecordsComponent.vue';
+    import CreateModalComponent from '../modals/CreateModalComponent.vue';
+    import { useModalStore } from '@/store/CreateModel';
+    import { storeToRefs } from 'pinia'
+
+    
+    const ModelManage =  useModalStore();
+
+    const {showModal} = storeToRefs(ModelManage)
+
+    //variables
+    // let showCreateModal: Ref<boolean> = ref(false)
     
     //PROPS
     const props = defineProps<{

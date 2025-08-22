@@ -1,14 +1,21 @@
 <template>
-    <button class="btn_update">Add+</button>
+    <button class="btn_Add" @click="showMd">Add+</button>
 </template>
 
 <script setup lang="ts">
- /*aca lo que ira es un emit que retorne un evento al padre para que el padre 
- de este haga la accion que le corresponde */
+    /*aca lo que ira es un emit que retorne un evento al padre para que el padre 
+    de este haga la accion que le corresponde */
+    import { useModalStore } from '@/store/CreateModel';
+    const ModelManage =  useModalStore();
+
+    const showMd = ()=>{
+        ModelManage.showCreateModal()
+    }
+
 </script>
 
 <style scoped>
-    .btn_update {
+    .btn_Add {
         background: var( --color-eight);
         border-radius: 7px;
         border: 2px solid #00000040;
@@ -23,7 +30,7 @@
         font-weight: 500;
         min-width: 50px;
     }
-    .btn_update:hover {
+    .btn_Add:hover {
         box-shadow: none;
         opacity: 80%;
     }

@@ -1,7 +1,6 @@
 <template>
-    <label>{{ field }}</label>
-    <input type="text" :readonly="editable" :value="modelValue" @input="onInput" />
-    <h1>{{ modelValue }}</h1>
+    <label :for="String(field)" >{{ field }}</label>
+    <input type="text" :readonly="editable" :value="modelValue" @input="onInput" :id="String(field)" />
 </template>
 
 <script setup lang="ts">
