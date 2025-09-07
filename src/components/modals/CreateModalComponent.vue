@@ -2,7 +2,7 @@
     <div class="model_new_record" v-if="props.showModal">
 
         <XCircleIcon class="icon_close" @click="cancelAction()"></XCircleIcon>
-        <form method="post" class="form" @submit.prevent="saveData()">
+        <form method="post" class="form" @submit.prevent="sendForm()">
 
             <section class="input__ct" v-for="(field, index) in props.fields_create" :key="index">
                 <!-- aca vamos a validar que el campo sea de tipo de fecha para mandar a traer otro input -->
@@ -23,6 +23,8 @@
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CreateCatalogue } from '@/services/Catalogues/CatalogueServices';
+    import { InfoMessageAlert } from '../alerts/InfoAlert';
+    import { ShowCreateAlert } from '../alerts/createAlert';
     import InputComponent from '../inputs/InputComponent.vue';
     import { XCircleIcon } from '@heroicons/vue/24/solid';
     import { reactive } from 'vue';
@@ -37,14 +39,37 @@
         nameCatalogue:string
     }>()
 
+    function hasEmptyFields(obj: Record<string, any>): boolean {
+        return Object.values(obj).some(
+            value => value === undefined || value === null || value === ''
+        );
+    }
+
     //lo inicializamos vacio para que solo tome el shape al momento de asignarle valores
     const createRecord = reactive({}) as T
 
+    //asignamos los valores
+    props.fields_create.forEach(field => {
+        (createRecord as any)[field] = '';
+    });
+
+    const sendForm = async()=>{
+        if (hasEmptyFields(createRecord)) {
+           InfoMessageAlert('Los campos no pueden ir vacios', 'no se puede generar el registro')
+        }else{
+            const response = await ShowCreateAlert(saveData);
+            if (response) {
+                console.log('hola')
+            }
+        }
+    }
+
+    //function para alamcenar
     const saveData=async()=>{
         try {
             await CreateCatalogue(createRecord, props.nameCatalogue)
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 

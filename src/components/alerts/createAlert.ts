@@ -2,13 +2,13 @@ import Swal from 'sweetalert2'
 import { SuccesAlert } from './successAlert';
 import { ErrorAlert } from './ErrorAlert';
 
-export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<boolean> => {
+export const ShowCreateAlert = (fn: () => Promise<void>): Promise<boolean> => {
     return Swal.fire({
-        title: '¿Estás seguro de actualizar el registro?',
-        text: 'El registro ' + code + ' cambiara permanentemente.',
+        title: '¿Estás seguro de crear el registro?',
+        text: 'Se creara un regsitro permanente en la Base de Datos',
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'Sí, editar',
+        confirmButtonText: 'Sí, crear',
         cancelButtonText: 'Cancelar',
         customClass: {
             popup: 'cont_pop',
@@ -19,7 +19,7 @@ export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<
         if (result.isConfirmed) {
             try {
                 await fn();
-                SuccesAlert('actualizado correctamente')
+                SuccesAlert('creado correctamente')
                 return true;
             } catch (e) {
                 ErrorAlert(e);

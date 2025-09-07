@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2'
 
-export const InfoMessageAlert = (tipo:string) => Swal.fire({
-    title: 'El '+tipo+' es exactamente igual',
-    text: 'No se puede actualizar',
+export const InfoMessageAlert = (titleMessage:string, func:string) => Swal.fire({
+    title: 'El '+titleMessage,
+    text: func,
     icon: 'info',
     customClass: {
         popup: 'cont_pop',

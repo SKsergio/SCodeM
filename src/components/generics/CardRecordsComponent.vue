@@ -55,7 +55,7 @@
     // Estado local para el registro editable
     const localRecord = reactive({ ...props.records }) as T
     const fields = computed(() => props.editFiles)
-    let originalRecord = {} as T;//copia del registro en caso que se cancele la accion
+    let originalRecord = {} as T;//copiando del registro en caso que se cancele la accion
 
     //delete event(manda emit)
     const onDeleteClick = ()=>{
@@ -80,7 +80,7 @@
     const onSaveClick = async() =>{
         //HACEMOS LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
         if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
-            InfoMessageAlert('Grado')
+            InfoMessageAlert('Los datos son excatamente iguales', 'no se puede actualizar el registro')
             return 0
         }else{
             const confirmed = await ShowUpdateAlert(originalRecord.code , ()=>SaveRecord())

@@ -37,7 +37,7 @@ export async function PatchCatalog<T>(recordID:number, data:T, url:string):Promi
 //function to create a new record 
 export async function CreateCatalogue<T>(data:T, url: string):Promise<void>{
     try {
-        await httPost(`catalog/${url}/`, data);
+        const response = await httPost(`catalog/${url}/`, data);
     } catch (error) {
         console.log(`Error al crear el registro ${data} en ${url}:`, error);
         throw error;
