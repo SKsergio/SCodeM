@@ -1,6 +1,6 @@
 <template>    
     <div class="slide__cotainer" v-if="actionRecords">
-        <CreateModalComponent :fields_create="props.metaData.editableFields" :show-modal="showModal"></CreateModalComponent>
+        <CreateModalComponent :fields_create="props.metaData.editableFields" :show-modal="showModal" :name-catalogue="props.metaData.api_name"></CreateModalComponent>
         <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent 
                 :records="item" 
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import {computed, ref, Ref } from 'vue';
+    import {computed} from 'vue';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
     import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';

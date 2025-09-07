@@ -2,18 +2,17 @@
     <div class="model_new_record" v-if="props.showModal">
 
         <XCircleIcon class="icon_close" @click="cancelAction()"></XCircleIcon>
-        <form action="" method="post" class="form">
+        <form method="post" class="form" @submit.prevent="saveData()">
 
             <section class="input__ct" v-for="(field, index) in props.fields_create" :key="index">
                 <!-- aca vamos a validar que el campo sea de tipo de fecha para mandar a traer otro input -->
                 <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
-
                 <!-- <label :for="String(field)">{{ field }}</label>
                 <input type="text" :id="String(field)"> -->
             </section>
             
             <section class="btn_sections">
-                <button @click="saveData()">Save</button>
+                <input type="submit" value="Save">
                 <button>Clean</button>
                 <button @click="cancelAction()">Cancelar</button>
             </section>
@@ -23,9 +22,10 @@
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { CreateCatalogue } from '@/services/Catalogues/CatalogueServices';
     import InputComponent from '../inputs/InputComponent.vue';
     import { XCircleIcon } from '@heroicons/vue/24/solid';
-    import { onMounted, reactive } from 'vue';
+    import { reactive } from 'vue';
     import { useModalStore } from '@/store/CreateModel';
     const ModelManage =  useModalStore();
 
@@ -33,19 +33,19 @@
     //y luego hacer ese envio con el boton de save
     const props = defineProps<{
         fields_create: (keyof T)[],
-        showModal: Boolean
+        showModal: Boolean,
+        nameCatalogue:string
     }>()
 
     //lo inicializamos vacio para que solo tome el shape al momento de asignarle valores
     const createRecord = reactive({}) as T
 
-    onMounted(()=>{
-        console.log(createRecord);
-    })
-
-    const saveData=()=>{
-        console.log(createRecord)
-        alert(createRecord)
+    const saveData=async()=>{
+        try {
+            await CreateCatalogue(createRecord, props.nameCatalogue)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const cancelAction = () =>{

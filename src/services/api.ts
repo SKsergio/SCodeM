@@ -56,3 +56,14 @@ export async function httpPut<T>(endpoint:string, data:T, id:number):Promise<voi
         console.log(`Error en update ${endpoint}:`, error);
     }
 }
+
+//create new record function
+export async function httPost<T>(endpoint:string, data:T):Promise<void>{
+    try {
+        const response = await api.post(`${endpoint}`,{json:data})
+        console.log(response.json);
+    } catch (error) {
+        console.log(`Error en POST ${endpoint}:`, error);
+        throw error
+    }
+}

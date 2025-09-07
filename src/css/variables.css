@@ -26,6 +26,8 @@
     --color-lines: rgb(241, 241, 241);
     --color-text-content: #111111;
 
+    --inputs--colors:rgba(20, 11, 11, 0.904);
+
     /* shadows */
     --color-shadows: rgba(15, 15, 15, 0.5) 5px 10px 17px;
     
@@ -70,6 +72,8 @@
     --color-lines: rgb(241, 241, 241);
     --color-text-content: #fafafa;
     --color-text-line: rgb(217, 231, 247);
+
+    --inputs--colors:rgba(224, 228, 241, 0.904);
 
     /*btn asction colors*/ 
     --color-delete:#8f3030;
