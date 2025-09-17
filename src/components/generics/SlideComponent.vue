@@ -1,6 +1,11 @@
 <template>    
     <div class="slide__cotainer" v-if="actionRecords">
-        <CreateModalComponent :fields_create="props.metaData.editableFields" :show-modal="showModal" :name-catalogue="props.metaData.api_name"></CreateModalComponent>
+        <CreateModalComponent 
+            :fields_create="props.metaData.editableFields" 
+            :show-modal="showModal" 
+            :name-catalogue="props.metaData.api_name"
+            @refresh = "(refreshCreateNewRecord)">
+        </CreateModalComponent>
         <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent 
                 :records="item" 
@@ -29,8 +34,6 @@
 
     const {showModal} = storeToRefs(ModelManage)
 
-    //variables
-    // let showCreateModal: Ref<boolean> = ref(false)
     
     //PROPS
     const props = defineProps<{
@@ -46,6 +49,11 @@
         records:props.metaData.records,
         editableFields: props.metaData.editableFields//editable fields to metaData
     }]);
+
+    //refresh when we create a new record
+    const refreshCreateNewRecord=()=>{
+        emit('refresh_records'); 
+    }
 
 
     //Create delete function

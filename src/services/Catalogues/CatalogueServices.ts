@@ -5,6 +5,9 @@ import { DegreeInterface } from "@/interfaces/Catalogues/CataloguesInterface";
 export async function GetAllRecordsCatalogues<T>(url:string):Promise<T[]>{
     try {
         const response = await httpGet<T[]>(`catalog/${url}`)
+        // if (response.) {
+            
+        // }
         return response
     } catch (error) {
         console.error('Error al obtener datos:', error);
@@ -35,9 +38,10 @@ export async function PatchCatalog<T>(recordID:number, data:T, url:string):Promi
 }
 
 //function to create a new record 
-export async function CreateCatalogue<T>(data:T, url: string):Promise<void>{
+export async function CreateCatalogue<T>(data:T, url: string):Promise<boolean>{
     try {
-        const response = await httPost(`catalog/${url}/`, data);
+        await httPost(`catalog/${url}/`, data);
+        return true
     } catch (error) {
         console.log(`Error al crear el registro ${data} en ${url}:`, error);
         throw error;

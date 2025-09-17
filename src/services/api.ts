@@ -23,7 +23,6 @@ export async function httpDelete(endpoint:string):Promise<void> {
     try {
         const response =  await api.delete(endpoint)
         if (response.status === 204) {
-            //la eliminacion fue correcta
             return
         }
     } catch (error) {

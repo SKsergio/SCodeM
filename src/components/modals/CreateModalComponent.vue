@@ -39,6 +39,11 @@
         nameCatalogue:string
     }>()
 
+    //emits
+    const emit = defineEmits<{
+        (e:'refresh'):void
+    }>()
+
     function hasEmptyFields(obj: Record<string, any>): boolean {
         return Object.values(obj).some(
             value => value === undefined || value === null || value === ''
@@ -59,7 +64,13 @@
         }else{
             const response = await ShowCreateAlert(saveData);
             if (response) {
-                console.log('hola')
+                cancelAction()//cerrar modal
+
+                props.fields_create.forEach(key =>{ //limpiando campos
+                    (createRecord as any)[key] = ''
+                })  
+                             
+                emit('refresh')//refrescamos
             }
         }
     }
@@ -72,6 +83,8 @@
             throw error
         }
     }
+
+    //emit p
 
     const cancelAction = () =>{
         ModelManage.HideCreateModal()
