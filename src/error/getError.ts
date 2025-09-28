@@ -1,9 +1,22 @@
-export function getErrorMessage(error:any): string {
-    if (typeof error === 'object' && error !== null){
-        const firstKey  = Object.keys(error)[0];
-        if(firstKey && Array.isArray(error[firstKey])){
-            return error[firstKey][0];
-        }
+import { ApiError } from '@/interfaces/ApiError';
+
+export function getErrorMessage(error: ApiError | Error): string {
+  if (error && "error" in error && error.error) {
+    const allMessages: string[] = [];
+    for (const field in error.error) {
+      const messages = error.error[field];
+      if (Array.isArray(messages)) {
+        allMessages.push(...messages);
+      }
     }
-    return 'Ocurrio un error inesperado'
+    if (allMessages.length > 0) {
+      return allMessages.join("\n");
+    }
+  }
+
+  if ("message" in error) {
+    return error.message;
+  }
+
+  return "Ocurrió un error inesperado";
 }

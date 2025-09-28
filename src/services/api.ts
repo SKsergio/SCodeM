@@ -57,12 +57,18 @@ export async function httpPut<T>(endpoint:string, data:T, id:number):Promise<voi
 }
 
 //create new record function
-export async function httPost<T>(endpoint:string, data:T):Promise<void>{
+export async function httPost<T>(endpoint:string, data:T):Promise<T>{
     try {
         const response = await api.post(`${endpoint}`,{json:data})
-        
+        return response.json<T>()
+
     } catch (error) {
+        if(error instanceof HTTPError){
+            const backendError = await error.response.json();
+            console.log(`Error POST ${endpoint}:`, backendError);
+            throw backendError
+        }
         console.log(`Error en POST ${endpoint}:`, error);
-        throw error
+        throw error 
     }
 }

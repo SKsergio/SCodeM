@@ -69,7 +69,6 @@
                 props.fields_create.forEach(key =>{ //limpiando campos
                     (createRecord as any)[key] = ''
                 })  
-                             
                 emit('refresh')//refrescamos
             }
         }

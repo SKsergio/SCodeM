@@ -1,8 +1,9 @@
 import Swal from 'sweetalert2'
 import { SuccesAlert } from './successAlert';
 import { ErrorAlert } from './ErrorAlert';
+import { ApiError } from '@/interfaces/ApiError';
 
-export const ShowCreateAlert = (fn: () => Promise<void>): Promise<boolean> => {
+export const ShowCreateAlert = async(fn: () => Promise<void>): Promise<boolean> => {
     return Swal.fire({
         title: '¿Estás seguro de crear el registro?',
         text: 'Se creara un regsitro permanente en la Base de Datos',
@@ -22,7 +23,8 @@ export const ShowCreateAlert = (fn: () => Promise<void>): Promise<boolean> => {
                 SuccesAlert('creado correctamente')
                 return true;
             } catch (e) {
-                ErrorAlert(e);
+                const err = e as ApiError;//casteandolo
+                ErrorAlert(err);
             }
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             return false;
