@@ -1,71 +1,39 @@
 <template>    
-    <div class="slide__cotainer" v-if="actionRecords">
+    <div class="slide__cotainer" v-if="store.records">
         <CreateModalComponent 
-            :fields_create="props.metaData.editableFields" 
+            :store_id="props.store_id" 
             :show-modal="showModal" 
-            :name-catalogue="props.metaData.api_name"
-            @refresh = "(refreshCreateNewRecord)">
+            :endpoint="props.endpoint">
         </CreateModalComponent>
-        <section class="slide_content" v-for="(item) in actionRecords[0].records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
+        <section class="slide_content" v-for="(item) in store.records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent 
                 :records="item" 
-                :edit-files="actionRecords[0].editableFields"
-                :name-catalogue="metaData.api_name"
-                @delete_record="(HandleDelete)"
+                :store_id="props.store_id"
+                :endpoint="props.endpoint"
             />
         </section>
     </div>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import {computed} from 'vue';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
-    import { RecordsActionData } from '@/interfaces/templates/CatalogDataInterface';
-    import { DeleteCatalog } from '@/services/Catalogues/CatalogueServices';
-    import { ShowDeleteAlert } from '../alerts/DeleteAlert';
     import CardRecordsComponent from './CardRecordsComponent.vue';
     import CreateModalComponent from '../modals/CreateModalComponent.vue';
     import { useModalStore } from '@/store/CreateModel';
+    import { useCatalogueStore } from '@/store/CatalogueStore';
     import { storeToRefs } from 'pinia'
 
-    
     const ModelManage =  useModalStore();
-
     const {showModal} = storeToRefs(ModelManage)
 
     
     //PROPS
     const props = defineProps<{
-        metaData:CatalogMetaData<T>
-    }>()
-    //EMITS
-    const emit = defineEmits<{
-        (e:'refresh_records'):void
+        store_id: string,
+        endpoint: string
     }>()
 
-    //desuctructurar los componentes de metaData
-    let actionRecords = computed<RecordsActionData<T>[]>(()=>[{
-        records:props.metaData.records,
-        editableFields: props.metaData.editableFields//editable fields to metaData
-    }]);
-
-    //refresh when we create a new record
-    const refreshCreateNewRecord=()=>{
-        emit('refresh_records'); 
-    }
-
-
-    //Create delete function
-    const DeleteRecord = async(id:number) =>{
-        await DeleteCatalog(id, props.metaData.api_name);
-        emit('refresh_records'); 
-    }
-
-    //Call delete function
-    const HandleDelete=(id:number)=>{
-        ShowDeleteAlert(()=>DeleteRecord(id))
-    }
+    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
 
 </script>
 

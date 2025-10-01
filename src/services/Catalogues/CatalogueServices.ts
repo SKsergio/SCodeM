@@ -1,13 +1,29 @@
 import { httpGet, httpDelete, httpPatch, httPost} from "../api";
-import { DegreeInterface } from "@/interfaces/Catalogues/CataloguesInterface";
 
 //function to get all records generic
 export async function GetAllRecordsCatalogues<T>(url:string):Promise<T[]>{
     try {
         const response = await httpGet<T[]>(`catalog/${url}`)
-        // if (response.) {
-            
-        // }
+        return response
+    } catch (error) {
+        console.error('Error al obtener datos:', error);
+        throw error;
+    }
+}
+
+export async function GetOneCatalogue<T>(url:string, idRecord:number):Promise<T>{
+    try {
+        const response = await httpGet<T>(`catalog/${url}/${idRecord}`)
+        return response
+    } catch (error) {
+        throw error;
+    }
+}
+
+//function to get records with filters aplicate
+export async function GetFilterCatalogues<T>(api_name:string, search:string):Promise<T[]>{
+    try {
+        const response = await httpGet<T[]>(`catalog/${api_name}?search=${search}`);
         return response
     } catch (error) {
         console.error('Error al obtener datos:', error);

@@ -29,9 +29,10 @@
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { ShowUpdateAlert } from '../alerts/UpdateAlert';
     import { InfoMessageAlert } from '../alerts/InfoAlert';
+    import { ShowDeleteAlert } from '../alerts/DeleteAlert';
     import { ref, Ref, computed, reactive} from 'vue';
+    import { useCatalogueStore } from '@/store/CatalogueStore';
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { PatchCatalog } from '@/services/Catalogues/CatalogueServices';
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
@@ -40,26 +41,24 @@
 
     let flag : Ref<boolean> = ref(true)
 
-    //define emits
-    const emit  = defineEmits<{
-        (e:'delete_record', id:number):void
-    }>()
-
     //define props
     const props = defineProps<{
         records: T,
-        editFiles: (keyof T)[],
-        nameCatalogue:string
+        store_id: string,
+        endpoint: string
     }>()
+
+    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
 
     // Estado local para el registro editable
     const localRecord = reactive({ ...props.records }) as T
-    const fields = computed(() => props.editFiles)
+    const fields = computed(() => store.editableFields)
     let originalRecord = {} as T;//copiando del registro en caso que se cancele la accion
 
     //delete event(manda emit)
-    const onDeleteClick = ()=>{
-        emit('delete_record', props.records.id)
+    const onDeleteClick =()=>{
+        //llamamos al store para eliminarlo
+        ShowDeleteAlert(()=>store.DeleteRecord(props.records.id, props.endpoint))
     }
 
     //update event(ejecuta la funcion aca)
@@ -78,7 +77,7 @@
 
     //save event(ejeuta la funcion aca)
     const onSaveClick = async() =>{
-        //HACEMOS LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
+        //HACEMSO LA VALIDACION Y ES NECESARIO PASARLO A JSON  PARA QUE VALIDE BIEN
         if (JSON.stringify(localRecord) == JSON.stringify(originalRecord)) {
             InfoMessageAlert('Los datos son excatamente iguales', 'no se puede actualizar el registro')
             return 0
@@ -94,7 +93,7 @@
     const SaveRecord = async() =>{
         let UpdateRecord
         try {
-            UpdateRecord = await PatchCatalog<T>(localRecord.id, localRecord ,props.nameCatalogue)
+            UpdateRecord = await store.updateRecord(localRecord.id, localRecord ,props.endpoint)
             Object.assign(localRecord, UpdateRecord)
         } catch (error:any) {
             console.log('el erro e:', error);

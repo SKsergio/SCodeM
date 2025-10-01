@@ -4,7 +4,7 @@
         <XCircleIcon class="icon_close" @click="cancelAction()"></XCircleIcon>
         <form method="post" class="form" @submit.prevent="sendForm()">
 
-            <section class="input__ct" v-for="(field, index) in props.fields_create" :key="index">
+            <section class="input__ct" v-for="(field, index) in store.editableFields" :key="index">
                 <!-- aca vamos a validar que el campo sea de tipo de fecha para mandar a traer otro input -->
                 <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
                 <!-- <label :for="String(field)">{{ field }}</label>
@@ -29,20 +29,16 @@
     import { XCircleIcon } from '@heroicons/vue/24/solid';
     import { reactive } from 'vue';
     import { useModalStore } from '@/store/CreateModel';
+    import { useCatalogueStore } from '@/store/CatalogueStore';
+
+
     const ModelManage =  useModalStore();
-
-    //lo que en verdad debo hacer es crear una instancia del objeto para luego solo actualizarlo con los campos de arriba 
-    //y luego hacer ese envio con el boton de save
     const props = defineProps<{
-        fields_create: (keyof T)[],
-        showModal: Boolean,
-        nameCatalogue:string
+        store_id: string,
+        endpoint: string,
+        showModal: Boolean
     }>()
-
-    //emits
-    const emit = defineEmits<{
-        (e:'refresh'):void
-    }>()
+    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
 
     function hasEmptyFields(obj: Record<string, any>): boolean {
         return Object.values(obj).some(
@@ -54,7 +50,7 @@
     const createRecord = reactive({}) as T
 
     //asignamos los valores
-    props.fields_create.forEach(field => {
+    store.editableFields.forEach(field => {
         (createRecord as any)[field] = '';
     });
 
@@ -66,10 +62,9 @@
             if (response) {
                 cancelAction()//cerrar modal
 
-                props.fields_create.forEach(key =>{ //limpiando campos
+                store.editableFields.forEach(key =>{ //limpiando campos
                     (createRecord as any)[key] = ''
                 })  
-                emit('refresh')//refrescamos
             }
         }
     }
@@ -77,13 +72,11 @@
     //function para alamcenar
     const saveData=async()=>{
         try {
-            await CreateCatalogue(createRecord, props.nameCatalogue)
+            await store.createRecord(createRecord)
         } catch (error) {
             throw error
         }
     }
-
-    //emit p
 
     const cancelAction = () =>{
         ModelManage.HideCreateModal()

@@ -1,9 +1,9 @@
 <template>
     <div class="header__general">
-        <h1>{{props.metaData.title}}</h1>
+        <h1>{{props.store_id}}</h1>
         <div class="action_filters">
             <section class="inputs__continer">
-                <BtnSearchComponent></BtnSearchComponent>
+                <BtnSearchComponent :endpoint="props.endpoint" :store_id="props.store_id"></BtnSearchComponent>
                 <BtnAddComponent></BtnAddComponent>
             </section>
         </div>
@@ -13,12 +13,11 @@
 <script setup lang="ts"  generic="T">
     import BtnAddComponent from '../buttons/BtnAddComponent.vue';
     import BtnSearchComponent from '../buttons/BtnSearchComponent.vue';
-    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
 
-   const props = defineProps<{
-        metaData:CatalogMetaData<T>
+    const props = defineProps<{
+        store_id: string,
+        endpoint: string
     }>()
-
 </script>
 
 <style scoped>

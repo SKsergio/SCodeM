@@ -13,8 +13,13 @@ export async function httpGet<T>(endpoint:string):Promise<T>{
     try {
         return await api.get(endpoint).json<T>()
     } catch (error) {
+        if (error instanceof HTTPError) {
+            const backendError =  await error.response.json();
+            console.log(`Error en GET ${endpoint}:`, backendError);
+            throw backendError
+        }
         console.log(`Error en GET ${endpoint}:`, error);
-        throw error
+        throw error 
     }
 }
 

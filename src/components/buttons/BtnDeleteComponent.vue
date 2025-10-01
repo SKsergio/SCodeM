@@ -3,8 +3,6 @@
 </template>
 
 <script setup lang="ts">
-    /*aca lo que ira es un emit que retorne un evento al padre para que el padre 
-    de este haga la accion que le corresponde */
     const emits = defineEmits<{
         (e:'delete_click'):void
     }>()  

@@ -3,10 +3,10 @@
         <div class="loadeer_container" v-if="loadSpinner">
             <Load2Component></Load2Component>
         </div>
-        <div v-if="metaDataDegree">
-            <HeaderComponent :meta-data="metaDataDegree"></HeaderComponent>
+        <div>
+            <HeaderComponent :endpoint="'degrees'" :store_id="'catalogue-degrees'"></HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :meta-data="metaDataDegree!" @refresh_records="refresh"></SlideComponent>
+                <SlideComponent :endpoint="'degrees'" :store_id="'catalogue-degrees'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -17,42 +17,23 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import SlideComponent from '@/components/generics/SlideComponent.vue';
     import { onMounted, ref } from 'vue';
-    import { GetAllRecordsCatalogues } from '@/services/Catalogues/CatalogueServices';
     import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
-    import { AssambleMetaData } from '@/utils/MetaDataProcess';
-    import { CatalogMetaData } from '@/interfaces/templates/CatalogDataInterface';
+    import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-
-    //store records of degrees
-    const degrees = ref<DegreeInterface[]>([])
     //spinner
     const loadSpinner = ref(false)
-
-    //declare the reactive var
-    const metaDataDegree = ref<CatalogMetaData<DegreeInterface>>()
-
-    const refresh = () => {
-        callRecords()
-    }
+    const store = useCatalogueStore<DegreeInterface>('catalogue-degrees', 'degrees')()
+    
 
     onMounted(() => {
+        store.loadEditableFields(['name', 'code'])
         callRecords()
     })
 
     const callRecords = async () => {
         try {
             loadSpinner.value = true;
-            //set the records of data and asign to the reactive var
-            degrees.value = await GetAllRecordsCatalogues<DegreeInterface>('degrees');
-
-            //call the funcion to assmable our structure
-            metaDataDegree.value = AssambleMetaData<DegreeInterface>(
-                degrees.value,
-                'Degrees',
-                'degrees',
-                'Teacher',
-                ['code', 'name']
-            )
+            await store.fetchAll()
         } catch (error) {
             console.error("No se pudieron cargar los grados académicos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
