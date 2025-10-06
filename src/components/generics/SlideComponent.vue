@@ -1,5 +1,5 @@
 <template>    
-    <div class="slide__cotainer" v-if="store.records">
+    <div class="slide__cotainer" v-if="store.lengthRecords > 0">
         <CreateModalComponent 
             :store_id="props.store_id" 
             :show-modal="showModal" 
@@ -12,6 +12,9 @@
                 :endpoint="props.endpoint"
             />
         </section>
+    </div>
+    <div class="no_content" v-else>
+        <h1>NO HAY GRADOS PARA MOSTRAR</h1>
     </div>
 </template>
 

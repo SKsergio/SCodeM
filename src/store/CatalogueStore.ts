@@ -11,12 +11,14 @@ import {//importamos las funciones del crud
 export function useCatalogueStore<T>(store_id: string, endpoint: string) {
     return defineStore(store_id, () => {
         const records = ref<T[]>([]);
+        const lengthRecords = ref(0)
         const editableFields = ref<(keyof T)[]>([]);
         const title = ref(endpoint);
 
         const fetchAll = async (): Promise<void> => {
             try {
                 records.value = await GetAllRecordsCatalogues<T>(endpoint);
+                lengthRecords.value = records.value.length
             } catch (error) {
                 console.error(`Error fetching ${endpoint}:`, error);
                 throw error;
@@ -26,8 +28,8 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
         const searchRecords = async (endpoint: string, search_value: string): Promise<void> => {
             try {
                 records.value = await GetFilterCatalogues<T>(endpoint, search_value);
+                lengthRecords.value = records.value.length
             } catch (error) {
-                console.error(error);
                 throw error;
             }
         };
@@ -73,6 +75,7 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
             createRecord,
             loadEditableFields,
             title,
+            lengthRecords
         };
     });
 }

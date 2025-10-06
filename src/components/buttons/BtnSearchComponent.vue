@@ -86,13 +86,12 @@
 
     const chagneSearch = () =>{
         callApi()
-        console.log(search_input.value);
     }
 
 
     const callApi = async() =>{
         try {
-            let valores = await store.searchRecords(props.endpoint, search_input.value)
+            await store.searchRecords(props.endpoint, search_input.value)
         } catch (error) {
             console.error("No se pudieron cargar los registros académicos.");
         }
