@@ -70,7 +70,6 @@
 
     //cancel event(ejecuta la funcion aca)
     const onCancelClick = ()=>{
-        //devolver los valores antiguos
         Object.assign(localRecord, originalRecord)//sirve para restaurar los valores de un componente  
         flag.value = true;
     }
@@ -94,6 +93,7 @@
         let UpdateRecord
         try {
             UpdateRecord = await store.updateRecord(localRecord.id, localRecord ,props.endpoint)
+            console.log(UpdateRecord);
             Object.assign(localRecord, UpdateRecord)
         } catch (error:any) {
             console.log('el erro e:', error);

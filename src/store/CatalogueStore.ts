@@ -14,14 +14,18 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
         const lengthRecords = ref(0)
         const editableFields = ref<(keyof T)[]>([]);
         const title = ref(endpoint);
+        let loading =  ref(false)
 
         const fetchAll = async (): Promise<void> => {
             try {
+                loading.value = true;
                 records.value = await GetAllRecordsCatalogues<T>(endpoint);
                 lengthRecords.value = records.value.length
             } catch (error) {
                 console.error(`Error fetching ${endpoint}:`, error);
                 throw error;
+            }finally{
+                loading.value = false
             }
         };
 
@@ -34,10 +38,11 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
             }
         };
 
-        const updateRecord = async (idRecord: number, data: T, url: string): Promise<void> => {
+        const updateRecord = async (idRecord: number, data: T, url: string): Promise<T> => {
             try {
-                await PatchCatalog<T>(idRecord, data, url);
+                let record = await PatchCatalog<T>(idRecord, data, url);
                 await fetchAll();
+                return record
             } catch (error) {
                 throw error;
             }
@@ -75,7 +80,8 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
             createRecord,
             loadEditableFields,
             title,
-            lengthRecords
+            lengthRecords,
+            loading
         };
     });
 }

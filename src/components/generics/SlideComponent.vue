@@ -25,6 +25,7 @@
     import { useModalStore } from '@/store/CreateModel';
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import { storeToRefs } from 'pinia'
+    import { onMounted } from 'vue';
 
     const ModelManage =  useModalStore();
     const {showModal} = storeToRefs(ModelManage)
@@ -37,6 +38,20 @@
     }>()
 
     const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
+
+    onMounted(() => {
+        store.loadEditableFields(['name', 'code'])
+        callRecords()
+    })
+
+    const callRecords = async () => {
+        try {
+            await store.fetchAll()
+        } catch (error) {
+            console.error("No se pudieron cargar los grados académicos.");
+            alert("¡Ups! Algo salió mal al obtener los datos.");
+        } 
+    }
 
 </script>
 

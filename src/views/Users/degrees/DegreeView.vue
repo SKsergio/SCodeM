@@ -1,6 +1,6 @@
 <template>
     <div class="conatiner__data_load">
-        <div class="loadeer_container" v-if="loadSpinner">
+        <div class="loadeer_container" v-if="store.loading">
             <Load2Component></Load2Component>
         </div>
         <div>
@@ -20,27 +20,7 @@
     import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    //spinner
-    const loadSpinner = ref(false)
     const store = useCatalogueStore<DegreeInterface>('catalogue-degrees', 'degrees')()
-    
-
-    onMounted(() => {
-        store.loadEditableFields(['name', 'code'])
-        callRecords()
-    })
-
-    const callRecords = async () => {
-        try {
-            loadSpinner.value = true;
-            await store.fetchAll()
-        } catch (error) {
-            console.error("No se pudieron cargar los grados académicos.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
-        } finally {
-            loadSpinner.value = false
-        }
-    }
 </script>
 
 <style scoped>
