@@ -4,9 +4,9 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'degrees'" :store_id="'catalogue-degrees'"></HeaderComponent>
+            <HeaderComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'degrees'" :store_id="'catalogue-degrees'"></SlideComponent>
+                <SlideComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -16,10 +16,11 @@
 <script setup lang="ts">
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import SlideComponent from '@/components/generics/SlideComponent.vue';
-    import { DegreeInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
+    import { TypeEvaluationsInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    const store = useCatalogueStore<DegreeInterface>('catalogue-degrees', 'degrees')()
+    const store = useCatalogueStore<TypeEvaluationsInterface>('catalogue-evaluationTypes', 'evaluationTypes')()
+
 </script>
 
 <style scoped>

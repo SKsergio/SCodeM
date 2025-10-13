@@ -15,6 +15,7 @@
     </div>
     <div class="no_content" v-else>
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
+        <img src="../../assets/images/404preview.png" alt="" srcset="">
     </div>
 </template>
 
@@ -64,6 +65,17 @@
         gap: 25px;
         padding: 30px;
         border-radius: 25px 5px 25px 5px;
+    }
+    .no_content{
+        font-family: var(--font-decoration1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;        
+        >h1{
+            margin-top: 30px;
+        }
     }
   
 </style>

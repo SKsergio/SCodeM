@@ -11,7 +11,7 @@
                 <div class="inputs__ct" v-for="(field) in fields">
                     <InputComponent :editable="flag" :field="field" v-model="localRecord[field as keyof typeof localRecord]" />
                 </div>
-                <h4>Created at: {{ records.created_at}}</h4>
+                <h4>Created at: {{ fechaCraacion}}</h4>
 
                 <section class="actions" v-if="flag">
                     <BtnUpdateComponent @update_click="(onUpdateClick)"></BtnUpdateComponent>
@@ -38,6 +38,7 @@
     import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';
     import BtnSaveComponent from '../buttons/BtnSaveComponent.vue';
     import InputComponent from '../inputs/InputComponent.vue';
+    import { formatDate } from '@/utils/FormatDates';
 
     let flag : Ref<boolean> = ref(true)
 
@@ -47,6 +48,9 @@
         store_id: string,
         endpoint: string
     }>()
+
+    const fechaCraacion = ref(formatDate(props.records.created_at))
+
 
     const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
 

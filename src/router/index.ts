@@ -9,6 +9,7 @@ import DegreeView from '@/views/Users/degrees/DegreeView.vue'
 import SectionView from '@/views/Users/degrees/SectionView.vue'
 import ClassroomsView from '@/views/Users/degrees/ClassroomsView.vue'
 import PeriodsView from '@/views/Users/evaluations/PeriodsView.vue'
+import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -42,7 +43,8 @@ const routes: Array<RouteRecordRaw> = [
         path:'evaluation',
         name:'evaluations',
         children:[
-          {path:'periods', name:'PeriodMagnament', component:PeriodsView}
+          {path:'periods', name:'PeriodMagnament', component:PeriodsView},
+          {path:'type_evaluations', name:'TypeEvaluatioMagnament', component:TypeEvaluationsView}
         ]
       }
     ],
