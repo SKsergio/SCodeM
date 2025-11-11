@@ -56,7 +56,7 @@
 
 <template>
     <div class="input-container">
-        <input type="text" name="text" class="input" placeholder="Search something..." v-model="search_input" @input="chagneSearch">
+        <input type="text" name="text" class="input" placeholder="Search something..." v-model="search_input">
         <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24" class="icon">
             <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
             <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
@@ -71,30 +71,15 @@
 </template>
 
 <script setup lang="ts" generic="T">
-    import { ref } from 'vue';
-    import { useCatalogueStore } from '@/store/CatalogueStore';
+    import { ref, watch } from 'vue';
 
-    const props = defineProps<{
-        store_id: string,
-        endpoint: string
+    const emit = defineEmits<{
+        (e:'search_input', value:string):void
     }>()
-
-    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
     
+    const search_input = ref('')
 
-    let search_input = ref('')
-
-    const chagneSearch = () =>{
-        callApi()
-    }
-
-
-    const callApi = async() =>{
-        try {
-            await store.searchRecords(props.endpoint, search_input.value)
-        } catch (error) {
-            console.error("No se pudieron cargar los registros académicos.");
-        }
-    }
-
+    watch(search_input,(newVal)=>{
+        emit('search_input', newVal)
+    })
 </script>

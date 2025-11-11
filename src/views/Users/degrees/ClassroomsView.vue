@@ -4,9 +4,9 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'sections'" :store_id="'catalogue-classrooms'"></HeaderComponent>
+            <HeaderComponent :endpoint="'classrooms'" :store_id="'catalogue-classrooms'"></HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'sections'" :store_id="'catalogue-classrooms'"></SlideComponent>
+                <SlideComponent :endpoint="'classrooms'" :store_id="'catalogue-classrooms'"></SlideComponent>
             </div>
         </div>
     </div>

@@ -1,81 +1,63 @@
-<template>    
-    <div class="slide__cotainer" v-if="store.lengthRecords > 0">
-        <CreateModalComponent 
-            :store_id="props.store_id" 
-            :show-modal="showModal" 
-            :endpoint="props.endpoint">
+<template>
+    <div class="slide__cotainer" v-if="lengthRecords > 0">
+        <CreateModalComponent :store_id="props.store_id" :show-modal="showModal" :endpoint="props.endpoint">
         </CreateModalComponent>
-        <section class="slide_content" v-for="(item) in store.records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
-            <CardRecordsComponent 
-                :records="item" 
-                :store_id="props.store_id"
-                :endpoint="props.endpoint"
-            />
+        <section class="slide_content" v-for="(item) in records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
+            <CardRecordsComponent :records="item" :store_id="props.store_id" :endpoint="props.endpoint" />
         </section>
     </div>
     <div class="no_content" v-else>
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
-        <img src="../../assets/images/404preview.png" alt="" srcset="">
+        <img src="../../assets/images/404preview.png" alt="404" srcset="">
     </div>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import CardRecordsComponent from './CardRecordsComponent.vue';
-    import CreateModalComponent from '../modals/CreateModalComponent.vue';
-    import { useModalStore } from '@/store/CreateModel';
-    import { useCatalogueStore } from '@/store/CatalogueStore';
-    import { storeToRefs } from 'pinia'
-    import { onMounted } from 'vue';
+import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+import CardRecordsComponent from './CardRecordsComponent.vue';
+import CreateModalComponent from '../modals/CreateModalComponent.vue';
+import { useModalStore } from '@/store/CreateModel';
+import { useCatalogueStore } from '@/store/CatalogueStore';
+import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
 
-    const ModelManage =  useModalStore();
-    const {showModal} = storeToRefs(ModelManage)
+const ModelManage = useModalStore();
+const { showModal } = storeToRefs(ModelManage)
 
-    
-    //PROPS
-    const props = defineProps<{
-        store_id: string,
-        endpoint: string
-    }>()
+const props = defineProps<{ store_id: string, endpoint: string }>();
+const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 
-    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
+// Desempaqueta las refs reactivas - ÚSALAS en template y watchers
+const { records, lengthRecords } = storeToRefs(store);
 
-    onMounted(() => {
-        store.loadEditableFields(['name', 'code'])
-        callRecords()
-    })
-
-    const callRecords = async () => {
-        try {
-            await store.fetchAll()
-        } catch (error) {
-            console.error("No se pudieron cargar los grados académicos.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
-        } 
-    }
+// Ahora estos watchers SÍ van a funcionar
+watch(records, (v) => console.log('Slide records changed:', v), { deep: true });
+watch(lengthRecords, (v) => console.log('Slide lengthRecords:', v));
 
 </script>
 
 <style>
-    @import url('@/css/variables.css');
-    .slide__cotainer{
-        background: var(--color-third);  
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 25px;
-        padding: 30px;
-        border-radius: 25px 5px 25px 5px;
+@import url('@/css/variables.css');
+
+.slide__cotainer {
+    background: var(--color-third);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 30px;
+    border-radius: 25px 5px 25px 5px;
+}
+
+.no_content {
+    font-family: var(--font-decoration1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    >h1 {
+        margin-top: 30px;
     }
-    .no_content{
-        font-family: var(--font-decoration1);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;        
-        >h1{
-            margin-top: 30px;
-        }
-    }
-  
+}
 </style>

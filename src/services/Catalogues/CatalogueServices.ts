@@ -1,7 +1,7 @@
-import { httpGet, httpDelete, httpPatch, httPost} from "../api";
+import { httpGet, httpDelete, httpPatch, httPost } from "../api";
 
 //function to get all records generic
-export async function GetAllRecordsCatalogues<T>(url:string):Promise<T[]>{
+export async function GetAllRecordsCatalogues<T>(url: string): Promise<T[]> {
     try {
         const response = await httpGet<T[]>(`catalog/${url}`)
         return response
@@ -11,7 +11,7 @@ export async function GetAllRecordsCatalogues<T>(url:string):Promise<T[]>{
     }
 }
 
-export async function GetOneCatalogue<T>(url:string, idRecord:number):Promise<T>{
+export async function GetOneCatalogue<T>(url: string, idRecord: number): Promise<T> {
     try {
         const response = await httpGet<T>(`catalog/${url}/${idRecord}`)
         return response
@@ -21,19 +21,27 @@ export async function GetOneCatalogue<T>(url:string, idRecord:number):Promise<T>
 }
 
 //function to get records with filters aplicate
-export async function GetFilterCatalogues<T>(api_name:string, search:string):Promise<T[]>{
+export async function GetFilterCatalogues<T>(url: string,
+        params?: { search?: string; fromDate?: string; untilDate?: string }
+    ): Promise<T[]> {
     try {
-        const response = await httpGet<T[]>(`catalog/${api_name}?search=${search}`);
+        const query = new URLSearchParams()
+
+        if (params?.search) query.append('search', params.search)
+        if (params?.fromDate) query.append('from_date', params.fromDate)
+        if (params?.untilDate) query.append('until_date', params.untilDate)
+
+        const response = await httpGet<T[]>(`catalog/${url}?${query.toString()}`)
         return response
     } catch (error) {
-        console.error('Error al obtener datos:', error);
-        throw error;
+        console.error('Error al obtener datos:', error)
+        throw error
     }
 }
 
 
 //function to delete one record generic
-export async function DeleteCatalog(recordID:number, url:string):Promise<void>{
+export async function DeleteCatalog(recordID: number, url: string): Promise<void> {
     try {
         await httpDelete(`catalog/${url}/${recordID}/`)
     } catch (error) {
@@ -43,7 +51,7 @@ export async function DeleteCatalog(recordID:number, url:string):Promise<void>{
 }
 
 //function to update one record generic
-export async function PatchCatalog<T>(recordID:number, data:T, url:string):Promise<T>{
+export async function PatchCatalog<T>(recordID: number, data: T, url: string): Promise<T> {
     try {
         const response = await httpPatch<T>(`catalog/${url}/${recordID}/`, data);
         return response;
@@ -54,7 +62,7 @@ export async function PatchCatalog<T>(recordID:number, data:T, url:string):Promi
 }
 
 //function to create a new record 
-export async function CreateCatalogue<T>(data:T, url: string):Promise<boolean>{
+export async function CreateCatalogue<T>(data: T, url: string): Promise<boolean> {
     try {
         await httPost(`catalog/${url}/`, data);
         return true

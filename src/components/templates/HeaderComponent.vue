@@ -2,35 +2,18 @@
     <div class="header__general">
         <h1>{{ props.endpoint }}</h1>
         <div class="action_filters">
-            <section class="inputs__continer">
-                <VueDatePicker v-model="startDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-                    format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha inicio" class="datepicker-sm" />
-
-                <VueDatePicker v-model="endDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-                    format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha fin" class="datepicker-sm" />
-
-                <BtnSearchComponent :endpoint="props.endpoint" :store_id="props.store_id" />
-                <BtnAddComponent />
-            </section>
+            <filters-component :endpoint="props.endpoint" :store_id="props.store_id"></filters-component>
         </div>
     </div>
 </template>
 
 <script setup lang="ts" generic="T">
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-import BtnAddComponent from '../buttons/BtnAddComponent.vue';
-import BtnSearchComponent from '../buttons/BtnSearchComponent.vue';
-import { ref } from 'vue';
+    import FiltersComponent from '../generics/FiltersComponent.vue';
 
-//filtros de fechas
-let startDate = ref<string | null>(null)
-let endDate = ref<string | null>(null)
-
-const props = defineProps<{
-    store_id: string,
-    endpoint: string
-}>()
+    const props = defineProps<{
+        store_id: string,
+        endpoint: string
+    }>()
 </script>
 
 <style scoped>

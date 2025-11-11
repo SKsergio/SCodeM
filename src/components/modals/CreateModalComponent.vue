@@ -22,7 +22,6 @@
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
     import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { CreateCatalogue } from '@/services/Catalogues/CatalogueServices';
     import { InfoMessageAlert } from '../alerts/InfoAlert';
     import { ShowCreateAlert } from '../alerts/createAlert';
     import InputComponent from '../inputs/InputComponent.vue';

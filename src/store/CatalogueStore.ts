@@ -29,12 +29,23 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
             }
         };
 
-        const searchRecords = async (endpoint: string, search_value: string): Promise<void> => {
+        const searchRecords = async (
+                endpoint: string, 
+                params?: {
+                    search?: string
+                    fromDate?: string
+                    untilDate?: string
+                }
+            ): Promise<void> => {
             try {
-                records.value = await GetFilterCatalogues<T>(endpoint, search_value);
+                loading.value = true;
+                records.value = await GetFilterCatalogues<T>(endpoint, params);
                 lengthRecords.value = records.value.length
+                console.log(records.value);
             } catch (error) {
                 throw error;
+            }finally{
+                loading.value = false
             }
         };
 
