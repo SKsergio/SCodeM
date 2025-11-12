@@ -1,10 +1,10 @@
 <template>
     <section class="inputs__continer">
         <VueDatePicker v-model="filters.startDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha inicio" class="datepicker-sm" />
+            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha inicio" class="datepicker_st"/>
 
         <VueDatePicker v-model="filters.endDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha fin" class="datepicker-sm" />
+            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha fin" class="datepicker_st" />
 
         <BtnSearchComponent @search_input="onSearchInput" />
         <BtnAddComponent />
@@ -74,3 +74,9 @@ const debouncedFilter = (search: string, startDate?: string | null, endDate?: st
     }, wait)
 }
 </script>
+
+<style>
+.datepicker_st{
+    width: 27%;
+}
+</style>

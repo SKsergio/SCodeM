@@ -30,10 +30,6 @@ const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 // Desempaqueta las refs reactivas - ÚSALAS en template y watchers
 const { records, lengthRecords } = storeToRefs(store);
 
-// Ahora estos watchers SÍ van a funcionar
-watch(records, (v) => console.log('Slide records changed:', v), { deep: true });
-watch(lengthRecords, (v) => console.log('Slide lengthRecords:', v));
-
 </script>
 
 <style>

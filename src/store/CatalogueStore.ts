@@ -38,14 +38,13 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
                 }
             ): Promise<void> => {
             try {
-                loading.value = true;
                 records.value = await GetFilterCatalogues<T>(endpoint, params);
                 lengthRecords.value = records.value.length
-                console.log(records.value);
+                // if (lengthRecords.value == 0) {
+                //     fetchAll()
+                // }
             } catch (error) {
                 throw error;
-            }finally{
-                loading.value = false
             }
         };
 

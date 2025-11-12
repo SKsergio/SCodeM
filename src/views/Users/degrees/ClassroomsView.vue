@@ -19,8 +19,23 @@
     import { ClassromInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
+    import { onMounted } from 'vue';
     const store = useCatalogueStore<ClassromInterface>('catalogue-classrooms', 'classrooms')()
 
+
+    onMounted(() => {
+        store.loadEditableFields(['name', 'code'])
+        callRecords()
+    })
+
+    const callRecords = async () => {
+        try {
+            await store.fetchAll()
+        } catch (error) {
+            console.error("No se pudieron cargar los grados académicos.");
+            alert("¡Ups! Algo salió mal al obtener los datos.");
+        } 
+    }
 </script>
 
 <style scoped>
