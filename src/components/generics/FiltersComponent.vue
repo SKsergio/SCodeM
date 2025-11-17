@@ -41,11 +41,16 @@ watch(
         if (hasSearch) {
             debouncedFilter(search, startDate ?? null, endDate ?? null)
             return
+        }else{
+            store.fetchAll()
         }
 
         if (hasDates) {
             debouncedFilter(search, startDate, endDate)
+        }else{
+            store.fetchAll()
         }
+
     }
 )
 
@@ -67,7 +72,7 @@ const filterData = async (search: string, startDate?: string | null, endDate?: s
 
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
-const debouncedFilter = (search: string, startDate?: string | null, endDate?: string | null, wait = 200) => {
+const debouncedFilter = (search: string, startDate?: string | null, endDate?: string | null, wait = 100) => {
     if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(() => {
         filterData(search, startDate, endDate)

@@ -30,6 +30,7 @@ export const menuItems: MenuItems[]=[
             {label:'Courses by grade',name:'no hay'},
             {label:'Classrooms',name:'ClassroomsMagnament'},
             {label:'Sections',name:'SectionMagnament'},
+            {label:'Subjects',name:'SubjectMagnament'},
         ],
         amount:4,
         hadSoons:true
@@ -40,7 +41,6 @@ export const menuItems: MenuItems[]=[
         soons:[
             {label:'Evaluations', name:'jijija/pruebas'},
             {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
-            {label:'Periods', name:'PeriodMagnament'}
         ],
         amount:3,
         hadSoons:true

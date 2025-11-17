@@ -32,7 +32,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar los grados académicos.");
+            console.error("No se pudieron cargar las secciones académicas.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
         } 
     }

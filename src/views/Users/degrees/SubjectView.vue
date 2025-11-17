@@ -4,9 +4,9 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></HeaderComponent>
+            <HeaderComponent :endpoint="'subjects'" :store_id="'catalogue-subjects'"></HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></SlideComponent>
+                <SlideComponent :endpoint="'subjects'" :store_id="'catalogue-subjects'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -16,15 +16,15 @@
 <script setup lang="ts">
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import SlideComponent from '@/components/generics/SlideComponent.vue';
-    import { TypeEvaluationsInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
+    import { SubjectInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<TypeEvaluationsInterface        >('catalogue-evaluationTypes', 'evaluationTypes')()
+    const store = useCatalogueStore<SubjectInterface>('catalogue-subjects', 'subjects')()
 
 
     onMounted(() => {
-        store.loadEditableFields(['name', 'code'])
+        store.loadEditableFields(['name', 'code', 'description'])
         callRecords()
     })
 
@@ -32,7 +32,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar los tipos de evaluaciones académicas.");
+            console.error("No se pudieron cargar las materias académicas.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
         } 
     }

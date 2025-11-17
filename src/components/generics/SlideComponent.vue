@@ -1,14 +1,19 @@
 <template>
+    
     <div class="slide__cotainer" v-if="lengthRecords > 0">
-        <CreateModalComponent :store_id="props.store_id" :show-modal="showModal" :endpoint="props.endpoint">
-        </CreateModalComponent>
         <section class="slide_content" v-for="(item) in records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent :records="item" :store_id="props.store_id" :endpoint="props.endpoint" />
         </section>
     </div>
+
     <div class="no_content" v-else>
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
         <img src="../../assets/images/404preview.png" alt="404" srcset="">
+    </div>
+
+    <div class="modal_creater">
+        <CreateModalComponent :store_id="props.store_id" :show-modal="showModal" :endpoint="props.endpoint">
+        </CreateModalComponent>
     </div>
 </template>
 
@@ -19,7 +24,6 @@ import CreateModalComponent from '../modals/CreateModalComponent.vue';
 import { useModalStore } from '@/store/CreateModel';
 import { useCatalogueStore } from '@/store/CatalogueStore';
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
 
 const ModelManage = useModalStore();
 const { showModal } = storeToRefs(ModelManage)
@@ -27,7 +31,6 @@ const { showModal } = storeToRefs(ModelManage)
 const props = defineProps<{ store_id: string, endpoint: string }>();
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 
-// Desempaqueta las refs reactivas - ÚSALAS en template y watchers
 const { records, lengthRecords } = storeToRefs(store);
 
 </script>
@@ -55,5 +58,11 @@ const { records, lengthRecords } = storeToRefs(store);
     >h1 {
         margin-top: 30px;
     }
+}
+.modal_creater{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 30%;
 }
 </style>

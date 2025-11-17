@@ -40,9 +40,6 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
             try {
                 records.value = await GetFilterCatalogues<T>(endpoint, params);
                 lengthRecords.value = records.value.length
-                // if (lengthRecords.value == 0) {
-                //     fetchAll()
-                // }
             } catch (error) {
                 throw error;
             }
