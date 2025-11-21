@@ -9,6 +9,7 @@ export interface AbstractCatalog{
 }
 
 export interface DegreeInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
+export interface TypeFileInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
 export interface ClassromInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
 // export interface PeriodInterface extends Omit<AbstractCatalog, 'description'> {
 //     date_from:string,

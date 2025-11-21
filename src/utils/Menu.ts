@@ -7,7 +7,10 @@ export const menuItems: MenuItems[]=[
         label:'Administration',
         icon:IdentificationIcon,
         amount:0,
-        hadSoons:false
+        hadSoons:true,
+        soons:[
+            {label:'Fyle Types', name:'TypeFileMagnament'}
+        ]
     },
     {
         label:'Students',
