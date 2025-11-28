@@ -50,7 +50,6 @@ watch(
         }else{
             store.fetchAll()
         }
-
     }
 )
 
@@ -66,7 +65,7 @@ const filterData = async (search: string, startDate?: string | null, endDate?: s
 
         await store.searchRecords(props.endpoint, payload)
     } catch (error) {
-        console.error('No se pudieron cargar los registros académicos.', error)
+        console.error('No se pudieron cargar los registros.', error)
     }
 }
 

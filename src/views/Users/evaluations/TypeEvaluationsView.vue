@@ -20,7 +20,7 @@
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<TypeEvaluationsInterface        >('catalogue-evaluationTypes', 'evaluationTypes')()
+    const store = useCatalogueStore<TypeEvaluationsInterface>('catalogue-evaluationTypes', 'evaluationTypes')()
 
 
     onMounted(() => {

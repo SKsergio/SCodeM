@@ -11,6 +11,7 @@ import ClassroomsView from '@/views/Users/degrees/ClassroomsView.vue'
 import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.vue'
 import SujectView from '@/views/Users/degrees/SubjectView.vue'
 import FileTypeView from '@/views/Users/administration/FileTypeView.vue'
+import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/ManagerStudentsGridView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -34,6 +35,13 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'administration',
                 children: [
                     { path: 'type_file', name: 'TypeFileMagnament', component: FileTypeView },
+                ]
+            },
+            {
+                path: 'students',
+                name: 'students',
+                children: [
+                    { path: 'managers', name: 'ManagerStudentMagnament', component: ManagerStudentsGridView },
                 ]
             },
             {
