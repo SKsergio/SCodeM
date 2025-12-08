@@ -4,9 +4,13 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'type_files'" :store_id="'catalogue-type_files'"></HeaderComponent>
+            <HeaderComponent
+                :endpoint="'catalog/type_files'" 
+                :store_id="'catalogue-type_files'"
+                :title="'Type Files'">
+            </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'type_files'" :store_id="'catalogue-type_files'"></SlideComponent>
+                <SlideComponent :endpoint="'catalog/type_files'" :store_id="'catalogue-type_files'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -20,7 +24,7 @@
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<TypeFileInterface>('catalogue-type_files', 'type_files')()
+    const store = useCatalogueStore<TypeFileInterface>('catalogue-type_files', 'catalog/type_files')()
 
 
     onMounted(() => {
@@ -32,7 +36,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron lostipos de archivos.");
+            console.error("No se pudieron los tipos de archivos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
         } 
     }

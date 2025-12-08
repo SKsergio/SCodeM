@@ -4,9 +4,14 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'classrooms'" :store_id="'catalogue-classrooms'"></HeaderComponent>
+            <HeaderComponent 
+                :endpoint="'catalog/classrooms'" 
+                :store_id="'catalogue-classrooms'"
+                :title="'classrooms'"
+                >
+            </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'classrooms'" :store_id="'catalogue-classrooms'"></SlideComponent>
+                <SlideComponent :endpoint="'catalog/classrooms'" :store_id="'catalogue-classrooms'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -20,7 +25,7 @@
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<ClassromInterface>('catalogue-classrooms', 'classrooms')()
+    const store = useCatalogueStore<ClassromInterface>('catalogue-classrooms', 'catalog/classrooms')()
 
 
     onMounted(() => {

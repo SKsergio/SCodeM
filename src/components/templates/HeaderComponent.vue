@@ -1,6 +1,6 @@
 <template>
     <div class="header__general">
-        <h1>{{ props.endpoint }}</h1>
+        <h1>{{ title }}</h1>
         <div class="action_filters">
             <filters-component :endpoint="props.endpoint" :store_id="props.store_id"></filters-component>
         </div>
@@ -12,7 +12,8 @@
 
     const props = defineProps<{
         store_id: string,
-        endpoint: string
+        endpoint: string,
+        title:string
     }>()
 </script>
 

@@ -4,9 +4,13 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></HeaderComponent>
+            <HeaderComponent 
+                :endpoint="'catalog/evaluationTypes'" 
+                :store_id="'catalogue-evaluationTypes'"
+                :title="'Evaluation Type'">
+            </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></SlideComponent>
+                <SlideComponent :endpoint="'catalog/evaluationTypes'" :store_id="'catalogue-evaluationTypes'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -20,7 +24,7 @@
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<TypeEvaluationsInterface>('catalogue-evaluationTypes', 'evaluationTypes')()
+    const store = useCatalogueStore<TypeEvaluationsInterface>('catalogue-evaluationTypes', 'catalog/evaluationTypes')()
 
 
     onMounted(() => {

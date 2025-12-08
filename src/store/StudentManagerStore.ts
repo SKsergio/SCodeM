@@ -8,7 +8,7 @@ import {//importamos las funciones del crud
     PatchRecord
 } from '@/services/Catalogues/GenericServices';
 
-export function useCatalogueStore<T>(store_id: string, endpoint: string) {
+export function useStudentManagerStore<T>(store_id: string, endpoint: string) {
     return defineStore(store_id, () => {
         const records = ref<T[]>([]);
         const lengthRecords = ref(0)

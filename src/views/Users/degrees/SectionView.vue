@@ -4,9 +4,13 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="'sections'" :store_id="'catalogue-sections'"></HeaderComponent>
+            <HeaderComponent 
+                :endpoint="'catalog/sections'" 
+                :store_id="'catalogue-sections'"
+                :title="'Sections'">
+            </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'sections'" :store_id="'catalogue-sections'"></SlideComponent>
+                <SlideComponent :endpoint="'catalog/sections'" :store_id="'catalogue-sections'"></SlideComponent>
             </div>
         </div>
     </div>
@@ -20,7 +24,7 @@
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted } from 'vue';
-    const store = useCatalogueStore<SectionInterface>('catalogue-sections', 'sections')()
+    const store = useCatalogueStore<SectionInterface>('catalogue-sections', 'catalog/sections')()
 
 
     onMounted(() => {
