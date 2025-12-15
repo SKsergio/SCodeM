@@ -4,7 +4,7 @@
     --color-primary: #fafafa;
     --color-menu: #E9ECF1;
     --color-third: #F4F5F9;
-    --color-fourth: #17907D;
+    --color-fourth: #0a7464;
     --color-seccundary: #939596;
     --color-fifth: #52707f;
     --color-sixth: #00382F;
@@ -18,6 +18,8 @@
     --color-add:#32cf4c;
     --color-save:#266124;
     --color-find:#1265c4;
+
+    --table-hover: #0f81701f;
 
     /* text colors */
     --color-black-text: rgb(24, 23, 23);
@@ -49,7 +51,7 @@
     --width-aside:260px;
 
     /* mezclas */
-    --color-fourth: linear-gradient(315deg, #4dc668 14%, #295c86 45%, #8e1e83 82%);
+    --color-fourth2: linear-gradient(315deg, #4dc668 14%, #295c86 45%, #8e1e83 82%);
     --background-publications: linear-gradient(315deg, rgba(10, 54, 65, 0.95) 18%, rgba(18, 85, 97, 0.97) 44%, #1d374d 74%);
     --profile-content:linear-gradient(315deg, #174A42 18%, #228171 38%, #2e6158 62%, #0a4038 83%);
 }
@@ -58,7 +60,7 @@
     --color-primary: #141414;
     --color-menu: #282828;
     --color-third: #342e3b;
-    --color-fourth: #AE88F6;
+    --color-fourth: #036995;
     --color-seccundary: #3f4041;
     --color-fifth:#036995;
     --color-seventh: #230046;
@@ -74,6 +76,10 @@
     --color-text-line: rgb(217, 231, 247);
 
     --inputs--colors:rgba(224, 228, 241, 0.904);
+
+    /*table colors*/
+    --table-hover: #0369955e;
+
 
     /*btn asction colors*/ 
     --color-delete:#8f3030;

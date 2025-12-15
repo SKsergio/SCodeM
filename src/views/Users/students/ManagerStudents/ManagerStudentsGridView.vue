@@ -3,33 +3,26 @@
         <!-- <div class="loadeer_container" v-if="store.loading">
             <Load2Component></Load2Component>
         </div> -->
-        <div>
+        <div class="slide_container">
             <HeaderComponent :endpoint="'students/studentsManagers'" :store_id="'catalogue-studentsManagers'"
                 :title="'Students Manager'">
             </HeaderComponent>
             <div class="conatiner_crud">
-                <TableGridComponent>
-                    :rows="students"
-                    :columns="[
-                        { key: 'first_name', label: 'Nombre' },
-                        { key: 'first_last_name', label: 'Apellido' },
-                        { key: 'email', label: 'Correo' },
-                        { key: 'age', label: 'Edad' },
-                        { key: 'file', label: 'Foto' },
-                    ]"
-                    >
-                    <template #cell="{ row, column }">
+                <section class="table__container">
+                    <TableGridComponent :rows="managers" :columns=columns>
+                        <template #cell="{ row, column }">
 
-                        <!-- ejemplo: columna Foto -->
-                        <img v-if="column.key === 'file'" :src="row.file.url" width="50" />
+                            <!-- ejemplo: columna Foto -->
+                            <img v-if="column.key === 'file'" :src="row.file.url" width="50" />
 
-                        <!-- Default -->
-                        <template v-else>
-                            {{ row[column.key] }}
+                            <!-- Default -->
+                            <template v-else>
+                                {{ row[column.key] }}
+                            </template>
+
                         </template>
-
-                    </template>
-                </TableGridComponent>
+                    </TableGridComponent>
+                </section>
 
             </div>
 
@@ -42,13 +35,35 @@
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { onMounted, ref } from 'vue';
 import TableGridComponent from '@/components/templates/TableGridComponent.vue';
-// import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
-import 
-// let managers = ref([])<>
+import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
+import { useStudentManagerStore } from '@/store/StudentManagerStore';
+import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+import { storeToRefs } from 'pinia';
 
-// onMounted(()=>{
+const store = useStudentManagerStore();
+const { managers, loading } = storeToRefs(store)
 
-// })
+//TABLE STRUCTURE
+const columns: ColumnDefinition<StudentManagerResponse>[] = [
+    { key: 'first_name', label: 'Nombre' },
+    { key: 'first_last_name', label: 'Apellido' },
+    { key: 'email', label: 'Correo' },
+    { key: 'age', label: 'Edad' },
+    { key: 'file', label: 'Foto' },
+]
+
+onMounted(() => {
+    callRecords();
+})
+
+const callRecords = async () => {
+    try {
+        await store.fetchManagers()
+    } catch (error) {
+        console.error("No se pudieron cargar los encargados.");
+        alert("¡Ups! Algo salió mal al obtener los datos.");
+    }
+}
 
 
 </script>
@@ -64,6 +79,12 @@ import
     display: flex;
     flex-direction: column;
     position: relative;
+}
+.table__container{
+    background: var(--color-third);
+    display: flex;
+    padding: 30px;
+    border-radius: 25px 5px 25px 5px;
 }
 
 .loadeer_container {

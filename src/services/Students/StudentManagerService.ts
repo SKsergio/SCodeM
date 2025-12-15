@@ -52,7 +52,7 @@ export async function DeleteManager(idManager: number): Promise<void> {
 }
 
 //function to update one manager
-export async function PatchRecord
+export async function PatchManager
     <StudentManagerPayload>(
         idManager: number, data: StudentManagerPayload
     ): Promise<StudentManagerResponse> {
@@ -66,7 +66,7 @@ export async function PatchRecord
 }
 
 //function to create a new record 
-export async function CreateRecord<StudentManagerPayload>(data: StudentManagerPayload): Promise<boolean> {
+export async function CreateManager<StudentManagerPayload>(data: StudentManagerPayload): Promise<boolean> {
     try {
         await httPost<StudentManagerPayload, StudentManagerResponse>(`${url}/`, data);
         return true
