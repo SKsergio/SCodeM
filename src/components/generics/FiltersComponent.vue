@@ -1,10 +1,12 @@
 <template>
     <section class="inputs__continer">
         <VueDatePicker v-model="filters.startDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha inicio" class="datepicker_st"/>
+            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha inicio" class="datepicker_st"
+            @update:model-value="aplicarFiltros" />
 
         <VueDatePicker v-model="filters.endDate" :enable-time-picker="false" :auto-apply="true" locale="es"
-            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha fin" class="datepicker_st" />
+            format="yyyy-MM-dd" model-type="yyyy-MM-dd" placeholder="Fecha fin" class="datepicker_st"
+            @update:model-value="aplicarFiltros" />
 
         <BtnSearchComponent @search_input="onSearchInput" />
         <BtnAddComponent />
@@ -16,7 +18,7 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 import BtnSearchComponent from '../buttons/BtnSearchComponent.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import { useCatalogueStore } from '@/store/CatalogueStore'
 
 const props = defineProps<{
@@ -32,55 +34,27 @@ const filters = reactive({
     endDate: null as string | null,
 })
 
-watch(
-    [() => filters.search, () => filters.startDate, () => filters.endDate],
-    ([search, startDate, endDate]) => {
-        const hasSearch = !!search && search.trim() !== ''
-        const hasDates = !!startDate && !!endDate
-
-        if (hasSearch) {
-            debouncedFilter(search, startDate ?? null, endDate ?? null)
-            return
-        }else{
-            store.fetchAll()
-        }
-
-        if (hasDates) {
-            debouncedFilter(search, startDate, endDate)
-        }else{
-            store.fetchAll()
-        }
-    }
-)
 
 const onSearchInput = (value: string) => {
     filters.search = value
+    aplicarFiltros() 
 }
 
-const filterData = async (search: string, startDate?: string | null, endDate?: string | null) => {
-    try {
-        const payload: any = { search }
-        if (startDate) payload.fromDate = startDate
-        if (endDate) payload.untilDate = endDate
+const aplicarFiltros = () => {
 
-        await store.searchRecords(props.endpoint, payload)
-    } catch (error) {
-        console.error('No se pudieron cargar los registros.', error)
+    store.params = {
+        ...store.params, 
+        search: filters.search,
+        from_date: filters.startDate, 
+        until_date: filters.endDate
     }
+    store.fetchAll()
 }
 
-
-let debounceTimer: ReturnType<typeof setTimeout> | null = null
-const debouncedFilter = (search: string, startDate?: string | null, endDate?: string | null, wait = 100) => {
-    if (debounceTimer) clearTimeout(debounceTimer)
-    debounceTimer = setTimeout(() => {
-        filterData(search, startDate, endDate)
-    }, wait)
-}
 </script>
 
 <style>
-.datepicker_st{
+.datepicker_st {
     width: 27%;
 }
 </style>

@@ -2,7 +2,7 @@ import { httpGet, httpDelete, httpPatch, httPost } from "../api";
 
 //function to get all records generic
 export async function GetAllRecords<T>(url: string): Promise<T[]> {
-    
+
     try {
         const response = await httpGet<T[]>(`${url}`)
         return response
@@ -21,25 +21,31 @@ export async function GetOneRecord<T>(url: string, idRecord: number): Promise<T>
     }
 }
 
-//function to get records with filters aplicate
-export async function GetFilterRecords<T>(url: string,
-        params?: { search?: string; fromDate?: string; untilDate?: string }
-    ): Promise<T[]> {
+export async function GetRecords<T>(
+    url: string,
+    params: Record<string, any> = {}
+): Promise<T[]> {
     try {
-        const query = new URLSearchParams()
+        const query = new URLSearchParams();
 
-        if (params?.search) query.append('search', params.search)
-        if (params?.fromDate) query.append('from_date', params.fromDate)
-        if (params?.untilDate) query.append('until_date', params.untilDate)
+        Object.keys(params).forEach(key => {
+            const value = params[key];
+            if (value !== null && value !== undefined && value !== '') {
+                query.append(key, String(value));
+            }
+        });
 
-        const response = await httpGet<T[]>(`${url}?${query.toString()}`)
-        return response
+        const queryString = query.toString();
+        const finalUrl = queryString ? `${url}?${queryString}` : url;
+
+        const response = await httpGet<T[]>(finalUrl);
+        return response;
+
     } catch (error) {
-        console.error('Error al obtener datos:', error)
-        throw error
+        console.error(`Error al obtener datos de ${url}:`, error);
+        throw error;
     }
 }
-
 
 //function to delete one record generic
 export async function DeleteRecords(recordID: number, url: string): Promise<void> {

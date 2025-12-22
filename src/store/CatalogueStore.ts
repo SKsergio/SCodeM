@@ -2,47 +2,31 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import {//importamos las funciones del crud
     GetAllRecords,
-    GetFilterRecords,
+    GetRecords,
     DeleteRecords,
     CreateRecord,
     PatchRecord
 } from '@/services/Catalogues/GenericServices';
 
-export function useCatalogueStore<T>(store_id: string, endpoint: string) {
+export function useCatalogueStore<T>(store_id: string, endpoint: string, defaultParams: Record<string, any> = {}) {
     return defineStore(store_id, () => {
         const records = ref<T[]>([]);
         const lengthRecords = ref(0)
         const editableFields = ref<(keyof T)[]>([]);
         const title = ref(endpoint);
-        let loading =  ref(false);
-
+        let loading = ref(false);
+        const params = ref<Record<string, any>>({ ...defaultParams });
 
         const fetchAll = async (): Promise<void> => {
             try {
                 loading.value = true;
-                records.value = await GetAllRecords<T>(endpoint);
-                lengthRecords.value = records.value.length
+                records.value = await GetRecords<T>(endpoint, params.value);
+                lengthRecords.value = records.value.length;
             } catch (error) {
                 console.error(`Error fetching ${endpoint}:`, error);
                 throw error;
-            }finally{
+            } finally {
                 loading.value = false
-            }
-        };
-
-        const searchRecords = async (
-                endpoint: string, 
-                params?: {
-                    search?: string
-                    fromDate?: string
-                    untilDate?: string
-                }
-            ): Promise<void> => {
-            try {
-                records.value = await GetFilterRecords<T>(endpoint, params);
-                lengthRecords.value = records.value.length
-            } catch (error) {
-                throw error;
             }
         };
 
@@ -81,8 +65,8 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string) {
         return {
             records,
             editableFields,
-            searchRecords,
             fetchAll,
+            params,
             updateRecord,
             DeleteRecord,
             createRecord,
