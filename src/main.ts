@@ -3,16 +3,21 @@ import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
 
-//importar estilos
-import '../src/css/normalice.css'
-import '../src/css/layaout.css'
-import '../src/css/alertDelete.css'
+import { createVfm } from 'vue-final-modal'
+import 'vue-final-modal/style.css'
 
-// utilizanod pinia
+// estilos propios
+import './css/normalice.css'
+import './css/layaout.css'
+import './css/globalClases.css'
+import './css/alertDelete.css'
+
+const app = createApp(App)
 const pinia = createPinia()
+const vfm = createVfm()
 
-createApp(App)
-    .use(router)
-    .use(pinia)
-    .mount('#app')
-    
+app
+  .use(router)
+  .use(pinia)
+  .use(vfm)
+  .mount('#app')

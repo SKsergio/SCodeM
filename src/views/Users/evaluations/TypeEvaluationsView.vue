@@ -53,13 +53,4 @@
         flex-direction: column;
         position: relative;
     }
-    .loadeer_container {
-        position: fixed;
-        top: 0;
-        height: 100%;
-        left: 0;
-        right: 0;
-        background-color: rgba(48, 46, 46, 0.822);
-        z-index: 99;
-    }
 </style>

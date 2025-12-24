@@ -1,19 +1,19 @@
 <template>
     <div class="conatiner__data_load">
-        <!-- <div class="loadeer_container" v-if="store.loading">
+        <div class="loadeer_container" v-if="storeGeneric.loading">
             <Load2Component></Load2Component>
-        </div> -->
+        </div>
         <div class="slide_container">
             <HeaderComponent :endpoint="'students/studentsManagers'" :store_id="'catalogue-studentsManagers'"
                 :title="'Students Manager'">
             </HeaderComponent>
             <div class="conatiner_crud">
                 <section class="table__container">
-                    <TableGridComponent :rows="managers" :columns=columns>
+                    <TableGridComponent :rows="records" :columns=columns :length="lengthRecords">   
                         <template #cell="{ row, column }">
 
                             <!-- ejemplo: columna Foto -->
-                            <img v-if="column.key === 'file'" :src="row.file.url" width="50" />
+                            <img v-if="column.key === 'file'" :src="row.file.url" class="img_file" />
 
                             <!-- Default -->
                             <template v-else>
@@ -34,14 +34,17 @@
 <script setup lang="ts">
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { onMounted, ref } from 'vue';
+    import Load2Component from '@/components/loaders/Load2Component.vue';
+
 import TableGridComponent from '@/components/templates/TableGridComponent.vue';
 import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
-import { useStudentManagerStore } from '@/store/StudentManagerStore';
+import { storeToRefs } from 'pinia'
+import { useCatalogueStore } from '@/store/CatalogueStore';
+// import { useStudentManagerStore } from '@/store/StudentManagerStore';
 import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-import { storeToRefs } from 'pinia';
 
-const store = useStudentManagerStore();
-const { managers, loading } = storeToRefs(store)
+const storeGeneric = useCatalogueStore<StudentManagerResponse>('catalogue-studentsManagers', 'students/studentsManagers')();
+const { records, loading, lengthRecords } = storeToRefs(storeGeneric)
 
 //TABLE STRUCTURE
 const columns: ColumnDefinition<StudentManagerResponse>[] = [
@@ -56,11 +59,12 @@ onMounted(() => {
     callRecords();
 })
 
+
 const callRecords = async () => {
     try {
-        await store.fetchManagers()
+        await storeGeneric.fetchAll()
     } catch (error) {
-        console.error("No se pudieron cargar los encargados.");
+        console.error("No se pudieron cargar los grados académicos.");
         alert("¡Ups! Algo salió mal al obtener los datos.");
     }
 }
@@ -80,20 +84,19 @@ const callRecords = async () => {
     flex-direction: column;
     position: relative;
 }
-.table__container{
+
+.table__container {
     background: var(--color-third);
     display: flex;
     padding: 30px;
     border-radius: 25px 5px 25px 5px;
 }
 
-.loadeer_container {
-    position: fixed;
-    top: 0;
-    height: 100%;
-    left: 0;
-    right: 0;
-    background-color: rgba(48, 46, 46, 0.822);
-    z-index: 99;
+.img_file{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
 }
+
 </style>
