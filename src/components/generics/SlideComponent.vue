@@ -8,25 +8,16 @@
 
     <div class="no_content" v-else>
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
-        <img src="../../assets/images/404preview.png" alt="404" srcset="">
-    </div>
-
-    <div class="modal_creater">
-        <CreateModalComponent :store_id="props.store_id" :show-modal="showModal" :endpoint="props.endpoint">
-        </CreateModalComponent>
+        <img src="../../assets/images/404przeview.png" alt="404" srcset="">
     </div>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
 import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
 import CardRecordsComponent from './CardRecordsComponent.vue';
-import CreateModalComponent from '../modals/CreateModalComponent.vue';
-import { useModalStore } from '@/store/CreateModel';
 import { useCatalogueStore } from '@/store/CatalogueStore';
 import { storeToRefs } from 'pinia'
 
-const ModelManage = useModalStore();
-const { showModal } = storeToRefs(ModelManage)
 
 const props = defineProps<{ store_id: string, endpoint: string }>();
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)();

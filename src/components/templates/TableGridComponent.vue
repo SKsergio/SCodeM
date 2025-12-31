@@ -24,6 +24,7 @@
             <img src="../../assets/images/404preview.png" alt="404" srcset="">
         </div>
     </div>
+
 </template>
 <script setup lang="ts" generic="T extends { id?: number | string }">
 import { ColumnDefinition } from "@/interfaces/templates/TableInterface";

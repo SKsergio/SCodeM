@@ -9,13 +9,11 @@
             @update:model-value="aplicarFiltros" />
 
         <BtnSearchComponent @search_input="onSearchInput" />
-        <BtnAddComponent />
     </section>
 </template>
 
 <script setup lang="ts" generic="T">
 import VueDatePicker from '@vuepic/vue-datepicker'
-import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 import BtnSearchComponent from '../buttons/BtnSearchComponent.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { reactive } from 'vue'

@@ -78,7 +78,7 @@ export async function httPost<TReq, TRes>(endpoint: string, data: TReq): Promise
             ? { body: data as FormData }
             : { json: data };
 
-        const response = await api.patch(`${endpoint}`, options);
+        const response = await api.post(`${endpoint}`, options);
         return response.json<TRes>();
     } catch (error) {
         if (error instanceof HTTPError) {

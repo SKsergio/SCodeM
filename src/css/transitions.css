@@ -1,0 +1,58 @@
+/* =========================
+   TIMING
+========================= */
+.ease-out {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* =========================
+   DURATIONS
+========================= */
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.duration-500 {
+  transition-duration: 500ms;
+}
+
+/* =========================
+   OPACITY
+========================= */
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+/* =========================
+   SCALE
+========================= */
+.scale-90 {
+  transform: scale(0.9);
+}
+
+.scale-100 {
+  transform: scale(1);
+}
+
+/* =========================
+   SLIDE UP
+========================= */
+.translate-y-10 {
+  transform: translateY(40px);
+}
+
+.translate-y-0 {
+  transform: translateY(0);
+}

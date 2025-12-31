@@ -71,6 +71,7 @@ export async function PatchRecord<T>(recordID: number, data: T, url: string): Pr
 //function to create a new record 
 export async function CreateRecord<T>(data: T, url: string): Promise<boolean> {
     try {
+        console.log('ava');
         await httPost(`${url}/`, data);
         return true
     } catch (error) {

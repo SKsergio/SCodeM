@@ -1,124 +1,129 @@
 <template>
-    <div class="model_new_record" v-if="props.showModal">
+    <BaseModalComponent v-model="show" title="Crear registro" :custom-class="'modal-width theme-transparent'">
+        <XCircleIcon class="icon_close" @click="closeModal" />
 
-        <XCircleIcon class="icon_close" @click="cancelAction()"></XCircleIcon>
-        <form method="post" class="form" @submit.prevent="sendForm()">
-
+        <form class="form" @submit.prevent="sendForm">
             <section class="input__ct" v-for="(field, index) in store.editableFields" :key="index">
-                <!-- aca vamos a validar que el campo sea de tipo de fecha para mandar a traer otro input -->
                 <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
-                <!-- <label :for="String(field)">{{ field }}</label>
-                <input type="text" :id="String(field)"> -->
             </section>
-            
+
             <section class="btn_sections">
-                <input type="submit" value="Save">
-                <button>Clean</button>
-                <button @click="cancelAction()">Cancelar</button>
+                <input type="submit" value="Save" />
+                <button type="button" @click="closeModal">Cancelar</button>
             </section>
         </form>
-    </div>
+    </BaseModalComponent>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { InfoMessageAlert } from '../alerts/InfoAlert';
-    import { ShowCreateAlert } from '../alerts/createAlert';
-    import InputComponent from '../inputs/InputComponent.vue';
-    import { XCircleIcon } from '@heroicons/vue/24/solid';
-    import { reactive } from 'vue';
-    import { useModalStore } from '@/store/CreateModel';
-    import { useCatalogueStore } from '@/store/CatalogueStore';
+import BaseModalComponent from './BaseModalComponent.vue'
+import InputComponent from '../inputs/InputComponent.vue'
+import { XCircleIcon } from '@heroicons/vue/24/solid'
+import { reactive, computed } from 'vue'
+import { useCatalogueStore } from '@/store/CatalogueStore'
+import { InfoMessageAlert } from '../alerts/InfoAlert'
+import { ShowCreateAlert } from '../alerts/createAlert'
+import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface'
 
+const props = defineProps<{
+    modelValue: boolean
+    store_id: string
+    endpoint: string
+    onSuccess?: () => void
+}>()
 
-    const ModelManage =  useModalStore();
-    const props = defineProps<{
-        store_id: string,
-        endpoint: string,
-        showModal: Boolean
-    }>()
-    const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: boolean): void
+}>()
 
-    function hasEmptyFields(obj: Record<string, any>): boolean {
-        return Object.values(obj).some(
-            value => value === undefined || value === null || value === ''
-        );
+const show = computed({
+    get: () => props.modelValue,
+    set: v => emit('update:modelValue', v)
+})
+
+const closeModal = () => {
+    show.value = false
+}
+
+const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
+
+const createRecord = reactive({}) as T
+
+store.editableFields.forEach(field => {
+    (createRecord as any)[field] = ''
+})
+
+function hasEmptyFields(obj: Record<string, any>) {
+    return Object.values(obj).some(v => v === '' || v == null)
+}
+
+const saveData = async () => {
+    await store.createRecord(createRecord)
+}
+
+const sendForm = async () => {
+    if (hasEmptyFields(createRecord)) {
+        InfoMessageAlert('Los campos no pueden ir vacíos', '')
+        return
     }
 
-    //lo inicializamos vacio para que solo tome el shape al momento de asignarle valores
-    const createRecord = reactive({}) as T
-
-    //asignamos los valores
-    store.editableFields.forEach(field => {
-        (createRecord as any)[field] = '';
-    });
-
-    const sendForm = async()=>{
-        if (hasEmptyFields(createRecord)) {
-           InfoMessageAlert('Los campos no pueden ir vacios', 'no se puede generar el registro')
-        }else{
-            const response = await ShowCreateAlert(saveData);
-            if (response) {
-                cancelAction()//cerrar modal
-
-                store.editableFields.forEach(key =>{ //limpiando campos
-                    (createRecord as any)[key] = ''
-                })  
-            }
-        }
+    const ok = await ShowCreateAlert(saveData)
+    if (ok) {
+        props.onSuccess?.()
+        closeModal()
     }
-
-    //function para alamcenar
-    const saveData=async()=>{
-        try {
-            await store.createRecord(createRecord)
-        } catch (error) {
-            throw error
-        }
-    }
-
-    const cancelAction = () =>{
-        ModelManage.HideCreateModal()
-    }
+}
 </script>
 
-<style scoped>
-.model_new_record{
-    position: fixed;
-    right: 0;
-    left: 0;
-    width: 50%;
-    min-height: 30%;
-    margin: 0 auto;
-    background: rgba(27, 88, 104, 0.993);
-    border-radius: 30px;
-    z-index: 30;
+
+<style>
+.modal-width {
+    width: 100%;
+    max-width: 800px;
 }
-.form{
+
+.theme-transparent {
+    background-color: var(--color-eight);
+    box-shadow: none !important;
+    padding: 0 !important;
+    border: none !important;
+}
+</style>
+
+<style scoped>
+.form {
+    background-color: var(--color-seventh);
+    z-index: 100;
     padding: 40px;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 15px;
+    border-radius: 0px 0px 20px;
+    position: relative;
 }
-.btn_sections{
+
+.btn_sections {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
 }
-.icon_close{
+
+.icon_close {
     width: 45px;
     position: absolute;
     right: 15px;
-    top: 5px;
+    top: 7px;
     cursor: pointer;
-    color: rgb(70, 13, 13);
+    color: rgb(121, 19, 19);
     transition: all .5s ease;
+    z-index: 101;
 }
-.icon_close:hover{
+
+.icon_close:hover {
     transform: scale(1.1);
 }
 </style>

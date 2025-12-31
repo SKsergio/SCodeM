@@ -4,17 +4,30 @@
         <div class="action_filters">
             <filters-component :endpoint="props.endpoint" :store_id="props.store_id"></filters-component>
         </div>
+        <BtnAddComponent @open-modal-click="(clickModalOpen)"/>
     </div>
 </template>
 
 <script setup lang="ts" generic="T">
     import FiltersComponent from '../generics/FiltersComponent.vue';
+    import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 
+    //PROPS
     const props = defineProps<{
         store_id: string,
         endpoint: string,
         title:string
     }>()
+
+    //EMITS
+    const emits = defineEmits<{
+        (e: 'open-modal'): void
+    }>()
+
+    //emision de evento para abrir modal
+    const clickModalOpen=()=>{
+        emits('open-modal')
+    }
 </script>
 
 <style scoped>

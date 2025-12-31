@@ -1,16 +1,11 @@
 <template>
-    <button class="btn_Add" @click="showMd">Add+</button>
+    <button class="btn_Add" @click="emits('openModalClick')">Add+</button>
 </template>
 
 <script setup lang="ts">
-    /*aca lo que ira es un emit que retorne un evento al padre para que el padre 
-    de este haga la accion que le corresponde */
-    import { useModalStore } from '@/store/CreateModel';
-    const ModelManage =  useModalStore();
-
-    const showMd = ()=>{
-        ModelManage.showCreateModal()
-    }
+    const emits = defineEmits<{
+        (e:'openModalClick'):void
+    }>()
 
 </script>
 

@@ -1,7 +1,4 @@
 <template>
-    <!-- overlay to use in modals -->
-    <div class="overlay__modal" v-if="showModal"></div>
-
     <!-- body to the system -->
     <main class="container__main">
         <router-view class="container__view" />
@@ -36,11 +33,4 @@
 
 <style scoped>
     @import url('../../css/content.css');
-    .overlay__modal{
-        position: fixed;
-        background-color: rgba(26, 25, 25, 0.603);
-        width: 100%;
-        height: 100%;
-        z-index: 20;
-    }
 </style>
