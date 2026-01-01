@@ -59,12 +59,12 @@
     /* colores */
     --color-primary: #141414;
     --color-menu: #282828;
-    --color-third: #342e3b;
+    --color-third: #1d1a20;
     --color-fourth: #036995;
     --color-seccundary: #3f4041;
-    --color-fifth:#036995;
-    --color-seventh: #230046;
-    --color-sixth: #330066;
+    --color-fifth:#292929;
+    --color-seventh: #302f2f;
+    --color-sixth: #292828;
     --color-eight:#202283;
 
     /* text colors */
@@ -82,8 +82,8 @@
 
 
     /*btn asction colors*/ 
-    --color-delete:#8f3030;
-    --color-update:#313677;
+    --color-delete:#4A403A;
+    --color-update:#707982;
     --color-save:#1e3663;
     --color-add:#32cf4c;
     --color-find:#1265c4;

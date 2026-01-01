@@ -16,7 +16,7 @@
         border-radius: 7px;
         border: 2px solid #00000040;
         text-shadow: 1px 1px 1px #00000040;
-        box-shadow: 8px 8px 20px 0px #45090059;
+        box-shadow: 8px 8px 20px 0px #13161a59;
         padding: 8px 30px;
         line-height: 20px;
         cursor: pointer;
