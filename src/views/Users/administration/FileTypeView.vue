@@ -4,14 +4,14 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent
-                :endpoint="'catalog/type_files'" 
-                :store_id="'catalogue-type_files'"
-                :title="'Type Files'">
+            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Type Files'"
+                @open-modal="isModalOpen = true">
             </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'catalog/type_files'" :store_id="'catalogue-type_files'"></SlideComponent>
+                <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
+            <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
+                :title="'Registrar Tipo de Archivo'" />
         </div>
     </div>
 
@@ -23,8 +23,15 @@
     import { TypeFileInterface } from '@/interfaces/Catalogues/CataloguesInterface';
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { onMounted } from 'vue';
-    const store = useCatalogueStore<TypeFileInterface>('catalogue-type_files', 'catalog/type_files')()
+    import { onMounted, ref } from 'vue';
+    import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+
+    //VARIABLES
+    const isModalOpen = ref(false)
+    const storeId = 'catalogue-type_files';
+    const endpoint = 'catalog/type_files';
+
+    const store = useCatalogueStore<TypeFileInterface>(storeId, endpoint)()
 
 
     onMounted(() => {
@@ -38,7 +45,7 @@
         } catch (error) {
             console.error("No se pudieron los tipos de archivos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
-        } 
+        }
     }
 </script>
 
@@ -48,7 +55,8 @@
         margin: 0 auto;
         margin-top: -16px;
     }
-    .conatiner__data_load{
+
+    .conatiner__data_load {
         display: flex;
         flex-direction: column;
         position: relative;

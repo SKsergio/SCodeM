@@ -8,7 +8,7 @@
 
     <div class="no_content" v-else>
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
-        <img src="../../assets/images/404przeview.png" alt="404" srcset="">
+        <img src="../../assets/images/404preview.png" alt="404" srcset="">
     </div>
 </template>
 

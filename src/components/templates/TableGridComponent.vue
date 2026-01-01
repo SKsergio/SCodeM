@@ -82,7 +82,6 @@ defineProps<{
     background-color: var(--table-hover);
 }
 
-/* última fila sin borde inferior */
 .table-outline tbody tr:last-child td {
     border-bottom: none;
 }

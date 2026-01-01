@@ -4,14 +4,14 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent 
-                :endpoint="'catalog/sections'" 
-                :store_id="'catalogue-sections'"
-                :title="'Sections'">
+            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Sections'"
+                @open-modal="isModalOpen = true">
             </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'catalog/sections'" :store_id="'catalogue-sections'"></SlideComponent>
+                <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
+            <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
+                :title="'Registrar Nueva Sección'" />
         </div>
     </div>
 
@@ -23,8 +23,15 @@
     import { SectionInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { onMounted } from 'vue';
-    const store = useCatalogueStore<SectionInterface>('catalogue-sections', 'catalog/sections')()
+    import { onMounted, ref } from 'vue';
+    import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+
+    //VARIABLES
+    const isModalOpen = ref(false)
+    const storeId = 'catalogue-sections';
+    const endpoint = 'catalog/sections';
+
+    const store = useCatalogueStore<SectionInterface>(storeId, endpoint)()
 
 
     onMounted(() => {
@@ -38,20 +45,20 @@
         } catch (error) {
             console.error("No se pudieron cargar las secciones académicas.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
-        } 
+        }
     }
 </script>
 
 <style scoped>
-    .conatiner_crud {
-        width: 94%;
-        margin: 0 auto;
-        margin-top: -16px;
-    }
-    .conatiner__data_load{
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-   
+.conatiner_crud {
+    width: 94%;
+    margin: 0 auto;
+    margin-top: -16px;
+}
+
+.conatiner__data_load {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 </style>

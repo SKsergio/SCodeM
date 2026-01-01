@@ -25,12 +25,13 @@ import Load2Component from '@/components/loaders/Load2Component.vue';
 import { onMounted, ref } from 'vue';
 import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
 
-const store = useCatalogueStore<DegreeInterface>('catalogue-degrees', 'catalog/degrees')()
 
 //VARIABLES
 const isModalOpen = ref(false)
 const storeId = 'catalogue-degrees';
-const endpoint = ref('catalog/degrees')
+const endpoint = 'catalog/degrees';
+
+const store = useCatalogueStore<DegreeInterface>(storeId, endpoint)()
 
 //MONTAJE
 onMounted(() => {

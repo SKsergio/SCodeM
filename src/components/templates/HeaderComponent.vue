@@ -4,30 +4,30 @@
         <div class="action_filters">
             <filters-component :endpoint="props.endpoint" :store_id="props.store_id"></filters-component>
         </div>
-        <BtnAddComponent @open-modal-click="(clickModalOpen)"/>
+        <BtnAddComponent @open-modal-click="(clickModalOpen)" />
     </div>
 </template>
 
 <script setup lang="ts" generic="T">
-    import FiltersComponent from '../generics/FiltersComponent.vue';
-    import BtnAddComponent from '../buttons/BtnAddComponent.vue'
+import FiltersComponent from '../generics/FiltersComponent.vue';
+import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 
-    //PROPS
-    const props = defineProps<{
-        store_id: string,
-        endpoint: string,
-        title:string
-    }>()
+//PROPS
+const props = defineProps<{
+    store_id: string,
+    endpoint: string,
+    title: string
+}>()
 
-    //EMITS
-    const emits = defineEmits<{
-        (e: 'open-modal'): void
-    }>()
+//EMITS
+const emits = defineEmits<{
+    (e: 'open-modal'): void
+}>()
 
-    //emision de evento para abrir modal
-    const clickModalOpen=()=>{
-        emits('open-modal')
-    }
+//emision de evento para abrir modal
+const clickModalOpen = () => {
+    emits('open-modal')
+}
 </script>
 
 <style scoped>
@@ -39,11 +39,11 @@
     width: 100%;
     height: 145px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     border-radius: 0 0 10px 10px;
+    align-items: center; 
+    gap: 15px; 
+    padding-right: 40px; 
     flex-wrap: wrap;
-    align-content: center;
 
     >h1 {
         font-family: var(--font-decoration1);
@@ -68,6 +68,7 @@
 .action_filters {
     position: relative;
     z-index: 10;
+    margin-left: auto;
 }
 
 .datepicker-sm {

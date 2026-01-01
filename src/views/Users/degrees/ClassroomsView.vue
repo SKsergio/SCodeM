@@ -4,15 +4,14 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent 
-                :endpoint="'catalog/classrooms'" 
-                :store_id="'catalogue-classrooms'"
-                :title="'classrooms'"
-                >
+            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Classrooms'"
+                @open-modal="isModalOpen = true">
             </HeaderComponent>
             <div class="conatiner_crud">
-                <SlideComponent :endpoint="'catalog/classrooms'" :store_id="'catalogue-classrooms'"></SlideComponent>
+                <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
+            <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
+                :title="'Registrar Nuevo Salón de Clases'" />
         </div>
     </div>
 
@@ -24,8 +23,16 @@
     import { ClassromInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { onMounted } from 'vue';
-    const store = useCatalogueStore<ClassromInterface>('catalogue-classrooms', 'catalog/classrooms')()
+    import { onMounted, ref } from 'vue';
+    import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+
+
+    //VARIABLES
+    const isModalOpen = ref(false)
+    const storeId = 'catalogue-classrooms';
+    const endpoint = 'catalog/classrooms';
+
+    const store = useCatalogueStore<ClassromInterface>(storeId, endpoint)()
 
 
     onMounted(() => {
@@ -39,7 +46,7 @@
         } catch (error) {
             console.error("No se pudieron cargar los grados académicos.");
             alert("¡Ups! Algo salió mal al obtener los datos.");
-        } 
+        }
     }
 </script>
 
@@ -49,7 +56,8 @@
         margin: 0 auto;
         margin-top: -16px;
     }
-    .conatiner__data_load{
+
+    .conatiner__data_load {
         display: flex;
         flex-direction: column;
         position: relative;
