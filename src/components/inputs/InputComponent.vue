@@ -1,7 +1,7 @@
 <template>
     <div class="input-container">
-        <input type="text" :readonly="editable" :value="modelValue" @input="onInput" :id="String(field)" >
-        <label :for="String(field)" class="label" >{{ field }}</label>
+        <input type="text" :readonly="editable" :value="modelValue" @input="onInput" >
+        <label class="label" >{{ field }}</label>
         <div class="underline"></div>
     </div>
 </template>

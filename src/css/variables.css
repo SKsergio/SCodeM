@@ -60,12 +60,12 @@
     --color-primary: #141414;
     --color-menu: #282828;
     --color-third: #1d1a20;
-    --color-fourth: #036995;
+    --color-fourth: #2f3835;
     --color-seccundary: #3f4041;
     --color-fifth:#292929;
     --color-seventh: #302f2f;
     --color-sixth: #292828;
-    --color-eight:#202283;
+    --color-eight:#1a3f32;
 
     /* text colors */
     --color-black-text: rgb(24, 23, 23);
@@ -78,11 +78,11 @@
     --inputs--colors:rgba(224, 228, 241, 0.904);
 
     /*table colors*/
-    --table-hover: #0369955e;
+    --table-hover: #2b3a38;
 
 
     /*btn asction colors*/ 
-    --color-delete:#4A403A;
+    --color-delete:#2b221d;
     --color-update:#707982;
     --color-save:#1e3663;
     --color-add:#32cf4c;

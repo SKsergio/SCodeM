@@ -3,19 +3,19 @@
         <div class="loadeer_container" v-if="storeGeneric.loading">
             <Load2Component></Load2Component>
         </div>
+
         <div class="slide_container">
             <HeaderComponent :endpoint="'students/studentsManagers'" :store_id="'catalogue-studentsManagers'"
-                :title="'Students Manager'">
+                :title="'Students Manager'" @open-modal="isModalOpen = true">
             </HeaderComponent>
             <div class="conatiner_crud">
                 <section class="table__container">
-                    <TableGridComponent :rows="records" :columns=columns :length="lengthRecords">   
+                    <TableGridComponent :rows="records" :columns=columns :length="lengthRecords">
                         <template #cell="{ row, column }">
 
                             <!-- ejemplo: columna Foto -->
-                            <img v-if="column.key === 'file'" :src="row.file.url" class="img_file" />
+                            <img v-if="column.key === 'file' && row.file?.url" :src="row.file.url" class="img_file" />
 
-                            <!-- Default -->
                             <template v-else>
                                 {{ row[column.key] }}
                             </template>
@@ -23,53 +23,54 @@
                         </template>
                     </TableGridComponent>
                 </section>
-
             </div>
-
         </div>
+
+        <ModalComponent v-model="isModalOpen"></ModalComponent>
     </div>
 
 </template>
 
 <script setup lang="ts">
-import HeaderComponent from '@/components/templates/HeaderComponent.vue';
-import { onMounted, ref } from 'vue';
+    import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import Load2Component from '@/components/loaders/Load2Component.vue';
+    import ModalComponent from './components/ModalComponent.vue';
+    import TableGridComponent from '@/components/templates/TableGridComponent.vue';
 
-import TableGridComponent from '@/components/templates/TableGridComponent.vue';
-import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
-import { storeToRefs } from 'pinia'
-import { useCatalogueStore } from '@/store/CatalogueStore';
-// import { useStudentManagerStore } from '@/store/StudentManagerStore';
-import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { onMounted, ref } from 'vue';
+    import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
+    import { storeToRefs } from 'pinia'
+    import { useCatalogueStore } from '@/store/CatalogueStore';
+    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
 
-const storeGeneric = useCatalogueStore<StudentManagerResponse>('catalogue-studentsManagers', 'students/studentsManagers')();
-const { records, loading, lengthRecords } = storeToRefs(storeGeneric)
+    //VARIABLES
+    const isModalOpen = ref(false);
 
-//TABLE STRUCTURE
-const columns: ColumnDefinition<StudentManagerResponse>[] = [
-    { key: 'first_name', label: 'Nombre' },
-    { key: 'first_last_name', label: 'Apellido' },
-    { key: 'email', label: 'Correo' },
-    { key: 'age', label: 'Edad' },
-    { key: 'file', label: 'Foto' },
-]
+    const storeGeneric = useCatalogueStore<StudentManagerResponse>('catalogue-studentsManagers', 'students/studentsManagers')();
+    const { records, loading, lengthRecords } = storeToRefs(storeGeneric)
 
-onMounted(() => {
-    callRecords();
-})
+    //TABLE STRUCTURE
+    const columns: ColumnDefinition<StudentManagerResponse>[] = [
+        { key: 'first_name', label: 'Nombre' },
+        { key: 'first_last_name', label: 'Apellido' },
+        { key: 'email', label: 'Correo' },
+        { key: 'age', label: 'Edad' },
+        { key: 'file', label: 'Foto' },
+    ]
+
+    onMounted(() => {
+        callRecords();
+    })
 
 
-const callRecords = async () => {
-    try {
-        await storeGeneric.fetchAll()
-    } catch (error) {
-        console.error("No se pudieron cargar los grados académicos.");
-        alert("¡Ups! Algo salió mal al obtener los datos.");
+    const callRecords = async () => {
+        try {
+            await storeGeneric.fetchAll()
+        } catch (error) {
+            console.error("No se pudieron cargar los grados académicos.");
+            alert("¡Ups! Algo salió mal al obtener los datos.");
+        }
     }
-}
-
-
 </script>
 
 <style scoped>
@@ -92,11 +93,10 @@ const callRecords = async () => {
     border-radius: 25px 5px 25px 5px;
 }
 
-.img_file{
+.img_file {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
 }
-
 </style>

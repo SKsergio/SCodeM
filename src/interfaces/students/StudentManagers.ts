@@ -16,14 +16,15 @@ export interface StudentManagerResponse{
     age:number;
     readonly deleted_at:string | null;
     readonly created_at:string;
-    readonly updated_at:string
+    readonly updated_at:string;
+    file_type_id:number,
     file: AttachmentInterfaceResponse;
 }
 
-export interface StudentManagerRequest extends Omit<StudentManagerResponse, 'file'>{
+export interface StudentManagerRequest extends Omit<StudentManagerResponse, 'file' | 'deleted_at' | 'created_at' | 'updated_at'>{
 }
 
 // Esta es tu nueva interfaz para enviar el formulario con la imagen
 export interface StudentManagerPayload extends StudentManagerRequest {
-    file: File | null; 
+    photo?: File | null; 
 }

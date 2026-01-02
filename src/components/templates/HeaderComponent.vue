@@ -60,7 +60,6 @@ const clickModalOpen = () => {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        margin-right: 50px;
         gap: 20px;
     }
 }

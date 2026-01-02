@@ -96,7 +96,7 @@ const close = () => emit('update:modelValue', false)
     font-family: var(--font-v1);
     font-size: 20px;
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-lines);
     font-size: 30px;
     margin-bottom: 16px;
     text-align: center;

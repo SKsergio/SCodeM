@@ -56,7 +56,6 @@ defineProps<{
 
 .table-outline thead {
     background-color: var(--color-fourth);
-
 }
 
 /* encabezados */
@@ -64,7 +63,7 @@ defineProps<{
     padding: 5px 12px;
     text-align: left;
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-lines);
 }
 
 /* celdas */

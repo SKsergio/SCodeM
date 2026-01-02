@@ -43,15 +43,12 @@ const show = computed({
 
 const closeModal = () => {
     show.value = false
+    resetForm()
 }
 
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)()
 
 const createRecord = reactive({}) as T
-
-store.editableFields.forEach(field => {
-    (createRecord as any)[field] = ''
-})
 
 function hasEmptyFields(obj: Record<string, any>) {
     return Object.values(obj).some(v => v === '' || v == null)
@@ -72,6 +69,13 @@ const sendForm = async () => {
         props.onSuccess?.()
         closeModal()
     }
+}
+
+const resetForm = () => {
+    store.editableFields.forEach(field => {
+        (createRecord as any)[field] = ''
+    })
+
 }
 </script>
 

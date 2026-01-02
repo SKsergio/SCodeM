@@ -15,7 +15,7 @@
         border-radius: 7px;
         border: 2px solid #00000040;
         text-shadow: 1px 1px 1px #00000040;
-        box-shadow: 8px 8px 20px 0px rgba(0, 7, 69, 0.808);
+        box-shadow: 8px 8px 20px 0px rgba(12, 1, 43, 0.726);
         padding: 8px 30px;
         line-height: 20px;
         cursor: pointer;
@@ -23,7 +23,7 @@
         color: white;
         font-size: 15px;
         font-weight: 500;
-        min-width: 50px;
+        min-width: 130px;
     }
     .btn_Add:hover {
         box-shadow: none;

@@ -2,16 +2,15 @@ import ky, { HTTPError } from "ky";
 
 const api = ky.create({
     prefixUrl: 'http://127.0.0.1:8000/api/',
-    headers: {
-        'Content-Type': 'application/json'
-        //Authentication but in this moments she is not here with us
-    },
+    //Authentication but in this moments she is not here with us
 })
 
 //get generic function
 export async function httpGet<T>(endpoint: string): Promise<T> {
     try {
-        return await api.get(endpoint).json<T>()
+        return await api.get(endpoint, {
+            headers: { 'Content-Type': 'application/json' }
+        }).json<T>()
     } catch (error) {
         if (error instanceof HTTPError) {
             const backendError = await error.response.json();
@@ -42,9 +41,14 @@ export async function httpPatch<TReq, TRes>(endpoint: string, data: TReq): Promi
     try {
         const isFormData = data instanceof FormData;
 
-        const options = isFormData
-            ? { body: data as FormData }
-            : { json: data };
+        const options: any = {};
+        
+        if (isFormData) {
+            options.body = data;
+        } else {
+            options.json = data;
+            options.headers = { 'Content-Type': 'application/json' };
+        }
 
         const response = await api.patch(`${endpoint}`, options);
         return response.json<TRes>();
@@ -71,12 +75,16 @@ export async function httpPut<T>(endpoint: string, data: T, id: number): Promise
 //create new record function
 export async function httPost<TReq, TRes>(endpoint: string, data: TReq): Promise<TRes> {
     try {
-
         const isFormData = data instanceof FormData;
 
-        const options = isFormData
-            ? { body: data as FormData }
-            : { json: data };
+        const options: any = {};
+        
+        if (isFormData) {
+            options.body = data;
+        } else {
+            options.json = data;
+            options.headers = { 'Content-Type': 'application/json' };
+        }
 
         const response = await api.post(`${endpoint}`, options);
         return response.json<TRes>();
