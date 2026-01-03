@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <ModalComponent v-model="isModalOpen"></ModalComponent>
+        <ModalComponent v-model="isModalOpen" @emitido="callRecords()"></ModalComponent>
     </div>
 
 </template>

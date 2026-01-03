@@ -1,48 +1,3 @@
-<style scoped>
-.custum-file-upload {
-    height: 200px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: space-between;
-    gap: 20px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #e8e8e8;
-    background-color: #212121;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0px 48px 35px -48px #e8e8e8;
-}
-
-.custum-file-upload .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.custum-file-upload .icon svg {
-    height: 80px;
-    fill: #e8e8e8;
-}
-
-.custum-file-upload .text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.custum-file-upload .text span {
-    font-weight: 400;
-    color: #e8e8e8;
-}
-
-.custum-file-upload input {
-    display: none;
-}
-</style>
-
 <template>
     <label for="file" class="custum-file-upload">
         <div class="icon">
@@ -59,11 +14,11 @@
         <div class="text">
             <span>Click to upload image</span>
         </div>
-        <input id="file" type="file" @change="handlePhotoUpload">
+        <input id="file" type="file" @change="handlePhotoUpload" accept="image/*">
     </label>
 
     <div class="img_preview">
-        <img v-if="photoPreview" :src="photoPreview" alt="Preview">
+        <img v-if="photoPreview" :src="photoPreview" alt="Preview" class="photo">
     </div>
 </template>
 
@@ -91,3 +46,55 @@
     }
 
 </script>
+
+<style scoped>
+.custum-file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    gap: 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #cec9c9;
+    background-color: var(--color-menu);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.custum-file-upload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+}
+
+.custum-file-upload .icon svg {
+    height: 40px;
+    fill: var(--scroll-color);
+}
+
+.custum-file-upload .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custum-file-upload .text span {
+    font-weight: 400;
+    color: var(--scroll-color);
+}
+
+.custum-file-upload input {
+    display: none;
+}
+
+.img_preview{
+    width: 150px;
+    height: 150px;
+}
+.photo{
+    width: 100%;
+    border-radius: 20px;
+}
+</style>

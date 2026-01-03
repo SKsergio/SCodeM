@@ -51,7 +51,7 @@ const aplicarFiltros = () => {
 
 </script>
 
-<style>
+<style scoped>
 .datepicker_st {
     width: 27%;
 }

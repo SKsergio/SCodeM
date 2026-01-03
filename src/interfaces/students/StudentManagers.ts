@@ -11,7 +11,7 @@ export interface StudentManagerResponse{
     married_surname?:string | null;
     direction:string;
     nationality?:string;
-    birthdate: Date;
+    birthdate: Date | null | string;
     email:string;
     age:number;
     readonly deleted_at:string | null;

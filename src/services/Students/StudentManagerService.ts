@@ -70,31 +70,16 @@ export async function CreateManager(data: StudentManagerPayload): Promise<boolea
     try {
         const formData = new FormData();
         
-        // Log de verificación
-        console.log('Data recibida:', data);
-        
         // Agregar todos los campos
         Object.entries(data).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
                 if (key === 'photo' && value instanceof File) {
                     formData.append(key, value);
-                } else if (key === 'birthdate') {
-                    // Formatear la fecha como Y-m-d
-                    const date = new Date(value as string);
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    formData.append(key, `${year}-${month}-${day}`);
-                } else {
+                }else {
                     formData.append(key, String(value));
                 }
             }
         });
-        
-        console.log('FormData enviado:');
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
         
         await httPost<FormData, StudentManagerResponse>(`${url}`, formData);
         return true
