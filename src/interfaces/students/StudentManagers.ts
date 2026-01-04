@@ -24,6 +24,10 @@ export interface StudentManagerResponse{
 export interface StudentManagerRequest extends Omit<StudentManagerResponse, 'file' | 'deleted_at' | 'created_at' | 'updated_at'>{
 }
 
+export interface StudentManagerTableRow extends StudentManagerResponse {
+    actions?: string; 
+}
+
 // Esta es tu nueva interfaz para enviar el formulario con la imagen
 export interface StudentManagerPayload extends StudentManagerRequest {
     photo?: File | null; 

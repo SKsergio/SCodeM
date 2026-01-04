@@ -10,16 +10,19 @@
             </HeaderComponent>
             <div class="conatiner_crud">
                 <section class="table__container">
-                    <TableGridComponent :rows="records" :columns=columns :length="lengthRecords">
+                    <TableGridComponent :rows="tableRows" :columns="columns" :length="lengthRecords">
                         <template #cell="{ row, column }">
 
-                            <!-- ejemplo: columna Foto -->
+                            <!-- Foto -->
                             <img v-if="column.key === 'file' && row.file?.url" :src="row.file.url" class="img_file" />
 
-                            <template v-else>
-                                {{ row[column.key] }}
-                            </template>
+                            <!-- botones-->
+                            <div v-else-if="column.key === 'actions'" class="actions">
+                                <button @click="editRow(row)">Editar</button>
+                                <button @click="deleteRow(row)">Eliminar</button>
+                            </div>
 
+                            <span v-else>{{ row[column.key] }}</span>
                         </template>
                     </TableGridComponent>
                 </section>
@@ -37,8 +40,8 @@
     import ModalComponent from './components/ModalComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
 
-    import { onMounted, ref } from 'vue';
-    import { StudentManagerResponse } from '@/interfaces/students/StudentManagers';
+    import { onMounted, ref, computed } from 'vue';
+    import { StudentManagerResponse, StudentManagerTableRow } from '@/interfaces/students/StudentManagers';
     import { storeToRefs } from 'pinia'
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
@@ -47,20 +50,30 @@
     const isModalOpen = ref(false);
 
     const storeGeneric = useCatalogueStore<StudentManagerResponse>('catalogue-studentsManagers', 'students/studentsManagers')();
-    const { records, loading, lengthRecords } = storeToRefs(storeGeneric)
+    const { records, lengthRecords } = storeToRefs(storeGeneric)
+    const tableRows = computed(() => records.value as StudentManagerTableRow[])
 
     //TABLE STRUCTURE
-    const columns: ColumnDefinition<StudentManagerResponse>[] = [
+    const columns: ColumnDefinition<StudentManagerTableRow>[] = [
         { key: 'first_name', label: 'Nombre' },
         { key: 'first_last_name', label: 'Apellido' },
         { key: 'email', label: 'Correo' },
         { key: 'age', label: 'Edad' },
         { key: 'file', label: 'Foto' },
+        { key: 'actions', label: 'Acciones' },
     ]
 
     onMounted(() => {
         callRecords();
     })
+
+    function editRow(row:StudentManagerResponse){
+        console.log('hola');
+    }
+
+    function deleteRow(row:StudentManagerResponse){
+        console.log('hola');
+    }
 
 
     const callRecords = async () => {
