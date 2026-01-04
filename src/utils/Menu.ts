@@ -1,6 +1,13 @@
 import { MenuItems } from '../interfaces/templates/MenuInterFace';
-import {AcademicCapIcon, IdentificationIcon, InboxIcon,
-    HandRaisedIcon, MegaphoneIcon, CalendarDaysIcon, ChartPieIcon, TrophyIcon} from '@heroicons/vue/24/solid';
+
+import IconCap from '~icons/ri/graduation-cap-fill'
+import IdentificationIcon from '~icons/ri/profile-fill'
+import InboxIcon from '~icons/ri/shadow-line'
+import TrophyIcon from '~icons/ri/trophy-fill'
+import HandRaisedIcon from '~icons/ri/hand'
+import MegaphoneIcon from '~icons/ri/megaphone-fill'
+import CalendarDaysIcon from '~icons/ri/calendar-todo-fill'
+import ChartPieIcon from '~icons/ri/pie-chart-2-fill'
 
 export const menuItems: MenuItems[]=[
     {
@@ -14,7 +21,7 @@ export const menuItems: MenuItems[]=[
     },
     {
         label:'Students',
-        icon:AcademicCapIcon,
+        icon:IconCap,
         soons:[
             {label:'Studentes',name:'students/pruebas'},
             {label:'Managers',name:'ManagerStudentMagnament'},

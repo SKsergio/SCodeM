@@ -1,6 +1,6 @@
 <template>
     <BaseModalComponent v-model="show" title="Crear registro" :custom-class="'modal-width theme-transparent'">
-        <XCircleIcon class="icon_close" @click="closeModal" />
+        <CloseIcon class="icon_close" @click="closeModal" />
 
         <form class="form" @submit.prevent="sendForm">
             <section class="input__ct" v-for="(field, index) in store.editableFields" :key="index">
@@ -18,7 +18,7 @@
 <script setup lang="ts" generic="T extends AbstractCatalog">
 import BaseModalComponent from './BaseModalComponent.vue'
 import InputComponent from '../inputs/InputComponent.vue'
-import { XCircleIcon } from '@heroicons/vue/24/solid'
+import CloseIcon from '~icons/ri/close-large-line'
 import { reactive, computed } from 'vue'
 import { useCatalogueStore } from '@/store/CatalogueStore'
 import { InfoMessageAlert } from '../alerts/InfoAlert'
@@ -117,13 +117,13 @@ const resetForm = () => {
 }
 
 .icon_close {
-    width: 45px;
+    scale: 1.5;
     position: absolute;
     right: 15px;
-    top: 7px;
+    top: 15px;
     cursor: pointer;
     color: rgb(121, 19, 19);
-    transition: all .5s ease;
+    transition: all .3s ease;
     z-index: 101;
 }
 

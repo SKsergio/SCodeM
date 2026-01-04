@@ -49,17 +49,17 @@
         align-items: center;
         text-decoration: none;
         border-radius: 10px;
+        padding: 8px;
         color: var(--color-text1);
-        gap: 12px;
+        gap: 6px;
     }
     article:hover{
         background: var(--color-text-hover);
     }
     /* design to the icons */
     .svg_item{
-        min-width: 30px;
-        width: 30px;
-        margin-left: 4px;
+        scale: 1.5;
+        min-width: 40px;
     }
     .list_span{
         font-size: 25px;

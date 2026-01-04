@@ -1,7 +1,7 @@
 <template>
     <BaseModalComponent v-model="show" title="Registrar Nuevo Encargado"
         :custom-class="'modal-width-pt theme-modal-manager'">
-        <XCircleIcon class="icon_close" @click="closeModal" />
+        <CloseIcon class="icon_close" @click="closeModal" />
         <div class="manager_container">
 
             <section class="names">
@@ -97,7 +97,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { XCircleIcon } from '@heroicons/vue/24/solid';
+import CloseIcon from '~icons/ri/close-large-line'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { StudentManagerPayload } from '@/interfaces/students/StudentManagers';
@@ -232,14 +232,18 @@ const sendData = async() =>{
 }
 
 .icon_close {
-    width: 45px;
+    scale: 1.5;
     position: absolute;
     right: 15px;
-    top: 7px;
+    top: 15px;
     cursor: pointer;
     color: var(--color-delete);
-    transition: all .5s ease;
+    transition: all .3s ease;
     z-index: 101;
+}
+
+.icon_close:hover {
+    transform: scale(1.1);
 }
 
 .manager_container section {

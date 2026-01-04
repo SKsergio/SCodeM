@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
     import { watch, ref, Ref,onUnmounted ,onMounted} from 'vue'; //importando componentes de vue
-    import { MoonIcon} from '@heroicons/vue/24/solid'; //importando iconos
+    import MoonIcon from '~icons/ri/moon-fill'
     import logoComponent from '../generics/logoComponent.vue'; //importando el logo
     import OptionMenuComponent from '../buttons/OptionMenuComponent.vue'; //importando el componente de items del Menu
     import {menuItems} from '@/utils/Menu' //importando la estructura del menu
@@ -217,6 +217,9 @@
         font-size: 20px;
         margin-left: 5px;
     }
+    .icon-dark{
+        scale: 1.5;
+    }
     /* switch */
     .switch_container{
         min-width: 50px;
@@ -299,7 +302,6 @@
             font-size: 12px;
         }
     }
-    /* ----------media querrys for responsive menu */
     @media (max-height:660px) {
         .navegation{
             height: 400px;
@@ -308,7 +310,6 @@
             gap: 0;
         }
     }
-    /*RESPONSIVE DESIGN TO THE MENU*/
     .hidden_menu{
         left: -280px;
     }
