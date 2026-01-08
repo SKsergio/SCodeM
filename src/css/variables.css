@@ -57,15 +57,16 @@
 }
 .dark_mode{
     /* colores */
-    --color-primary: #141414;
+    /* --color-primary: #141414;0B0F1A */
+    --color-primary: #0B0F1A;
     --color-menu: #282828;
-    --color-third: #1d1a20;
+    --color-third: #101B2D;
     --color-fourth: #2f3835;
     --color-seccundary: #3f4041;
-    --color-fifth:#292929;
+    --color-fifth:#0B0F1A;
     --color-seventh: #302f2f;
-    --color-sixth: #292828;
-    --color-eight:#1a3f32;
+    --color-sixth: #161b2b;
+    --color-eight:#595FEB;
 
     /* text colors */
     --color-black-text: rgb(24, 23, 23);
@@ -82,8 +83,8 @@
 
 
     /*btn asction colors*/ 
-    --color-delete:#2b221d;
-    --color-update:#707982;
+    --color-delete:#431E25;
+    --color-update:#203952;
     --color-save:#1e3663;
     --color-add:#32cf4c;
     --color-find:#1265c4;

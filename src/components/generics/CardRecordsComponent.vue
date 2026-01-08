@@ -2,7 +2,7 @@
     <div class="card__wrapper">
         <div class="card">
             <div class="header_card">
-                <h1>{{records.id}}</h1>
+                <h3>{{records.id}}</h3>
             </div>
             <span class="overlay">
 
@@ -119,11 +119,12 @@
         max-height: 270px; */
         /* overflow-y: auto; */
         color: white;
+        border: 2px solid #1B2638;
         display: flex;
         flex-direction: column;
         gap: 10px;
         border-radius: 25px;
-        background: var(--color-seventh);
+        background: var(--color-sixth);
         padding-bottom: 10px;
     }
     .card_content{
@@ -136,12 +137,17 @@
         padding: 10px, 14px;
     }
     .header_card{
+        text-align: center;
         display: flex;
         flex-direction: row;
         font-family: var( --font-decoration2);
-        background: var( --color-sixth);
-        > h1 {
+        /* background: var( --color-sixth); */
+        > h3 {
             margin-left: 6px;
+            margin-top: 6px;
+            background: #293043;
+            width: 30px;
+            border-radius: 50%;
         }
     }
     .actions{

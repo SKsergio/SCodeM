@@ -56,7 +56,7 @@ const callRecords = async () => {
 .conatiner_crud {
     width: 94%;
     margin: 0 auto;
-    margin-top: -16px;
+    margin-top: 15px;
 }
 
 .conatiner__data_load {

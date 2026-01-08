@@ -44,6 +44,7 @@ const clickModalOpen = () => {
     gap: 15px; 
     padding-right: 40px; 
     flex-wrap: wrap;
+    border-bottom: 2px solid var(--color-lines);
 
     >h1 {
         font-family: var(--font-decoration1);

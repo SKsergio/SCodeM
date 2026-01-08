@@ -55,4 +55,8 @@ const aplicarFiltros = () => {
 .datepicker_st {
     width: 27%;
 }
+.datepicker_st input {
+    background-color: transparent;
+    color: wheat;
+}
 </style>

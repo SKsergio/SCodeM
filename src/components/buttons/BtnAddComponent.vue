@@ -1,8 +1,12 @@
 <template>
-    <button class="btn_Add" @click="emits('openModalClick')">Add+</button>
+    <button class="btn_Add" @click="emits('openModalClick')">Add
+        <AddIcon class="icon__add"></AddIcon>
+    </button>
 </template>
 
 <script setup lang="ts">
+    import AddIcon from '~icons/ri/function-add-line'
+
     const emits = defineEmits<{
         (e:'openModalClick'):void
     }>()
@@ -24,9 +28,16 @@
         font-size: 15px;
         font-weight: 500;
         min-width: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
     }
     .btn_Add:hover {
         box-shadow: none;
         opacity: 80%;
+    }
+    .icon__add{
+        scale: 1.3;
     }
 </style>
