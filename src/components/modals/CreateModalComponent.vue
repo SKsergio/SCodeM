@@ -8,14 +8,17 @@
             </section>
 
             <section class="btn_sections">
-                <input type="submit" value="Save" />
-                <button type="button" @click="closeModal">Cancelar</button>
+                <BtnSaveComponent @save_click="sendForm"></BtnSaveComponent>
+
+                <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
             </section>
         </form>
     </BaseModalComponent>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
+    import BtnSaveComponent from '../buttons/BtnSaveComponent.vue'
+    import BtnCancelComponent from '../buttons/BtnCancelComponent.vue'
 import BaseModalComponent from './BaseModalComponent.vue'
 import InputComponent from '../inputs/InputComponent.vue'
 import CloseIcon from '~icons/ri/close-large-line'

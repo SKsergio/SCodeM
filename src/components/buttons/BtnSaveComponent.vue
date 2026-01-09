@@ -15,8 +15,8 @@
     .btn_save {
         background: var(--color-save);
         border-radius: 4px;
-        border: 2px solid #00000040;
-        padding: 1px 20px;
+        border: 2px solid var(--color-save);
+        padding:8px 20px;
         line-height: 20px;
         cursor: pointer;
         transition: all 0.3s;

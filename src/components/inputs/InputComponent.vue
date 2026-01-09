@@ -68,7 +68,7 @@ function onInput(event: Event) {
         left: 0;
         height: 2px;
         width: 100%;
-        background-color:var(--color-lines);
+        background:var(--color-lines);
         transform: scaleX(0);
         transition: all 0.3s ease;
     }

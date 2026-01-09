@@ -59,7 +59,7 @@
     /* colores */
     /* --color-primary: #141414;0B0F1A */
     --color-primary: #0B0F1A;
-    --color-menu: #282828;
+    --color-menu: #181e2b;
     --color-third: #101B2D;
     --color-fourth: #2f3835;
     --color-seccundary: #3f4041;
@@ -72,7 +72,7 @@
     --color-black-text: rgb(24, 23, 23);
     --color-text1: rgb(255, 255, 255);
     --color-text-hover: hsl(203, 11%, 14%);
-    --color-lines: rgb(241, 241, 241);
+    --color-lines: #4d4964;
     --color-text-content: #fafafa;
     --color-text-line: rgb(217, 231, 247);
 
@@ -90,7 +90,7 @@
     --color-find:#1265c4;
 
     /* sahdows */
-    --color-shadows: hsl(0, 2%, 11%) 0 0 17px;
+    --color-shadows: #0c0c0c;
     /* scrollbar colors */
     --scroll-color:rgb(68,69,74);
     --scroll-color-hover:rgb(85,85,85);
