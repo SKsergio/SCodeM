@@ -118,7 +118,7 @@
         /* height: 260px;
         max-height: 270px; */
         /* overflow-y: auto; */
-        color: white;
+        color: var(--color-text-conten);
         border: 2px solid #1B2638;
         display: flex;
         flex-direction: column;
@@ -145,9 +145,14 @@
         > h3 {
             margin-left: 6px;
             margin-top: 6px;
-            background: #293043;
+            background: var(--color-header-card);
             width: 30px;
+            height: 30px;
             border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
     }
     .actions{
