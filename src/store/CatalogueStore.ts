@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import {//importamos las funciones del crud
-    GetAllRecords,
     GetRecords,
     DeleteRecords,
-    CreateRecord,
+    SaveRecord,
     PatchRecord
 } from '@/services/Catalogues/GenericServices';
 
@@ -20,13 +19,17 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string, default
         const fetchAll = async (): Promise<void> => {
             try {
                 loading.value = true;
-                records.value = await GetRecords<T>(endpoint, params.value);
+                const response = await GetRecords<T>(endpoint, params.value);
+                records.value = response.map((item: any) => ({
+                    ...item,
+                    created_at: item.created_at ?? item.createdAt
+                }));
                 lengthRecords.value = records.value.length;
             } catch (error) {
                 console.error(`Error fetching ${endpoint}:`, error);
                 throw error;
             } finally {
-                loading.value = false
+                loading.value = false;
             }
         };
 
@@ -51,7 +54,7 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string, default
 
         const createRecord = async (data: T): Promise<void> => {
             try {
-                await CreateRecord(data, endpoint);
+                await SaveRecord(data, endpoint);
                 await fetchAll();
             } catch (error) {
                 throw error;

@@ -89,6 +89,9 @@ export async function httPost<TReq, TRes>(endpoint: string, data: TReq): Promise
             options.headers = { 'Content-Type': 'application/json' };
         }
 
+        console.log(endpoint);
+        
+
         const response = await api.post(`${endpoint}`, options);
         return response.json<TRes>();
     } catch (error) {

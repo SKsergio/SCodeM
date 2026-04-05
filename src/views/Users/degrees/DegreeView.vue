@@ -29,7 +29,7 @@ import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
 //VARIABLES
 const isModalOpen = ref(false)
 const storeId = 'catalogue-degrees';
-const endpoint = 'catalogue/degrees/';
+const endpoint = 'catalogue/degrees';
 
 const store = useCatalogueStore<DegreeInterface>(storeId, endpoint)()
 

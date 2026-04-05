@@ -50,7 +50,7 @@ export async function GetRecords<T>(
 //function to delete one record generic
 export async function DeleteRecords(recordID: number, url: string): Promise<void> {
     try {
-        await httpDelete(`${url}/${recordID}/`)
+        await httpDelete(`${url}/${recordID}`)
     } catch (error) {
         console.log('Error al eliminar el registro:', error);
         throw error
@@ -60,7 +60,8 @@ export async function DeleteRecords(recordID: number, url: string): Promise<void
 //function to update one record generic
 export async function PatchRecord<T>(recordID: number, data: T, url: string): Promise<T> {
     try {
-        const response = await httpPatch<T, T>(`${url}/${recordID}/`, data);
+        console.log(recordID);
+        const response = await httpPatch<T, T>(`${url}/${recordID}`, data);
         return response;
     } catch (error) {
         console.log(`Error al actualizar el registro ${recordID} en ${url}:`, error);
@@ -69,10 +70,9 @@ export async function PatchRecord<T>(recordID: number, data: T, url: string): Pr
 }
 
 //function to create a new record 
-export async function CreateRecord<T>(data: T, url: string): Promise<boolean> {
+export async function SaveRecord<T>(data: T, url: string): Promise<boolean> {
     try {
-        console.log('ava');
-        await httPost(`${url}/`, data);
+        await httPost(`${url}`, data);
         return true
     } catch (error) {
         console.log(`Error al crear el registro ${data} en ${url}:`, error);

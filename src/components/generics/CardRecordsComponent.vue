@@ -96,8 +96,7 @@
     const SaveRecord = async() =>{
         let UpdateRecord
         try {
-            UpdateRecord = await store.updateRecord(localRecord.id, localRecord ,props.endpoint)
-            console.log(UpdateRecord);
+            UpdateRecord = await store.updateRecord(originalRecord.id, localRecord ,props.endpoint)
             Object.assign(localRecord, UpdateRecord)
         } catch (error:any) {
             console.log('el erro e:', error);
