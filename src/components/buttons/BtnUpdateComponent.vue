@@ -21,7 +21,7 @@
         line-height: 20px;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: white;
+        color: var(--color-text-content);
         font-size: 15px;
         font-weight: 500;
         min-width: 50px;

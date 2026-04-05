@@ -15,14 +15,14 @@
 
 <style scoped>
     .btn_delete {
-        background: var(--color-delete);
+        background: transparent;
         border-radius: 4px;
         border: 2px solid var(--color-delete);
         padding: 8px 20px;
         line-height: 20px;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: #8A4856;
+        color: #ee1313;
         font-size: 15px;
         font-weight: 500;
         min-width: 50px;
@@ -35,5 +35,6 @@
     .btn_delete:hover {
         background-color: var(--color-delete);
         opacity: 80%;
+        color: #f8f8f8;
     }
 </style>
