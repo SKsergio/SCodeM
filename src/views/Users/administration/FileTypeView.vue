@@ -29,7 +29,7 @@
     //VARIABLES
     const isModalOpen = ref(false)
     const storeId = 'catalogue-type_files';
-    const endpoint = 'catalog/type_files';
+    const endpoint = 'catalogue/type_files';
 
     const store = useCatalogueStore<TypeFileInterface>(storeId, endpoint)()
 

@@ -1,7 +1,10 @@
 import ky, { HTTPError } from "ky";
 
 const api = ky.create({
-    prefixUrl: 'http://127.0.0.1:8000/api/',
+    //prefijo para java
+    prefixUrl: 'http://127.0.0.1:8080/api/',
+    //prefijo para laravel
+    // prefixUrl: 'http://127.0.0.1:8000/api/',
     //Authentication but in this moments she is not here with us
 })
 

@@ -29,7 +29,7 @@
     //VARIABLES
     const isModalOpen = ref(false)
     const storeId = 'catalogue-subjects';
-    const endpoint = 'catalog/subjects';
+    const endpoint = 'catalogue/subjects';
 
     const store = useCatalogueStore<SubjectInterface>(storeId, endpoint)()
 

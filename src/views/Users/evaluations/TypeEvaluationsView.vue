@@ -29,7 +29,7 @@
     //VARIABLES
     const isModalOpen = ref(false)
     const storeId = 'catalogue-evaluationTypes';
-    const endpoint = 'catalog/evaluationTypes';
+    const endpoint = 'catalogue/evaluationTypes';
 
     const store = useCatalogueStore<TypeEvaluationsInterface>(storeId, endpoint)()
 

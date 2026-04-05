@@ -30,7 +30,7 @@
     //VARIABLES
     const isModalOpen = ref(false)
     const storeId = 'catalogue-classrooms';
-    const endpoint = 'catalog/classrooms';
+    const endpoint = 'catalogue/classrooms';
 
     const store = useCatalogueStore<ClassromInterface>(storeId, endpoint)()
 
