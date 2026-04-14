@@ -41,9 +41,10 @@
     width: 45px;
     background-color: #fff;
     border-radius: 99px;
-    z-index: -1;
+    z-index: 1;
     fill: rgb(91, 107, 255);
     border: 1px solid rgb(91, 107, 255);
+    pointer-events: none;
 }
 
 .input:focus+.icon,

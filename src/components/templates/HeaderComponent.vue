@@ -1,15 +1,11 @@
 <template>
     <div class="header__general">
         <h1>{{ title }}</h1>
-        <div class="action_filters">
-            <filters-component :endpoint="props.endpoint" :store_id="props.store_id"></filters-component>
-        </div>
         <BtnAddComponent @open-modal-click="(clickModalOpen)" />
     </div>
 </template>
 
 <script setup lang="ts" generic="T">
-import FiltersComponent from '../generics/FiltersComponent.vue';
 import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 
 //PROPS
@@ -39,9 +35,10 @@ const clickModalOpen = () => {
     width: 100%;
     height: 145px;
     display: flex;
+    flex-direction: row;
     border-radius: 0 0 10px 10px;
     align-items: center; 
-    gap: 15px; 
+    justify-content: space-between;
     padding-right: 40px; 
     flex-wrap: wrap;
     border-bottom: 2px solid var(--color-lines);
@@ -54,21 +51,6 @@ const clickModalOpen = () => {
         color: rgb(236, 232, 225);
         margin-left: 40px;
     }
-
-    .inputs__continer {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-}
-
-.action_filters {
-    position: relative;
-    z-index: 10;
-    margin-left: auto;
 }
 
 .datepicker-sm {

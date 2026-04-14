@@ -7,11 +7,21 @@
             <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Degrees'"
                 @open-modal="isModalOpen = true">
             </HeaderComponent>
+
+            <!-- filtros -->
+            <BtnFilterComponent @click="showFilters = !showFilters" />
+            <FilterWrapper v-if="showFilters" >
+                <filters-component :endpoint="endpoint" :store_id="storeId" :config="degreeFilters"></filters-component>
+            </FilterWrapper>
+
             <div class="conatiner_crud">
                 <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
+
+
         </div>
-        <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint" :title="'Registrar Nuevo Grado'"/>
+        <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
+            :title="'Registrar Nuevo Grado'" />
     </div>
 
 </template>
@@ -24,7 +34,13 @@ import { useCatalogueStore } from '@/store/CatalogueStore';
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import { onMounted, ref } from 'vue';
 import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+import FiltersComponent from '@/components/generics/FiltersComponent.vue';
+import FilterWrapper from '@/components/templates/FilterWrapper.vue';
+import { degreeFilters } from './filters';
 
+//colapsar filtros
+const showFilters = ref(false);
 
 //VARIABLES
 const isModalOpen = ref(false)
