@@ -82,6 +82,16 @@ export function useCatalogueStore<T>(
             }
         };
 
+        const changePage = async(newPage:number)=>{
+            page.value = newPage;
+            await fetchAll()
+        }
+
+        const changeSize = async(newSize:number)=>{
+            size.value = newSize;
+            await fetchAll();
+        }
+
         const loadEditableFields = (fields: (keyof T)[]) => {
             editableFields.value = fields;
         };
@@ -100,7 +110,9 @@ export function useCatalogueStore<T>(
             loading,
             size,
             page,
-            totalElements
+            totalElements,
+            changePage,
+            changeSize
         };
     });
 }

@@ -1,5 +1,7 @@
 <template>
-    
+
+    <vue-awesome-paginate :total-items="store.totalElements" :items-per-page="store.size" :max-pages-shown="5"
+        v-model="currentPage" />
     <div class="slide__cotainer" v-if="lengthRecords > 0">
         <section class="slide_content" v-for="(item) in records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent :records="item" :store_id="props.store_id" :endpoint="props.endpoint" />
@@ -17,12 +19,21 @@ import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
 import CardRecordsComponent from './CardRecordsComponent.vue';
 import { useCatalogueStore } from '@/store/CatalogueStore';
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue';
 
 
 const props = defineProps<{ store_id: string, endpoint: string }>();
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 
 const { records, lengthRecords } = storeToRefs(store);
+
+//paginacion
+const currentPage = computed({
+    get: () => store.page + 1,
+    set: (value: number) => {
+        store.changePage(value - 1)
+    }
+})
 
 </script>
 
@@ -39,7 +50,7 @@ const { records, lengthRecords } = storeToRefs(store);
 }
 
 
-.modal_creater{
+.modal_creater {
     display: flex;
     flex-direction: column;
     position: absolute;
