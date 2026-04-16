@@ -1,3 +1,4 @@
+import { PaginateResponse } from "@/interfaces/paginateResponse";
 import { httpGet, httpDelete, httpPatch, httPost } from "../api";
 
 //function to get all records generic
@@ -24,7 +25,7 @@ export async function GetOneRecord<T>(url: string, idRecord: number): Promise<T>
 export async function GetRecords<T>(
     url: string,
     params: Record<string, any> = {}
-): Promise<T[]> {
+): Promise<PaginateResponse<T>> {
     try {
         const query = new URLSearchParams();
 
@@ -38,7 +39,7 @@ export async function GetRecords<T>(
         const queryString = query.toString();
         const finalUrl = queryString ? `${url}?${queryString}` : url;
 
-        const response = await httpGet<T[]>(finalUrl);
+        const response = await httpGet<PaginateResponse<T>>(finalUrl);
         return response;
 
     } catch (error) {

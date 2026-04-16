@@ -7,24 +7,45 @@ import {//importamos las funciones del crud
     PatchRecord
 } from '@/services/Catalogues/GenericServices';
 
-export function useCatalogueStore<T>(store_id: string, endpoint: string, defaultParams: Record<string, any> = {}) {
+export function useCatalogueStore<T>(
+    store_id: string,
+    endpoint: string,
+    defaultParams: Record<string, any> = {}
+    ){
     return defineStore(store_id, () => {
+
         const records = ref<T[]>([]);
         const lengthRecords = ref(0)
+        const params = ref<Record<string, any>>({ ...defaultParams });
+
         const editableFields = ref<(keyof T)[]>([]);
         const title = ref(endpoint);
         let loading = ref(false);
-        const params = ref<Record<string, any>>({ ...defaultParams });
+
+        //datos de paginacion
+        const page = ref(0);
+        const size = ref(10);
+        const totalElements = ref(0);
+        const totalPages = ref(0);
 
         const fetchAll = async (): Promise<void> => {
             try {
                 loading.value = true;
-                const response = await GetRecords<T>(endpoint, params.value);
-                records.value = response.map((item: any) => ({
+
+                const response = await GetRecords<T>(endpoint, {
+                    ...params.value,
+                    page: page.value,
+                    size: size.value
+                });
+
+                records.value = response.content.map((item: any) => ({
                     ...item,
                     created_at: item.created_at ?? item.createdAt
                 }));
                 lengthRecords.value = records.value.length;
+                totalElements.value = response.totalElements;
+                totalPages.value = response.totalPages;
+
             } catch (error) {
                 console.error(`Error fetching ${endpoint}:`, error);
                 throw error;
@@ -76,7 +97,10 @@ export function useCatalogueStore<T>(store_id: string, endpoint: string, default
             loadEditableFields,
             title,
             lengthRecords,
-            loading
+            loading,
+            size,
+            page,
+            totalElements
         };
     });
 }
