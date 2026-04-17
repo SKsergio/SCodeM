@@ -10,7 +10,7 @@
             </HeaderComponent>
             <div class="conatiner_crud">
                 <section class="table__container">
-                    <TableGridComponent :rows="tableRows" :columns="columns" :length="lengthRecords">
+                    <TableGridComponent :rows="tableRows" :columns="columns" :length="totalElements">
                         <template #cell="{ row, column }">
 
                             <!-- Foto -->
@@ -50,7 +50,7 @@
     const isModalOpen = ref(false);
 
     const storeGeneric = useCatalogueStore<StudentManagerResponse>('catalogue-studentsManagers', 'students/studentsManagers')();
-    const { records, lengthRecords } = storeToRefs(storeGeneric)
+    const { records, totalElements } = storeToRefs(storeGeneric)
     const tableRows = computed(() => records.value as StudentManagerTableRow[])
 
     //TABLE STRUCTURE

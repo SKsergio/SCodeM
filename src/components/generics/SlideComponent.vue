@@ -2,7 +2,9 @@
 
     <PaginacionComponent :page="store.page" :total-items="store.totalElements" :items-per-page="store.size"
         :max-pages-shown="5" @change="store.changePage"></PaginacionComponent>
-    <div class="slide__cotainer" v-if="lengthRecords > 0">
+        
+
+    <div class="slide__cotainer" v-if="totalElements > 0">
         <section class="slide_content" v-for="(item) in records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent :records="item" :store_id="props.store_id" :endpoint="props.endpoint" />
         </section>
@@ -15,8 +17,6 @@
 
     <PaginacionComponent :page="store.page" :total-items="store.totalElements" :items-per-page="store.size"
         :max-pages-shown="5" @change="store.changePage"></PaginacionComponent>
-
-    
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
@@ -28,7 +28,7 @@ import PaginacionComponent from './PaginacionComponent.vue';
 const props = defineProps<{ store_id: string, endpoint: string }>();
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 
-const { records, lengthRecords } = storeToRefs(store);
+const { records, totalElements } = storeToRefs(store);
 
 </script>
 

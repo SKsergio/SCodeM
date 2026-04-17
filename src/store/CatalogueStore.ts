@@ -15,7 +15,6 @@ export function useCatalogueStore<T>(
     return defineStore(store_id, () => {
 
         const records = ref<T[]>([]);
-        const lengthRecords = ref(0)
         const params = ref<Record<string, any>>({ ...defaultParams });
 
         const editableFields = ref<(keyof T)[]>([]);
@@ -42,7 +41,6 @@ export function useCatalogueStore<T>(
                     ...item,
                     created_at: item.created_at ?? item.createdAt
                 }));
-                lengthRecords.value = records.value.length;
                 totalElements.value = response.totalElements;
                 totalPages.value = response.totalPages;
 
@@ -106,7 +104,6 @@ export function useCatalogueStore<T>(
             createRecord,
             loadEditableFields,
             title,
-            lengthRecords,
             loading,
             size,
             page,
