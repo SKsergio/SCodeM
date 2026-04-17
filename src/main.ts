@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
-import { VueAwesomePaginate } from 'vue-awesome-paginate'
+import VueAwesomePaginate from 'vue-awesome-paginate'
 
 
 // estilos propios
@@ -19,4 +19,5 @@ const pinia = createPinia()
 app
   .use(router)
   .use(pinia)
+  .use(VueAwesomePaginate)
   .mount('#app')

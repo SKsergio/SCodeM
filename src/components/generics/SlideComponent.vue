@@ -1,7 +1,7 @@
 <template>
 
-    <vue-awesome-paginate :total-items="store.totalElements" :items-per-page="store.size" :max-pages-shown="5"
-        v-model="currentPage" />
+    <PaginacionComponent :page="store.page" :total-items="store.totalElements" :items-per-page="store.size"
+        :max-pages-shown="5" @change="store.changePage"></PaginacionComponent>
     <div class="slide__cotainer" v-if="lengthRecords > 0">
         <section class="slide_content" v-for="(item) in records" :key="item.id"> <!--Esto hay que mejorarlo :/-->
             <CardRecordsComponent :records="item" :store_id="props.store_id" :endpoint="props.endpoint" />
@@ -12,6 +12,11 @@
         <h1>NO HAY GRADOS PARA MOSTRAR</h1>
         <img src="../../assets/images/404preview.png" alt="404" srcset="">
     </div>
+
+    <PaginacionComponent :page="store.page" :total-items="store.totalElements" :items-per-page="store.size"
+        :max-pages-shown="5" @change="store.changePage"></PaginacionComponent>
+
+    
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
@@ -19,21 +24,11 @@ import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
 import CardRecordsComponent from './CardRecordsComponent.vue';
 import { useCatalogueStore } from '@/store/CatalogueStore';
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue';
-
-
+import PaginacionComponent from './PaginacionComponent.vue';
 const props = defineProps<{ store_id: string, endpoint: string }>();
 const store = useCatalogueStore<T>(props.store_id, props.endpoint)();
 
 const { records, lengthRecords } = storeToRefs(store);
-
-//paginacion
-const currentPage = computed({
-    get: () => store.page + 1,
-    set: (value: number) => {
-        store.changePage(value - 1)
-    }
-})
 
 </script>
 
@@ -47,8 +42,8 @@ const currentPage = computed({
     gap: 25px;
     padding: 30px;
     border-radius: 25px 5px 25px 5px;
+    /* margin-bottom: 40px; */
 }
-
 
 .modal_creater {
     display: flex;
