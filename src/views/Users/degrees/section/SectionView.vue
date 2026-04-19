@@ -7,12 +7,20 @@
             <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Sections'"
                 @open-modal="isModalOpen = true">
             </HeaderComponent>
+
+
+            <BtnFilterComponent @click="showFilters = !showFilters" />
+            <FilterWrapper v-if="showFilters" >
+                <filters-component :endpoint="endpoint" :store_id="storeId" :config="degreeFilters"></filters-component>
+            </FilterWrapper>
+
             <div class="conatiner_crud">
                 <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
-            <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
-                :title="'Registrar Nueva Sección'" />
+
         </div>
+        <CreateModalComponent v-model="isModalOpen" :store_id="storeId" :endpoint="endpoint"
+                :title="'Registrar Nueva Sección'" />
     </div>
 
 </template>
@@ -25,6 +33,14 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
     import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+    import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import FiltersComponent from '@/components/generics/FiltersComponent.vue';
+    import FilterWrapper from '@/components/templates/FilterWrapper.vue';
+    import { degreeFilters } from './filters';
+
+
+    const showFilters = ref(false);
+
 
     //VARIABLES
     const isModalOpen = ref(false)
@@ -48,17 +64,3 @@
         }
     }
 </script>
-
-<style scoped>
-.conatiner_crud {
-    width: 94%;
-    margin: 0 auto;
-    margin-top: 15px;
-}
-
-.conatiner__data_load {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-</style>
