@@ -50,16 +50,3 @@
     }
 </script>
 
-<style scoped>
-    .conatiner_crud {
-        width: 94%;
-        margin: 0 auto;
-        margin-top: 15px;
-    }
-
-    .conatiner__data_load {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-</style>

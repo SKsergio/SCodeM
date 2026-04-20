@@ -76,8 +76,8 @@ const aplicarFiltros = () => {
     store.params = {
         ...store.params,
         search: filters.search,
-        from_date: filters.startDate,
-        until_date: filters.endDate,
+        fromDate: filters.startDate,
+        toDate: filters.endDate,
         ...dynamicParams
     }
 
