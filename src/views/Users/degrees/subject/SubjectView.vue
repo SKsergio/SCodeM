@@ -7,6 +7,13 @@
             <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Subjects'"
                 @open-modal="isModalOpen = true">
             </HeaderComponent>
+
+             <!-- filtros -->
+            <BtnFilterComponent @click="showFilters = !showFilters" />
+            <FilterWrapper v-if="showFilters" >
+                <filters-component :endpoint="endpoint" :store_id="storeId" :config="degreeFilters"></filters-component>
+            </FilterWrapper>
+
             <div class="conatiner_crud">
                 <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
@@ -25,6 +32,13 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
     import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+    import FilterWrapper from '@/components/templates/FilterWrapper.vue';
+    import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import FiltersComponent from '@/components/generics/FiltersComponent.vue';
+    import { degreeFilters } from './filter';
+
+    const showFilters = ref(false);
+
 
     //VARIABLES
     const isModalOpen = ref(false)
