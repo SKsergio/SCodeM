@@ -23,7 +23,7 @@ export function useCatalogueStore<T>(
 
         //datos de paginacion
         const page = ref(0);
-        const size = ref(10);
+        const size = ref(12);
         const totalElements = ref(0);
         const totalPages = ref(0);
 
