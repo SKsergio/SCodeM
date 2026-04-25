@@ -10,7 +10,8 @@ import SectionView from '@/views/Users/degrees/section/SectionView.vue'
 import ClassroomsView from '@/views/Users/degrees/classroom/ClassroomsView.vue'
 import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.vue'
 import SujectView from '@/views/Users/degrees/subject/SubjectView.vue'
-import FileTypeView from '@/views/Users/administration/FileTypeView.vue'
+import FileTypeView from '@/views/Users/administration/fileType/FileTypeView.vue'
+import TeacherView from '@/views/Users/administration/teachers/TeacherView.vue'
 import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/ManagerStudentsGridView.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -35,6 +36,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'administration',
                 children: [
                     { path: 'type_file', name: 'TypeFileMagnament', component: FileTypeView },
+                    { path: 'teachers', name: 'TeacherMagnament', component: TeacherView },
                 ]
             },
             {

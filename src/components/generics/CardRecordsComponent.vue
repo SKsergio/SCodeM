@@ -49,7 +49,7 @@
         endpoint: string
     }>()
 
-    const fechaCraacion = ref(formatDate(props.records.created_at))
+    const fechaCraacion = ref(formatDate(props.records.createdAt))
 
 
     const store = useCatalogueStore<T>(props.store_id, props.endpoint)()

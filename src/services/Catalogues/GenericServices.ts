@@ -59,10 +59,10 @@ export async function DeleteRecords(recordID: number, url: string): Promise<void
 }
 
 //function to update one record generic
-export async function PatchRecord<T>(recordID: number, data: T, url: string): Promise<T> {
+export async function PatchRecord<TReq, TRes>(recordID: number, data: TReq, url: string): Promise<TRes> {
     try {
         console.log(recordID);
-        const response = await httpPatch<T, T>(`${url}/${recordID}`, data);
+        const response = await httpPatch<TReq, TRes>(`${url}/${recordID}`, data);
         return response;
     } catch (error) {
         console.log(`Error al actualizar el registro ${recordID} en ${url}:`, error);

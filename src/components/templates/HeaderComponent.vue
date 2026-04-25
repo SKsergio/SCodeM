@@ -10,8 +10,8 @@ import BtnAddComponent from '../buttons/BtnAddComponent.vue'
 
 //PROPS
 const props = defineProps<{
-    store_id: string,
-    endpoint: string,
+    store_id?: string,
+    endpoint?: string, //esto lo vamos a quitar de todas partes
     title: string
 }>()
 

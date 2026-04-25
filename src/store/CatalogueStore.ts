@@ -37,10 +37,8 @@ export function useCatalogueStore<T>(
                     size: size.value
                 });
 
-                records.value = response.content.map((item: any) => ({
-                    ...item,
-                    created_at: item.created_at ?? item.createdAt
-                }));
+                records.value = response.content;
+                
                 totalElements.value = response.totalElements;
                 totalPages.value = response.totalPages;
 
@@ -54,7 +52,7 @@ export function useCatalogueStore<T>(
 
         const updateRecord = async (idRecord: number, data: T, url: string): Promise<T> => {
             try {
-                let record = await PatchRecord<T>(idRecord, data, url);
+                let record = await PatchRecord<T, T>(idRecord, data, url);
                 await fetchAll();
                 return record
             } catch (error) {

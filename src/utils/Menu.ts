@@ -16,7 +16,8 @@ export const menuItems: MenuItems[]=[
         amount:0,
         hadSoons:true,
         soons:[
-            {label:'Fyle Types', name:'TypeFileMagnament'}
+            {label:'Fyle Types', name:'TypeFileMagnament'},
+            {label:'Teachers', name:'TeacherMagnament'}
         ]
     },
     {

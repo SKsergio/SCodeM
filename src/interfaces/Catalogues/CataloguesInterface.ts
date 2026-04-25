@@ -4,8 +4,7 @@ export interface AbstractCatalog{
     name:string;
     code:string;
     description?:string;
-    readonly created_at:string;
-    readonly updated_at?:string
+    readonly createdAt:string;
 }
 
 export interface DegreeInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
