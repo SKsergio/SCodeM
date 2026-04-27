@@ -25,6 +25,7 @@ export interface TeacherSimpleResponse{
     readonly id: number
     fullName: string,
     routePhoto: string,
+    email: string,
     age: number,
     dui: string,
     readonly createdAt: string 
@@ -33,4 +34,9 @@ export interface TeacherSimpleResponse{
 export interface TeacherFullResponse extends TeacherResponse{
    assignedGrades: []//aaca luego ira el tipo de simpleResponseDegreeDetail,
    assignedCourses: []//aca tambien ira luego la interfaz correcta.
+}
+
+//interfaz para tabla
+export interface TeacherTableRow extends TeacherSimpleResponse{
+    actions?: string; 
 }

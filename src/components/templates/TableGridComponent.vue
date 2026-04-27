@@ -12,9 +12,11 @@
             <tbody>
                 <tr v-for="(row, i) in rows" :key="row.id ?? i">
                     <td v-for="col in columns" :key="String(col.key)">
-                        <slot name="cell" :row="row" :column="col">
+
+                        <slot :name="`cell-${String(col.key)}`" :row="row" :column="col">
                             {{ row[col.key] }}
                         </slot>
+
                     </td>
                 </tr>
             </tbody>
@@ -38,13 +40,14 @@ defineProps<{
 </script>
 
 <style scoped>
-    .table_section{
-        display: flex;
-        height: 100%;
-        width: 100%;
-        flex-direction: column;
+.table_section {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
 
-    }
+}
+
 .table-outline {
     width: 100%;
     font-size: 14px;

@@ -1,37 +1,42 @@
 <template>
     <div class="conatiner__data_load">
-        <div class="loadeer_container" v-if="storeGeneric.loading">
+        <div class="loadeer_container" v-if="loading">
             <Load2Component></Load2Component>
         </div>
 
         <div class="slide_container">
-            <HeaderComponent :endpoint="'students/studentsManagers'" :store_id="'catalogue-studentsManagers'"
-                :title="'Students Manager'" @open-modal="isModalOpen = true">
+            <HeaderComponent 
+                :endpoint="'students/studentsManagers'" 
+                :title="'Students Manager'" 
+                @open-modal="isModalOpen = true">
             </HeaderComponent>
+            
             <div class="conatiner_crud">
                 <section class="table__container">
-                    <TableGridComponent :rows="tableRows" :columns="columns" :length="totalElements">
-                        <template #cell="{ row, column }">
+                    <TableGridComponent 
+                        :rows="records" 
+                        :columns="columns" 
+                        :length="pagination.totalElements">
 
-                            <!-- Foto -->
-                            <img v-if="column.key === 'file' && row.file?.url" :src="row.file.url" class="img_file" />
+                        <template #cell-file="{ row }">
+                            <img v-if="row.file?.url" :src="row.file.url" class="img_file" />
+                            <span v-else>Sin foto</span>
+                        </template>
 
-                            <!-- botones-->
-                            <div v-else-if="column.key === 'actions'" class="actions">
+                        <template #cell-actions="{ row }">
+                            <div class="actions">
                                 <button @click="editRow(row)">Editar</button>
                                 <button @click="deleteRow(row)">Eliminar</button>
                             </div>
-
-                            <span v-else>{{ row[column.key] }}</span>
                         </template>
-                    </TableGridComponent>
+
+                        </TableGridComponent>
                 </section>
             </div>
         </div>
 
-        <ModalComponent v-model="isModalOpen" @emitido="callRecords()"></ModalComponent>
+        <ModalComponent v-model="isModalOpen" @emitido="fetchAll()"></ModalComponent>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -45,6 +50,7 @@
     import { storeToRefs } from 'pinia'
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+
 
     //VARIABLES
     const isModalOpen = ref(false);
