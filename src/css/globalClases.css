@@ -63,7 +63,7 @@
 }
 
 .text_area_st {
-    width: 190px;
+    /* width: 190px; */
     min-height: 70px;
     max-height: 70px;
     padding: 0.475rem;
