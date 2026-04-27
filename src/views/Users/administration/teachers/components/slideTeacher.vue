@@ -1,0 +1,135 @@
+<template>
+    <div class="slide_container">
+        <!-- filtros -->
+        <BtnFilterComponent @click="showFilters = !showFilters" />
+        <FilterWrapper v-if="showFilters">
+            <FilterComponent @apply-filters="handleFilters"></FilterComponent>
+        </FilterWrapper>
+
+        <div class="conatiner_crud">
+            <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size" :max-pages-shown="5"
+                @change="changePage">
+            </PaginacionComponent>
+            <section class="table__container">
+                <TableGridComponent :rows="records" :columns="columns" :length="totalElements">
+
+                    <template #cell-createdAt="{ row }">
+                        <span>{{ formatDate(row.createdAt) }}</span>
+                    </template>
+
+                    <template #cell-routePhoto="{ row }">
+                        <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
+                        <span v-else>Sin foto</span>
+                    </template>
+
+                    <template #cell-actions="{ row }">
+                        <div class="actions">
+                            <button @click="editRow()">Editar</button>
+                            <button @click="deleteRow()">Eliminar</button>
+                        </div>
+                    </template>
+
+                </TableGridComponent>
+            </section>
+            <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size" :max-pages-shown="5"
+                @change="changePage">
+            </PaginacionComponent>
+        </div>
+
+    </div>
+</template>
+
+<script lang="ts" setup>
+    import { ref, inject } from 'vue';
+    import { formatDate } from '@/utils/FormatDates';
+    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { TeacherTableRow } from '@/interfaces/Teacher/TeacherInterface';
+    import type { useTeachers } from '@/composables/useTeachers';
+    import FilterWrapper from '@/components/templates/FilterWrapper.vue';
+    import FilterComponent from '@/components/generics/FilterComponent.vue';
+    import TableGridComponent from '@/components/templates/TableGridComponent.vue';
+    import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
+    import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+
+    const {
+        records,
+        pagination,
+        fetchAll
+    } = inject('teacherContext') as ReturnType<typeof useTeachers>;
+
+
+    //VARIABLES
+    const showFilters = ref(false);
+    const prefijo = import.meta.env.VITE_API_PREFIX;
+
+    const page = pagination.page;
+    const size = pagination.size;
+    const totalElements = pagination.totalElements;
+    const changePage = pagination.changePage;
+
+
+    //tabla
+    const columns: ColumnDefinition<TeacherTableRow>[] = [
+        { key: 'id', label: 'ID' },
+        { key: 'fullName', label: 'Full Name' },
+        { key: 'email', label: 'Email' },
+        { key: 'age', label: 'Age' },
+        { key: 'dui', label: 'DUI' },
+        { key: 'routePhoto', label: 'Photo' },
+        { key: 'createdAt', label: 'Created At' },
+        { key: 'actions', label: 'Actions' }
+    ];
+
+    function editRow() {
+        console.log('hola');
+    }
+
+    function deleteRow() {
+        console.log('hola');
+    }
+
+    const handleFilters = async (newFilters: Record<string, any>) => {
+        pagination.changePage(0);
+        await fetchAll(newFilters);
+    }
+</script>
+
+<style>
+@import url('@/css/variables.css');
+
+.slide__cotainer {
+    background: var(--color-third);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 30px;
+    border-radius: 25px 5px 25px 5px;
+    /* margin-bottom: 40px; */
+}
+
+.conatiner_crud {
+    width: 94%;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.conatiner__data_load {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.table__container {
+    background: var(--color-third);
+    display: flex;
+    padding: 40px;
+    border-radius: 25px 5px 25px 5px;
+}
+
+.img_file {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+</style>
