@@ -100,6 +100,16 @@
     /* scrollbar colors */
     --scroll-color:rgb(68,69,74);
     --scroll-color-hover:rgb(85,85,85);
+
+
+    /* modales */
+    --modal-background: #0F172A;
+    --modal-card-backdound: #111827;
+    --texto-card: #E5E7EB;
+    --backgound-input: #111827;
+    --border-input: #374151;
+    --texto-input: #E5E7EB;
+
 }
 
 .responsive_mode{

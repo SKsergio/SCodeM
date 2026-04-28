@@ -17,7 +17,7 @@
         <input id="file" type="file" @change="handlePhotoUpload" accept="image/*">
     </label>
 
-    <div class="img_preview">
+    <div class="img_preview" v-if="preview_photo">
         <img v-if="photoPreview" :src="photoPreview" alt="Preview" class="photo">
     </div>
 </template>
@@ -25,6 +25,12 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
     const photoPreview = ref<string>('')
+
+    const props = withDefaults(defineProps<{
+        preview_photo?: boolean
+    }>(), {
+        preview_photo: false
+    })
 
     const emits = defineEmits<{
         (e: 'image', file:File):void

@@ -82,7 +82,7 @@ const close = () => emit('update:modelValue', false)
 .model_panel {
     position: relative;
     width: 100%;
-    border-radius: 20px;
+    border-radius: 20px 0;
     padding: 32px;
     display: flex;
     justify-content: center;
