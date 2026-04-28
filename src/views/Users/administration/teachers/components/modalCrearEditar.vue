@@ -41,6 +41,11 @@
                     <input class="input_st" type="text" id="phone" v-model="newTeacher.phoneNumber">
                 </div>
 
+                <div class="input__ct">
+                    <label for="speciality">Especiality</label>
+                    <input class="input_st" type="text" id="speciality" v-model="newTeacher.speciality">
+                </div>
+
             </section>
 
             <section class="other_data">
@@ -70,20 +75,76 @@
             </section>
 
             <section class="previsualizar">
-                <h1>
-                    Hola
-                </h1>
-                <h4>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex aut veniam blanditiis numquam impedit porro voluptatibus sequi repellendus incidunt harum, sit atque odit expedita, commodi deleniti doloribus autem ipsa. Ipsam.
-                    Minima placeat omnis fuga illum maxime ipsam optio, maiores voluptatem explicabo deleniti dolorum numquam facilis. Pariatur odit quidem ipsa libero voluptatibus excepturi asperiores alias. Ratione, rem nulla? Quo, cupiditate neque.
-                    Iste perferendis hic corrupti magnam laborum, ipsam voluptatibus quos commodi, earum quo dolor temporibus! Porro nemo rem eum officiis deleniti debitis nostrum odio, quasi consectetur autem adipisci sit nam facere.
-                    Aspernatur similique mollitia voluptatibus placeat, molestias rerum atque est temporibus fugit voluptate debitis laudantium ut nam eligendi impedit omnis vel exercitationem cumque voluptas quae at nihil! Dignissimos officiis inventore dolorum.
-                    Fugiat culpa, voluptatum exercitationem cupiditate dicta soluta aliquid ex vero quo aliquam. Laudantium obcaecati voluptates fugiat, provident illum veritatis ipsum! Ipsa, impedit minima! Adipisci quidem, recusandae eius error totam illo?
-                
 
-                
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque at ullam, dolore illo voluptatem dicta saepe voluptates quibusdam, quos dolorum quod enim assumenda quasi veniam labore quis expedita ad soluta.
-               </h4>
+                <div class="expediente-header">
+                    <h2>Expediente</h2>
+                </div>
+
+                <div class="img_preview">
+                    <img :src="photoPreview" alt="foto de perfil" class="photo-preview"> 
+                </div>
+
+                <div class="expediente-content">
+                    <div class="field-group">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Nombre Completo</label>
+                                <p>{{ newTeacher.firstName }} {{ newTeacher.secondName }} {{ newTeacher.firstLastName }} {{ newTeacher.secondLastName }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div> 
+
+                                        <div class="field-group">
+                        <div class="field-row">
+                            <div class="field half">
+                                <label>Edad</label>
+                                <p>{{ calculateAge() }} años</p>
+                            </div>
+                            <div class="field half">
+                                <label>Nacimiento</label>
+                                <p>{{ newTeacher.birthDate }}</p>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field half">
+                                <label>DUI</label>
+                                <p>{{ newTeacher.dui }}</p>
+                            </div>
+                            <div class="field half">
+                                <label>Especialidad</label>
+                                <p>{{ newTeacher.speciality }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="field-group">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Teléfono</label>
+                                <p>{{ newTeacher.phoneNumber }}</p>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Email</label>
+                                <p>{{ newTeacher.email }}</p>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Dirección</label>
+                                <p>{{ newTeacher.address }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
             </section>
 
         </div>
@@ -126,7 +187,20 @@ const newTeacher = ref<TeacherRequest>({
     dui: '',
 })
 
-const age = ref<number>(0)
+const photoPreview = ref<string>('')
+
+const calculateAge = (): number => {
+    if (!newTeacher.value.birthDate) return 0
+    const today = new Date()
+    const birthDate = new Date(newTeacher.value.birthDate)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+    }
+    return age
+}
 
 //PROPS Y EMMITS
 const props = defineProps<{
@@ -145,6 +219,11 @@ const show = computed({
 
 const handleImageFromChild = (file: File) => {
     newTeacher.value.photo = file;
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        photoPreview.value = e.target?.result as string
+    }
+    reader.readAsDataURL(file)
 }
 
 const closeModal = () => {
@@ -186,6 +265,13 @@ const sendData = async () => {
     border: none !important;
 }
 
+.photo-preview{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
 .teacher_container {
     display: grid;
     padding: 20px;
@@ -219,8 +305,12 @@ const sendData = async () => {
     margin-bottom: 10px;
     flex-wrap: wrap;
     flex-direction: row;
-    margin-top: auto;
     margin-left: auto;
+    gap: 10px;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
 }
 
 .other_data {
@@ -255,15 +345,26 @@ const sendData = async () => {
     transform: scale(1.1);
 }
 
-.previsualizar{
+.previsualizar {
     grid-row: 1/ 4;
     grid-column: 4 / 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    border: 2px solid var(--color-text1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
 }
 
 .teacher_container section {
     display: flex;
     gap: 15px;
     padding: 10px;
+    /* overflow-y: auto; */
 }
 
 .input__ct {
@@ -279,4 +380,87 @@ const sendData = async () => {
     font-weight: 500;
     flex-shrink: 0;
 }
+
+/* expediente */
+.expediente-header {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--color-text1);
+}
+
+.expediente-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-text1);
+}
+.expediente-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.img_preview{
+    width: 50%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.field-row .field:only-child {
+    grid-column: 1 / -1;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field.half {
+    flex: 1;
+}
+
+.field label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text1);
+    letter-spacing: 1px;
+}
+
+/* .field p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-text1);
+    font-weight: 500;
+    padding: 4px;
+    background-color: var( --color-fifth);
+    border-radius: 4px;
+    border-left: 3px solid var(--color-text1);
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+} */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-text1), transparent);
+    margin: 5px 0;
+}
+
 </style>

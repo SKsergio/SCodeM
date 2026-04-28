@@ -166,7 +166,7 @@ const sendData = async() =>{
 //ACTUALIZAR LA TABLA CUANDO SE AGREGUE UNO NUEVO
 </script>
 
-<style>
+<style scoped>
 .modal-width-pt {
     width: 100%;
     max-width: 80%;
