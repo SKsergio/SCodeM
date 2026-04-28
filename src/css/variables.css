@@ -17,6 +17,7 @@
     --color-update:#1b275a;
     --color-add:#32cf4c;
     --color-save:#266124;
+    --color-clear: #307460;
     --color-find:#1265c4;
 
     --table-hover: #0f81701f;   
@@ -94,6 +95,7 @@
     --color-save:#1e3663;
     --color-add:#32cf4c;
     --color-find:#1265c4;
+    --color-clear: #307460;
 
     /* sahdows */
     --color-shadows: #0c0c0c;

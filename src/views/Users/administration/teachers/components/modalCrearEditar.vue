@@ -38,8 +38,8 @@
                     <div class="input__ct">
                         <label for="birthdate">Birthdate</label>
                         <VueDatePicker v-model="newTeacher.birthDate" locale="es" format="yyyy-MM-dd"
-                            model-type="yyyy-MM-dd" :teleport="true" class="picker" 
-                            :enable-time-picker="false" auto-apply/>
+                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                            auto-apply />
                     </div>
 
                     <div class="input__ct">
@@ -155,14 +155,14 @@
 
         <section class="btn_section">
             <BtnSaveComponent @save_click="sendData"></BtnSaveComponent>
-            <BtnCleanComponent></BtnCleanComponent>
+            <BtnCleanComponent @clean_click="clean_form"></BtnCleanComponent>
             <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref,provide, inject } from 'vue';
 import { Gender } from '@/enum/GenderEnum';
 import CloseIcon from '~icons/ri/close-large-line'
 import VueDatePicker from '@vuepic/vue-datepicker'
@@ -174,8 +174,15 @@ import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
+import type { useTeachers } from '@/composables/useTeachers';
+import Swal from 'sweetalert2';
 
-const newTeacher = ref<TeacherRequest>({
+const {
+    createRecord,
+    updateRecord
+} = inject("teacherContext") as ReturnType<typeof useTeachers>
+
+const getInitialTeacher = (): TeacherRequest => ({
     firstName: '',
     secondName: '',
     firstLastName: '',
@@ -189,6 +196,14 @@ const newTeacher = ref<TeacherRequest>({
     photo: null,
     dui: '',
 })
+
+const newTeacher = ref<TeacherRequest>(getInitialTeacher());
+
+const clean_form = () => {
+    newTeacher.value = getInitialTeacher();
+    photoPreview.value = ''
+}
+
 
 const photoPreview = ref<string>('')
 
@@ -205,9 +220,13 @@ const calculateAge = (): number => {
     return age
 }
 
+
+
 //PROPS Y EMMITS
 const props = defineProps<{
-    modelValue: boolean
+    modelValue: boolean,
+    editMode?: boolean;
+    teacherData?: TeacherRequest | null;
 }>()
 
 const emit = defineEmits<{
@@ -234,8 +253,18 @@ const closeModal = () => {
 }
 
 const saveData = async () => {
-    // await CreateManager(newTeacher.value)
-    console.log("Datos listos para guardar");
+    try {
+        if (props.editMode) {
+            // await UpdateManager(newTeacher.value.id, newTeacher.value)
+            console.log("Actualizando...");
+        } else {
+            await createRecord(newTeacher.value)
+            Swal.fire("Creando...");
+        }
+    } catch (error) {
+        console.log("ocurrio un error: "+ error);
+        
+    }
 }
 
 const sendData = async () => {
@@ -246,6 +275,8 @@ const sendData = async () => {
         emit('emitido', true)
     }
 }
+
+
 </script>
 
 <style scoped>
@@ -268,7 +299,8 @@ const sendData = async () => {
 /* CONTENEDOR PRINCIPAL: Layout de 2 columnas */
 .teacher_container {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;/* 60% Formulario, 40% Expediente */
+    grid-template-columns: 1.5fr 1fr;
+    /* 60% Formulario, 40% Expediente */
     gap: 20px;
     padding: 30px;
     background-color: var(--color-sixth);
@@ -342,7 +374,8 @@ const sendData = async () => {
     gap: 6px;
     width: 48%;
 }
-.sc2 .input__ct{
+
+.sc2 .input__ct {
     width: 100%;
 }
 
@@ -354,7 +387,7 @@ const sendData = async () => {
 .input_st,
 .text_area_st {
     background-color: var(--color-menu);
-    border: 1px solid var(--color-seccundary) ;
+    border: 1px solid var(--color-seccundary);
     color: var(--color-text-content);
     border-radius: 6px;
     padding: 10px 12px;
@@ -486,10 +519,12 @@ const sendData = async () => {
 }
 
 .theme-modal-manager {
-    background-color: #161b2b !important; /* var(--color-sixth) */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+    background-color: #161b2b !important;
+    /* var(--color-sixth) */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
     padding: 0 !important;
-    border: 1px solid #2f3835 !important; /* var(--color-fourth) */
+    border: 1px solid #2f3835 !important;
+    /* var(--color-fourth) */
     border-radius: 12px;
 }
 

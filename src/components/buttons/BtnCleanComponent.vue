@@ -1,5 +1,5 @@
 <template>
-    <button class="btn_save" @click="emits('save_click')">Clean
+    <button class="btn_save" @click="emits('clean_click')">Clean
         <CleanIcon></CleanIcon>
     </button>
 </template>
@@ -7,15 +7,15 @@
 <script setup lang="ts">
     import CleanIcon from '~icons/ri/hand-sanitizer-line';
     const emits = defineEmits<{
-        (e:'save_click'):void
+        (e:'clean_click'):void
     }>()
 </script>
 
 <style scoped>
     .btn_save {
-        background: var(--color-save);
+        background: var(--color-clear);
         border-radius: 4px;
-        border: 2px solid var(--color-save);
+        border: 2px solid var(--color-clear);
         padding:8px 20px;
         line-height: 20px;
         cursor: pointer;

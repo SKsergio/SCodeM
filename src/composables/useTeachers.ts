@@ -9,6 +9,7 @@ import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { TeacherRequest, TeacherFullResponse, TeacherResponse, TeacherSimpleResponse } from "@/interfaces/Teacher/TeacherInterface";
 import { PaginateResponse } from "@/interfaces/paginateResponse";
+import { buildFormData } from "@/utils/buildFormData";
 
 export function useTeachers(){
     const endpoint = 'core/teacher';
@@ -42,7 +43,8 @@ export function useTeachers(){
 
     const createRecord = async ( data:TeacherRequest) =>{
         try {
-            await SaveRecord(data, endpoint);
+            const dataSend = buildFormData(data)
+            await SaveRecord(dataSend, endpoint);
             await fetchAll();
         } catch (e) {
             console.error('Error al crear:', e);
