@@ -67,11 +67,29 @@ export async function httpPatch<TReq, TRes>(endpoint: string, data: TReq): Promi
 }
 
 //update generic funcion tyoe PUT
-export async function httpPut<T>(endpoint: string, data: T, id: number): Promise<void> {
+export async function httpPut<TReq, TRes>(endpoint: string, data: TReq): Promise<TRes> {
     try {
-        alert('la data es' + JSON.stringify(data))
+        const isFormData = data instanceof FormData;
+
+        const options: any = {};
+        
+        if (isFormData) {
+            options.body = data;
+        } else {
+            options.json = data;
+            options.headers = { 'Content-Type': 'application/json' };
+        }
+
+        const response = await api.put(`${endpoint}`, options);
+        return response.json<TRes>();
     } catch (error) {
-        console.log(`Error en update ${endpoint}:`, error);
+        if (error instanceof HTTPError) {
+            const backendError = await error.response.json();
+            console.log(`Error POST ${endpoint}:`, backendError);
+            throw backendError
+        }
+        console.log(`Error en POST ${endpoint}:`, error);
+        throw error
     }
 }
 

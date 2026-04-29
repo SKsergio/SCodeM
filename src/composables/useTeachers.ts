@@ -3,27 +3,28 @@ import {//importamos las funciones del crud
     GetRecords,
     DeleteRecords,
     SaveRecord,
-    PatchRecord
+    PutRecord,
+    GetOneRecord
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { TeacherRequest, TeacherFullResponse, TeacherResponse, TeacherSimpleResponse } from "@/interfaces/Teacher/TeacherInterface";
-import { PaginateResponse } from "@/interfaces/paginateResponse";
+import { TeacherRequest, TeacherFullResponse, TeacherResponse, TeacherSimpleResponse, TeacherEditResponse } from "@/interfaces/Teacher/TeacherInterface";
 import { buildFormData } from "@/utils/buildFormData";
 
-export function useTeachers(){
+export function useTeachers() {
     const endpoint = 'core/teacher';
     const records = ref<TeacherResponse[]>([]);
     const loading = ref(false);
-    const error = ref<String| null>(null);
+    const error = ref<String | null>(null);
 
     //instanciando la paginacion
     const pagination = usePagination();
 
-    const fetchAll = async(extraParams: Record<string, any> = {}) =>{
+    //listar
+    const fetchAll = async (extraParams: Record<string, any> = {}) => {
         loading.value = true;
         error.value = null;
-        
+
         try {
             const response = await GetRecords<TeacherResponse>(endpoint, {
                 ...extraParams,
@@ -41,7 +42,8 @@ export function useTeachers(){
         }
     }
 
-    const createRecord = async ( data:TeacherRequest) =>{
+    //crear
+    const createRecord = async (data: TeacherRequest) => {
         try {
             const dataSend = buildFormData(data)
             await SaveRecord(dataSend, endpoint);
@@ -52,9 +54,11 @@ export function useTeachers(){
         }
     }
 
-    const updateRecord = async (idRecord: number, data:TeacherRequest): Promise<TeacherResponse> =>{
-         try {
-            const record = await PatchRecord<TeacherRequest, TeacherResponse>(idRecord, data, endpoint);
+    //editar
+    const updateRecord = async (idRecord: number, data: TeacherRequest): Promise<TeacherResponse> => {
+        try {
+            const dataSend = buildFormData(data)
+            const record = await PutRecord<FormData, TeacherResponse>(idRecord, dataSend, endpoint);
             await fetchAll();
             return record;
         } catch (e) {
@@ -63,15 +67,48 @@ export function useTeachers(){
         }
     }
 
+    //eliminar
     const deleteRecord = async (idRecord: number) => {
+        loading.value = true;
         try {
             await DeleteRecords(idRecord, endpoint);
             await fetchAll();
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
+        }finally {
+            loading.value = false;
         }
     };
+
+    //obtener detalle
+    const getDetail = async (idRecord: number): Promise<TeacherFullResponse> => {
+        loading.value = true;
+        try {
+            const record = await GetOneRecord<TeacherFullResponse>(endpoint, idRecord);
+            return record;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        } finally {
+            loading.value = false;
+        }
+    }
+
+    //obtener para eidcion
+    const getOntetoEdit = async (idRecord: number): Promise<TeacherEditResponse> => {
+        loading.value = true;
+        try {
+            const fullUrl = endpoint + "/edit";
+            const record = await GetOneRecord<TeacherEditResponse>(fullUrl, idRecord);
+            return record;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }finally {
+            loading.value = false;
+        }
+    }
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -83,8 +120,10 @@ export function useTeachers(){
         error,
         pagination,
         fetchAll,
+        getDetail,
         createRecord,
         updateRecord,
-        deleteRecord
+        deleteRecord,
+        getOntetoEdit
     };
 }

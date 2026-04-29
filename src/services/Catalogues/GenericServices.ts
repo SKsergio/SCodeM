@@ -1,5 +1,5 @@
 import { PaginateResponse } from "@/interfaces/paginateResponse";
-import { httpGet, httpDelete, httpPatch, httPost } from "../api";
+import { httpGet, httpDelete, httpPatch, httPost, httpPut } from "../api";
 
 //function to get all records generic
 export async function GetAllRecords<T>(url: string): Promise<T[]> {
@@ -69,6 +69,19 @@ export async function PatchRecord<TReq, TRes>(recordID: number, data: TReq, url:
         throw error;
     }
 }
+
+//PUT RECORD
+export async function PutRecord<TReq, TRes>(recordID: number, data: TReq, url: string): Promise<TRes> {
+    try {
+        console.log(recordID);
+        const response = await httpPut<TReq, TRes>(`${url}/${recordID}`, data);
+        return response;
+    } catch (error) {
+        console.log(`Error al actualizar el registro ${recordID} en ${url}:`, error);
+        throw error;
+    }
+}
+
 
 //function to create a new record 
 export async function SaveRecord<T>(data: T, url: string): Promise<boolean> {

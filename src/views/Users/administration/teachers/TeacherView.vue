@@ -9,10 +9,10 @@
         <HeaderComponent :title="'Teachers'" @open-modal="isModalOpen = true"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideTeacher></slideTeacher>
+        <slideTeacher @edit="handleEdit" @delete="handleDelete"></slideTeacher>
 
         <!-- modal de editar y crear -->
-        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()"></modalCrearEditar>
+        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :teacher-data="requestTeacherData"></modalCrearEditar>
     </div>
 </template>
 
@@ -23,13 +23,40 @@ import modalCrearEditar from './components/modalCrearEditar.vue';
 import { useTeachers } from '@/composables/useTeachers';
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
+import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
+import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
 
 const isModalOpen = ref(false);
 const teacherState = useTeachers();
+const requestTeacherData = ref<TeacherEditResponse>();
 
 // 2. Proveemos ese estado exacto al hijo
 provide("teacherContext", teacherState);
-const { loading, fetchAll } = teacherState;
+const { loading, fetchAll, getOntetoEdit, deleteRecord } = teacherState;
+
+//manejar edicion
+const handleEdit = async(id:number)=> {
+    try {
+        const data = await getOntetoEdit(id);
+        requestTeacherData.value = data;
+        console.log(requestTeacherData.value);
+        
+        isModalOpen.value = true;
+    } catch (error) {
+        console.error("No se pudo cargar la información para editar");
+        console.error(error);
+    }
+}
+
+//manjear eliminacion
+const handleDelete = async(id:number) =>{
+    try {
+        ShowDeleteAlert(()=>deleteRecord(id));
+    } catch (error) {
+        console.error("No se pudo cargar la información para editar");
+        console.error(error);
+    }
+}
 
 
 onMounted(async () => {
@@ -42,18 +69,6 @@ onMounted(async () => {
 </script>
 
 <style>
-.conatiner_crud {
-    width: 94%;
-    margin: 0 auto;
-    margin-top: 15px;
-}
-
-.conatiner__data_load {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
 .table__container {
     background: var(--color-third);
     display: flex;

@@ -73,9 +73,26 @@
                             <input class="input_st" type="text" id="phone" v-model="newTeacher.phoneNumber">
                         </div>
 
-                        <div class="input__ct">
-                            <label for="speciality">Especiality</label>
-                            <input class="input_st" type="text" id="speciality" v-model="newTeacher.speciality">
+                        <div class="end_section">
+                            <div class="input__ct ">
+                                <label for="speciality">Especiality</label>
+                                <input class="input_st" type="text" id="speciality" v-model="newTeacher.speciality">
+                            </div>
+
+                            <div class="input__ct gender_section">
+                                <label>Gender</label>
+                                <div class="gender-toggle">
+                                    <label class="gender-option">
+                                        <input type="radio" value="M" v-model="newTeacher.gender" name="gender">
+                                        <span class="gender-pill">Male</span>
+                                    </label>
+
+                                    <label class="gender-option">
+                                        <input type="radio" value="F" v-model="newTeacher.gender" name="gender">
+                                        <span class="gender-pill">Female</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -162,12 +179,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref,provide, inject } from 'vue';
+import { computed, ref, inject, watch } from 'vue';
 import { Gender } from '@/enum/GenderEnum';
 import CloseIcon from '~icons/ri/close-large-line'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import { TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
+import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
@@ -181,6 +198,19 @@ const {
     createRecord,
     updateRecord
 } = inject("teacherContext") as ReturnType<typeof useTeachers>
+
+
+//PROPS Y EMMITS
+const props = defineProps<{
+    modelValue: boolean,
+    teacherData?: TeacherEditResponse | null;
+}>()
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: boolean): void
+    (e: 'emitido', value: boolean): void
+}>()
+
 
 const getInitialTeacher = (): TeacherRequest => ({
     firstName: '',
@@ -198,12 +228,41 @@ const getInitialTeacher = (): TeacherRequest => ({
 })
 
 const newTeacher = ref<TeacherRequest>(getInitialTeacher());
+const prefijo = import.meta.env.VITE_API_PREFIX;
+
 
 const clean_form = () => {
     newTeacher.value = getInitialTeacher();
     photoPreview.value = ''
 }
 
+
+watch(
+    () => props.modelValue,
+    (isOpen) => {
+        if (isOpen) {
+            if (isOpen && props.teacherData) {
+
+                const { id, routePhoto, ...cleanData } = props.teacherData;
+
+                newTeacher.value = {
+                    ...cleanData,
+                    photo: null
+                } as unknown as TeacherRequest;
+
+                if (props.teacherData.routePhoto) {
+                    photoPreview.value = `${prefijo}${props.teacherData.routePhoto}`;
+                } else {
+                    photoPreview.value = '';
+                }
+            } else {
+                clean_form();
+            }
+        } else {
+            clean_form()
+        }
+    }
+)
 
 const photoPreview = ref<string>('')
 
@@ -219,20 +278,6 @@ const calculateAge = (): number => {
     }
     return age
 }
-
-
-
-//PROPS Y EMMITS
-const props = defineProps<{
-    modelValue: boolean,
-    editMode?: boolean;
-    teacherData?: TeacherRequest | null;
-}>()
-
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: boolean): void
-    (e: 'emitido', value: boolean): void
-}>()
 
 const show = computed({
     get: () => props.modelValue,
@@ -254,16 +299,16 @@ const closeModal = () => {
 
 const saveData = async () => {
     try {
-        if (props.editMode) {
-            // await UpdateManager(newTeacher.value.id, newTeacher.value)
-            console.log("Actualizando...");
+        if (props.teacherData?.id) {
+            console.log("estor aui");
+            await updateRecord(props.teacherData.id, newTeacher.value)
         } else {
             await createRecord(newTeacher.value)
             Swal.fire("Creando...");
         }
     } catch (error) {
-        console.log("ocurrio un error: "+ error);
-        
+        console.log("ocurrio un error: " + error);
+        throw error;
     }
 }
 
@@ -275,7 +320,6 @@ const sendData = async () => {
         emit('emitido', true)
     }
 }
-
 
 </script>
 
@@ -323,7 +367,6 @@ const sendData = async () => {
     font-weight: 800;
 }
 
-/* PANELES INDIVIDUALES (Para reemplazar el border blanco que tenías) */
 .box_panel {
     background-color: var(--color-primary);
     border: 1px solid var(--color-fourth);
@@ -367,7 +410,6 @@ const sendData = async () => {
     gap: 15px;
 }
 
-/* INPUTS Y LABELS (Ahora en columna para más limpieza) */
 .input__ct {
     display: flex;
     flex-direction: column;
@@ -405,6 +447,21 @@ const sendData = async () => {
 .input_st:focus,
 .text_area_st:focus {
     border-color: #3b82f6;
+}
+
+.gender_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.gender-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
 }
 
 /* LADO DERECHO: EXPEDIENTE */
@@ -493,6 +550,14 @@ const sendData = async () => {
     word-break: break-word;
 }
 
+.end_section {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    /* align-items: center; */
+}
+
 .divider {
     height: 1px;
     background-color: var(--color-fourth);
@@ -519,17 +584,14 @@ const sendData = async () => {
 }
 
 .theme-modal-manager {
-    background-color: #161b2b !important;
-    /* var(--color-sixth) */
+    background-color: var(--color-sixth) !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
     padding: 0 !important;
-    border: 1px solid #2f3835 !important;
-    /* var(--color-fourth) */
+    border: 1px solid var(--color-fourth) !important;
     border-radius: 12px;
 }
 
 .picker {
-    --dp-background-color: #181e2b;
     --dp-text-color: #ffffff;
     --dp-border-color: #3f4041;
     --dp-border-color-hover: #3b82f6;
@@ -537,7 +599,7 @@ const sendData = async () => {
 }
 
 .picker input {
-    background-color: var(--dp-background-color);
+    background-color: var(--color-primary);
     color: var(--dp-text-color);
 }
 </style>

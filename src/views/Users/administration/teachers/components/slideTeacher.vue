@@ -24,8 +24,8 @@
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow()">Editar</button>
-                            <button @click="deleteRow()">Eliminar</button>
+                            <button @click="editRow(row)">Editar</button>
+                            <button @click="deleteRow(row)">Eliminar</button>
                         </div>
                     </template>
 
@@ -67,6 +67,13 @@
     const totalElements = pagination.totalElements;
     const changePage = pagination.changePage;
 
+    //emits
+    const emit = defineEmits<{
+        (e: 'edit', id:number):void,
+        (e: 'delete', id:number):void,
+        (e: 'view-details', id:number):void
+    }>();
+
 
     //tabla
     const columns: ColumnDefinition<TeacherTableRow>[] = [
@@ -80,12 +87,12 @@
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow() {
-        console.log('hola');
+    function editRow(record:TeacherTableRow) {
+        emit('edit', record.id)
     }
 
-    function deleteRow() {
-        console.log('hola');
+    function deleteRow(record:TeacherTableRow) {
+        emit('delete', record.id)
     }
 
     const handleFilters = async (newFilters: Record<string, any>) => {

@@ -10,6 +10,12 @@ export interface TeacherRequest extends Omit<InstitutionarPersonInterface, 'id'>
     speciality: string,
     dui: string
 } 
+//imterfaz para obtener un registro a editar
+export interface TeacherEditResponse extends Omit<TeacherRequest, "photo">{
+    id:number,
+    routePhoto: string | null;
+}
+
 //interfaz para response
 export interface TeacherResponse extends InstitutionarPersonInterface{
     fullName: string,
