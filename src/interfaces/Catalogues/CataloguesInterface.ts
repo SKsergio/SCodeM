@@ -13,3 +13,9 @@ export interface ClassromInterface extends Omit<AbstractCatalog, 'description'> 
 export interface SectionInterface extends AbstractCatalog {} //interface to records od Sections
 export interface TypeEvaluationsInterface extends Omit<AbstractCatalog, 'description'> {} //interface to records of Degrees
 export interface SubjectInterface extends AbstractCatalog{}
+
+//interfaces para selects
+export interface CatalogueSimpleResponse{
+    id: number
+    name:string
+}

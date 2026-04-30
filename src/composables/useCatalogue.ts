@@ -8,13 +8,13 @@ import {//importamos las funciones del crud
     GetAllRecords
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
-//interfaces de maestros
-import { TeacherRequest, TeacherFullResponse, TeacherResponse, TeacherSimpleResponse, TeacherEditResponse } from "@/interfaces/Teacher/TeacherInterface";
-import { buildFormData } from "@/utils/buildFormData";
 
-export function useTeachers() {
-    const endpoint = 'core/teacher';
-    const records = ref<TeacherResponse[]>([]);
+
+//interfaces de catalogues
+
+export function useCatalogue<T>(prefix:string) {
+    const endpoint = `catalogue/${prefix}`
+    const records = ref<T[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
@@ -27,7 +27,7 @@ export function useTeachers() {
         error.value = null;
 
         try {
-            const response = await GetRecords<TeacherResponse>(endpoint, {
+            const response = await GetRecords<T>(endpoint, {
                 ...extraParams,
                 page: pagination.page.value,
                 size: pagination.size.value
@@ -44,10 +44,9 @@ export function useTeachers() {
     }
 
     //crear
-    const createRecord = async (data: TeacherRequest) => {
+    const createRecord = async (data: T) => {
         try {
-            const dataSend = buildFormData(data)
-            await SaveRecord(dataSend, endpoint);
+            await SaveRecord(data, endpoint);
             await fetchAll();
         } catch (e) {
             console.error('Error al crear:', e);
@@ -56,14 +55,13 @@ export function useTeachers() {
     }
 
     //editar
-    const updateRecord = async (idRecord: number, data: TeacherRequest): Promise<TeacherResponse> => {
+    const updateRecord = async (idRecord: number, data: T): Promise<T> => {
         try {
-            const dataSend = buildFormData(data)
-            const record = await PutRecord<FormData, TeacherResponse>(idRecord, dataSend, endpoint);
+            const record = await PutRecord<T, T>(idRecord, data, endpoint);
             await fetchAll();
             return record;
         } catch (e) {
-            console.error('Error al crear:', e);
+            console.error('Error al editar:', e);
             throw e;
         }
     }
@@ -83,10 +81,10 @@ export function useTeachers() {
     };
 
     //obtener detalle
-    const getDetail = async (idRecord: number): Promise<TeacherFullResponse> => {
+    const getDetail = async (idRecord: number): Promise<T> => {
         loading.value = true;
         try {
-            const record = await GetOneRecord<TeacherFullResponse>(endpoint, idRecord);
+            const record = await GetOneRecord<T>(endpoint, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -96,31 +94,19 @@ export function useTeachers() {
         }
     }
 
-    //obtener para eidcion
-    const getOntetoEdit = async (idRecord: number): Promise<TeacherEditResponse> => {
-        loading.value = true;
+    //OBTENER PARA SELECTS
+    const getSelects = async (): Promise<T[]> => {
         try {
-            const fullUrl = endpoint + "/edit";
-            const record = await GetOneRecord<TeacherEditResponse>(fullUrl, idRecord);
-            return record;
+            const urlFinal = endpoint + "/all"
+            const records = await GetAllRecords<T>(urlFinal);
+            return records;
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
-        }finally {
-            loading.value = false;
-        }
+        } 
     }
 
-    const getSelects = async (): Promise<TeacherSimpleResponse[]> => {
-            try {
-                const urlFinal = endpoint + "/all"
-                const records = await GetAllRecords<TeacherSimpleResponse>(urlFinal);
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
-        }
+    
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -136,7 +122,6 @@ export function useTeachers() {
         createRecord,
         updateRecord,
         deleteRecord,
-        getOntetoEdit,
-        getSelects
+        getSelects,
     };
 }

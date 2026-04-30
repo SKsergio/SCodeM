@@ -24,7 +24,7 @@ import { useTeachers } from '@/composables/useTeachers';
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
+import { TeacherEditResponse } from '@/interfaces/Teacher/TeacherInterface';
 
 const isModalOpen = ref(false);
 const teacherState = useTeachers();

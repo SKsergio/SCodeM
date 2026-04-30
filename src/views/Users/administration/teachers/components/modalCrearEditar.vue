@@ -3,7 +3,7 @@
         :custom-class="'modal-width-pt theme-modal-manager'">
         <CloseIcon class="icon_close" @click="closeModal" />
 
-        <div class="teacher_container">
+        <div class="form_container">
 
             <div class="form_wrapper">
                 <h3 class="section-title">TEACHER INFORMATION</h3>
@@ -300,7 +300,6 @@ const closeModal = () => {
 const saveData = async () => {
     try {
         if (props.teacherData?.id) {
-            console.log("estor aui");
             await updateRecord(props.teacherData.id, newTeacher.value)
         } else {
             await createRecord(newTeacher.value)
@@ -341,7 +340,7 @@ const sendData = async () => {
 }
 
 /* CONTENEDOR PRINCIPAL: Layout de 2 columnas */
-.teacher_container {
+.form_container {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     /* 60% Formulario, 40% Expediente */
@@ -527,7 +526,6 @@ const sendData = async () => {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
-
 
 .field {
     display: flex;

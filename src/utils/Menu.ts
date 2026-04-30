@@ -16,7 +16,7 @@ export const menuItems: MenuItems[]=[
         amount:0,
         hadSoons:true,
         soons:[
-            {label:'Fyle Types', name:'TypeFileMagnament'},
+            // {label:'Fyle Types', name:'TypeFileMagnament'},
             {label:'Teachers', name:'TeacherMagnament'}
         ]
     },
@@ -25,10 +25,10 @@ export const menuItems: MenuItems[]=[
         icon:IconCap,
         soons:[
             {label:'Studentes',name:'students/pruebas'},
-            {label:'Managers',name:'ManagerStudentMagnament'},
+            // {label:'Managers',name:'ManagerStudentMagnament'},
             {label:'Academic History',name:'students/pruebasAcademic'},
-            {label:'New entry',name:'students/pruebasAcademic2'},
-            {label:'Registered',name:'students/pruebasAcademic2'}
+            // {label:'New entry',name:'students/pruebasAcademic2'},
+            // {label:'Registered',name:'students/pruebasAcademic2'}
         ],
         amount:5,
         hadSoons:true
@@ -38,8 +38,9 @@ export const menuItems: MenuItems[]=[
         icon:InboxIcon,
         soons:[
             {label:'Degree',name:'DegreeMagnament'},
+            {label:'Specific Degree',name:'DegreeDetailMagnament'},
             {label:'Courses by grade',name:'no hay'},
-            {label:'Classrooms',name:'ClassroomsMagnament'},
+            // {label:'Classrooms',name:'ClassroomsMagnament'},
             {label:'Sections',name:'SectionMagnament'},
             {label:'Subjects',name:'SubjectMagnament'},
         ],
@@ -51,33 +52,33 @@ export const menuItems: MenuItems[]=[
         icon:TrophyIcon,
         soons:[
             {label:'Evaluations', name:'jijija/pruebas'},
-            {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
+            // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
         ],
         amount:3,
         hadSoons:true
     },
-    {
-        label:'Attendacne',
-        icon:HandRaisedIcon,
-        amount:0,
-        hadSoons:false
-    },
-    {
-        label:'Notices',
-        icon:MegaphoneIcon,
-        amount:0,
-        hadSoons:false
-    }, 
-    {
-        label:'Schedules',
-        icon:CalendarDaysIcon,
-        amount:0,
-        hadSoons:false
-    },
-    {
-        label:'Reports',
-        icon:ChartPieIcon,
-        amount:0,
-        hadSoons:false
-    },
+    // {
+    //     label:'Attendacne',
+    //     icon:HandRaisedIcon,
+    //     amount:0,
+    //     hadSoons:false
+    // },
+    // {
+    //     label:'Notices',
+    //     icon:MegaphoneIcon,
+    //     amount:0,
+    //     hadSoons:false
+    // }, 
+    // {
+    //     label:'Schedules',
+    //     icon:CalendarDaysIcon,
+    //     amount:0,
+    //     hadSoons:false
+    // },
+    // {
+    //     label:'Reports',
+    //     icon:ChartPieIcon,
+    //     amount:0,
+    //     hadSoons:false
+    // },
 ]

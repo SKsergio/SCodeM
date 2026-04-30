@@ -87,7 +87,35 @@
     width: 190px;
 }
 
-/* botones */
-.btn_updated{
+/* custom de selects */
+.custom-select-modal{
+    /* El input principal */
+    --ms-bg: var(--color-primary);
+    --ms-font-color: #ffffff;
+    --ms-border-color: #3f4041;
+    --ms-border-width: 1px;
+    --ms-radius: 6px;
     
+    --ms-ring-width: 1px;
+    --ms-ring-color: #3b82f6; 
+    
+    /* El menú desplegable (la lista de opciones) */
+    --ms-dropdown-bg: var(--color-sixth); /* Fondo oscuro del menú */
+    --ms-dropdown-border-color: #3f4041;
+    
+    /* Las opciones por defecto */
+    --ms-option-color: #ffffff;
+    
+    /* Cuando pasas el mouse sobre una opción (Hover) */
+    --ms-option-bg-pointed: var(--color-fourth); /* O un color más claro */
+    --ms-option-color-pointed: #ffffff;
+    
+    /* La opción que ya está seleccionada */
+    --ms-option-bg-selected: #3b82f6;
+    --ms-option-color-selected: var(--color-lines);
+    
+    /* Iconos (flechita y la 'x' para limpiar) */
+    --ms-caret-color: #ffffff;
+    --ms-clear-color: #ffffff;
+    --ms-spinner-color: #3b82f6;
 }

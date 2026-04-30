@@ -13,6 +13,7 @@ import SujectView from '@/views/Users/degrees/subject/SubjectView.vue'
 import FileTypeView from '@/views/Users/administration/fileType/FileTypeView.vue'
 import TeacherView from '@/views/Users/administration/teachers/TeacherView.vue'
 import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/ManagerStudentsGridView.vue'
+import SpecificDegreeView from '@/views/Users/degrees/specificDegrees/specificDegreeView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -53,6 +54,7 @@ const routes: Array<RouteRecordRaw> = [
                     { path: '', redirect: { name: 'DegreeMagnament' } }, //redirección al hijo por defecto
                     { path: 'degrees', name: 'DegreeMagnament', component: DegreeView },
                     { path: 'section', name: 'SectionMagnament', component: SectionView },
+                    { path: 'degreeDetail', name: 'DegreeDetailMagnament', component: SpecificDegreeView },
                     { path: 'classroom', name: 'ClassroomsMagnament', component: ClassroomsView },
                     { path: 'subject', name: 'SubjectMagnament', component: SujectView }
                 ]
