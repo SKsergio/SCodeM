@@ -7,35 +7,36 @@
 
                 <section class="selects_modal">
                     <div class="form-group">
-                        <label>Academic Degree</label>
+                        <label>Degree Detail</label>
 
-                        <Multiselect v-model="newDegreeDetail.degreeId" :options="props.degrees" valueProp="id"
-                            label="name" class="custom-select-modal" :searchable="true" placeholder="select a degree..."
+                        <Multiselect v-model="newCourse.gradeDetailId" :options="props.degreeDetail" valueProp="id"
+                            label="fullName" class="custom-select-modal" :searchable="true" placeholder="select a specific degree..."
                             noOptionsText="The list is empty" noResultsText="No results found" />
                     </div>
 
                     <div class="form-group">
-                        <label>Section</label>
-                        <Multiselect v-model="newDegreeDetail.sectionId" class="custom-select-modal" :options="props.sections" valueProp="id"
-                            label="name" :searchable="true" placeholder="select a section..." />
+                        <label>Period</label>
+                        <Multiselect v-model="newCourse.periodId" class="custom-select-modal" :options="props.periods" valueProp="id"
+                            label="startDate" :searchable="true" placeholder="Select a period..." />
                     </div>
 
                     <div class="form-group">
-                        <label>Tutor in charge</label>
-                        <Multiselect v-model="newDegreeDetail.tutorId" class="custom-select-modal" :options="props.tutors" valueProp="id"
-                            label="fullName" :searchable="true" placeholder="select a tutor..." />
+                        <label>Teacher</label>
+                        <Multiselect v-model="newCourse.teacherId" class="custom-select-modal" :options="props.teachers" valueProp="id"
+                            label="fullName" :searchable="true" placeholder="Select a teacher..." />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <Multiselect v-model="newCourse.subjectId" class="custom-select-modal" :options="props.subjects" valueProp="id"
+                            label="name" :searchable="true" placeholder="Select a subject..." />
                     </div>
                 </section>
 
                 <section class="inputs_modal">
                     <div class="input__ct">
-                        <label for="ability">Ability</label>
-                        <input class="input_st" type="number" max="50" min="0" id="ability" v-model.number="newDegreeDetail.ability">
-                    </div>
-
-                    <div class="input__ct">
-                        <label for="year">Year</label>
-                        <input class="input_st" type="number" :max="currentYear" min="1900" id="year" v-model.number="newDegreeDetail.year">
+                        <label for="ability">Valority Unity</label>
+                        <input class="input_st" type="number" max="50" min="0" id="ability" v-model.number="newCourse.valorityUnity">
                     </div>
                 </section>
             </div>
@@ -49,16 +50,18 @@
                     <div class="field-group">
                         <div class="field-row">
                             <div class="field">
-                                <label>Degree Name</label>
-                                <p>{{ getDegreeName(newDegreeDetail.degreeId) }}</p>
+                                <label>Degree Specific Name</label>
+                                <p>{{ getDegreeDetailName(newCourse.gradeDetailId) }}</p>
                             </div>
+                          
                             <div class="field">
-                                <label>Section Name</label>
-                                <p>{{ getSectionName(newDegreeDetail.sectionId) }}</p>
+                                <label>Teacher Name</label>
+                                <p>{{ getTeacherName(newCourse.teacherId) }}</p>
                             </div>
-                            <div class="field">
-                                <label>Tutor Name</label>
-                                <p>{{ getTutorName(newDegreeDetail.tutorId) }}</p>
+
+                              <div class="field">
+                                <label>Subject Name</label>
+                                <p>{{ getSubjectName(newCourse.subjectId) }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,12 +71,12 @@
                     <div class="field-group">
                         <div class="field-row">
                             <div class="field half">
-                                <label>Ability</label>
-                                <p>{{ newDegreeDetail.ability }}</p>
+                                <label>Unity Value</label>
+                                <p>{{ newCourse.valorityUnity }}</p>
                             </div>
                             <div class="field half">
-                                <label>Year</label>
-                                <p>{{ newDegreeDetail.year }}</p>
+                                <label>Period</label>
+                                <p>{{getPeriodStartDate(newCourse.periodId) }}</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +100,7 @@ import CloseIcon from '~icons/ri/close-large-line'
 import '@vueform/multiselect/themes/default.css';
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-import { DegreeDetailEditResponse, DegreeDetailRequest } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import {DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
 import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
 import { computed, inject, ref, watch } from 'vue';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
@@ -105,30 +108,35 @@ import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import type{ useDegreeDetail } from '@/composables/useDegreeDetail';
 import { ApiError } from '@/interfaces/ApiError';
+import { CourseEditResponse, CourseRequest } from '@/interfaces/Course/CourseInterface';
+import { PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
+import { useCourse } from '@/composables/useCourse';
 
 //inyeccion de funcines
 const {
     createRecord,
     updateRecord
-} = inject("degreDetailContext") as ReturnType<typeof useDegreeDetail>
+} = inject("courseContext") as ReturnType<typeof useCourse>
 
 //PROPS Y EMITS
 const props = defineProps<{
     modelValue: boolean
-    degreeDetail?: DegreeDetailEditResponse | null
-    degrees?: CatalogueSimpleResponse[]
-    sections?: CatalogueSimpleResponse[]
-    tutors?: TeacherSimpleResponse[]
+    course?: CourseEditResponse
+    degreeDetail?: DegreeDetailSimpleResponse[]
+    periods?: PeriodSimpleResponse[]
+    teachers?: TeacherSimpleResponse[]
+    subjects?: CatalogueSimpleResponse[]
 }>();
+
+console.log(props.degreeDetail);
+
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: boolean): void
     (e: 'emitido', value: boolean): void
 }>()
 
-const currentYear = computed(() => new Date().getFullYear())
 
 const show = computed({
     get: () => props.modelValue,
@@ -136,28 +144,28 @@ const show = computed({
 })
 
 //INICIALIZACIONES
-const getInitialDegreeDetail = (): DegreeDetailRequest => ({
-    ability: null as unknown as number,
-    year: 2026,
-    degreeId: null,
-    tutorId: null,
-    sectionId: null
+const getInitialCourse = (): CourseRequest => ({
+    valorityUnity: null as unknown as number,
+    gradeDetailId: null,
+    periodId: null,
+    teacherId: null,
+    subjectId: null
 })
-const newDegreeDetail = ref<DegreeDetailRequest>(getInitialDegreeDetail());
+const newCourse = ref<CourseRequest>(getInitialCourse());
 
 const clean_form = () => {
-    newDegreeDetail.value = getInitialDegreeDetail()
+    newCourse.value = getInitialCourse()
 }
 
 watch(
     () => props.modelValue,
     (isOpen) => {
         if (isOpen) {
-            if (isOpen && props.degreeDetail) {
+            if (isOpen && props.course) {
 
-                const { ...cleanData } = props.degreeDetail;
+                const { ...cleanData } = props.course;
 
-                newDegreeDetail.value = {
+                newCourse.value = {
                     ...cleanData,
                 };
             } else {
@@ -175,47 +183,35 @@ const closeModal = () => {
 
 const validateForm = (): string | null => {
     // Validar campos requeridos no estén vacíos
-    if (!newDegreeDetail.value.degreeId) {
-        return 'Selecciona un grado académico'
+    if (!newCourse.value.gradeDetailId) {
+        return 'Selcct a degree detail'
     }
-    if (!newDegreeDetail.value.sectionId) {
-        return 'Selecciona una sección'
+    if (!newCourse.value.periodId) {
+        return 'Select a period'
     }
-    if (!newDegreeDetail.value.tutorId) {
-        return 'Selecciona un tutor'
+    if (!newCourse.value.teacherId) {
+        return 'Select a teacher'
+    }
+    if (!newCourse.value.subjectId) {
+        return 'Select a subject'
     }
     
     // Validar que ability no esté vacío y no sea mayor a 50
-    if (newDegreeDetail.value.ability === null || newDegreeDetail.value.ability === undefined) {
-        return 'La capacidad es requerida'
+    if (newCourse.value.valorityUnity === null || newCourse.value.valorityUnity === undefined) {
+        return 'Valority Unity is required'
     }
-    if (newDegreeDetail.value.ability > 50) {
-        return 'La capacidad no puede ser mayor a 50'
-    }
-    if (newDegreeDetail.value.ability < 0) {
-        return 'La capacidad no puede ser menor a 0'
-    }
-    
-    // Validar que year no esté vacío y no sea mayor al año actual
-    if (!newDegreeDetail.value.year) {
-        return 'El año es requerido'
-    }
-    if (newDegreeDetail.value.year > currentYear.value) {
-        return `El año no puede ser mayor al año actual (${currentYear.value})`
-    }
-    if (newDegreeDetail.value.year < 1900) {
-        return 'El año no puede ser menor a 1900'
-    }
-    
+    if (newCourse.value.valorityUnity < 0 || newCourse.value.valorityUnity > 50) {
+        return 'Valority Unity must be between 0 and 10'
+    }    
     return null
 }
 
 const saveData = async () => {
      try {
-        if (props.degreeDetail?.id) {
-            await updateRecord(props.degreeDetail.id, newDegreeDetail.value)
+        if (props.course?.id) {
+            await updateRecord(props.course.id, newCourse.value)
         } else {
-            await createRecord(newDegreeDetail.value)
+            await createRecord(newCourse.value)
         }
     } catch (error) {
         console.log("ocurrio un error: " + error);
@@ -244,31 +240,41 @@ const sendData = async () => {
 }
 
 //obtener los nombres por id
-const getDegreeName = (id: number | null) => {
+const getDegreeDetailName = (id: number | null) => {
     if (!id) return
-    let degreeCurrent = props.degrees?.find(dg => dg.id === id)
-    if (degreeCurrent) {
-        return degreeCurrent?.name
-    } else {
-        return "sin nombre";
-    }
-}
-
-const getSectionName = (id: number | null) => {
-    if (!id) return
-    let degreeCurrent = props.sections?.find(dg => dg.id === id)
-    if (degreeCurrent) {
-        return degreeCurrent?.name
-    } else {
-        return "sin nombre";
-    }
-}
-
-const getTutorName = (id: number | null) => {
-    if (!id) return
-    let degreeCurrent = props.tutors?.find(dg => dg.id === id)
+    let degreeCurrent = props.degreeDetail?.find(dg => dg.id === id)
     if (degreeCurrent) {
         return degreeCurrent?.fullName
+    } else {
+        return "sin nombre";
+    }
+}
+
+const getSubjectName = (id: number | null) => {
+    if (!id) return
+    let subjectCurrent = props.subjects?.find(dg => dg.id === id)
+    if (subjectCurrent) {
+        return subjectCurrent?.name
+    } else {
+        return "sin nombre";
+    }
+}
+
+const getTeacherName = (id: number | null) => {
+    if (!id) return
+    let teacherCurrent = props.teachers?.find(dg => dg.id === id)
+    if (teacherCurrent) {
+        return teacherCurrent?.fullName
+    } else {
+        return "sin nombre";
+    }
+}
+
+const getPeriodStartDate = (id: number | null) => {
+    if (!id) return
+    let periodCurrent = props.periods?.find(dg => dg.id === id)
+    if (periodCurrent) {
+        return periodCurrent?.startDate
     } else {
         return "sin nombre";
     }
@@ -435,10 +441,10 @@ const getTutorName = (id: number | null) => {
 }
 </style>
 
-<style>
+<style scoped>
 .modal-width-pt {
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 

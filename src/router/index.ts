@@ -15,6 +15,7 @@ import TeacherView from '@/views/Users/administration/teachers/TeacherView.vue'
 import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/ManagerStudentsGridView.vue'
 import SpecificDegreeView from '@/views/Users/degrees/specificDegrees/specificDegreeView.vue'
 import PeriodView from '@/views/Users/courses/periods/PeriodView.vue'
+import CourseView from '@/views/Users/courses/courses/courseView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -61,11 +62,11 @@ const routes: Array<RouteRecordRaw> = [
                 ]
             },
             {
-                path: 'evaluation',
-                name: 'evaluations',
+                path: 'courses',
+                name: 'courses',
                 children: [
                     { path:'periods', name:'PeriodMagnament', component:PeriodView},
-                    { path: 'type_evaluations', name: 'TypeEvaluatioMagnament', component: TypeEvaluationsView }
+                    { path:'courses', name: 'CourseMagnament', component: CourseView }
                 ]
             }
         ],

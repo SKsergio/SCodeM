@@ -111,7 +111,8 @@ export function usePeriod() {
 
     const getSelects = async (): Promise<PeriodSimpleResponse[]> => {
             try {
-                const records = await GetAllRecords<PeriodSimpleResponse>(endpoint);
+                const urlFinal = endpoint + "/all"
+                const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
                 return records;
             } catch (e) {
                 console.error('Error al obtener:', e);

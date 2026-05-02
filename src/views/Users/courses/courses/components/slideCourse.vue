@@ -33,19 +33,19 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { DegreeDetailTableRow } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
-    import type { useDegreeDetail } from '@/composables/useDegreeDetail';
+    import type { useCourse } from '@/composables/useCourse';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import { CourseTableRow } from '@/interfaces/Course/CourseInterface';
 
     const {
         records,
         pagination,
         fetchAll
-    } = inject('degreDetailContext') as ReturnType<typeof useDegreeDetail>;
+    } = inject('courseContext') as ReturnType<typeof useCourse>;
 
     //VARIABLES
     const showFilters = ref(false);
@@ -64,22 +64,23 @@
 
 
     //tabla
-    const columns: ColumnDefinition<DegreeDetailTableRow>[] = [
+    const columns: ColumnDefinition<CourseTableRow>[] = [
         { key: 'id', label: 'ID' },
-        { key: 'fullName', label: 'Name' },
-        { key: 'degreeName', label: 'Degree Name' },
-        { key: 'sectionName', label: 'Section Name' },
-        { key: 'tutorName', label: 'Tutor' },
-        { key: 'ability', label: 'Ability' },
+        { key: 'name', label: 'Course Name' },
+        { key: 'code', label: 'Course Code' },
+        { key: 'teacherName', label: 'Teacher Name' },
+        { key: 'subjectName', label: 'Subject Name' },
+        { key: 'totalStudents', label: 'Total Students' },
+        { key: 'status', label: 'Status' },
         { key: 'year', label: 'year' },
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow(record:DegreeDetailTableRow) {
+    function editRow(record:CourseTableRow) {
         emit('edit', record.id)
     }
 
-    function deleteRow(record:DegreeDetailTableRow) {
+    function deleteRow(record:CourseTableRow) {
         emit('delete', record.id)
     }
 

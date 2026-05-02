@@ -1,5 +1,6 @@
 import { CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
 import { DegreeDetailSimpleResponse } from "../DegreeDetail/DegreeDetailInterface"
+import { PeriodSimpleResponse } from "../Period/periodInterface"
 import { TeacherSimpleResponse } from "../Teacher/TeacherInterface"
 
 //interfaz de request
@@ -36,5 +37,26 @@ export interface CourseFullResponse{
     teacher: TeacherSimpleResponse,
     gradeDetail: DegreeDetailSimpleResponse,
     subject: CatalogueSimpleResponse,
-    
+    period: PeriodSimpleResponse,
+    totalStudents: number,
+    status: number,
+    year:number,
+    valorityUnity: number
+}
+
+export interface CourseEditResponse extends CourseRequest{
+    id: number;
+}
+
+
+export interface CourseTableRow{
+    id:number,
+    name: string,
+    code: string,
+    teacherName: string,
+    subjectName: string,
+    totalStudents: number,
+    status: number,
+    year:number,
+    actions?: string
 }

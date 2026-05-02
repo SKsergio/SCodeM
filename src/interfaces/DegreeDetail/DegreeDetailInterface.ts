@@ -15,6 +15,7 @@ export interface DegreeDetailResponse{
     id:number,
     ability: number,
     year: number,
+    fullName: string,
     sectionName: string,
     degreeName: string,
     tutorName: string

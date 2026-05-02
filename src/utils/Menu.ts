@@ -75,7 +75,7 @@ export const menuItems: MenuItems[]=[
         hadSoons:true,
         soons:[
             {label:'Periods', name:'PeriodMagnament'},
-            {label:'Courses', name:'courses/pruebas'},
+            {label:'Courses', name:'CourseMagnament'},
             // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
         ]
     },
