@@ -39,7 +39,6 @@ export const menuItems: MenuItems[]=[
         soons:[
             {label:'Degree',name:'DegreeMagnament'},
             {label:'Specific Degree',name:'DegreeDetailMagnament'},
-            {label:'Courses by grade',name:'no hay'},
             // {label:'Classrooms',name:'ClassroomsMagnament'},
             {label:'Sections',name:'SectionMagnament'},
             {label:'Subjects',name:'SubjectMagnament'},
@@ -69,12 +68,17 @@ export const menuItems: MenuItems[]=[
     //     amount:0,
     //     hadSoons:false
     // }, 
-    // {
-    //     label:'Schedules',
-    //     icon:CalendarDaysIcon,
-    //     amount:0,
-    //     hadSoons:false
-    // },
+    {
+        label:'Courses',
+        icon:CalendarDaysIcon,
+        amount:2,
+        hadSoons:true,
+        soons:[
+            {label:'Periods', name:'PeriodMagnament'},
+            {label:'Courses', name:'courses/pruebas'},
+            // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
+        ]
+    },
     // {
     //     label:'Reports',
     //     icon:ChartPieIcon,

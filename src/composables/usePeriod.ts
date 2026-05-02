@@ -9,11 +9,11 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { DegreeDetailRequest, DegreeDetailResponse, DegreeDetailSimpleResponse, DegreeDetailFullResponse, DegreeDetailEditResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
+import { PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
 
-export function useDegreeDetail() {
-    const endpoint = 'core/grade-detail';
-    const records = ref<DegreeDetailResponse[]>([]);
+export function usePeriod() {
+    const endpoint = 'catalogue/periods';
+    const records = ref<PeriodResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
@@ -26,7 +26,7 @@ export function useDegreeDetail() {
         error.value = null;
 
         try {
-            const response = await GetRecords<DegreeDetailResponse>(endpoint, {
+            const response = await GetRecords<PeriodResponse>(endpoint, {
                 ...extraParams,
                 page: pagination.page.value,
                 size: pagination.size.value
@@ -36,6 +36,7 @@ export function useDegreeDetail() {
             pagination.setPaginationData(response.totalElements, response.totalPages);
         } catch (e) {
             error.value = `Error obteniendo datos de ${endpoint}`;
+            //agregar un trowh aca para mostrar una al;erta
             console.error(e);
         } finally {
             loading.value = false;
@@ -43,7 +44,7 @@ export function useDegreeDetail() {
     }
 
     //crear
-    const createRecord = async (data: DegreeDetailRequest) => {
+    const createRecord = async (data: PeriodRequest) => {
         try {
             await SaveRecord(data, endpoint);
             await fetchAll();
@@ -54,9 +55,9 @@ export function useDegreeDetail() {
     }
 
     //editar
-    const updateRecord = async (idRecord: number, data: DegreeDetailRequest): Promise<DegreeDetailResponse> => {
+    const updateRecord = async (idRecord: number, data: PeriodRequest): Promise<PeriodResponse> => {
         try {
-            const record = await PatchRecord<DegreeDetailRequest, DegreeDetailResponse>(idRecord, data, endpoint);
+            const record = await PatchRecord<PeriodRequest, PeriodResponse>(idRecord, data, endpoint);
             await fetchAll();
             return record;
         } catch (e) {
@@ -80,10 +81,10 @@ export function useDegreeDetail() {
     };
 
     //obtener detalle
-    const getDetail = async (idRecord: number): Promise<DegreeDetailFullResponse> => {
+    const getDetail = async (idRecord: number): Promise<PeriodResponse> => {
         loading.value = true;
         try {
-            const record = await GetOneRecord<DegreeDetailFullResponse>(endpoint, idRecord);
+            const record = await GetOneRecord<PeriodResponse>(endpoint, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -94,11 +95,11 @@ export function useDegreeDetail() {
     }
 
     // //obtener para eidcion
-    const getOntetoEdit = async (idRecord: number): Promise<DegreeDetailEditResponse> => {
+    const getOntetoEdit = async (idRecord: number): Promise<PeriodResponse> => {
         loading.value = true;
         try {
             const fullUrl = endpoint + "/edit";
-            const record = await GetOneRecord<DegreeDetailEditResponse>(fullUrl, idRecord);
+            const record = await GetOneRecord<PeriodResponse>(fullUrl, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -108,9 +109,9 @@ export function useDegreeDetail() {
         }
     }
 
-    const getSelects = async (): Promise<DegreeDetailSimpleResponse[]> => {
+    const getSelects = async (): Promise<PeriodSimpleResponse[]> => {
             try {
-                const records = await GetAllRecords<DegreeDetailSimpleResponse>(endpoint);
+                const records = await GetAllRecords<PeriodSimpleResponse>(endpoint);
                 return records;
             } catch (e) {
                 console.error('Error al obtener:', e);
