@@ -50,7 +50,7 @@ export const menuItems: MenuItems[]=[
         label:'Evaluations',
         icon:TrophyIcon,
         soons:[
-            {label:'Evaluations', name:'jijija/pruebas'},
+            {label:'Evaluations', name:'EvaluationMagnament'},
             // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
         ],
         amount:3,

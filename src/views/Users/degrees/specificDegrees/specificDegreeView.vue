@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Specific Degrees'" @open-modal="isModalOpen = true"></HeaderComponent>
+        <HeaderComponent :title="'Specific Degrees'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
         <slideSpecificDegree @edit="handleEdit" @delete="handleDelete"></slideSpecificDegree>
@@ -52,6 +52,12 @@
 
     provide("degreDetailContext", degreeDetailState);
     const {loading, fetchAll, deleteRecord, getOntetoEdit} = degreeDetailState
+
+    const handleCreate = () => {
+        requestDegreeDetailData.value = undefined;
+
+        isModalOpen.value = true;
+    }
 
     //manejar edicion
     const handleEdit = async(id:number)=> {

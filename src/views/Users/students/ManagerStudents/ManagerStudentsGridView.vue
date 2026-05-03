@@ -25,8 +25,8 @@
 
                         <template #cell-actions="{ row }">
                             <div class="actions">
-                                <button @click="editRow(row)">Editar</button>
-                                <button @click="deleteRow(row)">Eliminar</button>
+                                <button @click="editRow(row)">Update</button>
+                                <button @click="deleteRow(row)">Delete</button>
                             </div>
                         </template>
 

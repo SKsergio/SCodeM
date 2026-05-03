@@ -13,15 +13,6 @@
             <section class="table__container">
                 <TableGridComponent :rows="records" :columns="columns" :length="totalElements">
 
-                    <template #cell-createdAt="{ row }">
-                        <span>{{ formatDate(row.createdAt) }}</span>
-                    </template>
-
-                    <template #cell-routePhoto="{ row }">
-                        <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
-                        <span v-else>Sin foto</span>
-                    </template>
-
                     <template #cell-actions="{ row }">
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
@@ -41,26 +32,23 @@
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
-    import { formatDate } from '@/utils/FormatDates';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { TeacherTableRow } from '@/interfaces/Teacher/TeacherInterface';
-    import type { useTeachers } from '@/composables/useTeachers';
+    import type { useEvaluations } from '@/composables/useEvaluations';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import { EvaluationTableRow } from '@/interfaces/evaluations/EvaluationInterface';
 
     const {
         records,
         pagination,
         fetchAll
-    } = inject('teacherContext') as ReturnType<typeof useTeachers>;
-
+    } = inject('evaluationContext') as ReturnType<typeof useEvaluations>;
 
     //VARIABLES
     const showFilters = ref(false);
-    const prefijo = import.meta.env.VITE_API_PREFIX;
 
     const page = pagination.page;
     const size = pagination.size;
@@ -76,22 +64,21 @@
 
 
     //tabla
-    const columns: ColumnDefinition<TeacherTableRow>[] = [
+    const columns: ColumnDefinition<EvaluationTableRow>[] = [
         { key: 'id', label: 'ID' },
-        { key: 'fullName', label: 'Full Name' },
-        { key: 'email', label: 'Email' },
-        { key: 'age', label: 'Age' },
-        { key: 'dui', label: 'DUI' },
-        { key: 'routePhoto', label: 'Photo' },
-        { key: 'createdAt', label: 'Created At' },
+        { key: 'name', label: 'Course Name' },
+        { key: 'percentage', label: 'Percentage' },
+        { key: 'endDate', label: 'End Date' },
+        { key: 'status', label: 'Status' },
+        { key: 'daysRemaning', label: 'Days Remaining' },
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow(record:TeacherTableRow) {
+    function editRow(record:EvaluationTableRow) {
         emit('edit', record.id)
     }
 
-    function deleteRow(record:TeacherTableRow) {
+    function deleteRow(record:EvaluationTableRow) {
         emit('delete', record.id)
     }
 

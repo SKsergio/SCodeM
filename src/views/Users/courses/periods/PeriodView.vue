@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Periods'" @open-modal="isModalOpen = true"></HeaderComponent>
+        <HeaderComponent :title="'Periods'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
         <slidePeriods @edit="handleEdit" @delete="handleDelete"></slidePeriods>
@@ -35,13 +35,19 @@ const requestPeriodData = ref<PeriodResponse>();
 provide("periodContext", periodState);
 const { loading, fetchAll, getDetail, deleteRecord } = periodState;
 
+const handleCreate = () => {
+    requestPeriodData.value = undefined;
+
+    isModalOpen.value = true;
+}
+
 //manejar edicion
-const handleEdit = async(id:number)=> {
+const handleEdit = async (id: number) => {
     try {
         const data = await getDetail(id);
         requestPeriodData.value = data;
         console.log(requestPeriodData.value);
-        
+
         isModalOpen.value = true;
     } catch (error) {
         console.error("No se pudo cargar la información para editar");
@@ -50,9 +56,9 @@ const handleEdit = async(id:number)=> {
 }
 
 //manjear eliminacion
-const handleDelete = async(id:number) =>{
+const handleDelete = async (id: number) => {
     try {
-        ShowDeleteAlert(()=>deleteRecord(id));
+        ShowDeleteAlert(() => deleteRecord(id));
     } catch (error) {
         console.error("No se pudo cargar la información para editar");
         console.error(error);

@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Courses'" @open-modal="isModalOpen = true"></HeaderComponent>
+        <HeaderComponent :title="'Courses'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
         <slideCourse @edit="handleEdit" @delete="handleDelete"></slideCourse>
@@ -61,6 +61,14 @@
 
     provide("courseContext", courseState);
     const {loading, fetchAll, deleteRecord, getOntetoEdit} = courseState
+
+    const handleCreate = () => {
+        requestCourseData.value = undefined;
+
+        // 2. Ahora sí, abrimos el modal
+        isModalOpen.value = true;
+    }
+
 
     //manejar edicion
     const handleEdit = async(id:number)=> {

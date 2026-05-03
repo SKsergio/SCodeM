@@ -3,7 +3,7 @@
         <CloseIcon class="icon_close" @click="closeModal" />
 
         <form class="form" @submit.prevent="sendForm">
-            <section class="input__ct" v-for="(field, index) in store.editableFields" :key="index">
+            <section class="input_section" v-for="(field, index) in store.editableFields" :key="index">
                 <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
             </section>
 

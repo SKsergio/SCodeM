@@ -18,8 +18,8 @@
 
                             <!-- botones-->
                             <div v-else-if="column.key === 'actions'" class="actions">
-                                <button @click="editRow(row)">Editar</button>
-                                <button @click="deleteRow(row)">Eliminar</button>
+                                <button @click="editRow(row)">Update</button>
+                                <button @click="deleteRow(row)">Delete</button>
                             </div>
 
                             <span v-else>{{ row[column.key] }}</span>

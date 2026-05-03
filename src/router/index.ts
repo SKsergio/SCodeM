@@ -5,7 +5,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 //vistas del usuario normal
 import DashboarLayaout from '@/views/Users/DashboarLayaout.vue'
 import HomeView from '@/views/Users/general/HomeView.vue'
-import DegreeView from  '@/views/Users/degrees/degree/DegreeView.vue'
+import DegreeView from '@/views/Users/degrees/degree/DegreeView.vue'
 import SectionView from '@/views/Users/degrees/section/SectionView.vue'
 import ClassroomsView from '@/views/Users/degrees/classroom/ClassroomsView.vue'
 import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.vue'
@@ -16,6 +16,7 @@ import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/Mana
 import SpecificDegreeView from '@/views/Users/degrees/specificDegrees/specificDegreeView.vue'
 import PeriodView from '@/views/Users/courses/periods/PeriodView.vue'
 import CourseView from '@/views/Users/courses/courses/courseView.vue'
+import EvaluationView from '@/views/Users/evaluations/evaluations/evaluationView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -65,8 +66,15 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'courses',
                 name: 'courses',
                 children: [
-                    { path:'periods', name:'PeriodMagnament', component:PeriodView},
-                    { path:'courses', name: 'CourseMagnament', component: CourseView }
+                    { path: 'periods', name: 'PeriodMagnament', component: PeriodView },
+                    { path: 'courses', name: 'CourseMagnament', component: CourseView }
+                ]
+            },
+            {
+                path: 'evaluations',
+                name: 'evaluations',
+                children: [
+                    { path: 'evaluations', name: 'EvaluationMagnament', component: EvaluationView },
                 ]
             }
         ],
