@@ -1,35 +1,35 @@
 <template>
-    <BaseModalComponent v-model="show" title="Register new teacher"
+    <BaseModalComponent v-model="show" title="Register new Student"
         :custom-class="'modal-width-pt theme-modal-manager'">
         <CloseIcon class="icon_close" @click="closeModal" />
 
         <div class="form_container">
 
             <div class="form_wrapper">
-                <h3 class="section-title">TEACHER INFORMATION</h3>
+                <h3 class="section-title">STUDENT INFORMATION</h3>
 
                 <section class="names box_panel">
                     <div class="input__ct">
                         <label for="first_name">First Name</label>
                         <input class="input_st" type="text" id="first_name" placeholder="Maria..."
-                            v-model="newTeacher.firstName">
+                            v-model="newStudent.firstName">
                     </div>
 
                     <div class="input__ct">
                         <label for="seccond_name">Seccond Name</label>
-                        <input class="input_st" type="text" id="seccond_name" v-model="newTeacher.secondName"
+                        <input class="input_st" type="text" id="seccond_name" v-model="newStudent.secondName"
                             placeholder="Carmen...">
                     </div>
 
                     <div class="input__ct">
                         <label for="first_last_name">First Last Name</label>
                         <input class="input_st" type="text" id="first_last_name" placeholder="Avalos"
-                            v-model="newTeacher.firstLastName">
+                            v-model="newStudent.firstLastName">
                     </div>
 
                     <div class="input__ct">
                         <label for="second_last_name">Seccond Last Name</label>
-                        <input class="input_st" type="text" id="second_last_name" v-model="newTeacher.secondLastName"
+                        <input class="input_st" type="text" id="second_last_name" v-model="newStudent.secondLastName"
                             placeholder="Henriquez">
                     </div>
                 </section>
@@ -37,7 +37,7 @@
                 <section class="other_data box_panel">
                     <div class="input__ct">
                         <label for="birthdate">Birthdate</label>
-                        <VueDatePicker v-model="newTeacher.birthDate" locale="es" format="yyyy-MM-dd"
+                        <VueDatePicker v-model="newStudent.birthDate" locale="es" format="yyyy-MM-dd"
                             model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
                             auto-apply />
                     </div>
@@ -45,12 +45,12 @@
                     <div class="input__ct">
                         <label for="email">Email</label>
                         <input class="input_st" type="email" placeholder="jsxfhds@gmail.com" id="email"
-                            v-model="newTeacher.email">
+                            v-model="newStudent.email">
                     </div>
 
                     <div class="input__ct address_ct">
                         <label for="direction">Address</label>
-                        <textarea id="direction" v-model="newTeacher.address" class="text_area_st"
+                        <textarea id="direction" v-model="newStudent.address" class="text_area_st"
                             placeholder="canton el camino hacia el...."></textarea>
                     </div>
                 </section>
@@ -63,32 +63,27 @@
 
                     <div class="sc2">
                         <div class="input__ct">
-                            <label for="DUI">DUI</label>
-                            <input class="input_st" type="text" placeholder="812395148-2" id="DUI"
-                                v-model="newTeacher.dui">
+                            <label for="Carnet">Carnet</label>
+                            <input class="input_st" type="text" placeholder="2025001" id="Carnet"
+                                v-model="newStudent.carnet">
                         </div>
 
                         <div class="input__ct">
                             <label for="phone">Phone</label>
-                            <input class="input_st" type="text" id="phone" v-model="newTeacher.phoneNumber">
+                            <input class="input_st" type="text" id="phone" v-model="newStudent.phoneNumber">
                         </div>
 
                         <div class="end_section">
-                            <div class="input__ct ">
-                                <label for="speciality">Especiality</label>
-                                <input class="input_st" type="text" id="speciality" v-model="newTeacher.speciality">
-                            </div>
-
                             <div class="input__ct gender_section">
                                 <label>Gender</label>
-                                <div class="gender-toggle">
+                                <div class="gender-toggle gender_sc">
                                     <label class="gender-option">
-                                        <input type="radio" value="M" v-model="newTeacher.gender" name="gender">
+                                        <input type="radio" value="M" v-model="newStudent.gender" name="gender">
                                         <span class="gender-pill">Male</span>
                                     </label>
 
                                     <label class="gender-option">
-                                        <input type="radio" value="F" v-model="newTeacher.gender" name="gender">
+                                        <input type="radio" value="F" v-model="newStudent.gender" name="gender">
                                         <span class="gender-pill">Female</span>
                                     </label>
                                 </div>
@@ -113,8 +108,8 @@
                         <div class="field-row">
                             <div class="field">
                                 <label>Complete Name</label>
-                                <p>{{ newTeacher.firstName }} {{ newTeacher.secondName }} {{ newTeacher.firstLastName }}
-                                    {{ newTeacher.secondLastName }}</p>
+                                <p>{{ newStudent.firstName }} {{ newStudent.secondName }} {{ newStudent.firstLastName }}
+                                    {{ newStudent.secondLastName }}</p>
                             </div>
                         </div>
                     </div>
@@ -129,17 +124,13 @@
                             </div>
                             <div class="field half">
                                 <label>BirthDate</label>
-                                <p>{{ newTeacher.birthDate || '---' }}</p>
+                                <p>{{ newStudent.birthDate || '---' }}</p>
                             </div>
                         </div>
                         <div class="field-row">
                             <div class="field half">
-                                <label>DUI</label>
-                                <p>{{ newTeacher.dui || '---' }}</p>
-                            </div>
-                            <div class="field half">
-                                <label>Especialidad</label>
-                                <p>{{ newTeacher.speciality || '---' }}</p>
+                                <label>Carnet</label>
+                                <p>{{ newStudent.carnet || '---' }}</p>
                             </div>
                         </div>
                     </div>
@@ -150,19 +141,19 @@
                         <div class="field-row">
                             <div class="field">
                                 <label>phone</label>
-                                <p>{{ newTeacher.phoneNumber || '---' }}</p>
+                                <p>{{ newStudent.phoneNumber || '---' }}</p>
                             </div>
                         </div>
                         <div class="field-row">
                             <div class="field">
                                 <label>Email</label>
-                                <p>{{ newTeacher.email || '---' }}</p>
+                                <p>{{ newStudent.email || '---' }}</p>
                             </div>
                         </div>
                         <div class="field-row">
                             <div class="field">
                                 <label>addrees</label>
-                                <p>{{ newTeacher.address || '---' }}</p>
+                                <p>{{ newStudent.address || '---' }}</p>
                             </div>
                         </div>
                     </div>
@@ -184,26 +175,26 @@ import { Gender } from '@/enum/GenderEnum';
 import CloseIcon from '~icons/ri/close-large-line'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
-import type { useTeachers } from '@/composables/useTeachers';
+import type { useStudents } from '@/composables/useStudent';
 import Swal from 'sweetalert2';
+import { StudentEditResponse, StudentRequest } from '@/interfaces/students/studentInterface';
 
 const {
     createRecord,
     updateRecord
-} = inject("teacherContext") as ReturnType<typeof useTeachers>
+} = inject("studentContext") as ReturnType<typeof useStudents>
 
 
 //PROPS Y EMMITS
 const props = defineProps<{
     modelValue: boolean,
-    teacherData?: TeacherEditResponse | null;
+    studentData?: StudentEditResponse | null;
 }>()
 
 const emit = defineEmits<{
@@ -212,27 +203,26 @@ const emit = defineEmits<{
 }>()
 
 
-const getInitialTeacher = (): TeacherRequest => ({
+const getInitialTeacher = (): StudentRequest => ({
     firstName: '',
     secondName: '',
     firstLastName: '',
+    carnet: '',
     secondLastName: '',
     address: '',
     birthDate: "",
     phoneNumber: '',
     email: '',
     gender: null as unknown as Gender,
-    speciality: '',
     photo: null,
-    dui: '',
 })
 
-const newTeacher = ref<TeacherRequest>(getInitialTeacher());
+const newStudent = ref<StudentRequest>(getInitialTeacher());
 const prefijo = import.meta.env.VITE_API_PREFIX;
 
 
 const clean_form = () => {
-    newTeacher.value = getInitialTeacher();
+    newStudent.value = getInitialTeacher();
     photoPreview.value = ''
 }
 
@@ -241,17 +231,17 @@ watch(
     () => props.modelValue,
     (isOpen) => {
         if (isOpen) {
-            if (isOpen && props.teacherData) {
+            if (isOpen && props.studentData) {
 
-                const { id, routePhoto, ...cleanData } = props.teacherData;
+                const { id, routePhoto, ...cleanData } = props.studentData;
 
-                newTeacher.value = {
+                newStudent.value = {
                     ...cleanData,
                     photo: null
-                } as unknown as TeacherRequest;
+                } as unknown as StudentRequest;
 
-                if (props.teacherData.routePhoto) {
-                    photoPreview.value = `${prefijo}${props.teacherData.routePhoto}`;
+                if (props.studentData.routePhoto) {
+                    photoPreview.value = `${prefijo}${props.studentData.routePhoto}`;
                 } else {
                     photoPreview.value = '';
                 }
@@ -267,9 +257,9 @@ watch(
 const photoPreview = ref<string>('')
 
 const calculateAge = (): number => {
-    if (!newTeacher.value.birthDate) return 0
+    if (!newStudent.value.birthDate) return 0
     const today = new Date()
-    const birthDate = new Date(newTeacher.value.birthDate)
+    const birthDate = new Date(newStudent.value.birthDate)
     let age = today.getFullYear() - birthDate.getFullYear()
     const monthDiff = today.getMonth() - birthDate.getMonth()
 
@@ -285,7 +275,7 @@ const show = computed({
 })
 
 const handleImageFromChild = (file: File) => {
-    newTeacher.value.photo = file;
+    newStudent.value.photo = file;
     const reader = new FileReader()
     reader.onload = (e) => {
         photoPreview.value = e.target?.result as string
@@ -299,10 +289,10 @@ const closeModal = () => {
 
 const saveData = async () => {
     try {
-        if (props.teacherData?.id) {
-            await updateRecord(props.teacherData.id, newTeacher.value)
+        if (props.studentData?.id) {
+            await updateRecord(props.studentData.id, newStudent.value)
         } else {
-            await createRecord(newTeacher.value)
+            await createRecord(newStudent.value)
             Swal.fire("Creando...");
         }
     } catch (error) {
@@ -319,33 +309,12 @@ const sendData = async () => {
         emit('emitido', true)
     }
 }
-
 </script>
 
-<style>
-.modal-width-pt {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.theme-modal-manager {
-    background-color: var(--color-sixth) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
-    padding: 0 !important;
-    border: 1px solid var(--color-fourth) !important;
-    border-radius: 12px;
-}
-
-.picker {
-    --dp-text-color: #ffffff;
-    --dp-border-color: #3f4041;
-    --dp-border-color-hover: #3b82f6;
-    --dp-border-radius: 6px;
-}
-
-.picker input {
-    background-color: var(--color-primary);
-    color: var(--dp-text-color);
+<style scoped>
+.gender_sc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 </style>

@@ -12,11 +12,11 @@ import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.v
 import SujectView from '@/views/Users/degrees/subject/SubjectView.vue'
 import FileTypeView from '@/views/Users/administration/fileType/FileTypeView.vue'
 import TeacherView from '@/views/Users/administration/teachers/TeacherView.vue'
-import ManagerStudentsGridView from '@/views/Users/students/ManagerStudents/ManagerStudentsGridView.vue'
 import SpecificDegreeView from '@/views/Users/degrees/specificDegrees/specificDegreeView.vue'
 import PeriodView from '@/views/Users/courses/periods/PeriodView.vue'
 import CourseView from '@/views/Users/courses/courses/courseView.vue'
 import EvaluationView from '@/views/Users/evaluations/evaluations/evaluationView.vue'
+import StudentView from '@/views/Users/students/students/studentView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -47,7 +47,9 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'students',
                 name: 'students',
                 children: [
-                    { path: 'managers', name: 'ManagerStudentMagnament', component: ManagerStudentsGridView },
+                    // { path: 'managers', name: 'ManagerStudentMagnament', component: ManagerStudentsGridView },
+                    { path: 'students', name: 'StudentMagnament', component: StudentView },
+                    
                 ]
             },
             {

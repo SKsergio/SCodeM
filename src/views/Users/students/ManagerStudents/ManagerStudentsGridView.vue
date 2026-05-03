@@ -64,7 +64,7 @@
         { key: 'first_name', label: 'Nombre' },
         { key: 'first_last_name', label: 'Apellido' },
         { key: 'email', label: 'Correo' },
-        { key: 'age', label: 'Edad' },
+        { key: 'age', label: 'Age' },
         { key: 'file', label: 'Foto' },
         { key: 'actions', label: 'Acciones' },
     ]

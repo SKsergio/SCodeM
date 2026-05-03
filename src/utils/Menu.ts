@@ -24,7 +24,7 @@ export const menuItems: MenuItems[]=[
         label:'Students',
         icon:IconCap,
         soons:[
-            {label:'Studentes',name:'students/pruebas'},
+            {label:'Studentes',name:'StudentMagnament'},
             // {label:'Managers',name:'ManagerStudentMagnament'},
             {label:'Academic History',name:'students/pruebasAcademic'},
             // {label:'New entry',name:'students/pruebasAcademic2'},
