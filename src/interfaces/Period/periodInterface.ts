@@ -1,3 +1,4 @@
+import { StatusEnum } from "@/enum/StatusEnum";
 
 
 export interface PeriodRequest {
@@ -10,7 +11,7 @@ export interface PeriodResponse {
     id: number;
     startDate: string;
     endDate: string;
-    status: number;
+    status: StatusEnum;
     createdAt: string;
 }
 

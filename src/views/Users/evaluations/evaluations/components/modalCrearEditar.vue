@@ -87,6 +87,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="divider"></div>
+
+                    <div class="field-group">
+                        <div >
+                            <div class="field half">
+                                <label>Available Percentage</label>
+                                <p>{{ percentageAvaliable }}%</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,11 +129,14 @@ import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import { ApiError } from '@/interfaces/ApiError';
 import { useEvaluations } from '@/composables/useEvaluations';
 import { EvaluationEditResponse, EvaluationRequest } from '@/interfaces/evaluations/EvaluationInterface';
+import { useCourse } from '@/composables/useCourse';
 
 //inyeccion de funcines
+const { getPercentage, percentageAvaliable } = useCourse();
+
 const {
     createRecord,
-    updateRecord
+    updateRecord,
 } = inject("evaluationContext") as ReturnType<typeof useEvaluations>
 
 //PROPS Y EMITS
@@ -157,6 +171,7 @@ const newEvaluation = ref<EvaluationRequest>(getInitialEvaluation());
 
 const clean_form = () => {
     newEvaluation.value = getInitialEvaluation()
+    percentageAvaliable.value = 0;
 }
 
 watch(
@@ -175,6 +190,15 @@ watch(
             }
         } else {
             clean_form()
+        }
+    }
+)
+
+watch(
+    () => newEvaluation.value.courseId,
+    (courseId) => {
+        if (courseId) {
+            findPercentage();
         }
     }
 )
@@ -201,6 +225,15 @@ const validateForm = (): string | null => {
         return 'Select a course'
     }
     return null
+}
+const findPercentage = async () => {
+    if (newEvaluation.value.courseId) {
+        try {
+            await getPercentage(newEvaluation.value.courseId);
+        } catch (error) {
+            console.error('Error al obtener el porcentaje:', error);
+        }
+    }
 }
 
 const saveData = async () => {

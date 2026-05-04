@@ -21,6 +21,14 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+
+                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
+                                Close
+                            </button>
+
+                            <button v-else @click="toggleStatus(row)">
+                                Open
+                            </button>
                         </div>
                     </template>
 
@@ -45,6 +53,7 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+import { StatusEnum } from '@/enum/StatusEnum';
 
     const {
         records,
@@ -62,9 +71,9 @@
 
     //emits
     const emit = defineEmits<{
-        (e: 'edit', id:number):void,
-        (e: 'delete', id:number):void,
-        (e: 'view-details', id:number):void
+        (e: 'edit', id: number): void,
+        (e: 'delete', id: number): void,
+        (e: 'view-details', id: number): void
     }>();
 
 
@@ -78,13 +87,18 @@
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow(record:PeriodTableRow) {
+    function editRow(record: PeriodTableRow) {
         emit('edit', record.id)
     }
 
-    function deleteRow(record:PeriodTableRow) {
+    function deleteRow(record: PeriodTableRow) {
         emit('delete', record.id)
     }
+
+    function toggleStatus(record: PeriodTableRow) {
+        emit('delete', record.id)
+    }
+    
 
     const handleFilters = async (newFilters: Record<string, any>) => {
         pagination.changePage(0);

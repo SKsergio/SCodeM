@@ -1,3 +1,4 @@
+import { StatusEnum } from "@/enum/StatusEnum"
 import { CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
 import { DegreeDetailSimpleResponse } from "../DegreeDetail/DegreeDetailInterface"
 import { PeriodSimpleResponse } from "../Period/periodInterface"
@@ -21,7 +22,7 @@ export interface CourseResoponse{
     gradeDetailName: string,
     subjectName: string,
     totalStudents: number,
-    status: number,
+    status: StatusEnum,
     year:number,
     valorityUnity: number  
 }
@@ -39,7 +40,7 @@ export interface CourseFullResponse{
     subject: CatalogueSimpleResponse,
     period: PeriodSimpleResponse,
     totalStudents: number,
-    status: number,
+    status: StatusEnum,
     year:number,
     valorityUnity: number
 }
@@ -56,7 +57,7 @@ export interface CourseTableRow{
     teacherName: string,
     subjectName: string,
     totalStudents: number,
-    status: number,
+    status: StatusEnum,
     year:number,
     actions?: string
 }

@@ -14,6 +14,7 @@ import { CourseRequest, CourseEditResponse, CourseFullResponse, CourseSimpleResp
 export function useCourse() {
     const endpoint = 'core/courses';
     const records = ref<CourseResoponse[]>([]);
+    const percentageAvaliable = ref<number>(0);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
@@ -74,7 +75,7 @@ export function useCourse() {
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     };
@@ -103,21 +104,32 @@ export function useCourse() {
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     }
 
     const getSelects = async (): Promise<CourseSimpleResponse[]> => {
-            try {
-                const urlFinal = endpoint + "/all"
-                const records = await GetAllRecords<CourseSimpleResponse>(urlFinal);
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
+        try {
+            const urlFinal = endpoint + "/all"
+            const records = await GetAllRecords<CourseSimpleResponse>(urlFinal);
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
         }
+    }
+
+    const getPercentage = async(idCourse: number) => {
+        try {
+            const urlFinal = endpoint + "/percentage"
+            const response = await GetOneRecord<{availablePercentage: number}>(urlFinal, idCourse);
+            percentageAvaliable.value = response.availablePercentage;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -127,6 +139,7 @@ export function useCourse() {
         records,
         loading,
         error,
+        percentageAvaliable,
         pagination,
         fetchAll,
         getDetail,
@@ -134,6 +147,7 @@ export function useCourse() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
-        getSelects
+        getSelects,
+        getPercentage
     };
 }

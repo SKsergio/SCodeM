@@ -1,3 +1,4 @@
+import { StatusEnum } from "@/enum/StatusEnum"
 import { CourseSimpleResponse } from "../Course/CourseInterface"
 
 export interface EvaluationRequest{
@@ -16,7 +17,7 @@ export interface EvaluationResponse{
     courseName:string
     percentage: number,
     endDate:string,
-    status: number,
+    status: StatusEnum,
     daysRemaning: number
 }
 
