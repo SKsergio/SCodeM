@@ -9,7 +9,7 @@
         <HeaderComponent :title="'Periods'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
-        <slidePeriods @edit="handleEdit" @delete="handleDelete"></slidePeriods>
+        <slidePeriods @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slidePeriods>
 
         <!-- modal de editar y crear -->
         <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :period="requestPeriodData"></modalCrearEditar>
@@ -25,7 +25,10 @@ import Load2Component from '@/components/loaders/Load2Component.vue';
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
 import { PeriodResponse } from '@/interfaces/Period/periodInterface';
-
+import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
+import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+import { StatusEnum } from '@/enum/StatusEnum';
+import { statusRequest } from '@/interfaces/StatusRequest';
 
 const isModalOpen = ref(false);
 const periodState = usePeriod();
@@ -33,7 +36,7 @@ const requestPeriodData = ref<PeriodResponse>();
 
 // 2. Proveemos ese estado exacto al hijo
 provide("periodContext", periodState);
-const { loading, fetchAll, getDetail, deleteRecord } = periodState;
+const { loading, fetchAll, getDetail, deleteRecord, changeStatus } = periodState;
 
 const handleCreate = () => {
     requestPeriodData.value = undefined;
@@ -62,6 +65,23 @@ const handleDelete = async (id: number) => {
     } catch (error) {
         console.error("No se pudo cargar la información para editar");
         console.error(error);
+    }
+}
+
+//manjear abriri y cerrar periodos
+const handleStatus = async (id: number, oldStatus: StatusEnum) => {
+    const statusIntitial =():statusRequest =>({
+        newStatus: null as unknown as StatusEnum
+    });
+
+    if (oldStatus == StatusEnum.OPEN) {
+        const newStatus = statusIntitial()
+        newStatus.newStatus = StatusEnum.CLOSED
+        CloseRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+    }else if(oldStatus == StatusEnum.CLOSED){
+        const newStatus = statusIntitial()
+        newStatus.newStatus = StatusEnum.OPEN
+        OpenRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
     }
 }
 

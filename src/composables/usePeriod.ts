@@ -10,6 +10,8 @@ import {//importamos las funciones del crud
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
+import { StatusEnum } from "@/enum/StatusEnum";
+import { statusRequest } from "@/interfaces/StatusRequest";
 
 export function usePeriod() {
     const endpoint = 'catalogue/periods';
@@ -120,6 +122,19 @@ export function usePeriod() {
             } 
         }
 
+    //cambiar estados
+    const changeStatus = async (idRecord: number, status: statusRequest): Promise<PeriodResponse> => {
+        try {
+            const urlFinal = endpoint + "/status"
+            const record = await PatchRecord<statusRequest, PeriodResponse>(idRecord, status, urlFinal);
+            await fetchAll();
+            return record;
+        } catch (e) {
+            console.error('Error al cambiar estado:', e);
+            throw e;
+        }
+    }
+
     watch([pagination.page, pagination.size], () => {
         fetchAll();
     });
@@ -135,6 +150,7 @@ export function usePeriod() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
+        changeStatus,
         getSelects
     };
 }

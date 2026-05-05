@@ -1,5 +1,5 @@
 export enum StatusEnum{
-    OPEN,
-    CLOSED,
-    UNDER_REVIEW
+    OPEN = "OPEN",
+    CLOSED = "CLOSED",
+    UNDER_REVIEW = "UNDER_REVIEW"
 }

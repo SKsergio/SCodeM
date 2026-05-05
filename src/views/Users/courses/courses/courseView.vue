@@ -9,7 +9,7 @@
         <HeaderComponent :title="'Courses'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideCourse @edit="handleEdit" @delete="handleDelete"></slideCourse>
+        <slideCourse @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideCourse>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar
@@ -41,6 +41,10 @@
     import { CourseEditResponse } from '@/interfaces/Course/CourseInterface';
     import { usePeriod } from '@/composables/usePeriod';
     import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { StatusEnum } from '@/enum/StatusEnum';
+    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
+    import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
     const courseState = useCourse();
@@ -60,7 +64,7 @@
 
 
     provide("courseContext", courseState);
-    const {loading, fetchAll, deleteRecord, getOntetoEdit} = courseState
+    const {loading, fetchAll, deleteRecord, getOntetoEdit, changeStatus} = courseState
 
     const handleCreate = () => {
         requestCourseData.value = undefined;
@@ -93,6 +97,22 @@
         }
     }
 
+    //manjear abriri y cerrar periodos
+    const handleStatus = async (id: number, oldStatus: StatusEnum) => {
+        const statusIntitial =():statusRequest =>({
+            newStatus: null as unknown as StatusEnum
+        });
+
+        if (oldStatus == StatusEnum.OPEN) {
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.CLOSED
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Cursos", "esta accion afectara las evaluaciones asociadas")
+        }else if(oldStatus == StatusEnum.CLOSED){
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.OPEN
+            OpenRecordAlert(()=>changeStatus(id, newStatus), "Cursos", "esta accion afectara los evaluaciones asociadas")
+        }
+    }
 
     onMounted(async () => {
         try {

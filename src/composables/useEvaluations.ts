@@ -10,6 +10,7 @@ import {//importamos las funciones del crud
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { EvaluationEditResponse, EvaluationFullResponse, EvaluationRequest, EvaluationResponse, EvaluationSimpleResponse } from "@/interfaces/evaluations/EvaluationInterface";
+import { statusRequest } from "@/interfaces/StatusRequest";
 
 export function useEvaluations() {
     const endpoint = 'core/evaluations';
@@ -74,7 +75,7 @@ export function useEvaluations() {
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     };
@@ -103,21 +104,33 @@ export function useEvaluations() {
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     }
 
     const getSelects = async (): Promise<EvaluationSimpleResponse[]> => {
-            const urlFinal = endpoint + "/all"
-            try {
-                const records = await GetAllRecords<EvaluationSimpleResponse>(urlFinal);
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
+        const urlFinal = endpoint + "/all"
+        try {
+            const records = await GetAllRecords<EvaluationSimpleResponse>(urlFinal);
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
         }
+    }
+
+    const changeStatus = async (idRecord: number, status: statusRequest): Promise<EvaluationResponse> => {
+        try {
+            const urlFinal = endpoint + "/status"
+            const record = await PatchRecord<statusRequest, EvaluationResponse>(idRecord, status, urlFinal);
+            await fetchAll();
+            return record;
+        } catch (e) {
+            console.error('Error al cambiar estado:', e);
+            throw e;
+        }
+    }
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -134,6 +147,7 @@ export function useEvaluations() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
+        changeStatus,
         getSelects
     };
 }

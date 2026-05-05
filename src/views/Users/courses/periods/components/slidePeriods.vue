@@ -53,7 +53,7 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
-import { StatusEnum } from '@/enum/StatusEnum';
+    import { StatusEnum } from '@/enum/StatusEnum';
 
     const {
         records,
@@ -73,6 +73,7 @@ import { StatusEnum } from '@/enum/StatusEnum';
     const emit = defineEmits<{
         (e: 'edit', id: number): void,
         (e: 'delete', id: number): void,
+        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
         (e: 'view-details', id: number): void
     }>();
 
@@ -81,9 +82,9 @@ import { StatusEnum } from '@/enum/StatusEnum';
     const columns: ColumnDefinition<PeriodTableRow>[] = [
         { key: 'id', label: 'ID' },
         { key: 'startDate', label: 'Start Date' },
-        { key: 'status', label: 'Status' },
         { key: 'endDate', label: 'End Date' },
         { key: 'createdAt', label: 'Created At' },
+        { key: 'status', label: 'Status' },
         { key: 'actions', label: 'Actions' }
     ];
 
@@ -96,7 +97,7 @@ import { StatusEnum } from '@/enum/StatusEnum';
     }
 
     function toggleStatus(record: PeriodTableRow) {
-        emit('delete', record.id)
+        emit('toggle-status', record.id, record.status)
     }
     
 

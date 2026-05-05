@@ -1,3 +1,4 @@
+import { StatusEnum } from "@/enum/StatusEnum"
 import { CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
 import { TeacherSimpleResponse } from "../Teacher/TeacherInterface"
 
@@ -16,6 +17,7 @@ export interface DegreeDetailResponse{
     ability: number,
     year: number,
     fullName: string,
+    status: StatusEnum,
     sectionName: string,
     degreeName: string,
     tutorName: string

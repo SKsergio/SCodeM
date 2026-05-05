@@ -18,6 +18,14 @@
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
                         </div>
+
+                         <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
+                                Close
+                            </button>
+
+                            <button v-else @click="toggleStatus(row)">
+                                Open
+                            </button>
                     </template>
 
                 </TableGridComponent>
@@ -40,6 +48,7 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import { StatusEnum } from '@/enum/StatusEnum';
 
     const {
         records,
@@ -60,6 +69,7 @@
         (e: 'edit', id:number):void,
         (e: 'delete', id:number):void,
         (e: 'view-details', id:number):void
+        (e: 'toggle-status', id: number): void
     }>();
 
 
@@ -72,6 +82,7 @@
         { key: 'tutorName', label: 'Tutor' },
         { key: 'ability', label: 'Ability' },
         { key: 'year', label: 'year' },
+        { key: 'status', label: 'Status'},
         { key: 'actions', label: 'Actions' }
     ];
 
@@ -81,6 +92,10 @@
 
     function deleteRow(record:DegreeDetailTableRow) {
         emit('delete', record.id)
+    }
+
+    function toggleStatus(record: DegreeDetailTableRow) {
+        emit('toggle-status', record.id)
     }
 
     const handleFilters = async (newFilters: Record<string, any>) => {

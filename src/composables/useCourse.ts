@@ -10,6 +10,7 @@ import {//importamos las funciones del crud
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { CourseRequest, CourseEditResponse, CourseFullResponse, CourseSimpleResponse, CourseResoponse } from "@/interfaces/Course/CourseInterface";
+import { statusRequest } from "@/interfaces/StatusRequest";
 
 export function useCourse() {
     const endpoint = 'core/courses';
@@ -120,13 +121,25 @@ export function useCourse() {
         }
     }
 
-    const getPercentage = async(idCourse: number) => {
+    const getPercentage = async (idCourse: number) => {
         try {
             const urlFinal = endpoint + "/percentage"
-            const response = await GetOneRecord<{availablePercentage: number}>(urlFinal, idCourse);
+            const response = await GetOneRecord<{ availablePercentage: number }>(urlFinal, idCourse);
             percentageAvaliable.value = response.availablePercentage;
         } catch (e) {
             console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
+    //cambiar estados
+    const changeStatus = async (idRecord: number, status: statusRequest): Promise<CourseResoponse> => {
+        try {
+            const urlFinal = endpoint + "/status"
+            const record = await PatchRecord<statusRequest, CourseResoponse>(idRecord, status, urlFinal);
+            await fetchAll();
+            return record;
+        } catch (e) {
+            console.error('Error al cambiar estado:', e);
             throw e;
         }
     }
@@ -148,6 +161,7 @@ export function useCourse() {
         deleteRecord,
         getOntetoEdit,
         getSelects,
-        getPercentage
+        getPercentage,
+        changeStatus
     };
 }

@@ -10,6 +10,7 @@ import {//importamos las funciones del crud
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { DegreeDetailRequest, DegreeDetailResponse, DegreeDetailSimpleResponse, DegreeDetailFullResponse, DegreeDetailEditResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
+import { statusRequest } from "@/interfaces/StatusRequest";
 
 export function useDegreeDetail() {
     const endpoint = 'core/grade-detail';
@@ -74,7 +75,7 @@ export function useDegreeDetail() {
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     };
@@ -103,21 +104,34 @@ export function useDegreeDetail() {
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     }
 
     const getSelects = async (): Promise<DegreeDetailSimpleResponse[]> => {
-            const urlFinal = endpoint + "/all"
-            try {
-                const records = await GetAllRecords<DegreeDetailSimpleResponse>(urlFinal);
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
+        const urlFinal = endpoint + "/all"
+        try {
+            const records = await GetAllRecords<DegreeDetailSimpleResponse>(urlFinal);
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
         }
+    }
+
+    //cambiar estados
+    const changeStatus = async (idRecord: number, status: statusRequest): Promise<DegreeDetailEditResponse> => {
+        try {
+            const urlFinal = endpoint + "/status"
+            const record = await PatchRecord<statusRequest, DegreeDetailEditResponse>(idRecord, status, urlFinal);
+            await fetchAll();
+            return record;
+        } catch (e) {
+            console.error('Error al cambiar estado:', e);
+            throw e;
+        }
+    }
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -134,6 +148,7 @@ export function useDegreeDetail() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
+        changeStatus,
         getSelects
     };
 }

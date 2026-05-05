@@ -9,7 +9,7 @@
         <HeaderComponent :title="'Evaluations'" @open-modal="handleCreate()"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideEvaluations @edit="handleEdit" @delete="handleDelete"></slideEvaluations>
+        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideEvaluations>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :evaluation="requestEvaluationData"
@@ -29,6 +29,10 @@
     import { EvaluationEditResponse } from '@/interfaces/evaluations/EvaluationInterface';
     import { useEvaluations } from '@/composables/useEvaluations';
     import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+    import { StatusEnum } from '@/enum/StatusEnum';
+    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
+    import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
     const evaluationState = useEvaluations();
@@ -42,7 +46,7 @@
 
 
     provide("evaluationContext", evaluationState);
-    const { loading, fetchAll, deleteRecord, getOntetoEdit } = evaluationState
+    const { loading, fetchAll, deleteRecord, getOntetoEdit, changeStatus } = evaluationState
 
     const handleCreate = () => {
         requestEvaluationData.value = undefined;
@@ -74,6 +78,22 @@
         }
     }
 
+    //manjear abriri y cerrar periodos
+    const handleStatus = async (id: number, oldStatus: StatusEnum) => {
+        const statusIntitial =():statusRequest =>({
+            newStatus: null as unknown as StatusEnum
+        });
+
+        if (oldStatus == StatusEnum.OPEN) {
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.CLOSED
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
+        }else if(oldStatus == StatusEnum.CLOSED){
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.OPEN
+            OpenRecordAlert(()=>changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
+        }
+    }
 
     onMounted(async () => {
         try {

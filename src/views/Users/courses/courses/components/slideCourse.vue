@@ -17,6 +17,14 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+
+                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
+                                Close
+                            </button>
+
+                            <button v-else @click="toggleStatus(row)">
+                                Open
+                            </button>
                         </div>
                     </template>
 
@@ -40,6 +48,7 @@
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { CourseTableRow } from '@/interfaces/Course/CourseInterface';
+    import { StatusEnum } from '@/enum/StatusEnum';
 
     const {
         records,
@@ -60,6 +69,7 @@
         (e: 'edit', id:number):void,
         (e: 'delete', id:number):void,
         (e: 'view-details', id:number):void
+        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
     }>();
 
 
@@ -71,7 +81,7 @@
         { key: 'teacherName', label: 'Teacher Name' },
         { key: 'subjectName', label: 'Subject Name' },
         { key: 'totalStudents', label: 'Total Students' },
-        { key: 'status', label: 'Status' },
+        { key: 'status', label: 'Status'},
         { key: 'year', label: 'year' },
         { key: 'actions', label: 'Actions' }
     ];
@@ -82,6 +92,10 @@
 
     function deleteRow(record:CourseTableRow) {
         emit('delete', record.id)
+    }
+
+    function toggleStatus(record: CourseTableRow) {
+        emit('toggle-status', record.id, record.status)
     }
 
     const handleFilters = async (newFilters: Record<string, any>) => {
