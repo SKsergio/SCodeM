@@ -13,7 +13,7 @@ export const menuItems: MenuItems[]=[
     {
         label:'Administration',
         icon:IdentificationIcon,
-        amount:0,
+        amount:2,
         hadSoons:true,
         soons:[
             // {label:'Fyle Types', name:'TypeFileMagnament'},
@@ -39,6 +39,7 @@ export const menuItems: MenuItems[]=[
         soons:[
             {label:'Degree',name:'DegreeMagnament'},
             {label:'Specific Degree',name:'DegreeDetailMagnament'},
+            {label:'Enrollment Degrees',name:'EnrollmentDegreeMagnament'},
             // {label:'Classrooms',name:'ClassroomsMagnament'},
             {label:'Sections',name:'SectionMagnament'},
             {label:'Subjects',name:'SubjectMagnament'},

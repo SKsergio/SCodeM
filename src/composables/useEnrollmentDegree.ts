@@ -9,11 +9,11 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { EvaluationEditResponse, EvaluationFullResponse, EvaluationRequest, EvaluationResponse, EvaluationSimpleResponse } from "@/interfaces/evaluations/EvaluationInterface";
+import { EnrollmentDegreeRequest, EnrollmentDegreeResponse } from "@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface";
 
-export function useEvaluations() {
-    const endpoint = 'core/evaluations';
-    const records = ref<EvaluationResponse[]>([]);
+export function useDegreeDetail() {
+    const endpoint = 'core/enrollment-degrees';
+    const records = ref<EnrollmentDegreeResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
@@ -26,7 +26,7 @@ export function useEvaluations() {
         error.value = null;
 
         try {
-            const response = await GetRecords<EvaluationResponse>(endpoint, {
+            const response = await GetRecords<EnrollmentDegreeResponse>(endpoint, {
                 ...extraParams,
                 page: pagination.page.value,
                 size: pagination.size.value
@@ -43,7 +43,7 @@ export function useEvaluations() {
     }
 
     //crear
-    const createRecord = async (data: EvaluationRequest) => {
+    const createRecord = async (data: EnrollmentDegreeRequest) => {
         try {
             await SaveRecord(data, endpoint);
             await fetchAll();
@@ -54,9 +54,9 @@ export function useEvaluations() {
     }
 
     //editar
-    const updateRecord = async (idRecord: number, data: EvaluationRequest): Promise<EvaluationResponse> => {
+    const updateRecord = async (idRecord: number, data: EnrollmentDegreeRequest): Promise<EnrollmentDegreeResponse> => {
         try {
-            const record = await PatchRecord<EvaluationRequest, EvaluationResponse>(idRecord, data, endpoint);
+            const record = await PatchRecord<EnrollmentDegreeRequest, EnrollmentDegreeResponse>(idRecord, data, endpoint);
             await fetchAll();
             return record;
         } catch (e) {
@@ -80,10 +80,10 @@ export function useEvaluations() {
     };
 
     //obtener detalle
-    const getDetail = async (idRecord: number): Promise<EvaluationFullResponse> => {
+    const getDetail = async (idRecord: number): Promise<DegreeDetailFullResponse> => {
         loading.value = true;
         try {
-            const record = await GetOneRecord<EvaluationFullResponse>(endpoint, idRecord);
+            const record = await GetOneRecord<DegreeDetailFullResponse>(endpoint, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -94,11 +94,11 @@ export function useEvaluations() {
     }
 
     // //obtener para eidcion
-    const getOntetoEdit = async (idRecord: number): Promise<EvaluationEditResponse> => {
+    const getOntetoEdit = async (idRecord: number): Promise<DegreeDetailEditResponse> => {
         loading.value = true;
         try {
             const fullUrl = endpoint + "/edit";
-            const record = await GetOneRecord<EvaluationEditResponse>(fullUrl, idRecord);
+            const record = await GetOneRecord<DegreeDetailEditResponse>(fullUrl, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -108,10 +108,10 @@ export function useEvaluations() {
         }
     }
 
-    const getSelects = async (): Promise<EvaluationSimpleResponse[]> => {
+    const getSelects = async (): Promise<DegreeDetailSimpleResponse[]> => {
             const urlFinal = endpoint + "/all"
             try {
-                const records = await GetAllRecords<EvaluationSimpleResponse>(urlFinal);
+                const records = await GetAllRecords<DegreeDetailSimpleResponse>(urlFinal);
                 return records;
             } catch (e) {
                 console.error('Error al obtener:', e);

@@ -17,6 +17,7 @@ import PeriodView from '@/views/Users/courses/periods/PeriodView.vue'
 import CourseView from '@/views/Users/courses/courses/courseView.vue'
 import EvaluationView from '@/views/Users/evaluations/evaluations/evaluationView.vue'
 import StudentView from '@/views/Users/students/students/studentView.vue'
+import EnrollmentDegreeView from '@/views/Users/degrees/enrollmentDegree/enrollmentDegreeView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // {
@@ -59,6 +60,7 @@ const routes: Array<RouteRecordRaw> = [
                     { path: '', redirect: { name: 'DegreeMagnament' } }, //redirección al hijo por defecto
                     { path: 'degrees', name: 'DegreeMagnament', component: DegreeView },
                     { path: 'section', name: 'SectionMagnament', component: SectionView },
+                    { path: 'enrollment', name: 'EnrollmentDegreeMagnament', component: EnrollmentDegreeView },
                     { path: 'degreeDetail', name: 'DegreeDetailMagnament', component: SpecificDegreeView },
                     { path: 'classroom', name: 'ClassroomsMagnament', component: ClassroomsView },
                     { path: 'subject', name: 'SubjectMagnament', component: SujectView }
