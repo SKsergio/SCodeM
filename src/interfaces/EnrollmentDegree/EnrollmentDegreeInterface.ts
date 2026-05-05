@@ -11,3 +11,10 @@ export interface EnrollmentDegreeResponse {
     degreeName: string,
     status: StatusEnum
 }
+
+export interface EnrollmentDegreeSimpleResponse extends EnrollmentDegreeResponse {
+}
+
+export interface EnrollmentDegreeFullResponse extends EnrollmentDegreeResponse{
+    
+}
