@@ -1,16 +1,12 @@
 <template>
-    <div class="slide_container">
+    <div class="slide__container">
         <!-- filtros -->
-        <BtnFilterComponent @click="showFilters = !showFilters" />
-        <FilterWrapper v-if="showFilters">
-            <FilterComponent @apply-filters="handleFilters"></FilterComponent>
-        </FilterWrapper>
-
         <div class="conatiner_crud">
-            <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size" :max-pages-shown="5"
-                @change="changePage">
-            </PaginacionComponent>
             <section class="table__container">
+                <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size"
+                    :max-pages-shown="5" @change="changePage">
+                </PaginacionComponent>
+                <h1>Current student in this course</h1>
                 <TableGridComponent :rows="records" :columns="columns" :length="totalElements">
 
                     <!-- <template #cell-actions="{ row }">
@@ -27,35 +23,38 @@
 
                 </TableGridComponent>
             </section>
-            <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size" :max-pages-shown="5"
-                @change="changePage">
-            </PaginacionComponent>
         </div>
 
+        <div class="add_section">
+            <section class="btn_search_section">
+                <BtnSearchComponent></BtnSearchComponent>
+            </section>
+            <section class="result__search">
+                <h1>Resultados de la busqueda</h1>
+            </section>
+            <section class="generate_inscription_section">
+                <button>generar inscripcion</button>
+            </section>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
-    import type{ useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
+    import type { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { PeriodTableRow } from '@/interfaces/Period/periodInterface';
-    import FilterWrapper from '@/components/templates/FilterWrapper.vue';
-    import FilterComponent from '@/components/generics/FilterComponent.vue';
+    import { EnrollmentDegreeTableRow } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
-    import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
+    import BtnSearchComponent from '@/components/buttons/BtnSearchComponent.vue';
 
     const {
         records,
         pagination,
-        fetchAll
     } = inject('enrollmentContext') as ReturnType<typeof useEnrollmentDegrees>;
 
     //VARIABLES
-    const showFilters = ref(false);
-
     const page = pagination.page;
     const size = pagination.size;
     const totalElements = pagination.totalElements;
@@ -63,51 +62,43 @@
 
     //emits
     const emit = defineEmits<{
-        // (e: 'edit', id: number): void,
-        // (e: 'delete', id: number): void,
-        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
+        (e: 'toggle-status', id: number, newStatus: StatusEnum): void,
         (e: 'view-details', id: number): void
     }>();
 
 
     //tabla
-    const columns: ColumnDefinition<PeriodTableRow>[] = [
+    const columns: ColumnDefinition<EnrollmentDegreeTableRow>[] = [
         { key: 'id', label: 'ID' },
-        { key: 'startDate', label: 'Start Date' },
-        { key: 'endDate', label: 'End Date' },
-        { key: 'createdAt', label: 'Created At' },
+        { key: 'studentName', label: 'Student Name' },
+        { key: 'degreeName', label: 'Degree Name' },
         { key: 'status', label: 'Status' },
         { key: 'actions', label: 'Actions' }
     ];
 
-    function toggleStatus(record: PeriodTableRow) {
+    function toggleStatus(record: EnrollmentDegreeTableRow) {
         emit('toggle-status', record.id, record.status)
-    }
-    
-
-    const handleFilters = async (newFilters: Record<string, any>) => {
-        pagination.changePage(0);
-        await fetchAll(newFilters);
     }
 </script>
 
-<style>
+<style scoped>
 @import url('@/css/variables.css');
 
-.slide__cotainer {
-    background: var(--color-third);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 30px;
-    border-radius: 25px 5px 25px 5px;
-    /* margin-bottom: 40px; */
+.slide__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
-.conatiner_crud {
+.conatiner_crud, .add_section{
     width: 94%;
     margin: 0 auto;
-    margin-top: 15px;
+}
+.add_section{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .conatiner__data_load {
@@ -117,16 +108,10 @@
 }
 
 .table__container {
-    background: var(--color-third);
     display: flex;
-    padding: 40px;
-    border-radius: 25px 5px 25px 5px;
-}
-
-.img_file {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 15px;
+    display: flex;
+    padding: 10px;
 }
 </style>

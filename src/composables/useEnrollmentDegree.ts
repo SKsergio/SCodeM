@@ -5,7 +5,6 @@ import {//importamos las funciones del crud
     SaveRecord,
     PatchRecord,
     GetOneRecord,
-    GetAllRecords
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
@@ -28,6 +27,27 @@ export function useEnrollmentDegrees() {
         try {
             const response = await GetRecords<EnrollmentDegreeResponse>(endpoint, {
                 ...extraParams,
+                page: pagination.page.value,
+                size: pagination.size.value
+            });
+
+            records.value = response.content;
+            pagination.setPaginationData(response.totalElements, response.totalPages);
+        } catch (e) {
+            error.value = `Error obteniendo datos de ${endpoint}`;
+            console.error(e);
+        } finally {
+            loading.value = false;
+        }
+    }
+
+    //obtener por grado id
+    const fetcByGradeId = async (degreeDetailId: number) => {
+        loading.value = true;
+        error.value = null;
+        const finalUrl = endpoint + `/grade-detail/${degreeDetailId}`
+        try {
+            const response = await GetRecords<EnrollmentDegreeResponse>(finalUrl, {
                 page: pagination.page.value,
                 size: pagination.size.value
             });
@@ -124,5 +144,6 @@ export function useEnrollmentDegrees() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
+        fetcByGradeId
     };
 }

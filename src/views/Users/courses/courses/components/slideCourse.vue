@@ -104,7 +104,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 @import url('@/css/variables.css');
 
 .slide__cotainer {

@@ -39,7 +39,7 @@ export const menuItems: MenuItems[]=[
         soons:[
             {label:'Degree',name:'DegreeMagnament'},
             {label:'Specific Degree',name:'DegreeDetailMagnament'},
-            {label:'Enrollment Degrees',name:'EnrollmentDegreeMagnament'},
+            // {label:'Enrollment Degrees',name:'EnrollmentDegreeMagnament'},
             // {label:'Classrooms',name:'ClassroomsMagnament'},
             {label:'Sections',name:'SectionMagnament'},
             {label:'Subjects',name:'SubjectMagnament'},

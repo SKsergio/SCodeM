@@ -29,6 +29,8 @@ export interface DegreeDetailSimpleResponse extends Omit<DegreeDetailResponse, "
 export interface DegreeDetailFullResponse{
     id:number,
     ability: number,
+    totalStudents: number,
+    availableSlots: number
     year: number,
     section: CatalogueSimpleResponse,
     degree: CatalogueSimpleResponse,

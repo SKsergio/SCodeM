@@ -16,5 +16,8 @@ export interface EnrollmentDegreeSimpleResponse extends EnrollmentDegreeResponse
 }
 
 export interface EnrollmentDegreeFullResponse extends EnrollmentDegreeResponse{
-    
+}
+
+export interface EnrollmentDegreeTableRow extends EnrollmentDegreeResponse{
+    actions?: string
 }

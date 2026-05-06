@@ -73,7 +73,7 @@
     })
 </script>
 
-<style>
+<style scoped>
 .table__container {
     background: var(--color-third);
     display: flex;

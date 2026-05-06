@@ -17,6 +17,7 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+                            <button @click="openInscriptions(row)">Inscriptions</button>
                         </div>
 
                          <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
@@ -40,6 +41,7 @@
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
+    import { useRouter } from 'vue-router';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import { DegreeDetailTableRow } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import type { useDegreeDetail } from '@/composables/useDegreeDetail';
@@ -49,6 +51,8 @@
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
+
+    const router = useRouter();
 
     const {
         records,
@@ -69,7 +73,7 @@
         (e: 'edit', id:number):void,
         (e: 'delete', id:number):void,
         (e: 'view-details', id:number):void
-        (e: 'toggle-status', id: number): void
+        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
     }>();
 
 
@@ -95,8 +99,18 @@
     }
 
     function toggleStatus(record: DegreeDetailTableRow) {
-        emit('toggle-status', record.id)
+        emit('toggle-status', record.id, record.status)
     }
+    
+    function openInscriptions(record: DegreeDetailTableRow) {
+        router.push({
+        name: 'EnrollmentDegreeMagnament', 
+        query: { 
+            detailId: record.id 
+        }
+    });
+    }
+    
 
     const handleFilters = async (newFilters: Record<string, any>) => {
         pagination.changePage(0);
@@ -104,7 +118,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 @import url('@/css/variables.css');
 
 .slide__cotainer {

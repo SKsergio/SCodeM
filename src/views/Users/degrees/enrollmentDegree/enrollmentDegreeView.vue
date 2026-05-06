@@ -6,80 +6,94 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Enrollment Students'" @open-modal="handleCreate"></HeaderComponent>
+        <HeaderDetailComponent :title="'Enrollment Students in Degrees'"></HeaderDetailComponent>
 
+        <div class="info_preview">
+            <button>Regresar</button>
+            <article class="sct_detail">
+                <h1>Total Students: {{ detailDegree.totalStudents }}</h1>
+                <h1>year: {{ detailDegree.year }}</h1>
+            </article>
+        </div>
         <!-- contendedor -->
-        <SlideEnrollmentDegree @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></SlideEnrollmentDegree>
-
-        <!-- modal de editar y crear -->
-        <ModalCrearEditar
-            v-model="isModalOpen" 
-            @emitido="fetchAll()" 
-            :course="requestCourseData"
-            :degree-detail="degreeSpecificList"
-            :periods="periodsList"
-            :teachers="teacherList"
-            :subjects="subjectList">
-        </ModalCrearEditar>
+        <slideEnrollmentDegree></slideEnrollmentDegree>
     </div>
 </template>
 
 <script lang="ts" setup>
     import { onMounted, ref, provide } from 'vue';
-    import { useCourse } from '@/composables/useCourse';
+    import { useRoute } from 'vue-router';
     import { useStudents } from '@/composables/useStudent';
+    import HeaderDetailComponent from '@/components/templates/HeaderDetailComponent.vue';
+    import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
     import { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
-    import ModalCrearEditar from './components/modalCrearEditar.vue';
-    import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { CourseEditResponse, CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
     import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
-    import SlideEnrollmentDegree from './components/slideEnrollmentDegree.vue';
+    import { useDegreeDetail } from '@/composables/useDegreeDetail';
+    import { DegreeDetailFullResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import slideEnrollmentDegree from './components/slideEnrollmentDegree.vue';
 
-    const isModalOpen = ref(false);
+    //obtener el id
+    const route = useRoute();
+    const currentDetailId = ref<number | null>();
+
+    const getInitialDegreeDetail = (): DegreeDetailFullResponse => ({
+        id: null as unknown as number,
+        ability: null as unknown as number,
+        totalStudents: 0,
+        availableSlots: 0,
+        year: 0,
+        section: null as unknown as CatalogueSimpleResponse,
+        degree: null as unknown as CatalogueSimpleResponse,
+        tutor: null as unknown as TeacherSimpleResponse
+    })
+
+    //estados principales
     const enrollmentState = useEnrollmentDegrees();
-    const requestEnrollmentData = ref<CourseEditResponse>();
+    const degreeDetail = useDegreeDetail();
+
+    //servicio para padre
+    const { getDetail } = degreeDetail;
 
     //servicios para selects
     const studentService = useStudents();
-    const courseService = useCourse();
-
     //selects
     const studentList = ref<StudentSimpleResponse[]>([]);
-    const courseList = ref<CourseSimpleResponse[]>([]);
 
 
     provide("enrollmentContext", enrollmentState);
-    const {loading, fetchAll, deleteRecord, getOntetoEdit} = enrollmentState
+    const { loading, fetcByGradeId } = enrollmentState
 
-    const handleCreate = () => {
-        requestEnrollmentData.value = undefined;
-        isModalOpen.value = true;
-    }
-
+    const detailDegree = ref<DegreeDetailFullResponse>(getInitialDegreeDetail());
 
     onMounted(async () => {
-        try {
-            await fetchAll();
-            const [students, courses] = await Promise.all([
-                studentService.getSelects(),
-                courseService.getSelects(),
-            ])
+        const idFormUrl = route.query.detailId;
 
-            studentList.value = students;
-            courseList.value = courses;
+        try {
+            if (idFormUrl) {
+                currentDetailId.value = Number(idFormUrl);
+                detailDegree.value = await getDetail(currentDetailId.value);
+                await fetcByGradeId(currentDetailId.value);
+                const [students] = await Promise.all([
+                    studentService.getSelects(),
+                ])
+                studentList.value = students;
+            } else {
+                console.warn("No se proporcionó ningún ID para las inscripciones.");
+            }
+
         } catch (e) {
             console.error('Falló la carga inicial', e);
-            //argar un swal de error general
         }
     })
 </script>
 
-<style>
+<style scoped>
 .table__container {
     background: var(--color-third);
     display: flex;
-    padding: 40px;
     border-radius: 25px 5px 25px 5px;
 }
 
@@ -89,5 +103,20 @@
     border-radius: 50%;
     cursor: pointer;
 }
+.info_preview{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+}
+.sct_detail{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
 </style>
-

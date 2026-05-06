@@ -9,7 +9,7 @@
         <HeaderComponent :title="'Specific Degrees'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideSpecificDegree @edit="handleEdit" @delete="handleDelete"></slideSpecificDegree>
+        <slideSpecificDegree @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideSpecificDegree>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar
@@ -36,6 +36,10 @@
     import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
     import { useTeachers } from '@/composables/useTeachers';
     import { DegreeDetailEditResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { StatusEnum } from '@/enum/StatusEnum';
+    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
+import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
     const degreeDetailState = useDegreeDetail();
@@ -51,7 +55,7 @@
     const tutorsList = ref<TeacherSimpleResponse[]>([]);
 
     provide("degreDetailContext", degreeDetailState);
-    const {loading, fetchAll, deleteRecord, getOntetoEdit} = degreeDetailState
+    const {loading, fetchAll, deleteRecord, getOntetoEdit, changeStatus} = degreeDetailState
 
     const handleCreate = () => {
         requestDegreeDetailData.value = undefined;
@@ -82,6 +86,23 @@
         }
     }
 
+    //manjear abriri y cerrar periodos
+    const handleStatus = async (id: number, oldStatus: StatusEnum) => {
+        const statusIntitial =():statusRequest =>({
+            newStatus: null as unknown as StatusEnum
+        });
+
+        if (oldStatus == StatusEnum.OPEN) {
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.CLOSED
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+        }else if(oldStatus == StatusEnum.CLOSED){
+            const newStatus = statusIntitial()
+            newStatus.newStatus = StatusEnum.OPEN
+            OpenRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+        }
+    }
+
 
     onMounted(async () => {
         try {
@@ -102,7 +123,7 @@
     })
 </script>
 
-<style>
+<style scoped>
 .table__container {
     background: var(--color-third);
     display: flex;

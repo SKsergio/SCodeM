@@ -8,7 +8,6 @@ import HomeView from '@/views/Users/general/HomeView.vue'
 import DegreeView from '@/views/Users/degrees/degree/DegreeView.vue'
 import SectionView from '@/views/Users/degrees/section/SectionView.vue'
 import ClassroomsView from '@/views/Users/degrees/classroom/ClassroomsView.vue'
-import TypeEvaluationsView from '@/views/Users/evaluations/TypeEvaluationsView.vue'
 import SujectView from '@/views/Users/degrees/subject/SubjectView.vue'
 import FileTypeView from '@/views/Users/administration/fileType/FileTypeView.vue'
 import TeacherView from '@/views/Users/administration/teachers/TeacherView.vue'
@@ -57,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'degree',
                 name: 'degrees',
                 children: [
-                    { path: '', redirect: { name: 'DegreeMagnament' } }, //redirección al hijo por defecto
+                    { path: '', redirect: { name: 'DegreeMagnament' } }, 
                     { path: 'degrees', name: 'DegreeMagnament', component: DegreeView },
                     { path: 'section', name: 'SectionMagnament', component: SectionView },
                     { path: 'enrollment', name: 'EnrollmentDegreeMagnament', component: EnrollmentDegreeView },
