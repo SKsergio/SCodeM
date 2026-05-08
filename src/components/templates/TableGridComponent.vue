@@ -42,10 +42,8 @@ defineProps<{
 <style scoped>
 .table_section {
     display: flex;
-    height: 100%;
     width: 100%;
     flex-direction: column;
-
 }
 
 .table-outline {

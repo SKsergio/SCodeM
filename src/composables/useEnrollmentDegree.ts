@@ -8,16 +8,18 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { EnrollmentDegreeFullResponse, EnrollmentDegreeRequest, EnrollmentDegreeResponse, EnrollmentDegreeSimpleResponse } from "@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface";
+import { BatchEnrollmentRequestDTO, EnrollmentDegreeFullResponse, EnrollmentDegreeRequest, EnrollmentDegreeResponse, EnrollmentDegreeSimpleResponse } from "@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface";
 
 export function useEnrollmentDegrees() {
     const endpoint = 'core/enrollment-degrees';
     const records = ref<EnrollmentDegreeResponse[]>([]);
+    const recordSelect = ref<EnrollmentDegreeSimpleResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
     //instanciando la paginacion
     const pagination = usePagination();
+    const paginationPreInscription = usePagination();
 
     //listar
     const fetchAll = async (extraParams: Record<string, any> = {}) => {
@@ -47,13 +49,13 @@ export function useEnrollmentDegrees() {
         error.value = null;
         const finalUrl = endpoint + `/grade-detail/${degreeDetailId}`
         try {
-            const response = await GetRecords<EnrollmentDegreeResponse>(finalUrl, {
+            const response = await GetRecords<EnrollmentDegreeSimpleResponse>(finalUrl, {
                 page: pagination.page.value,
                 size: pagination.size.value
             });
 
-            records.value = response.content;
-            pagination.setPaginationData(response.totalElements, response.totalPages);
+            recordSelect.value = response.content;
+            paginationPreInscription.setPaginationData(response.totalElements, response.totalPages);
         } catch (e) {
             error.value = `Error obteniendo datos de ${endpoint}`;
             console.error(e);
@@ -72,12 +74,23 @@ export function useEnrollmentDegrees() {
             throw e;
         }
     }
+    
+    //crear
+    const createBatchEnrolls = async (data: BatchEnrollmentRequestDTO) => {
+        try {
+            const finalUrl = endpoint + '/batch'
+            await SaveRecord(data, finalUrl);
+            await fetcByGradeId(data.gradeDetailId);
+        } catch (e) {
+            console.error('Error al crear:', e);
+            throw e;
+        }
+    }
 
     //editar
     const updateRecord = async (idRecord: number, data: EnrollmentDegreeRequest): Promise<EnrollmentDegreeResponse> => {
         try {
             const record = await PatchRecord<EnrollmentDegreeRequest, EnrollmentDegreeResponse>(idRecord, data, endpoint);
-            await fetchAll();
             return record;
         } catch (e) {
             console.error('Error al editar:', e);
@@ -91,6 +104,19 @@ export function useEnrollmentDegrees() {
         try {
             await DeleteRecords(idRecord, endpoint);
             await fetchAll();
+        } catch (e) {
+            console.error('Error al eliminar:', e);
+            throw e;
+        }finally {
+            loading.value = false;
+        }
+    };
+
+    const deleteSpecificRecord = async (idRecord: number, gradeDetailId:number) => {
+        loading.value = true;
+        try {
+            await DeleteRecords(idRecord, endpoint);
+            await fetcByGradeId(gradeDetailId);
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
@@ -144,6 +170,10 @@ export function useEnrollmentDegrees() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
-        fetcByGradeId
+        fetcByGradeId,
+        recordSelect,
+        createBatchEnrolls,
+        paginationPreInscription,
+        deleteSpecificRecord
     };
 }

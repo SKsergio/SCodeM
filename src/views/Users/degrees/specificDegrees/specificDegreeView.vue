@@ -39,7 +39,7 @@
     import { StatusEnum } from '@/enum/StatusEnum';
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
-import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+    import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
     const degreeDetailState = useDegreeDetail();

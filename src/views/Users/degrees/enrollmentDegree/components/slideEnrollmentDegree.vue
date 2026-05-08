@@ -6,19 +6,13 @@
                     :max-pages-shown="5" @change="changePage">
                 </PaginacionComponent>
                 <h1>Current student in this course</h1>
-                <TableGridComponent :rows="records" :columns="columns" :length="totalElements">
+                <TableGridComponent :rows="recordSelect" :columns="columns" :length="totalElements">
 
-                    <!-- <template #cell-actions="{ row }">
+                    <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
-                                Close
-                            </button>
-
-                            <button v-else @click="toggleStatus(row)">
-                                Open
-                            </button>
+                            <button @click="deleteRow(row)">Delete</button>
                         </div>
-                    </template> -->
+                    </template>
 
                 </TableGridComponent>
             </section>
@@ -33,6 +27,7 @@
             <section class="btn_search_section">
                 <label for="">Search Students</label>
                 <Multiselect
+                    class="custom-select-modal"
                     v-model="alumnoSeleccionadoId"
                     placeholder="Buscar alumnos..."
                     :options="fetchStudents"
@@ -52,6 +47,12 @@
             
             <section class="generate_inscription_section">
                 <h1>Current student in this course</h1>
+                <button 
+                    :disabled="alumnosPreInscritos.length === 0" 
+                    @click="$emit('generate-enrollment')"
+                >
+                    Generar inscripción
+                </button>
                 <TableGridComponent :rows="alumnosPreInscritos" :columns="columnsStudents" :length="alumnosPreInscritos.length">
 
                      <template #cell-routePhoto="{ row }">
@@ -66,13 +67,6 @@
                     </template>
 
                 </TableGridComponent>
-                
-                <button 
-                    :disabled="alumnosPreInscritos.length === 0" 
-                    @click="$emit('generate-enrollment')"
-                >
-                    Generar inscripción
-                </button>
             </section>
         </div>
     </div>
@@ -103,30 +97,28 @@
         (e: 'view-details', id: number): void,
         (e: 'add-student', student: StudentSimpleResponse): void,
         (e: 'remove-student', studentId: number): void,
-        (e: 'generate-enrollment'): void
+        (e: 'generate-enrollment'): void,
+        (e: 'delete', id:number): void,
     }>();
 
     // --- ESTADO LOCAL DEL MULTISELECT ---
     const alumnoSeleccionadoId = ref(null);
 
-    // Cuando el usuario hace clic en una opción del select
     const onStudentSelect = (selectedOption: any, optionObject: any) => {
         if (optionObject && optionObject.originalData) {
-            // Emitimos el objeto original completo al padre
             emit('add-student', optionObject.originalData);
             
-            // Limpiamos el buscador para la siguiente búsqueda
             setTimeout(() => {
                 alumnoSeleccionadoId.value = null;
             }, 100);
         }
     };
 
-    const { records, pagination } = inject('enrollmentContext') as ReturnType<typeof useEnrollmentDegrees>;
-    const page = pagination.page;
-    const size = pagination.size;
-    const totalElements = pagination.totalElements;
-    const changePage = pagination.changePage;
+    const { recordSelect, paginationPreInscription } = inject('enrollmentContext') as ReturnType<typeof useEnrollmentDegrees>;
+    const page = paginationPreInscription.page;
+    const size = paginationPreInscription.size;
+    const totalElements = paginationPreInscription.totalElements;
+    const changePage = paginationPreInscription.changePage;
     
 
     const columns: ColumnDefinition<EnrollmentDegreeTableRow>[] = [
@@ -149,6 +141,10 @@
 
     function toggleStatus(record: EnrollmentDegreeTableRow) {
         emit('toggle-status', record.id, record.status)
+    }
+
+    function deleteRow(record:EnrollmentDegreeTableRow) {
+        emit('delete', record.id)
     }
 </script>
 

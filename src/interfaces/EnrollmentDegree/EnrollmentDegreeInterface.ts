@@ -5,6 +5,11 @@ export interface EnrollmentDegreeRequest {
     gradeDetailId: number
 }
 
+export interface BatchEnrollmentRequestDTO{
+    gradeDetailId: number,
+    studentIds: number[]
+}
+
 export interface EnrollmentDegreeResponse {
     id: number,
     studentName: string,
