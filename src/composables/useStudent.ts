@@ -111,10 +111,15 @@ export function useStudents() {
         }
     }
 
-    const getSelects = async (): Promise<StudentSimpleResponse[]> => {
+    const getSelects = async (extraParams: Record<string, any> = {}): Promise<StudentSimpleResponse[]> => {
             try {
                 const urlFinal = endpoint + "/all"
-                const records = await GetAllRecords<StudentSimpleResponse>(urlFinal);
+
+                const records = await GetAllRecords<StudentResponse>(urlFinal, {
+                    ...extraParams,
+                    page: pagination.page.value,
+                    size: pagination.size.value
+                });
                 return records;
             } catch (e) {
                 console.error('Error al obtener:', e);

@@ -2,11 +2,21 @@ import { PaginateResponse } from "@/interfaces/paginateResponse";
 import { httpGet, httpDelete, httpPatch, httPost, httpPut } from "../api";
 
 //function to get all records generic
-export async function GetAllRecords<T>(url: string): Promise<T[]> {
+export async function GetAllRecords<T>(url: string, params: Record<string, any> = {}): Promise<T[]> {
 
     try {
-        const response = await httpGet<T[]>(`${url}`)
-        return response
+        const query = new URLSearchParams();
+        Object.keys(params).forEach(key => {
+            const value = params[key];
+            if (value !== null && value !== undefined && value !== '') {
+                query.append(key, String(value));
+            }
+        });
+
+        const queryString = query.toString();
+        const finalUrl = queryString ? `${url}?${queryString}` : url;
+        const response = await httpGet<T[]>(finalUrl);
+        return response;
     } catch (error) {
         console.error('Error al obtener datos:', error);
         throw error;
