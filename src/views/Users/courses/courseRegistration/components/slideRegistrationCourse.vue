@@ -5,7 +5,7 @@
                 <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size"
                     :max-pages-shown="5" @change="changePage">
                 </PaginacionComponent>
-                <h1>Current student in this Degree</h1>
+                <h1>Current student in this course</h1>
                 <TableGridComponent :rows="recordSelect" :columns="columns" :length="totalElements">
 
                     <template #cell-actions="{ row }">
@@ -46,23 +46,23 @@
 
             
             <section class="generate_inscription_section">
-                <h1>Current student in this course</h1>
+                <h1>Students to Register</h1>
                 <button 
                     :disabled="alumnosPreInscritos.length === 0" 
                     @click="$emit('generate-enrollment')"
                 >
-                    Generar inscripción
+                    Generate Inscription
                 </button>
                 <TableGridComponent :rows="alumnosPreInscritos" :columns="columnsStudents" :length="alumnosPreInscritos.length">
 
                      <template #cell-routePhoto="{ row }">
                         <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
-                        <span v-else>Sin foto</span>
+                        <span v-else>No photo</span>
                     </template>
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="$emit('remove-student', row.id)">Quitar</button>
+                            <button @click="$emit('remove-student', row.id)">remove</button>
                         </div>
                     </template>
 
@@ -75,9 +75,9 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import Multiselect from '@vueform/multiselect';
-    import type { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
+    import type { useRegistrationCourses } from '@/composables/useCourseRegistration';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { EnrollmentDegreeTableRow } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
+    import { CourseRegistrationTableRow } from '@/interfaces/CourseRegistration/courseRegistrationInterface';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
@@ -114,17 +114,17 @@
         }
     };
 
-    const { recordSelect, paginationPreInscription } = inject('enrollmentContext') as ReturnType<typeof useEnrollmentDegrees>;
+    const { recordSelect, paginationPreInscription } = inject('courseRegistrationContext') as ReturnType<typeof useRegistrationCourses>;
     const page = paginationPreInscription.page;
     const size = paginationPreInscription.size;
     const totalElements = paginationPreInscription.totalElements;
     const changePage = paginationPreInscription.changePage;
     
 
-    const columns: ColumnDefinition<EnrollmentDegreeTableRow>[] = [
+    const columns: ColumnDefinition<CourseRegistrationTableRow>[] = [
         { key: 'id', label: 'ID' },
         { key: 'studentName', label: 'Student Name' },
-        { key: 'degreeName', label: 'Degree Name' },
+        { key: 'courseName', label: 'Course Name' },
         { key: 'status', label: 'Status' },
         { key: 'actions', label: 'Actions' }
     ];
@@ -139,11 +139,11 @@
         { key: 'actions', label: 'Actions' }
     ];
 
-    function toggleStatus(record: EnrollmentDegreeTableRow) {
+    function toggleStatus(record: CourseRegistrationTableRow) {
         emit('toggle-status', record.id, record.status)
     }
 
-    function deleteRow(record:EnrollmentDegreeTableRow) {
+    function deleteRow(record:CourseRegistrationTableRow) {
         emit('delete', record.id)
     }
 </script>

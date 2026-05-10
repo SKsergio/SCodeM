@@ -4,19 +4,19 @@
             <Load2Component></Load2Component>
         </div>
 
-        <HeaderDetailComponent :title="'Enrollment Students in Degrees'"></HeaderDetailComponent>
+        <HeaderDetailComponent :title="'Registration Students in Courses'" :context="course.name"></HeaderDetailComponent>
 
         <div class="info_preview">
             <button @click="returnPage()">Regresar</button>
             <article class="sct_detail">
-                <h2>Total Students: {{ detailDegree.totalStudents }}</h2>
-                <h2>year: {{ detailDegree.year }}</h2>
+                <h2>Total Students: {{ course.totalStudents }}</h2>
+                <h2>year: {{ course.year }}</h2>
             </article>
         </div>
 
-        <slideEnrollmentDegree :alumnos-pre-inscritos="alumnosPreInscritos" :fetch-students="fetchStudentsForSelect"
+        <SlideRegistrationCourse :alumnos-pre-inscritos="alumnosPreInscritos" :fetch-students="fetchStudentsForSelect"
             @add-student="handleAddStudent" @remove-student="handleRemoveStudent"
-            @generate-enrollment="sendData" @delete="handleDelete"></slideEnrollmentDegree>
+            @generate-enrollment="sendData" @delete="handleDelete"></SlideRegistrationCourse>
     </div>
 </template>
 
@@ -25,48 +25,55 @@
     import { useRoute } from 'vue-router';
     import { useRouter } from 'vue-router';
     import HeaderDetailComponent from '@/components/templates/HeaderDetailComponent.vue';
-    import { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
+    import { useRegistrationCourses } from '@/composables/useCourseRegistration';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { useDegreeDetail } from '@/composables/useDegreeDetail';
-    import { DegreeDetailFullResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
     import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
-    import slideEnrollmentDegree from './components/slideEnrollmentDegree.vue';
 
     // IMPORTAMOS EL SERVICIO DE ESTUDIANTES AQUÍ EN EL PADRE
     import { useStudents } from '@/composables/useStudent';
     import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
-    import { BatchEnrollmentRequestDTO } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { ShowCreateAlert } from '@/components/alerts/createAlert';
+    import { CourseFullResponse } from '@/interfaces/Course/CourseInterface';
+    import { StatusEnum } from '@/enum/StatusEnum';
+    import { PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
+    import { useCourse } from '@/composables/useCourse';
+    import { BatchRegistrationRequestDTO } from '@/interfaces/CourseRegistration/courseRegistrationInterface';
+    import SlideRegistrationCourse from './components/slideRegistrationCourse.vue';
 
     const router = useRouter();
     const route = useRoute();
-    const currentDetailId = ref<number | null>();
-    const idFormUrl = route.query.detailId;
+    const currentCourseId = ref<number | null>();
+    const idFormUrl = route.query.courseId;
 
-    const getInitialDegreeDetail = (): DegreeDetailFullResponse => ({
+    const getInitialCourse = (): CourseFullResponse => ({
         id: null as unknown as number,
-        ability: null as unknown as number,
+        name: '',
+        code: '',
+        teacher: null as unknown as TeacherSimpleResponse,
+        gradeDetail: null as unknown as DegreeDetailSimpleResponse,
+        subject: null as unknown as CatalogueSimpleResponse,
+        period: null as unknown as PeriodSimpleResponse,
         totalStudents: 0,
         availableSlots: 0,
+        status: StatusEnum.OPEN,
         year: 0,
-        section: null as unknown as CatalogueSimpleResponse,
-        degree: null as unknown as CatalogueSimpleResponse,
-        tutor: null as unknown as TeacherSimpleResponse
+        valorityUnity: 0,
     })
 
-    const enrollmentState = useEnrollmentDegrees();
-    const degreeDetail = useDegreeDetail();
+    const registrationState = useRegistrationCourses();
+    const courseState = useCourse();
 
     // Instanciamos el servicio de estudiantes
     const { getSelects } = useStudents();
-    const { getDetail } = degreeDetail;
+    const { getDetail } = courseState;
 
-    provide("enrollmentContext", enrollmentState);
-    const { loading, fetcByGradeId, createBatchEnrolls, deleteSpecificRecord } = enrollmentState
+    provide("courseRegistrationContext", registrationState);
+    const { loading, fetchByCourseId, createBatchRegistration, deleteSpecificRecord } = registrationState
 
-    const detailDegree = ref<DegreeDetailFullResponse>(getInitialDegreeDetail());
+    const course = ref<CourseFullResponse>(getInitialCourse());
     const alumnosPreInscritos = ref<StudentSimpleResponse[]>([]);
 
     // Función asíncrona que usará el Multiselect en el hijo
@@ -97,33 +104,32 @@
     };
 
     const sendData = async ()=>{
-        const ok = await ShowCreateAlert(()=> handleGenerateEnrollment());
+        const ok = await ShowCreateAlert(()=> handleGenerateRegistration());
         if(ok){
             console.log("Generando inscripciones...");  
         }
     }
 
-    const handleGenerateEnrollment = async () => {
+    const handleGenerateRegistration = async () => {
         const ids_studenrs: number[] = alumnosPreInscritos.value.map(st => st.id)
-        const payload: BatchEnrollmentRequestDTO = {
-            gradeDetailId: detailDegree.value.id,
+        const payload: BatchRegistrationRequestDTO = {
+            courseId: course.value.id,
             studentIds: ids_studenrs
         }
         try {
-            await createBatchEnrolls(payload);
+            await createBatchRegistration(payload);
             loadDetail();
             alumnosPreInscritos.value = []
         } catch (error) {
             console.log(error);
             throw error;
         }
-        console.log("Alumnos listos para inscribir:", alumnosPreInscritos.value);
     };
 
     const handleDelete = async (id: number) => {
         try {
-            if (currentDetailId.value) {
-                ShowDeleteAlert(() => deleteSpecificRecord(id, currentDetailId.value as number));
+            if (currentCourseId.value) {
+                ShowDeleteAlert(() => deleteSpecificRecord(id, currentCourseId.value as number));
                 loadDetail();
             }
         } catch (error) {
@@ -134,7 +140,7 @@
 
     function returnPage() {
         router.push({
-            name: 'DegreeDetailMagnament', 
+            name: 'CourseMagnament', 
         });
     }
 
@@ -148,9 +154,9 @@
 
     const loadDetail = async () => {
         if (idFormUrl) {
-            currentDetailId.value = Number(idFormUrl);
-            detailDegree.value = await getDetail(currentDetailId.value);
-            await fetcByGradeId(currentDetailId.value);
+            currentCourseId.value = Number(idFormUrl);
+            course.value = await getDetail(currentCourseId.value);
+            await fetchByCourseId(currentCourseId.value);
         } else {
             console.warn("No se proporcionó ningún ID para las inscripciones.");
         }

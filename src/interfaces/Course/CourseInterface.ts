@@ -40,6 +40,7 @@ export interface CourseFullResponse{
     subject: CatalogueSimpleResponse,
     period: PeriodSimpleResponse,
     totalStudents: number,
+    availableSlots: number
     status: StatusEnum,
     year:number,
     valorityUnity: number
@@ -54,6 +55,7 @@ export interface CourseTableRow{
     id:number,
     name: string,
     code: string,
+    gradeDetailName: string,
     teacherName: string,
     subjectName: string,
     totalStudents: number,

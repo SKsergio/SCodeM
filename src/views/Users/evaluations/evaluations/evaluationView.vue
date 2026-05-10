@@ -9,7 +9,10 @@
         <HeaderComponent :title="'Evaluations'" @open-modal="handleCreate()"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideEvaluations>
+        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus" @view-details="handleViewDetails"></slideEvaluations>
+
+
+        <modalDetailEvaluation :evaluation-id="selectedEvaluationId" v-model="isGradeBookOpen"></modalDetailEvaluation>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :evaluation="requestEvaluationData"
@@ -28,6 +31,7 @@
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { EvaluationEditResponse } from '@/interfaces/evaluations/EvaluationInterface';
     import { useEvaluations } from '@/composables/useEvaluations';
+    import modalDetailEvaluation from './components/modalDetailEvaluation.vue';
     import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
     import { statusRequest } from '@/interfaces/StatusRequest';
@@ -35,6 +39,8 @@
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
+    const isGradeBookOpen = ref(false);
+    const selectedEvaluationId = ref<number | null>(null);
     const evaluationState = useEvaluations();
     const requestEvaluationData = ref<EvaluationEditResponse>();
 
@@ -76,6 +82,12 @@
             console.error("No se pudo eliminar el curso");
             console.error(error);
         }
+    }
+
+    const handleViewDetails = async (id: number) => {
+        selectedEvaluationId.value = id;
+        isGradeBookOpen.value = true;
+
     }
 
     //manjear abriri y cerrar periodos

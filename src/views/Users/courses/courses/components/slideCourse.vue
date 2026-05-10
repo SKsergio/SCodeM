@@ -17,6 +17,7 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+                            <button @click="openInscriptions(row)">Inscriptions</button>
 
                             <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
                                 Close
@@ -40,6 +41,7 @@
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
+    import { useRouter } from 'vue-router';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import type { useCourse } from '@/composables/useCourse';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
@@ -49,6 +51,8 @@
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { CourseTableRow } from '@/interfaces/Course/CourseInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
+
+    const router = useRouter();
 
     const {
         records,
@@ -78,9 +82,10 @@
         { key: 'id', label: 'ID' },
         { key: 'name', label: 'Course Name' },
         { key: 'code', label: 'Course Code' },
+        { key: 'gradeDetailName', label: 'Degree Detail Name' },
         { key: 'teacherName', label: 'Teacher Name' },
         { key: 'subjectName', label: 'Subject Name' },
-        { key: 'totalStudents', label: 'Total Students' },
+        // { key: 'totalStudents', label: 'Total Students' }, //de momento no la voy a utilizar
         { key: 'status', label: 'Status'},
         { key: 'year', label: 'year' },
         { key: 'actions', label: 'Actions' }
@@ -101,6 +106,15 @@
     const handleFilters = async (newFilters: Record<string, any>) => {
         pagination.changePage(0);
         await fetchAll(newFilters);
+    }
+
+    function openInscriptions(record: CourseTableRow) {
+        router.push({
+        name: 'RegistrationCoursesMagnament', 
+        query: { 
+            courseId: record.id 
+        }
+    });
     }
 </script>
 

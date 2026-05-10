@@ -370,3 +370,17 @@
     --ms-clear-color: #ffffff;
     --ms-spinner-color: #3b82f6;
 }
+
+/* modal de tablita */
+/* CONTENEDOR PRINCIPAL: Layout de 2 columnas */
+.form_table_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+    background-color: var(--color-sixth);
+    border-radius: 0;
+    font-family: var(--font-v1);
+    color: var(--color-text1);
+}

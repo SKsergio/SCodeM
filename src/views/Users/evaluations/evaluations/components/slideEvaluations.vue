@@ -17,6 +17,7 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+                            <button @click="qualifyRow(row)">Qualify</button>
 
                             <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
                                 Close
@@ -76,7 +77,8 @@
     //tabla
     const columns: ColumnDefinition<EvaluationTableRow>[] = [
         { key: 'id', label: 'ID' },
-        { key: 'name', label: 'Course Name' },
+        { key: 'name', label: 'Name Evaluation' },
+        { key: 'courseName', label: 'Course Name' },
         { key: 'percentage', label: 'Percentage' },
         { key: 'endDate', label: 'End Date' },
         { key: 'daysRemaning', label: 'Days Remaining' },
@@ -90,6 +92,10 @@
 
     function deleteRow(record:EvaluationTableRow) {
         emit('delete', record.id)
+    }
+
+    function qualifyRow(record:EvaluationTableRow) {
+        emit('view-details', record.id)
     }
 
     function toggleStatus(record: EvaluationTableRow) {
