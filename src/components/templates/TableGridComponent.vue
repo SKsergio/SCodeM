@@ -49,53 +49,81 @@ defineProps<{
 .table-outline {
     width: 100%;
     font-size: 14px;
-    font-family: var(--font-v2);
-    border: 3px solid var(--color-fourth);
-    border-radius: 8px;
+    font-family: var(--font-v2, sans-serif);
+    background-color: var(--color-sixth);
+    color: #ffffff;
+    border-collapse: separate; 
+    border-spacing: 0;
+    border: 1px solid var(--color-fourth);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
     overflow: hidden;
 }
 
-.table-outline thead {
-    background-color: var(--color-fourth);
-}
-
-/* encabezados */
+/* Encabezados */
 .table-outline thead th {
-    padding: 5px 12px;
+    background-color: var(--color-fourth);
+    color: var(--color-text-line);
+    padding: 14px 16px;
     text-align: left;
     font-weight: 600;
-    color: var(--color-lines);
+    text-transform: uppercase; 
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--color-primary); 
 }
 
-/* celdas */
-.table-outline td {
-    padding: 10px 12px;
-}
-
-
-.table-outline th:last-child,
-.table-outline td:last-child {
-    border-right: none;
-}
-
-.table-outline tbody tr:hover {
-    background-color: var(--table-hover);
+.table-outline tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Línea divisoria muy suave entre filas */
+    transition: background-color 0.2s ease; /* Hover suave */
 }
 
 .table-outline tbody tr:last-child td {
     border-bottom: none;
 }
 
+.table-outline tbody tr:hover td {
+    background-color: var(--table-hover);
+}
+
+/* ESTADO: Sin Registros (404) */
+.no_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    margin-top: 15px;
+    background-color: var(--color-sixth);
+    border: 1px dashed var(--color-fourth);
+    border-radius: 12px;
+}
+
+.no_content h1 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #a0a0a0; /* Texto grisáceo para no ser tan agresivo */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.no_content img {
+    max-width: 200px;
+    opacity: 0.6; /* Un poco de opacidad para encajar en el tema oscuro */
+    filter: grayscale(30%);
+}
 
 /* Responsive */
 @media (max-width: 768px) {
-    .table {
+    .table-outline {
         font-size: 13px;
     }
 
-    .table th,
-    .table td {
-        padding: 10px;
+    /* Corregido: en tu código original decía .table en lugar de .table-outline */
+    .table-outline th,
+    .table-outline td {
+        padding: 10px 12px;
     }
 }
 </style>

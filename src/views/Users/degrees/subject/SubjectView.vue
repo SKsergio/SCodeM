@@ -4,7 +4,7 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Asignaturas'"
+            <HeaderComponent :show-add="canEdit" :endpoint="endpoint" :store_id="storeId" :title="'Asignaturas'"
                 @open-modal="isModalOpen = true">
             </HeaderComponent>
 
@@ -36,6 +36,15 @@
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import FiltersComponent from '@/components/generics/FiltersComponent.vue';
     import { degreeFilters } from './filter';
+    import { useAuth } from '@/composables/useAuth';
+    
+    const { getCurrentUser } = useAuth();
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+    currentUser?.role === 'ADMIN' ||
+    currentUser?.role === 'TEACHER';
+
 
     const showFilters = ref(false);
 

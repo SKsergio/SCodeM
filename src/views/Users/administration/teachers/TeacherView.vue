@@ -6,17 +6,15 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent
-            :show-add="canEdit"
-            :title="'Maestros'"
-            @open-modal="handleCreate()">
+        <HeaderComponent :show-add="canEdit" :title="'Maestros'" @open-modal="handleCreate()">
         </HeaderComponent>
 
         <!-- contendedor -->
         <slideTeacher @edit="handleEdit" @delete="handleDelete"></slideTeacher>
 
         <!-- modal de editar y crear -->
-        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :teacher-data="requestTeacherData"></modalCrearEditar>
+        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :teacher-data="requestTeacherData">
+        </modalCrearEditar>
     </div>
 </template>
 
@@ -29,11 +27,19 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { TeacherEditResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import { useAuth } from '@/composables/useAuth';
 
     const isModalOpen = ref(false);
     const teacherState = useTeachers();
     const requestTeacherData = ref<TeacherEditResponse>();
+    const { getCurrentUser } = useAuth();
 
+    const currentUser = getCurrentUser();
+
+
+
+    const canEdit =
+        currentUser?.role === 'ADMIN';
     // 2. Proveemos ese estado exacto al hijo
     provide("teacherContext", teacherState);
     const { loading, fetchAll, getOntetoEdit, deleteRecord } = teacherState;
@@ -45,12 +51,12 @@
     }
 
     //manejar edicion
-    const handleEdit = async(id:number)=> {
+    const handleEdit = async (id: number) => {
         try {
             const data = await getOntetoEdit(id);
             requestTeacherData.value = data;
             console.log(requestTeacherData.value);
-            
+
             isModalOpen.value = true;
         } catch (error) {
             console.error("No se pudo cargar la información para editar");
@@ -59,9 +65,9 @@
     }
 
     //manjear eliminacion
-    const handleDelete = async(id:number) =>{
+    const handleDelete = async (id: number) => {
         try {
-            ShowDeleteAlert(()=>deleteRecord(id));
+            ShowDeleteAlert(() => deleteRecord(id));
         } catch (error) {
             console.error("No se pudo cargar la información para editar");
             console.error(error);

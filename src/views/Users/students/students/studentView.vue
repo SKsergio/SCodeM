@@ -32,12 +32,20 @@
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import modalDetailStudents from './components/modalDetailStudents.vue';
     import { StudentEditResponse, StudentFullResponse } from '@/interfaces/students/studentInterface';
+    import { useAuth } from '@/composables/useAuth';
 
     const isModalOpen = ref(false);
     const isDetailStudentOpen = ref(false);
     const studentState = useStudents();
     const requestStudentData = ref<StudentEditResponse>();
     const fullStudent = ref<StudentFullResponse>();
+
+    const { getCurrentUser } = useAuth();
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+        currentUser?.role === 'ADMIN' ||
+        currentUser?.role === 'TEACHER';
 
 
     // 2. Proveemos ese estado exacto al hijo

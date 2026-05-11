@@ -6,8 +6,8 @@
         <div>
             <HeaderComponent
                 :show-add="canEdit"
-                :title="'Carreras'"
-                @open-modal="handleCreate()">
+                :title="'Grados'"
+                @open-modal="isModalOpen = true">
             </HeaderComponent>
 
             <!-- filtros -->
@@ -39,9 +39,17 @@
     import FiltersComponent from '@/components/generics/FiltersComponent.vue';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import { degreeFilters } from './filters';
+    import { useAuth } from '@/composables/useAuth';
 
     //colapsar filtros
     const showFilters = ref(false);
+
+    const { getCurrentUser } = useAuth();
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+    currentUser?.role === 'ADMIN' ||
+    currentUser?.role === 'TEACHER';
 
     //VARIABLES
     const isModalOpen = ref(false)
