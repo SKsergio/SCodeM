@@ -6,11 +6,22 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Evaluations'" @open-modal="handleCreate()"></HeaderComponent>
+<HeaderComponent
+    :show-add="canEdit"
+    :title="'Evaluaciones'"
+    @open-modal="handleCreate()">
+</HeaderComponent>
+
+
 
         <!-- contendedor -->
-        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"
-            @view-details="handleViewDetails"></slideEvaluations>
+        <slideEvaluations
+            :can-edit="canEdit"
+            @edit="handleEdit"
+            @delete="handleDelete"
+            @toggle-status="handleStatus"
+            @view-details="handleViewDetails">
+        </slideEvaluations>
 
 
         <modalDetailEvaluation :evaluation-id="selectedEvaluationId" v-model="isGradeBookOpen"
@@ -39,8 +50,17 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+    import { useAuth } from '@/composables/useAuth';
+
 
     const isModalOpen = ref(false);
+    const { getCurrentUser } = useAuth();
+
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+        currentUser?.role === 'ADMIN' ||
+        currentUser?.role === 'TEACHER';
     const isGradeBookOpen = ref(false);
     const selectedEvaluationId = ref<number | null>(null);
     const evaluationState = useEvaluations();

@@ -4,7 +4,7 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Sections'"
+            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Secciones'"
                 @open-modal="isModalOpen = true">
             </HeaderComponent>
 

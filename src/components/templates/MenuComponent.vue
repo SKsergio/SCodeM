@@ -35,12 +35,18 @@
                     </label>
                 </div>
             </div>
-
+            <!-- BOTON LOGOUT -->
+                <button
+                    @click="logout"
+                    class="logout-btn"
+                >
+                 Cerrar sesión
+                </button>
             <div class="user_profile">
                 <img src="../../assets/images/bwthuke.jpg" alt="avatar">
                 <section class="info_user">
-                    <span class="name_user">Sergio Quintnilla</span>
-                    <span class="email_user">otrocorreorandom.quintanilla@geeks.lol</span>
+                    <span class="name_user">Grupo D </span>
+                    <span class="email_user"> Programación II </span>
                 </section>
             </div>
 
@@ -55,6 +61,8 @@
     import OptionMenuComponent from '../buttons/OptionMenuComponent.vue'; //importando el componente de items del Menu
     import {menuItems} from '@/utils/Menu' //importando la estructura del menu
     import { MenuItems } from '@/interfaces/templates/MenuInterFace';
+    import { useAuth } from '@/composables/useAuth';
+
 
 
     //variables and consts
@@ -62,6 +70,9 @@
     let isActive: Ref<boolean> = ref(false)//tipando un boolenado con vue and ts
     let Sicked: Ref<boolean> = ref(false)
     const items = ref<MenuItems[]>([]) //tipadno el array de los items del Menu
+    const { logout, getCurrentUser } = useAuth();
+    const currentUser = getCurrentUser();
+    console.log(currentUser);
 
 
     // Emitir eventos al padre
@@ -89,12 +100,16 @@
     };
 
     // Agregar el evento cuando se monta el componente
-    onMounted(() => {
-        //asignando el el menu a la referencuia
-        items.value = menuItems
-        window.addEventListener('resize', updateMenuState);
-        updateMenuState(); // Ejecutarlo al inicio para asegurar que el estado sea correcto
-    });
+   onMounted(() => {
+
+       items.value = menuItems.filter(item =>
+           item.roles.includes(currentUser?.role || '')
+       );
+
+       window.addEventListener('resize', updateMenuState);
+
+       updateMenuState();
+   });
 
     // Remover el evento cuando el componente se destruye
     onUnmounted(() => {
@@ -102,6 +117,7 @@
     });
 
     let bodyElement = document.body;
+
     
     //function to use in the Botton
     const sickMenu = () => {
@@ -315,5 +331,23 @@
     }
     .hide_sick{
         opacity: 0;
+    }
+    .logout-btn{
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 12px;
+        background: #ef4444;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .logout-btn:hover{
+        background: #dc2626;
+        transform: scale(1.02);
     }
 </style>

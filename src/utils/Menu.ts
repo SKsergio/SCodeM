@@ -4,86 +4,80 @@ import IconCap from '~icons/ri/graduation-cap-fill'
 import IdentificationIcon from '~icons/ri/profile-fill'
 import InboxIcon from '~icons/ri/shadow-line'
 import TrophyIcon from '~icons/ri/trophy-fill'
-import HandRaisedIcon from '~icons/ri/hand'
-import MegaphoneIcon from '~icons/ri/megaphone-fill'
 import CalendarDaysIcon from '~icons/ri/calendar-todo-fill'
-import ChartPieIcon from '~icons/ri/pie-chart-2-fill'
 
 export const menuItems: MenuItems[]=[
+
     {
-        label:'Administration',
+        label:'Administracion',
+        roles:['ADMIN'],
+
         icon:IdentificationIcon,
         amount:2,
         hadSoons:true,
+
         soons:[
-            // {label:'Fyle Types', name:'TypeFileMagnament'},
-            {label:'Teachers', name:'TeacherMagnament'}
+            {label:'Maestros', name:'TeacherMagnament'}
         ]
     },
+
     {
-        label:'Students',
+        label:'Estudiantes',
+        roles:['ADMIN'],
+
         icon:IconCap,
+
         soons:[
-            {label:'Studentes',name:'StudentMagnament'},
-            // {label:'Managers',name:'ManagerStudentMagnament'},
-            {label:'Academic History',name:'students/pruebasAcademic'},
-            // {label:'New entry',name:'students/pruebasAcademic2'},
-            // {label:'Registered',name:'students/pruebasAcademic2'}
+            {label:'Estudiantes',name:'StudentMagnament'},
         ],
+
         amount:5,
         hadSoons:true
     },
+
     {
-        label:'Degrees',
+        label:'Carreras',
+        roles:['ADMIN'],
+
         icon:InboxIcon,
+
         soons:[
-            {label:'Degree',name:'DegreeMagnament'},
-            {label:'Specific Degree',name:'DegreeDetailMagnament'},
-            // {label:'Enrollment Degrees',name:'EnrollmentDegreeMagnament'},
-            // {label:'Classrooms',name:'ClassroomsMagnament'},
-            {label:'Sections',name:'SectionMagnament'},
-            {label:'Subjects',name:'SubjectMagnament'},
+            {label:'Carrera',name:'DegreeMagnament'},
+            {label:'Tutor de carrera',name:'DegreeDetailMagnament'},
+            {label:'Secciones',name:'SectionMagnament'},
+            {label:'Asignaturas',name:'SubjectMagnament'},
         ],
+
         amount:4,
         hadSoons:true
     },
+
     {
-        label:'Evaluations',
+        label:'Evaluaciones',
+        roles:['ADMIN','TEACHER','STUDENT'],
+
         icon:TrophyIcon,
+
         soons:[
-            {label:'Evaluations', name:'EvaluationMagnament'},
-            // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
+            {label:'Evaluaciones', name:'EvaluationMagnament'},
         ],
+
         amount:3,
         hadSoons:true
     },
-    // {
-    //     label:'Attendacne',
-    //     icon:HandRaisedIcon,
-    //     amount:0,
-    //     hadSoons:false
-    // },
-    // {
-    //     label:'Notices',
-    //     icon:MegaphoneIcon,
-    //     amount:0,
-    //     hadSoons:false
-    // }, 
+
     {
-        label:'Courses',
+        label:'Cursos',
+        roles:['ADMIN','TEACHER','STUDENT'],
+
         icon:CalendarDaysIcon,
+
         amount:2,
         hadSoons:true,
+
         soons:[
-            {label:'Periods', name:'PeriodMagnament'},
-            {label:'Courses', name:'CourseMagnament'},
-            // {label:'Types of evaluations', name:'TypeEvaluatioMagnament'},
+            {label:'Periodos', name:'PeriodMagnament'},
+            {label:'Cursos', name:'CourseMagnament'},
         ]
     },
-    // {
-    //     label:'Reports',
-    //     icon:ChartPieIcon,
-    //     amount:0,
-    //     hadSoons:false
-    // },
 ]

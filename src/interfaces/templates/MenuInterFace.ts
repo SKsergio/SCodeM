@@ -9,6 +9,7 @@ export interface SoonsItems{
 //items del menu
 export interface MenuItems{
     label:string,
+     roles:string[],
     icon:Component,
     soons?: SoonsItems[],//tipado como un array
     amount:number, //cantidad de hijos o submenus

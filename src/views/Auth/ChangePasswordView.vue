@@ -1,89 +1,93 @@
 <template>
-  <div class="login-container">
+    <div class="login-container">
 
-    <div class="overlay"></div>
+        <div class="overlay"></div>
 
-    <div class="login-card">
+        <div class="login-card">
 
-      <div class="login-header">
-        <img
-            src="@/assets/images/tribe.png"
-          alt="logo"
-          class="logo"
-        />
+            <div class="login-header">
 
-        <h1>NoteSystem</h1>
-        <p>Sistema de Gestión Académica</p>
-      </div>
+                <img
+                    src="@/assets/images/tribe.png"
+                    alt="logo"
+                    class="logo"
+                />
 
-      <form @submit.prevent="handleLogin">
+                <h1>Cambiar contraseña</h1>
 
-        <div class="input-group">
-          <label>Correo Electrónico</label>
-          <input
-            v-model="form.email"
-            type="email"
-            placeholder="correo@ejemplo.com"
-            required
-          />
+                <p>
+                    Debes actualizar tu contraseña para continuar
+                </p>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Nueva contraseña</label>
+
+                <input
+                    v-model="password"
+                    type="password"
+                    placeholder="********"
+                />
+
+            </div>
+
+            <button
+                class="login-btn"
+                @click="changePassword"
+            >
+                Guardar contraseña
+            </button>
+
         </div>
-
-        <div class="input-group">
-          <label>Contraseña</label>
-          <input
-            v-model="form.password"
-            type="password"
-            placeholder="********"
-            required
-          />
-        </div>
-
-        <button type="submit" class="login-btn">
-          Iniciar Sesión
-        </button>
-
-      </form>
 
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuth } from '@/composables/useAuth'; // Ajusta la ruta
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { httPost } from '@/services/api'
 
-const router = useRouter();
-const { login } = useAuth();
+const router = useRouter()
 
-// Ahora el ref coincide con LoginRequest
-const form = ref({
-    email: '', 
-    password: ''
-});
+const password = ref('')
 
-const handleLogin = async () => {
+const changePassword = async () => {
+
     try {
-        const success = await login(form.value);
-       if (success) {
 
-           const mustChangePassword =
-               localStorage.getItem('must_change_password') === 'true'
+        await fetch(
+            'http://127.0.0.1:8080/api/auth/change-password',
+            {
+                method:'POST',
 
-           if (mustChangePassword) {
+                headers:{
+                    'Content-Type':'application/json',
+                    Authorization:`Bearer ${localStorage.getItem('auth_token')}`
+                },
 
-               router.push('/change-password')
+                body: JSON.stringify({
+                    newPassword: password.value
+                })
+            }
+        )
 
-           } else {
+        localStorage.setItem(
+            'must_change_password',
+            'false'
+        )
 
-               router.push('/')
+        router.push('/dashboard/home')
 
-           }
-       }
     } catch (error) {
-        alert("Credenciales incorrectas o error de servidor");
+
+        alert('No se pudo actualizar la contraseña')
+
+        console.error(error)
     }
-};
+}
 </script>
 
 <style scoped>
@@ -102,6 +106,7 @@ const handleLogin = async () => {
     align-items: center;
 
     background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');
+
     background-size: cover;
     background-position: center;
 
@@ -235,21 +240,7 @@ const handleLogin = async () => {
 
 .login-btn:hover{
     transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(37,99,235,0.4);
-}
-
-@media(max-width: 500px){
-
-    .login-card{
-        padding: 30px;
-    }
-
-    .logo{
-        width: 130px;
-    }
-
+    opacity: 0.9;
 }
 
 </style>

@@ -13,22 +13,49 @@
             <section class="table__container">
                 <TableGridComponent :rows="records" :columns="columns" :length="totalElements">
 
-                    <template #cell-actions="{ row }">
-                        <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
-                            <button @click="qualifyRow(row)">Qualify</button>
+                   <template #cell-actions="{ row }">
 
-                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
-                                Close
-                            </button>
+                       <div class="actions">
 
-                            <button v-else @click="toggleStatus(row)">
-                                Open
-                            </button>
-                        </div>
-                    </template>
+                           <template v-if="props.canEdit">
 
+                               <button @click="editRow(row)">
+                                   Update
+                               </button>
+
+                               <button @click="deleteRow(row)">
+                                   Delete
+                               </button>
+
+                               <button @click="qualifyRow(row)">
+                                   Qualify
+                               </button>
+
+                               <button
+                                   v-if="row.status === StatusEnum.OPEN"
+                                   @click="toggleStatus(row)">
+                                   Close
+                               </button>
+
+                               <button
+                                   v-else
+                                   @click="toggleStatus(row)">
+                                   Open
+                               </button>
+
+                           </template>
+
+                           <template v-else>
+
+                               <button @click="qualifyRow(row)">
+                                   View
+                               </button>
+
+                           </template>
+
+                       </div>
+
+                   </template>
                 </TableGridComponent>
             </section>
             <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size" :max-pages-shown="5"
@@ -56,7 +83,9 @@
         pagination,
         fetchAll
     } = inject('evaluationContext') as ReturnType<typeof useEvaluations>;
-
+const props = defineProps<{
+    canEdit: boolean
+}>();
     //VARIABLES
     const showFilters = ref(false);
 

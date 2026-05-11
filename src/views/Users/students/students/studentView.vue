@@ -6,8 +6,11 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Students'" @open-modal="handleCreate"></HeaderComponent>
-
+        <HeaderComponent
+            :show-add="canEdit"
+            :title="'Estudiantes'"
+            @open-modal="handleCreate()">
+        </HeaderComponent>
         <!-- contendedor -->
         <slideStudent @edit="handleEdit" @delete="handleDelete" @view-report-card="handleViewReportCard"></slideStudent>
 

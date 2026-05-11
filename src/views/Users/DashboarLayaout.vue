@@ -16,12 +16,14 @@
     import MenuBtnComponent from '@/components/buttons/MenuBtnComponent.vue';
     import MenuComponent from '@/components/templates/MenuComponent.vue';
     import { useModalStore } from '@/store/CreateModel';
+    import { useAuth } from '@/composables/useAuth';
     import { storeToRefs } from 'pinia'
 
     //mostrar modales
     const ModelManage =  useModalStore();
     const {showModal} = storeToRefs(ModelManage)
     const isActive = ref(false)
+    const { logout } = useAuth();
 
     //menu
     const hide_sickMenu = ()=>{

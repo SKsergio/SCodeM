@@ -4,8 +4,10 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Degrees'"
-                @open-modal="isModalOpen = true">
+            <HeaderComponent
+                :show-add="canEdit"
+                :title="'Carreras'"
+                @open-modal="handleCreate()">
             </HeaderComponent>
 
             <!-- filtros -->

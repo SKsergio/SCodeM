@@ -18,18 +18,33 @@
                     </template>
 
                     <template #cell-actions="{ row }">
-                        <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
 
-                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
+                        <div
+                            class="actions"
+                            v-if="props.canEdit">
+
+                            <button @click="editRow(row)">
+                                Update
+                            </button>
+
+                            <button @click="deleteRow(row)">
+                                Delete
+                            </button>
+
+                            <button
+                                v-if="row.status === StatusEnum.OPEN"
+                                @click="toggleStatus(row)">
                                 Close
                             </button>
 
-                            <button v-else @click="toggleStatus(row)">
+                            <button
+                                v-else
+                                @click="toggleStatus(row)">
                                 Open
                             </button>
+
                         </div>
+
                     </template>
 
                 </TableGridComponent>
@@ -60,6 +75,9 @@
         pagination,
         fetchAll
     } = inject('periodContext') as ReturnType<typeof usePeriod>;
+    const props = defineProps<{
+        canEdit: boolean
+    }>();
 
     //VARIABLES
     const showFilters = ref(false);

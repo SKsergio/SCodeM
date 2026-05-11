@@ -15,17 +15,41 @@
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
-                            <button @click="openInscriptions(row)">Inscriptions</button>
 
-                            <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
-                                Close
-                            </button>
+                            <template v-if="props.canEdit">
 
-                            <button v-else @click="toggleStatus(row)">
-                                Open
-                            </button>
+                                <button @click="editRow(row)">Update</button>
+
+                                <button @click="deleteRow(row)">Delete</button>
+
+                                <button @click="openInscriptions(row)">
+                                    Inscriptions
+                                </button>
+
+                                <button
+                                    v-if="row.status === StatusEnum.OPEN"
+                                    @click="toggleStatus(row)"
+                                >
+                                    Close
+                                </button>
+
+                                <button
+                                    v-else
+                                    @click="toggleStatus(row)"
+                                >
+                                    Open
+                                </button>
+
+                            </template>
+
+                            <template v-else>
+
+                                <button @click="openInscriptions(row)">
+                                    View
+                                </button>
+
+                            </template>
+
                         </div>
                     </template>
 
@@ -53,6 +77,9 @@
     import { StatusEnum } from '@/enum/StatusEnum';
 
     const router = useRouter();
+    const props = defineProps<{
+        canEdit:boolean
+    }>();
 
     const {
         records,
