@@ -9,12 +9,25 @@ export const useAuth = () => {
             const response = await httPost<LoginRequest, LoginResponse>('auth/login', credentials);
             
             if (response.token) {
-                // 1. Guardamos el token para el interceptor de ky
-                localStorage.setItem('auth_token', response.token);
-                
-                // 2. Guardamos el usuario convertido a texto para saber sus roles
-                localStorage.setItem('auth_user', JSON.stringify(response.user));
-                
+
+                // token
+                localStorage.setItem(
+                    'auth_token',
+                    response.token
+                );
+
+                // usuario
+                localStorage.setItem(
+                    'auth_user',
+                    JSON.stringify(response.user)
+                );
+
+                // primer login
+                localStorage.setItem(
+                    'must_change_password',
+                    String(response.firstLogin)
+                );
+
                 return true;
             }
             return false;

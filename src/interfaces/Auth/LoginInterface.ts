@@ -16,4 +16,5 @@ export interface LoginResponse {
     tokenType: string;
     expiresInMs: number;
     user: AuthUser;
+    firstLogin: boolean;
 }

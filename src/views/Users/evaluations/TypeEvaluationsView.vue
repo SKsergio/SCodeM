@@ -4,8 +4,10 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent :endpoint="endpoint" :store_id="storeId" :title="'Evaluation Type'"
-                @open-modal="isModalOpen = true">
+            <HeaderComponent
+                :show-add="canEdit"
+                :title="'Evaluations'"
+                @open-modal="handleCreate()">
             </HeaderComponent>
             <div class="conatiner_crud">
                 <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>

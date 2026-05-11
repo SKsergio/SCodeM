@@ -6,10 +6,21 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Periods'" @open-modal="handleCreate"></HeaderComponent>
+
+        <HeaderComponent
+            :show-add="canEdit"
+            :title="'Periodos'"
+            @open-modal="handleCreate()">
+        </HeaderComponent>
+
 
         <!-- contendedor -->
-        <slidePeriods @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slidePeriods>
+                <slidePeriods
+                    :can-edit="canEdit"
+                    @edit="handleEdit"
+                    @delete="handleDelete"
+                    @toggle-status="handleStatus">
+                </slidePeriods>
 
         <!-- modal de editar y crear -->
         <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :period="requestPeriodData"></modalCrearEditar>
@@ -18,6 +29,7 @@
 
 <script lang="ts" setup>
 import { onMounted, provide, ref } from 'vue';
+import { useAuth } from '@/composables/useAuth';
 import slidePeriods from './components/slidePeriods.vue';
 import modalCrearEditar from './components/modalCrearEditar.vue';
 import { usePeriod } from '@/composables/usePeriod';
@@ -31,6 +43,13 @@ import { StatusEnum } from '@/enum/StatusEnum';
 import { statusRequest } from '@/interfaces/StatusRequest';
 
 const isModalOpen = ref(false);
+const { getCurrentUser } = useAuth();
+
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+        currentUser?.role === 'ADMIN' ||
+        currentUser?.role === 'TEACHER';
 const periodState = usePeriod();
 const requestPeriodData = ref<PeriodResponse>();
 

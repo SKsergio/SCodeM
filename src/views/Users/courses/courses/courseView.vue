@@ -6,10 +6,20 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Courses'" @open-modal="handleCreate"></HeaderComponent>
+<HeaderComponent
+    :show-add="canEdit"
+    :title="'Cursos'"
+    @open-modal="handleCreate()">
+</HeaderComponent>
+
 
         <!-- contendedor -->
-        <slideCourse @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideCourse>
+        <slideCourse
+            :can-edit="canEdit"
+            @edit="handleEdit"
+            @delete="handleDelete"
+            @toggle-status="handleStatus">
+        </slideCourse>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar
@@ -26,6 +36,7 @@
 
 <script lang="ts" setup>
     import { onMounted, ref, provide } from 'vue';
+    import { useAuth } from '@/composables/useAuth';
     import { useCourse } from '@/composables/useCourse';
     import { useCatalogue } from '@/composables/useCatalogue';
     import { useTeachers } from '@/composables/useTeachers';
@@ -47,6 +58,13 @@
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
+    const { getCurrentUser } = useAuth();
+
+    const currentUser = getCurrentUser();
+
+    const canEdit =
+        currentUser?.role === 'ADMIN' ||
+        currentUser?.role === 'TEACHER';
     const courseState = useCourse();
     const requestCourseData = ref<CourseEditResponse>();
 

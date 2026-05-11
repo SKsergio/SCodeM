@@ -28,7 +28,12 @@ const routes: Array<RouteRecordRaw> = [
         component: LoginView,
         meta: { requiresGuest: true } // Marca para indicar que solo invitados (sin login) pueden verla
     },
-
+{
+    path: '/change-password',
+    name: 'ChangePassword',
+    component: () => import('@/views/Auth/ChangePasswordView.vue'),
+    meta: { requiresAuth: true }
+},
     // 2. RUTAS PROTEGIDAS (Usan el DashboardLayout)
     {
         path: '/dashboard',

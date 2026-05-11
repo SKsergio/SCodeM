@@ -6,7 +6,11 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :title="'Teachers'" @open-modal="handleCreate"></HeaderComponent>
+        <HeaderComponent
+            :show-add="canEdit"
+            :title="'Maestros'"
+            @open-modal="handleCreate()">
+        </HeaderComponent>
 
         <!-- contendedor -->
         <slideTeacher @edit="handleEdit" @delete="handleDelete"></slideTeacher>
