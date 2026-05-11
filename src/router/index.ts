@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-//importacion de vistas
-
-//vistas del usuario normal
+// Importación de vistas del usuario normal
 import DashboarLayaout from '@/views/Users/DashboarLayaout.vue'
 import HomeView from '@/views/Users/general/HomeView.vue'
 import DegreeView from '@/views/Users/degrees/degree/DegreeView.vue'
@@ -19,17 +17,23 @@ import StudentView from '@/views/Users/students/students/studentView.vue'
 import EnrollmentDegreeView from '@/views/Users/degrees/enrollmentDegree/enrollmentDegreeView.vue'
 import RegistrationCourseView from '@/views/Users/courses/courseRegistration/registrationCourseView.vue'
 
+// Importación de la vista de Login
+import LoginView from '@/views/Auth/LoginView.vue'
+
 const routes: Array<RouteRecordRaw> = [
-    // {
-    //   path: '/auth',
-    //   component:AuthLayaout,
-    //   children:{
-    //     //hijos del componetnte, cosas como los login o registros
-    //   }
-    // }
+    // 1. RUTA DE LOGIN (Independiente, no usa el DashboardLayout)
+    {
+        path: '/login',
+        name: 'Login',
+        component: LoginView,
+        meta: { requiresGuest: true } // Marca para indicar que solo invitados (sin login) pueden verla
+    },
+
+    // 2. RUTAS PROTEGIDAS (Usan el DashboardLayout)
     {
         path: '/dashboard',
         component: DashboarLayaout,
+        meta: { requiresAuth: true }, // ESTO ES CLAVE: Protege el dashboard y todos sus hijos
         children: [
             {
                 path: 'home',
@@ -48,9 +52,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'students',
                 name: 'students',
                 children: [
-                    // { path: 'managers', name: 'ManagerStudentMagnament', component: ManagerStudentsGridView },
                     { path: 'students', name: 'StudentMagnament', component: StudentView },
-                    
                 ]
             },
             {
@@ -88,6 +90,11 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         redirect: '/dashboard/home'
+    },
+    // Ruta comodín para atrapar errores 404
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/dashboard/home'
     }
 ]
 
@@ -95,5 +102,28 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
+
+// ==========================================
+// EL POLICÍA DE LAS RUTAS (Route Guard)
+// ==========================================
+router.beforeEach((to, from, next) => {
+    // Busca si hay un token guardado
+    const isAuthenticated = !!localStorage.getItem('auth_token');
+
+    // Si la ruta requiere estar logueado y NO hay token...
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        // Lo pateamos de vuelta al login
+        next({ name: 'Login' });
+    } 
+    // Si la ruta es solo para invitados (como el login) y SÍ hay token...
+    else if (to.meta.requiresGuest && isAuthenticated) {
+        // Lo mandamos directo al dashboard porque ya inició sesión
+        next({ name: 'HomeView' });
+    } 
+    // En cualquier otro caso, lo dejamos pasar normalmente
+    else {
+        next();
+    }
+});
 
 export default router

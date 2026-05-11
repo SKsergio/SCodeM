@@ -1,12 +1,26 @@
 import ky, { HTTPError } from "ky";
 
 const api = ky.create({
-    //prefijo para java
-    // prefixUrl: 'http://127.0.0.1:8080/api/',
-    //prefijo para laravel
     prefixUrl: 'http://127.0.0.1:8080/api/',
-    //Authentication but in this moments she is not here with us
-})
+    hooks: {
+        beforeRequest: [
+            request => {
+                const token = localStorage.getItem('auth_token');
+                if (token) {
+                    request.headers.set('Authorization', `Bearer ${token}`);
+                }
+            }
+        ],
+        afterResponse: [
+            (_request, _options, response) => {
+                if (response.status === 401) {
+                    localStorage.removeItem('auth_token');
+                    window.location.href = '/login';
+                }
+            }
+        ]
+    }
+});
 
 //get generic function
 export async function httpGet<T>(endpoint: string): Promise<T> {
