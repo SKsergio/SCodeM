@@ -9,10 +9,13 @@
         <HeaderComponent :title="'Students'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideStudent @edit="handleEdit" @delete="handleDelete"></slideStudent>
+        <slideStudent @edit="handleEdit" @delete="handleDelete" @view-report-card="handleViewReportCard"></slideStudent>
 
         <!-- modal de editar y crear -->
         <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :student-data="requestStudentData"></modalCrearEditar>
+
+        <!-- modal de detalle del estudiante -->
+        <modalDetailStudents v-model="isDetailStudentOpen" :studentFull="fullStudent"></modalDetailStudents>
     </div>
 </template>
 
@@ -24,15 +27,19 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { StudentEditResponse } from '@/interfaces/students/studentInterface';
+    import modalDetailStudents from './components/modalDetailStudents.vue';
+    import { StudentEditResponse, StudentFullResponse } from '@/interfaces/students/studentInterface';
 
     const isModalOpen = ref(false);
+    const isDetailStudentOpen = ref(false);
     const studentState = useStudents();
     const requestStudentData = ref<StudentEditResponse>();
+    const fullStudent = ref<StudentFullResponse>();
+
 
     // 2. Proveemos ese estado exacto al hijo
     provide("studentContext", studentState);
-    const { loading, fetchAll, getOntetoEdit, deleteRecord } = studentState;
+    const { loading, fetchAll, getOntetoEdit, deleteRecord, getDetail } = studentState;
 
     const handleCreate = () => {
         requestStudentData.value = undefined;
@@ -60,6 +67,17 @@
         } catch (error) {
             console.error("No se pudo cargar la información para editar");
             console.error(error);
+        }
+    }
+
+    const handleViewReportCard = async (id: number) => {
+        try {
+            const data = await getDetail(id);
+            fullStudent.value = data;
+            isDetailStudentOpen.value = true;
+        } catch (error) {
+            console.error("No se pudo cargar la información detallada" + error);
+            throw error;
         }
     }
 

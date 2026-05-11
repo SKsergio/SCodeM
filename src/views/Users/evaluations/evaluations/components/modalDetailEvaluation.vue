@@ -1,14 +1,58 @@
 <template>
-    <BaseModalComponent v-model="show" title="Register new Evaluation"
-        :custom-class="'modal-width-pt theme-modal-manager'">
+    <BaseModalComponent v-model="show" title="Record of notes" :custom-class="'modal-width-pt theme-modal-manager'">
         <CloseIcon class="icon_close" @click="closeModal" />
+
+        <div class="info_course">
+            <div class="panel__info">
+                <div class="expediente-header">
+                    <h1>{{ newDetailedEvaluation.name }}</h1>
+                </div>
+
+                <div class="panel__info">
+                    <div class="field-group">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Course Name</label>
+                                <p>{{ newDetailedEvaluation.course?.name || 'N/A' }}</p>
+                            </div>
+                            <div class="field">
+                                <label>Description</label>
+                                <p>{{ newDetailedEvaluation.description || 'N/A' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Percentage</label>
+                                <p>{{ newDetailedEvaluation.percentage }}%</p>
+                            </div>
+                            <div class="field">
+                                <label>Status</label>
+                                <p>{{ newDetailedEvaluation.status }}</p>
+                            </div>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>End Date</label>
+                                <p>{{ newDetailedEvaluation.endDate }}</p>
+                            </div>
+                            <div class="field">
+                                <label>Days remaining</label>
+                                <p>{{ newDetailedEvaluation.daysRemaning }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="form_table_container">
             <section class="table__container">
                 <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size"
                     :max-pages-shown="5" @change="changePage">
                 </PaginacionComponent>
-               <TableGridComponent :rows="editableRows" :columns="columns" :length="totalElements">
+                <TableGridComponent :rows="editableRows" :columns="columns" :length="totalElements">
                     <template #cell-grade="{ row }">
                         <input type="number" v-model="row.grade" min="0" max="10" step="0.1" class="input-grade-style"
                             placeholder="Nota" />
@@ -22,7 +66,7 @@
         </div>
 
         <section class="btn_section">
-            <BtnSaveComponent @save_click="sendData"></BtnSaveComponent>
+            <BtnSaveComponent @save_click="sendData" v-if="newDetailedEvaluation.status == StatusEnum.OPEN" ></BtnSaveComponent>
             <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
@@ -46,14 +90,30 @@ import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import { ApiError } from '@/interfaces/ApiError';
 import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
 import { BatchEvaluationRequestDTO, EvaluationGradebookTableRow, studentGradeRequest } from '@/interfaces/EvaluationDetail/evaluationDetailInterface';
+import { EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
+import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+import { StatusEnum } from '@/enum/StatusEnum';
 
 
 //PROPS Y EMITS
 const props = defineProps<{
     modelValue: boolean,
     evaluationId: number | null,
+    evaluationFull?: EvaluationFullResponse
 }>();
 
+const getInitialFullEvaluation = (): EvaluationFullResponse => ({
+    id: 0,
+    name: '',
+    description: '',
+    percentage: 0,
+    endDate: '',
+    status: StatusEnum.OPEN,
+    daysRemaning: 0,
+    course: null as unknown as CourseSimpleResponse
+});
+
+const newDetailedEvaluation = ref<EvaluationFullResponse>(getInitialFullEvaluation());
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: boolean): void
@@ -83,14 +143,35 @@ const columns: ColumnDefinition<EvaluationGradebookTableRow>[] = [
 
 
 watch(
-    () => props.evaluationId, 
+    () => props.evaluationId,
     (newId) => {
-        if (newId && props.modelValue) { 
+        if (newId && props.modelValue) {
             fetchGradeBook(newId);
         }
     },
-    { immediate: true } 
+    { immediate: true }
 );
+
+watch(
+    () => props.modelValue,
+    (isOpen) => {
+        if (isOpen) {
+            if (isOpen && props.evaluationFull) {
+
+                const { ...cleanData } = props.evaluationFull;
+
+                newDetailedEvaluation.value = {
+                    ...cleanData,
+                };
+            } else {
+                console.log('no hay datos');
+
+            }
+        } else {
+            console.log('no hay datos');
+        }
+    }
+)
 
 watch(
     () => props.modelValue,
@@ -127,7 +208,7 @@ const sendData = async () => {
     const gradesToSend: studentGradeRequest[] = editableRows.value
         .filter(row => row.grade !== null && row.grade !== undefined && String(row.grade).trim() !== '')
         .map(row => ({
-            evaluationDetailId: row.evaluationDetailId, 
+            evaluationDetailId: row.evaluationDetailId,
             studentId: row.studentId,
             grade: Number(row.grade),
             feedback: row.feedback
@@ -163,5 +244,15 @@ const sendData = async () => {
 
 .description_modal {
     width: 100%;
+}
+.panel__info{
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-fourth);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-v1);
+    font-size: 15px;
 }
 </style>

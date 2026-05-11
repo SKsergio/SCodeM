@@ -9,10 +9,12 @@
         <HeaderComponent :title="'Evaluations'" @open-modal="handleCreate()"></HeaderComponent>
 
         <!-- contendedor -->
-        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus" @view-details="handleViewDetails"></slideEvaluations>
+        <slideEvaluations @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"
+            @view-details="handleViewDetails"></slideEvaluations>
 
 
-        <modalDetailEvaluation :evaluation-id="selectedEvaluationId" v-model="isGradeBookOpen"></modalDetailEvaluation>
+        <modalDetailEvaluation :evaluation-id="selectedEvaluationId" v-model="isGradeBookOpen"
+            :evaluation-full="fullEvaluation"></modalDetailEvaluation>
 
         <!-- modal de editar y crear -->
         <ModalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :evaluation="requestEvaluationData"
@@ -29,7 +31,7 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import slideEvaluations from './components/slideEvaluations.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { EvaluationEditResponse } from '@/interfaces/evaluations/EvaluationInterface';
+    import { EvaluationEditResponse, EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
     import { useEvaluations } from '@/composables/useEvaluations';
     import modalDetailEvaluation from './components/modalDetailEvaluation.vue';
     import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
@@ -43,6 +45,7 @@
     const selectedEvaluationId = ref<number | null>(null);
     const evaluationState = useEvaluations();
     const requestEvaluationData = ref<EvaluationEditResponse>();
+    const fullEvaluation = ref<EvaluationFullResponse>();
 
     //servicios para selects
     const courseService = useCourse();
@@ -52,7 +55,7 @@
 
 
     provide("evaluationContext", evaluationState);
-    const { loading, fetchAll, deleteRecord, getOntetoEdit, changeStatus } = evaluationState
+    const { loading, fetchAll, deleteRecord, getOntetoEdit, changeStatus, getDetail } = evaluationState
 
     const handleCreate = () => {
         requestEvaluationData.value = undefined;
@@ -85,25 +88,31 @@
     }
 
     const handleViewDetails = async (id: number) => {
-        selectedEvaluationId.value = id;
-        isGradeBookOpen.value = true;
-
+        try {
+            const data = await getDetail(id);
+            fullEvaluation.value = data;
+            selectedEvaluationId.value = id;
+            isGradeBookOpen.value = true;
+        } catch (error) {
+            console.error("No se pudo cargar la información detallada" + error);
+            throw error;
+        }
     }
 
     //manjear abriri y cerrar periodos
     const handleStatus = async (id: number, oldStatus: StatusEnum) => {
-        const statusIntitial =():statusRequest =>({
+        const statusIntitial = (): statusRequest => ({
             newStatus: null as unknown as StatusEnum
         });
 
         if (oldStatus == StatusEnum.OPEN) {
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.CLOSED
-            CloseRecordAlert(()=>changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
-        }else if(oldStatus == StatusEnum.CLOSED){
+            CloseRecordAlert(() => changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
+        } else if (oldStatus == StatusEnum.CLOSED) {
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.OPEN
-            OpenRecordAlert(()=>changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
+            OpenRecordAlert(() => changeStatus(id, newStatus), "Evaluación", "esta accion solo afectara a ella misma")
         }
     }
 

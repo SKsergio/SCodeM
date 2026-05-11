@@ -19,6 +19,7 @@ export interface StudentEditResponse extends Omit<StudentRequest, "photo">{
 export interface StudentResponse extends InstitutionarPersonInterface{
     fullName: string,
     carnet: string,
+    currentDegree: string,
     routePhoto: string,
     age: number,
 }
@@ -34,7 +35,7 @@ export interface StudentSimpleResponse{
 }
 //interfaz para fullResponse
 export interface StudentFullResponse extends StudentResponse{
-   
+    gradeDetailId: number,
 }
 
 //interfaz para tabla

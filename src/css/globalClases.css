@@ -249,6 +249,14 @@
     color: var(--color-text-content);
 }
 
+.expediente-header h1 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-text-content);
+}
+
 .img_preview {
     width: 200px;
     height: 200px;

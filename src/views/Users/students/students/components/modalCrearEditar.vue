@@ -203,7 +203,7 @@ const emit = defineEmits<{
 }>()
 
 
-const getInitialTeacher = (): StudentRequest => ({
+const getInitialStudent = (): StudentRequest => ({
     firstName: '',
     secondName: '',
     firstLastName: '',
@@ -217,12 +217,12 @@ const getInitialTeacher = (): StudentRequest => ({
     photo: null,
 })
 
-const newStudent = ref<StudentRequest>(getInitialTeacher());
+const newStudent = ref<StudentRequest>(getInitialStudent());
 const prefijo = import.meta.env.VITE_API_PREFIX;
 
 
 const clean_form = () => {
-    newStudent.value = getInitialTeacher();
+    newStudent.value = getInitialStudent();
     photoPreview.value = ''
 }
 

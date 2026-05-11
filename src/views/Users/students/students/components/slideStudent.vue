@@ -23,6 +23,8 @@
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
                             <button @click="deleteRow(row)">Delete</button>
+                            <button @click="viewReportCard(row)">Report Card</button>
+
                         </div>
                     </template>
 
@@ -67,7 +69,8 @@
     const emit = defineEmits<{
         (e: 'edit', id:number):void,
         (e: 'delete', id:number):void,
-        (e: 'view-details', id:number):void
+        (e: 'view-details', id:number):void,
+        (e: 'view-report-card', id:number):void
     }>();
 
 
@@ -89,6 +92,12 @@
     function deleteRow(record:StudentTableRow) {
         emit('delete', record.id)
     }
+
+    function viewReportCard(record:StudentTableRow) {
+        emit('view-report-card', record.id)
+    }
+
+    
 
     const handleFilters = async (newFilters: Record<string, any>) => {
         pagination.changePage(0);

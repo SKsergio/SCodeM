@@ -11,12 +11,14 @@ import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { StudentEditResponse, StudentFullResponse, StudentRequest, StudentResponse, StudentSimpleResponse } from "@/interfaces/students/studentInterface";
 import { buildFormData } from "@/utils/buildFormData";
+import { CourseAverageResponse, ReportCardResponse } from "@/interfaces/students/AcademicReportInterface";
 
 export function useStudents() {
     const endpoint = 'core/students';
     const records = ref<StudentResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
+    const courses = ref<CourseAverageResponse[]>([]);
 
     //instanciando la paginacion
     const pagination = usePagination();
@@ -112,20 +114,33 @@ export function useStudents() {
     }
 
     const getSelects = async (extraParams: Record<string, any> = {}): Promise<StudentSimpleResponse[]> => {
-            try {
-                const urlFinal = endpoint + "/all"
+        try {
+            const urlFinal = endpoint + "/all"
 
-                const records = await GetAllRecords<StudentResponse>(urlFinal, {
-                    ...extraParams,
-                    page: pagination.page.value,
-                    size: pagination.size.value
-                });
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
+            const records = await GetAllRecords<StudentResponse>(urlFinal, {
+                ...extraParams,
+                page: pagination.page.value,
+                size: pagination.size.value
+            });
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        } 
+    }
+
+    //obtener libreta de notas
+    //luego se creara un composable para el reporte academico, pero por ahora lo dejo aqui porque es una consulta directa al estudiante
+    const getAcademicReport = async (idStudent: number, idDegree: number): Promise<void> => {
+        const finalEndpoint = "core/grades/report-card/student/" + idStudent + "/grade" ;
+        try {
+            const record = await GetOneRecord<ReportCardResponse>(finalEndpoint, idDegree);
+            courses.value = record.courses;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
         }
+    }
 
     watch([pagination.page, pagination.size], () => {
         fetchAll();
@@ -142,6 +157,8 @@ export function useStudents() {
         updateRecord,
         deleteRecord,
         getOntetoEdit,
-        getSelects
+        getSelects,
+        getAcademicReport,
+        courses
     };
 }
