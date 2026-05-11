@@ -6,11 +6,11 @@
         </div>
 
         <!-- cabecera -->
-<HeaderComponent
-    :show-add="canEdit"
-    :title="'Cursos'"
-    @open-modal="handleCreate()">
-</HeaderComponent>
+        <HeaderComponent
+            :show-add="canEdit"
+            :title="'Cursos'"
+            @open-modal="handleCreate()">
+        </HeaderComponent>
 
 
         <!-- contendedor -->
