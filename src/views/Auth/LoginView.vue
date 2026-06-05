@@ -1,51 +1,49 @@
 <template>
-  <div class="login-container">
 
-    <div class="overlay"></div>
+  <div class="main_login">
+        <div class="content__main__login">
 
-    <div class="login-card">
+            <secction class="sc1__login">
+                <img src="@/assets/images/tribe.png" alt="logo" class="logo" />
+                <section>
+                    <p>Your Academic management system</p>
+                </section>
+            </secction>
 
-      <div class="login-header">
-        <img
-            src="@/assets/images/tribe.png"
-          alt="logo"
-          class="logo"
-        />
+            <secction class="sc2__login">
 
-        <h1>NoteSystem</h1>
-        <p>Sistema de Gestión Académica</p>
-      </div>
+                <div class="wrapper_login">
 
-      <form @submit.prevent="handleLogin">
+                    <h1>Tarbiyat</h1>
 
-        <div class="input-group">
-          <label>Correo Electrónico</label>
-          <input
-            v-model="form.email"
-            type="email"
-            placeholder="correo@ejemplo.com"
-            required
-          />
+                    <form class="form__login" @submit.prevent="handleLogin">
+
+                        <div class="container_inputs">
+                            <div class="input__box">
+                                <input v-model="form.email" type="email" class="input_file" required autocomplete="new-password" />
+                                <span>User</span>
+                                <i></i>
+                            </div>
+
+                            <div class="input__box">
+                                <input v-model="form.password" type="password" class="input_file" required autocomplete="new-password"/>
+                                <span>Password</span>
+                                <i></i>
+                            </div>
+                        </div>
+
+                        <div class="butons">
+                            <input type="submit" id="loginBtn" value="Login" class="logbtn">
+                            <div class="forg">
+                                <a id="forgotPassword" href="#">Forgotten password?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </secction>
         </div>
-
-        <div class="input-group">
-          <label>Contraseña</label>
-          <input
-            v-model="form.password"
-            type="password"
-            placeholder="********"
-            required
-          />
-        </div>
-
-        <button type="submit" class="login-btn">
-          Iniciar Sesión
-        </button>
-
-      </form>
-
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -58,198 +56,30 @@ const { login } = useAuth();
 
 // Ahora el ref coincide con LoginRequest
 const form = ref({
-    email: '', 
+    email: '',
     password: ''
 });
 
 const handleLogin = async () => {
     try {
         const success = await login(form.value);
-       if (success) {
+        if (success) {
 
-           const mustChangePassword =
-               localStorage.getItem('must_change_password') === 'true'
+            const mustChangePassword =
+                localStorage.getItem('must_change_password') === 'true'
 
-           if (mustChangePassword) {
+            if (mustChangePassword) {
 
-               router.push('/change-password')
+                router.push('/change-password')
 
-           } else {
+            } else {
 
-               router.push('/')
+                router.push('/')
 
-           }
-       }
+            }
+        }
     } catch (error) {
         alert("Credenciales incorrectas o error de servidor");
     }
 };
 </script>
-
-<style scoped>
-
-.login-container{
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');
-    background-size: cover;
-    background-position: center;
-
-    overflow: hidden;
-}
-
-.overlay{
-    position: absolute;
-    inset: 0;
-
-    background: rgba(0,0,0,0.55);
-
-    backdrop-filter: blur(4px);
-}
-
-.login-card{
-    position: relative;
-    z-index: 2;
-
-    width: 400px;
-    max-width: 90%;
-
-    padding: 40px;
-
-    border-radius: 24px;
-
-    background: rgba(255,255,255,0.12);
-
-    backdrop-filter: blur(15px);
-
-    border: 1px solid rgba(255,255,255,0.2);
-
-    box-shadow:
-        0 8px 32px rgba(0,0,0,0.3);
-
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.login-header{
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.logo{
-    width: 160px;
-    max-width: 100%;
-
-    margin: 0 auto 20px auto;
-
-    display: block;
-
-    object-fit: contain;
-}
-
-.login-header h1{
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.login-header p{
-    opacity: 0.85;
-    font-size: 14px;
-}
-
-.input-group{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.input-group label{
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.input-group input{
-    padding: 14px;
-
-    border-radius: 12px;
-
-    border: none;
-    outline: none;
-
-    background: rgba(255,255,255,0.18);
-
-    color: white;
-
-    font-size: 14px;
-
-    transition: 0.3s;
-}
-
-.input-group input::placeholder{
-    color: rgba(255,255,255,0.7);
-}
-
-.input-group input:focus{
-    background: rgba(255,255,255,0.25);
-    transform: scale(1.01);
-}
-
-.login-btn{
-    width: 100%;
-
-    padding: 14px;
-
-    border: none;
-    border-radius: 14px;
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #2563eb
-    );
-
-    color: white;
-
-    font-size: 15px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-}
-
-.login-btn:hover{
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(37,99,235,0.4);
-}
-
-@media(max-width: 500px){
-
-    .login-card{
-        padding: 30px;
-    }
-
-    .logo{
-        width: 130px;
-    }
-
-}
-
-</style>

@@ -12,6 +12,7 @@ import './css/globalClases.css'
 import './css/alertDelete.css'
 import './css/modales.css'
 import 'vue-awesome-paginate/dist/style.css'
+import './css/login.css'
 
 const app = createApp(App)
 const pinia = createPinia()
