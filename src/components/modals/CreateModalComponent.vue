@@ -7,18 +7,18 @@
                 <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
             </section>
 
-            <section class="btn_sections">
-                <BtnSaveComponent @save_click="sendForm"></BtnSaveComponent>
 
-                <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
-            </section>
         </form>
+        <section class="btn_section">
+            <BtnSaveComponent @save_click="sendForm"></BtnSaveComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
+        </section>
     </BaseModalComponent>
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-    import BtnSaveComponent from '../buttons/BtnSaveComponent.vue'
-    import BtnCancelComponent from '../buttons/BtnCancelComponent.vue'
+import BtnSaveComponent from '../buttons/BtnSaveComponent.vue'
+import BtnCancelComponent from '../buttons/BtnCancelComponent.vue'
 import BaseModalComponent from './BaseModalComponent.vue'
 import InputComponent from '../inputs/InputComponent.vue'
 import CloseIcon from '~icons/ri/close-large-line'
@@ -90,16 +90,17 @@ const resetForm = () => {
 }
 
 .theme-transparent {
-    background-color: var(--color-eight);
-    box-shadow: none !important;
+    background-color: var(--color-sixth) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
     padding: 0 !important;
-    border: none !important;
+    border: 1px solid var(--color-fourth) !important;
+    border-radius: 12px;
 }
 </style>
 
 <style scoped>
 .form {
-    background-color: var(--color-seventh);
+    /* background-color: var(--color-seventh); */
     z-index: 100;
     padding: 40px;
     display: flex;
@@ -117,20 +118,5 @@ const resetForm = () => {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-}
-
-.icon_close {
-    scale: 1.5;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    cursor: pointer;
-    color: rgb(121, 19, 19);
-    transition: all .3s ease;
-    z-index: 101;
-}
-
-.icon_close:hover {
-    transform: scale(1.1);
 }
 </style>

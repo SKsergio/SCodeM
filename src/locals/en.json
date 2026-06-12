@@ -1,0 +1,15 @@
+{
+  "menu": {
+    "dashboard": "Dashboard",
+    "students": "Students",
+    "teachers": "Teachers"
+  },
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "alerts": {
+    "success": "Operation completed successfully",
+    "error": "An unexpected error has occurred"
+  }
+}

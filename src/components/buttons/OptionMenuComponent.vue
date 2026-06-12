@@ -1,39 +1,32 @@
 <template>
    <article @click="deploy__options">
         <Component :is="itemMenu.icon" class="svg_item" />
-        <span class="list_span">{{itemMenu.label}}</span>
+        <span class="list_span">{{ itemMenu.label }}</span>
     </article>
-    <ul class="nav__inner" :class="{'open':open_SubMenu}" v-if="(itemMenu.hadSoons)">
-
+    
+    <ul class="nav__inner" :class="{'open': open_SubMenu}" v-if="itemMenu.hadSoons">
         <li v-for="(submenus, index) in itemMenu.soons" :key="index" class="drop__down">
-            <a href="#" class="nav-link" @click="goTo(submenus.name)">
+            <router-link :to="{ name: submenus.name }" class="nav-link">
                 {{ submenus.label }}
-            </a>
+            </router-link>
         </li>
-        
     </ul>
 </template>
 
 <script setup lang="ts">
-    import { MenuItems} from '@/interfaces/templates/MenuInterFace';//importando la interfaz del Menu
+    import { MenuItems } from '@/interfaces/templates/MenuInterFace';
     import { ref, Ref } from 'vue';
-    import { useRouter } from 'vue-router';
 
-    const router = useRouter()
-    let open_SubMenu: Ref<boolean> = ref(false)
 
-    //DEFINIENDO LOS PROPS
+    let open_SubMenu: Ref<boolean> = ref(false);
+
     defineProps<{
-        itemMenu:MenuItems
+        itemMenu: MenuItems
     }>();
 
-    const deploy__options=()=>{
-        open_SubMenu.value = !open_SubMenu.value 
-    }
-    //redirect to new urls
-    const goTo = (name:string) =>{
-        router.push({name})
-    }
+    const deploy__options = () => {
+        open_SubMenu.value = !open_SubMenu.value;
+    };
 
 </script>
 

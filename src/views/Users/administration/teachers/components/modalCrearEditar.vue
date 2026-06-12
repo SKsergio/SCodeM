@@ -63,9 +63,7 @@
 
                     <div class="sc2">
                         <div class="input__ct">
-                            <label for="DUI">DUI</label>
-                            <input class="input_st" type="text" placeholder="812395148-2" id="DUI"
-                                v-model="newTeacher.dui">
+                            <DuiComponent id="dui-maestro" v-model="newTeacher.dui" />
                         </div>
 
                         <div class="input__ct">
@@ -179,146 +177,147 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, inject, watch } from 'vue';
-import { Gender } from '@/enum/GenderEnum';
-import CloseIcon from '~icons/ri/close-large-line'
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
-import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
-import { ShowCreateAlert } from '@/components/alerts/createAlert';
-import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
-import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
-import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
-import type { useTeachers } from '@/composables/useTeachers';
-import Swal from 'sweetalert2';
+    import { computed, ref, inject, watch } from 'vue';
+    import { Gender } from '@/enum/GenderEnum';
+    import CloseIcon from '~icons/ri/close-large-line'
+    import VueDatePicker from '@vuepic/vue-datepicker'
+    import '@vuepic/vue-datepicker/dist/main.css'
+    import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
+    import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
+    import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
+    import { ShowCreateAlert } from '@/components/alerts/createAlert';
+    import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
+    import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
+    import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
+    import type { useTeachers } from '@/composables/useTeachers';
+    import Swal from 'sweetalert2';
+    import DuiComponent from '@/components/inputs/DuiComponent.vue';
 
-const {
-    createRecord,
-    updateRecord
-} = inject("teacherContext") as ReturnType<typeof useTeachers>
-
-
-//PROPS Y EMMITS
-const props = defineProps<{
-    modelValue: boolean,
-    teacherData?: TeacherEditResponse | null;
-}>()
-
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: boolean): void
-    (e: 'emitido', value: boolean): void
-}>()
+    const {
+        createRecord,
+        updateRecord
+    } = inject("teacherContext") as ReturnType<typeof useTeachers>
 
 
-const getInitialTeacher = (): TeacherRequest => ({
-    firstName: '',
-    secondName: '',
-    firstLastName: '',
-    secondLastName: '',
-    address: '',
-    birthDate: "",
-    phoneNumber: '',
-    email: '',
-    gender: null as unknown as Gender,
-    speciality: '',
-    photo: null,
-    dui: '',
-})
+    //PROPS Y EMMITS
+    const props = defineProps<{
+        modelValue: boolean,
+        teacherData?: TeacherEditResponse | null;
+    }>()
 
-const newTeacher = ref<TeacherRequest>(getInitialTeacher());
-const prefijo = import.meta.env.VITE_API_PREFIX;
+    const emit = defineEmits<{
+        (e: 'update:modelValue', value: boolean): void
+        (e: 'emitido', value: boolean): void
+    }>()
 
 
-const clean_form = () => {
-    newTeacher.value = getInitialTeacher();
-    photoPreview.value = ''
-}
+    const getInitialTeacher = (): TeacherRequest => ({
+        firstName: '',
+        secondName: '',
+        firstLastName: '',
+        secondLastName: '',
+        address: '',
+        birthDate: "",
+        phoneNumber: '',
+        email: '',
+        gender: null as unknown as Gender,
+        speciality: '',
+        photo: null,
+        dui: '',
+    })
+
+    const newTeacher = ref<TeacherRequest>(getInitialTeacher());
+    const prefijo = import.meta.env.VITE_API_PREFIX;
 
 
-watch(
-    () => props.modelValue,
-    (isOpen) => {
-        if (isOpen) {
-            if (isOpen && props.teacherData) {
+    const clean_form = () => {
+        newTeacher.value = getInitialTeacher();
+        photoPreview.value = ''
+    }
 
-                const { id, routePhoto, ...cleanData } = props.teacherData;
 
-                newTeacher.value = {
-                    ...cleanData,
-                    photo: null
-                } as unknown as TeacherRequest;
+    watch(
+        () => props.modelValue,
+        (isOpen) => {
+            if (isOpen) {
+                if (isOpen && props.teacherData) {
 
-                if (props.teacherData.routePhoto) {
-                    photoPreview.value = `${prefijo}${props.teacherData.routePhoto}`;
+                    const { id, routePhoto, ...cleanData } = props.teacherData;
+
+                    newTeacher.value = {
+                        ...cleanData,
+                        photo: null
+                    } as unknown as TeacherRequest;
+
+                    if (props.teacherData.routePhoto) {
+                        photoPreview.value = `${prefijo}${props.teacherData.routePhoto}`;
+                    } else {
+                        photoPreview.value = '';
+                    }
                 } else {
-                    photoPreview.value = '';
+                    clean_form();
                 }
             } else {
-                clean_form();
+                clean_form()
             }
-        } else {
-            clean_form()
+        }
+    )
+
+    const photoPreview = ref<string>('')
+
+    const calculateAge = (): number => {
+        if (!newTeacher.value.birthDate) return 0
+        const today = new Date()
+        const birthDate = new Date(newTeacher.value.birthDate)
+        let age = today.getFullYear() - birthDate.getFullYear()
+        const monthDiff = today.getMonth() - birthDate.getMonth()
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--
+        }
+        return age
+    }
+
+    const show = computed({
+        get: () => props.modelValue,
+        set: v => emit('update:modelValue', v)
+    })
+
+    const handleImageFromChild = (file: File) => {
+        newTeacher.value.photo = file;
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            photoPreview.value = e.target?.result as string
+        }
+        reader.readAsDataURL(file)
+    }
+
+    const closeModal = () => {
+        show.value = false
+    }
+
+    const saveData = async () => {
+        try {
+            if (props.teacherData?.id) {
+                await updateRecord(props.teacherData.id, newTeacher.value)
+            } else {
+                await createRecord(newTeacher.value)
+                Swal.fire("Creando...");
+            }
+        } catch (error) {
+            console.log("ocurrio un error: " + error);
+            throw error;
         }
     }
-)
 
-const photoPreview = ref<string>('')
+    const sendData = async () => {
+        const ok = await ShowCreateAlert(saveData)
 
-const calculateAge = (): number => {
-    if (!newTeacher.value.birthDate) return 0
-    const today = new Date()
-    const birthDate = new Date(newTeacher.value.birthDate)
-    let age = today.getFullYear() - birthDate.getFullYear()
-    const monthDiff = today.getMonth() - birthDate.getMonth()
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--
-    }
-    return age
-}
-
-const show = computed({
-    get: () => props.modelValue,
-    set: v => emit('update:modelValue', v)
-})
-
-const handleImageFromChild = (file: File) => {
-    newTeacher.value.photo = file;
-    const reader = new FileReader()
-    reader.onload = (e) => {
-        photoPreview.value = e.target?.result as string
-    }
-    reader.readAsDataURL(file)
-}
-
-const closeModal = () => {
-    show.value = false
-}
-
-const saveData = async () => {
-    try {
-        if (props.teacherData?.id) {
-            await updateRecord(props.teacherData.id, newTeacher.value)
-        } else {
-            await createRecord(newTeacher.value)
-            Swal.fire("Creando...");
+        if (ok) {
+            closeModal()
+            emit('emitido', true)
         }
-    } catch (error) {
-        console.log("ocurrio un error: " + error);
-        throw error;
     }
-}
-
-const sendData = async () => {
-    const ok = await ShowCreateAlert(saveData)
-
-    if (ok) {
-        closeModal()
-        emit('emitido', true)
-    }
-}
 
 </script>
 
