@@ -1,13 +1,13 @@
 <template>
    <article @click="deploy__options">
         <Component :is="itemMenu.icon" class="svg_item" />
-        <span class="list_span">{{ itemMenu.label }}</span>
+        <span class="list_span">{{ $t(`menu.categories.${itemMenu.label}`) }}</span>
     </article>
     
     <ul class="nav__inner" :class="{'open': open_SubMenu}" v-if="itemMenu.hadSoons">
-        <li v-for="(submenus, index) in itemMenu.soons" :key="index" class="drop__down">
-            <router-link :to="{ name: submenus.name }" class="nav-link">
-                {{ submenus.label }}
+        <li v-for="(submenu, index) in itemMenu.soons" :key="index" class="drop__down">
+            <router-link :to="{ name: submenu.name }" class="nav-link">
+                {{ $t(`menu.routes.${submenu.name}`) }}
             </router-link>
         </li>
     </ul>

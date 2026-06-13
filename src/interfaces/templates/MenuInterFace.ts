@@ -2,7 +2,6 @@ import type { Component } from 'vue';
 
 //hijos de los menus(submenus)
 export interface SoonsItems{
-    label:string,
     name:string
 }
 

@@ -9,37 +9,37 @@ import CalendarDaysIcon from '~icons/ri/calendar-todo-fill'
 export const menuItems: MenuItems[] = [
 
     {
-        label: 'Administracion',
+        label: 'administration',
         roles: ['ADMIN'],
         icon: IdentificationIcon,
         amount: 2,
         hadSoons: true,
 
         soons: [
-            { label: 'Maestros', name: 'TeacherMagnament' }
+            {name: 'TeacherMagnament' }
         ]
     },
 
     {
-        label: 'Estudiantes',
+        label: 'students',
         roles: ['ADMIN', 'TEACHER'],
         icon: IconCap,
         soons: [
-            { label: 'Estudiantes', name: 'StudentMagnament' },
+            {name: 'StudentMagnament' },
         ],
         amount: 1,
         hadSoons: true
     },
 
     {
-        label: 'Grados',
+        label: 'degrees',
         roles: ['ADMIN'],
         icon: InboxIcon,
         soons: [
-            { label: 'Grados', name: 'DegreeMagnament' },
-            { label: 'Grados Específicos', name: 'DegreeDetailMagnament' },
-            { label: 'Secciones', name: 'SectionMagnament' },
-            { label: 'Asignaturas', name: 'SubjectMagnament' },
+            {  name: 'DegreeMagnament' },
+            { name: 'DegreeDetailMagnament' },
+            { name: 'SectionMagnament' },
+            { name: 'SubjectMagnament' },
         ],
 
         amount: 4,
@@ -47,11 +47,11 @@ export const menuItems: MenuItems[] = [
     },
 
     {
-        label: 'Evaluaciones',
+        label: 'evaluations',
         roles: ['ADMIN', 'TEACHER', 'STUDENT'],
         icon: TrophyIcon,
         soons: [
-            { label: 'Evaluaciones', name: 'EvaluationMagnament' },
+            { name: 'EvaluationMagnament' },
         ],
 
         amount: 3,
@@ -59,14 +59,14 @@ export const menuItems: MenuItems[] = [
     },
 
     {
-        label: 'Cursos',
+        label: 'courses',
         roles: ['ADMIN', 'TEACHER', 'STUDENT'],
         icon: CalendarDaysIcon,
         amount: 2,
         hadSoons: true,
         soons: [
-            { label: 'Periodos', name: 'PeriodMagnament' },
-            { label: 'Cursos', name: 'CourseMagnament' },
+            {  name: 'PeriodMagnament' },
+            {  name: 'CourseMagnament' },
         ]
     },
 ]

@@ -1,12 +1,31 @@
 {
   "menu": {
-    "dashboard": "Dashboard",
-    "students": "Students",
-    "teachers": "Teachers"
+    "categories": {
+      "administration": "Aadministration",
+      "students": "Students",
+      "degrees": "Degrees",
+      "evaluations": "Evaluations",
+      "courses": "Courses"
+    },
+    "routes": {
+      "TeacherMagnament": "Teachers",
+      "StudentMagnament": "Students",
+      "DegreeMagnament": "Degrees",
+      "DegreeDetailMagnament": "Specific Degrees",
+      "SectionMagnament": "Sections",
+      "SubjectMagnament": "Subjects",
+      "EvaluationMagnament": "Evaluations",
+      "PeriodMagnament": "Periods",
+      "CourseMagnament": "Curses"
+    }
   },
   "buttons": {
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "add": "New",
+    "update": "Update",
+    "delete": "Delete",
+    "filter": "filter"
   },
   "alerts": {
     "success": "Operation completed successfully",
