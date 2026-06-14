@@ -83,7 +83,7 @@ const getInitialFullEvaluation = (): StudentFullResponse => ({
 });
 
 const newStudent = ref<StudentFullResponse>(getInitialFullEvaluation());
-const prefijo = import.meta.env.VITE_API_PREFIX;
+const prefijo = import.meta.env.VITE_BASE_URL;
 
 
 watch(

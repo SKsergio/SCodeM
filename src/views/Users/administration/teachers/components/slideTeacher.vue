@@ -18,10 +18,10 @@
                     </template>
 
                     <template #cell-routePhoto="{ row }">
-                        <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
+                        <img v-if="row.routePhoto" :src="baseUrl + row.routePhoto" class="img_file"
+                            alt="Foto de perfil" />
                         <span v-else>Sin foto</span>
                     </template>
-
                     <template #cell-actions="{ row }">
                         <div class="actions">
                             <button @click="editRow(row)">Update</button>
@@ -60,7 +60,8 @@
 
     //VARIABLES
     const showFilters = ref(false);
-    const prefijo = import.meta.env.VITE_API_PREFIX;
+    // const prefijo = import.meta.env.VITE_API_PREFIX;
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
     const page = pagination.page;
     const size = pagination.size;
@@ -69,9 +70,9 @@
 
     //emits
     const emit = defineEmits<{
-        (e: 'edit', id:number):void,
-        (e: 'delete', id:number):void,
-        (e: 'view-details', id:number):void
+        (e: 'edit', id: number): void,
+        (e: 'delete', id: number): void,
+        (e: 'view-details', id: number): void
     }>();
 
 
@@ -87,11 +88,11 @@
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow(record:TeacherTableRow) {
+    function editRow(record: TeacherTableRow) {
         emit('edit', record.id)
     }
 
-    function deleteRow(record:TeacherTableRow) {
+    function deleteRow(record: TeacherTableRow) {
         emit('delete', record.id)
     }
 

@@ -58,7 +58,7 @@
 
     //VARIABLES
     const showFilters = ref(false);
-    const prefijo = import.meta.env.VITE_API_PREFIX;
+    const prefijo = import.meta.env.VITE_BASE_URL;
 
     const page = pagination.page;
     const size = pagination.size;

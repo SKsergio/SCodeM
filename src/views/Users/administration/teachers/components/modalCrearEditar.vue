@@ -227,7 +227,7 @@
     })
 
     const newTeacher = ref<TeacherRequest>(getInitialTeacher());
-    const prefijo = import.meta.env.VITE_API_PREFIX;
+    const prefijo = import.meta.env.VITE_BASE_URL;
 
 
     const clean_form = () => {

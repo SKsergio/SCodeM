@@ -218,7 +218,7 @@ const getInitialStudent = (): StudentRequest => ({
 })
 
 const newStudent = ref<StudentRequest>(getInitialStudent());
-const prefijo = import.meta.env.VITE_API_PREFIX;
+const prefijo = import.meta.env.VITE_BASE_URL;
 
 
 const clean_form = () => {

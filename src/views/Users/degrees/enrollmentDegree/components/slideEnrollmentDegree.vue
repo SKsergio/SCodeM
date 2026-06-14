@@ -84,7 +84,7 @@
     import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
     import { StudentTableRow } from '@/interfaces/students/studentInterface';
 
-    const prefijo = import.meta.env.VITE_API_PREFIX;
+    const prefijo = import.meta.env.VITE_BASE_URL;
 
 
     const props = defineProps<{
