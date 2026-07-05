@@ -10,6 +10,7 @@
     "routes": {
       "TeacherMagnament": "Teachers",
       "StudentMagnament": "Students",
+      "ManagerMagnament": "Managers",
       "DegreeMagnament": "Degrees",
       "DegreeDetailMagnament": "Specific Degrees",
       "SectionMagnament": "Sections",
@@ -17,6 +18,7 @@
       "EvaluationMagnament": "Evaluations",
       "PeriodMagnament": "Periods",
       "CourseMagnament": "Curses"
+
     }
   },
   "buttons": {

@@ -1,7 +1,7 @@
 <template>
     <div class="slide__container">
         <div class="conatiner_crud">
-             <section class="table__container">
+            <section class="table__container">
                 <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size"
                     :max-pages-shown="5" @change="changePage">
                 </PaginacionComponent>
@@ -16,46 +16,38 @@
 
                 </TableGridComponent>
             </section>
-             </div>
+        </div>
 
         <div class="add_section">
 
-             <section class="result__search">
+            <section class="result__search">
                 <h1>Students to enroll</h1>
             </section>
 
             <section class="btn_search_section">
                 <label for="">Search Students</label>
-                <Multiselect
-                    class="custom-select-modal"
-                    v-model="alumnoSeleccionadoId"
-                    placeholder="Buscar alumnos..."
-                    :options="fetchStudents"
-                    :searchable="true"
-                    :filter-results="false"
-                    :resolve-on-load="false"
-                    :min-chars="2"
-                    :delay="300"
-                    @select="onStudentSelect"
-                >
+                <Multiselect class="custom-select-modal" v-model="alumnoSeleccionadoId" placeholder="Buscar alumnos..."
+                    :options="fetchStudents" :searchable="true" :filter-results="false" :resolve-on-load="false"
+                    :min-chars="2" :delay="300" @select="onStudentSelect">
                     <template v-slot:noresults>
                         <span>No students found.</span>
                     </template>
                 </Multiselect>
             </section>
 
-            
+
             <section class="generate_inscription_section">
                 <h1>Students to Register</h1>
-                <button 
-                    :disabled="alumnosPreInscritos.length === 0" 
-                    @click="$emit('generate-enrollment')"
-                >
-                    Generate Inscription
-                </button>
-                <TableGridComponent :rows="alumnosPreInscritos" :columns="columnsStudents" :length="alumnosPreInscritos.length">
+                <div>
+                    <button :disabled="alumnosPreInscritos.length === 0" @click="$emit('generate-enrollment')">
+                        Generate Inscription
+                    </button>
+                </div>
 
-                     <template #cell-routePhoto="{ row }">
+                <TableGridComponent :rows="alumnosPreInscritos" :columns="columnsStudents"
+                    :length="alumnosPreInscritos.length">
+
+                    <template #cell-routePhoto="{ row }">
                         <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
                         <span v-else>No photo</span>
                     </template>
@@ -89,7 +81,7 @@
 
     const props = defineProps<{
         alumnosPreInscritos: StudentSimpleResponse[],
-        fetchStudents: (query: string) => Promise<any[]> 
+        fetchStudents: (query: string) => Promise<any[]>
     }>();
 
     const emit = defineEmits<{
@@ -98,7 +90,7 @@
         (e: 'add-student', student: StudentSimpleResponse): void,
         (e: 'remove-student', studentId: number): void,
         (e: 'generate-enrollment'): void,
-        (e: 'delete', id:number): void,
+        (e: 'delete', id: number): void,
     }>();
 
     // --- ESTADO LOCAL DEL MULTISELECT ---
@@ -107,7 +99,7 @@
     const onStudentSelect = (selectedOption: any, optionObject: any) => {
         if (optionObject && optionObject.originalData) {
             emit('add-student', optionObject.originalData);
-            
+
             setTimeout(() => {
                 alumnoSeleccionadoId.value = null;
             }, 100);
@@ -119,7 +111,7 @@
     const size = paginationPreInscription.size;
     const totalElements = paginationPreInscription.totalElements;
     const changePage = paginationPreInscription.changePage;
-    
+
 
     const columns: ColumnDefinition<CourseRegistrationTableRow>[] = [
         { key: 'id', label: 'ID' },
@@ -143,7 +135,7 @@
         emit('toggle-status', record.id, record.status)
     }
 
-    function deleteRow(record:CourseRegistrationTableRow) {
+    function deleteRow(record: CourseRegistrationTableRow) {
         emit('delete', record.id)
     }
 </script>
@@ -159,6 +151,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    margin-bottom: 30px;
 }
 
 .conatiner_crud,
@@ -170,9 +163,8 @@
 
 .add_section {
     display: flex;
-    gap: 10px;
+    gap: 30px;
     flex-wrap: wrap;
-    /* align-content: center; */
     flex-direction: column;
 }
 
@@ -182,6 +174,14 @@
     flex-wrap: wrap;
     align-content: flex-start;
     justify-content: start;
+    gap: 10px;
+}
+
+.generate_inscription_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
 }
 
 .conatiner__data_load {
@@ -197,6 +197,7 @@
     display: flex;
     padding: 10px;
 }
+
 .img_file {
     width: 40px;
     height: 40px;

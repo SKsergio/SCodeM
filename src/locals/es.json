@@ -10,6 +10,7 @@
     "routes": {
       "TeacherMagnament": "Maestros",
       "StudentMagnament": "Estudiantes",
+      "ManagerMagnament": "Encargados",
       "DegreeMagnament": "Grados",
       "DegreeDetailMagnament": "Grados Específicos",
       "SectionMagnament": "Secciones",

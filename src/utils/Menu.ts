@@ -26,6 +26,7 @@ export const menuItems: MenuItems[] = [
         icon: IconCap,
         soons: [
             {name: 'StudentMagnament' },
+            {name: 'ManagerMagnament' },
         ],
         amount: 1,
         hadSoons: true

@@ -19,6 +19,7 @@ import RegistrationCourseView from '@/views/Users/courses/courseRegistration/reg
 
 // Importación de la vista de Login
 import LoginView from '@/views/Auth/LoginView.vue'
+import ManagerView from '@/views/Users/students/teachers/ManagerView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // 1. RUTA DE LOGIN (Independiente, no usa el DashboardLayout)
@@ -28,12 +29,12 @@ const routes: Array<RouteRecordRaw> = [
         component: LoginView,
         meta: { requiresGuest: true } // Marca para indicar que solo invitados (sin login) pueden verla
     },
-{
-    path: '/change-password',
-    name: 'ChangePassword',
-    component: () => import('@/views/Auth/ChangePasswordView.vue'),
-    meta: { requiresAuth: true }
-},
+    {
+        path: '/change-password',
+        name: 'ChangePassword',
+        component: () => import('@/views/Auth/ChangePasswordView.vue'),
+        meta: { requiresAuth: true }
+    },
     // 2. RUTAS PROTEGIDAS (Usan el DashboardLayout)
     {
         path: '/dashboard',
@@ -58,13 +59,14 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'students',
                 children: [
                     { path: 'students', name: 'StudentMagnament', component: StudentView },
+                    { path: 'managers', name: 'ManagerMagnament', component: ManagerView },
                 ]
             },
             {
                 path: 'degree',
                 name: 'degrees',
                 children: [
-                    { path: '', redirect: { name: 'DegreeMagnament' } }, 
+                    { path: '', redirect: { name: 'DegreeMagnament' } },
                     { path: 'degrees', name: 'DegreeMagnament', component: DegreeView },
                     { path: 'section', name: 'SectionMagnament', component: SectionView },
                     { path: 'enrollment', name: 'EnrollmentDegreeMagnament', component: EnrollmentDegreeView },
@@ -119,12 +121,12 @@ router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !isAuthenticated) {
         // Lo pateamos de vuelta al login
         next({ name: 'Login' });
-    } 
+    }
     // Si la ruta es solo para invitados (como el login) y SÍ hay token...
     else if (to.meta.requiresGuest && isAuthenticated) {
         // Lo mandamos directo al dashboard porque ya inició sesión
         next({ name: 'HomeView' });
-    } 
+    }
     // En cualquier otro caso, lo dejamos pasar normalmente
     else {
         next();
