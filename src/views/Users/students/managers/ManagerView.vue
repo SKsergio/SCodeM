@@ -15,6 +15,7 @@
         <!-- modal de editar y crear -->
         <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :manager-data="requestManagerData">
         </modalCrearEditar>
+
     </div>
 </template>
 
@@ -26,12 +27,13 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { ManagerEditResponse } from '@/interfaces/managers/ManagerInterface';
+    import { ManagerEditResponse, ManagerFullResponse } from '@/interfaces/managers/ManagerInterface';
     import { useAuth } from '@/composables/useAuth';
 
     const isModalOpen = ref(false);
     const managerState = useManagers();
     const requestManagerData = ref<ManagerEditResponse>();
+    const fullManagerData = ref<ManagerFullResponse>();
     const { getCurrentUser } = useAuth();
 
     const currentUser = getCurrentUser();
@@ -42,7 +44,7 @@
         currentUser?.role === 'ADMIN';
     // 2. Proveemos ese estado exacto al hijo
     provide("managerContext", managerState);
-    const { loading, fetchAll, getOntetoEdit, deleteRecord } = managerState;
+    const { loading, fetchAll, getOntetoEdit, deleteRecord, getDetail } = managerState;
 
     const handleCreate = () => {
         requestManagerData.value = undefined;
@@ -73,7 +75,6 @@
             console.error(error);
         }
     }
-
 
     onMounted(async () => {
         try {

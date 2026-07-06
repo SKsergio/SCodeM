@@ -19,7 +19,8 @@ import RegistrationCourseView from '@/views/Users/courses/courseRegistration/reg
 
 // Importación de la vista de Login
 import LoginView from '@/views/Auth/LoginView.vue'
-import ManagerView from '@/views/Users/students/teachers/ManagerView.vue'
+import ManagerView from '@/views/Users/students/managers/ManagerView.vue'
+import CompleteInfoManager from '@/views/Users/students/managerStudents/CompleteInfoManager.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // 1. RUTA DE LOGIN (Independiente, no usa el DashboardLayout)
@@ -60,6 +61,7 @@ const routes: Array<RouteRecordRaw> = [
                 children: [
                     { path: 'students', name: 'StudentMagnament', component: StudentView },
                     { path: 'managers', name: 'ManagerMagnament', component: ManagerView },
+                    { path: 'managerFull', name: 'ManagerFullMagnament', component: CompleteInfoManager }
                 ]
             },
             {

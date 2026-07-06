@@ -24,8 +24,9 @@
                     </template>
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
+                            <button @click="editRow(row)">Editar</button>
+                            <button @click="deleteRow(row)">ELiminar</button>
+                            <button @click="openCompleteInfo(row)">Complete Info</button>
                         </div>
                     </template>
 
@@ -42,6 +43,7 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import { formatDate } from '@/utils/FormatDates';
+    import { useRouter } from 'vue-router';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import { ManagerTableRow } from '@/interfaces/managers/ManagerInterface';
     import type { useManagers } from '@/composables/useManagers';
@@ -50,6 +52,8 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+
+    const router = useRouter();
 
     const {
         records,
@@ -73,6 +77,7 @@
         (e: 'edit', id: number): void,
         (e: 'delete', id: number): void,
         (e: 'view-details', id: number): void
+        (e: 'manage-students', id: number): void
     }>();
 
 
@@ -92,8 +97,18 @@
         emit('edit', record.id)
     }
 
+
     function deleteRow(record: ManagerTableRow) {
         emit('delete', record.id)
+    }
+
+    function openCompleteInfo(record: ManagerTableRow) {
+        router.push({
+        name: 'ManagerFullMagnament', 
+            query: { 
+                managerId: record.id 
+            }
+        });
     }
 
     const handleFilters = async (newFilters: Record<string, any>) => {

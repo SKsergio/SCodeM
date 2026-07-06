@@ -26,17 +26,11 @@
                                     Inscriptions
                                 </button>
 
-                                <button
-                                    v-if="row.status === StatusEnum.OPEN"
-                                    @click="toggleStatus(row)"
-                                >
+                                <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
                                     Close
                                 </button>
 
-                                <button
-                                    v-else
-                                    @click="toggleStatus(row)"
-                                >
+                                <button v-else @click="toggleStatus(row)">
                                     Open
                                 </button>
 
@@ -78,7 +72,7 @@
 
     const router = useRouter();
     const props = defineProps<{
-        canEdit:boolean
+        canEdit: boolean
     }>();
 
     const {
@@ -97,10 +91,10 @@
 
     //emits
     const emit = defineEmits<{
-        (e: 'edit', id:number):void,
-        (e: 'delete', id:number):void,
-        (e: 'view-details', id:number):void
-        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
+        (e: 'edit', id: number): void,
+        (e: 'delete', id: number): void,
+        (e: 'view-details', id: number): void
+        (e: 'toggle-status', id: number, newStatus: StatusEnum): void,
     }>();
 
 
@@ -113,16 +107,16 @@
         { key: 'teacherName', label: 'Teacher Name' },
         { key: 'subjectName', label: 'Subject Name' },
         // { key: 'totalStudents', label: 'Total Students' }, //de momento no la voy a utilizar
-        { key: 'status', label: 'Status'},
+        { key: 'status', label: 'Status' },
         { key: 'year', label: 'year' },
         { key: 'actions', label: 'Actions' }
     ];
 
-    function editRow(record:CourseTableRow) {
+    function editRow(record: CourseTableRow) {
         emit('edit', record.id)
     }
 
-    function deleteRow(record:CourseTableRow) {
+    function deleteRow(record: CourseTableRow) {
         emit('delete', record.id)
     }
 
@@ -137,11 +131,11 @@
 
     function openInscriptions(record: CourseTableRow) {
         router.push({
-        name: 'RegistrationCoursesMagnament', 
-        query: { 
-            courseId: record.id 
-        }
-    });
+            name: 'RegistrationCoursesMagnament',
+            query: {
+                courseId: record.id
+            }
+        });
     }
 </script>
 

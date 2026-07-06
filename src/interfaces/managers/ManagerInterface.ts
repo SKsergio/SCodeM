@@ -34,10 +34,19 @@ export interface ManagerSimpleResponse{
     dui: string,
     readonly createdAt: string 
 }
+
+//interfaz de estuiantes asignados
+export interface AssignedStudentResponse {
+    readonly studentId: number,
+    fullName: string,
+    carnet: string,
+    relationType: string,
+    emergencyContact: boolean
+}
+       
 //interfaz para fullResponse
 export interface ManagerFullResponse extends ManagerResponse{
-   assignedGrades: []//aaca luego ira el tipo de simpleResponseDegreeDetail,
-   assignedCourses: []//aca tambien ira luego la interfaz correcta.
+   assignedStudents: AssignedStudentResponse[],
 }
 
 //interfaz para tabla

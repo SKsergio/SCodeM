@@ -105,10 +105,10 @@
     function openInscriptions(record: DegreeDetailTableRow) {
         router.push({
         name: 'EnrollmentDegreeMagnament', 
-        query: { 
-            detailId: record.id 
-        }
-    });
+            query: { 
+                detailId: record.id 
+            }
+        });
     }
     
 
