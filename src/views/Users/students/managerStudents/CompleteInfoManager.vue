@@ -13,7 +13,7 @@
 
             <section class="manager_info previsualizar_big box_panel_xl">
                 <div class="expediente-header">
-                    <h2>DATOS DEL ENCARGADO</h2>
+                    <h1>DATOS DEL ENCARGADO</h1>
                 </div>
 
                 <div class="section_full_info">
@@ -26,8 +26,8 @@
                         <div class="field-group">
                             <div class="field-row">
                                 <div class="field">
-                                    <label>Nombre Completo</label>
-                                    <p>{{ detailManager.fullName || '---' }}</p>
+                                    <label class="label_ct1">Nombre Completo</label>
+                                    <p class="complemente_lbl">{{ detailManager.fullName || '---' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -37,22 +37,22 @@
                         <div class="field-group">
                             <div class="field-row">
                                 <div class="field half">
-                                    <label>Edad</label>
-                                    <p>{{ detailManager.age }} años</p>
+                                    <label class="label_ct1">Edad</label>
+                                    <p class="complemente_lbl">{{ detailManager.age }} años</p>
                                 </div>
                                 <div class="field half">
-                                    <label>Fecha de Nacimiento</label>
-                                    <p>{{ detailManager.birthDate ? formatDate(detailManager.birthDate) : '---' }}</p>
+                                    <label class="label_ct1">Fecha de Nacimiento</label>
+                                    <p class="complemente_lbl">{{ detailManager.birthDate ? formatDate(detailManager.birthDate) : '---' }}</p>
                                 </div>
                             </div>
                             <div class="field-row">
                                 <div class="field half">
-                                    <label>DUI</label>
-                                    <p>{{ detailManager.dui || '---' }}</p>
+                                    <label class="label_ct1">DUI</label>
+                                    <p class="complemente_lbl">{{ detailManager.dui || '---' }}</p>
                                 </div>
                                 <div class="field half">
-                                    <label>Género</label>
-                                    <p>{{ genderLabel }}</p>
+                                    <label class="label_ct1">Género</label>
+                                    <p class="complemente_lbl">{{ genderLabel }}</p>
                                 </div>
                             </div>
                         </div>
@@ -62,20 +62,20 @@
                         <div class="field-group">
                             <div class="field-row">
                                 <div class="field">
-                                    <label>Teléfono</label>
-                                    <p>{{ detailManager.phoneNumber || '---' }}</p>
+                                    <label class="label_ct1">Teléfono</label>
+                                    <p class="complemente_lbl">{{ detailManager.phoneNumber || '---' }}</p>
                                 </div>
                             </div>
                             <div class="field-row">
                                 <div class="field">
-                                    <label>Email</label>
-                                    <p>{{ detailManager.email || '---' }}</p>
+                                    <label class="label_ct1">Email</label>
+                                    <p class="complemente_lbl">{{ detailManager.email || '---' }}</p>
                                 </div>
                             </div>
                             <div class="field-row">
                                 <div class="field">
-                                    <label>Dirección</label>
-                                    <p>{{ detailManager.address || '---' }}</p>
+                                    <label class="label_ct1">Dirección</label>
+                                    <p class="complemente_lbl">{{ detailManager.address || '---' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -85,8 +85,8 @@
                         <div class="field-group">
                             <div class="field-row">
                                 <div class="field">
-                                    <label>Fecha de Registro</label>
-                                    <p>{{ detailManager.createdAt ? formatDate(detailManager.createdAt) : '---' }}</p>
+                                    <label class="label_ct1">Fecha de Registro</label>
+                                    <p class="complemente_lbl">{{ detailManager.createdAt ? formatDate(detailManager.createdAt) : '---' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -98,9 +98,8 @@
         </div>
 
         <!-- manejo de los estudiantes asociados -->
-        <!-- <slideManagerStudents :alumnos-pre-inscritos="alumnosPreInscritos" :fetch-students="fetchStudentsForSelect"
-            @add-student="handleAddStudent" @remove-student="handleRemoveStudent"
-            @generate-enrollment="sendData" @delete="handleDelete"></slideManagerStudents> -->
+        <slideManagerStudents 
+           ></slideManagerStudents>
     </div>
 </template>
 
@@ -139,7 +138,7 @@ const getFullManagerData = (): ManagerFullResponse => ({
     routePhoto: '',
     birthDate: "",
     gender: null as unknown as Gender,
-    assignedStudents: [] as AssignedStudentResponse[],
+    // assignedStudents: [] as AssignedStudentResponse[],
     createdAt: '',
 })
 
@@ -149,8 +148,8 @@ const managerStudentState = useManagerStudents();
 // Instanciamos el servicio de estudiantes
 const { getDetail } = managerState;
 
-provide("managerStudents", managerStudentState);
-const { loading, deleteRecord } = managerStudentState
+provide("managerStudentsContext", managerStudentState);
+const { loading, deleteRecord, fetchByManagerId } = managerStudentState
 
 const detailManager = ref<ManagerFullResponse>(getFullManagerData());
 const photoPreview = ref<string>('');
@@ -195,6 +194,7 @@ const loadDetail = async () => {
         photoPreview.value = detailManager.value.routePhoto
             ? `${prefijo}${detailManager.value.routePhoto}`
             : '';
+        await fetchByManagerId(currentManagerId.value);
     } else {
         console.warn("No se proporcionó ningún ID de encargado.");
     }
@@ -256,4 +256,12 @@ const loadDetail = async () => {
         width: 500px;
     height: 400px;
 }
+.label_ct1{
+    font-size: 17px;
+}
+.complemente_lbl{
+    font-size: 16px;
+    font-weight: 500;
+}
+
 </style>

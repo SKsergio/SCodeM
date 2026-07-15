@@ -46,7 +46,7 @@ export interface AssignedStudentResponse {
        
 //interfaz para fullResponse
 export interface ManagerFullResponse extends ManagerResponse{
-   assignedStudents: AssignedStudentResponse[],
+//    assignedStudents: AssignedStudentResponse[],
 }
 
 //interfaz para tabla

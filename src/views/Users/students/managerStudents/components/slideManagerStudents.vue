@@ -5,68 +5,48 @@
                 <PaginacionComponent :page="page" :total-items="totalElements" :items-per-page="size"
                     :max-pages-shown="5" @change="changePage">
                 </PaginacionComponent>
-                <h1>Current student in this Degree</h1>
-                <TableGridComponent :rows="recordSelect" :columns="columns" :length="totalElements">
+                <h1>Estudiantes asignados</h1>
+                <TableGridComponent :rows="studentsByManager" :columns="columns" :length="totalElements">
 
-                    <template #cell-actions="{ row }">
-                        <div class="actions">
-                            <button @click="deleteRow(row)">Delete</button>
-                        </div>
-                    </template>
-
-                </TableGridComponent>
-            </section>
-        </div>
-
-        <div class="add_section">
-
-            <section class="result__search">
-                <h1>Students to enroll</h1>
-            </section>
-
-            <section class="btn_search_section">
-                <label for="">Search Students</label>
-                <Multiselect class="custom-select-modal" v-model="alumnoSeleccionadoId" placeholder="Buscar alumnos..."
-                    :options="fetchStudents" :searchable="true" :filter-results="false" :resolve-on-load="false"
-                    :min-chars="2" :delay="300" @select="onStudentSelect">
-                    <template v-slot:noresults>
-                        <span>No students found.</span>
-                    </template>
-                </Multiselect>
-            </section>
-
-
-            <section class="generate_inscription_section">
-                <h1>Current student in this Degree</h1>
-                <div>
-                    <button :disabled="alumnosPreInscritos.length === 0" @click="$emit('generate-enrollment')">
-                        Generar inscripción
-                    </button>
-                </div>
-                <TableGridComponent :rows="alumnosPreInscritos" :columns="columnsStudents"
-                    :length="alumnosPreInscritos.length">
-
-                    <template #cell-routePhoto="{ row }">
+                     <template #cell-routePhoto="{ row }">
                         <img v-if="row.routePhoto" :src="prefijo + row.routePhoto" class="img_file" />
                         <span v-else>Sin foto</span>
                     </template>
 
+                    <template #cell-relationType="{ row }">
+                        <select v-model="row.relationType" @change="$emit('update-relation', row.id, row.relationType)">
+                            <option value="PARENT">Padre/Madre</option>
+                            <option value="GUARDIAN">Tutor</option>
+                            <option value="OTHER">Otro</option>
+                        </select>
+                    </template>
+
+                    <template #cell-emergencyContact="{ row }">
+                        <input
+                            type="checkbox"
+                            v-model="row.emergencyContact"
+                            @change="$emit('update-emergency-contact', row.id, row.emergencyContact)"
+                        />
+                    </template>
+
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="$emit('remove-student', row.id)">Quitar</button>
+                            <button @click="deleteRow(row)">Delete</button>
+                            <button @click="deleteRow(row)">Editar</button>
                         </div>
                     </template>
 
                 </TableGridComponent>
             </section>
         </div>
+
     </div>
 </template>
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import Multiselect from '@vueform/multiselect';
-    import type { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
+    import type { useManagerStudents } from '@/composables/useManagerStudents';
     import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import { EnrollmentDegreeTableRow } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
@@ -74,13 +54,14 @@
     import { StatusEnum } from '@/enum/StatusEnum';
     import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
     import { StudentTableRow } from '@/interfaces/students/studentInterface';
+    import { AssignedStudentsTableRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
 
     const prefijo = import.meta.env.VITE_BASE_URL;
 
 
     const props = defineProps<{
-        alumnosPreInscritos: StudentSimpleResponse[],
-        fetchStudents: (query: string) => Promise<any[]>
+        // alumnosPreInscritos: StudentSimpleResponse[],
+        // fetchStudents: (query: string) => Promise<any[]>
     }>();
 
     const emit = defineEmits<{
@@ -105,18 +86,21 @@
         }
     };
 
-    const { recordSelect, paginationPreInscription } = inject('enrollmentContext') as ReturnType<typeof useEnrollmentDegrees>;
-    const page = paginationPreInscription.page;
-    const size = paginationPreInscription.size;
-    const totalElements = paginationPreInscription.totalElements;
-    const changePage = paginationPreInscription.changePage;
+    const { studentsByManager, paginationPreAsociated } = inject('managerStudentsContext') as ReturnType<typeof useManagerStudents>;
+    const page = paginationPreAsociated.page;
+    const size = paginationPreAsociated.size;
+    const totalElements = paginationPreAsociated.totalElements;
+    const changePage = paginationPreAsociated.changePage;
 
 
-    const columns: ColumnDefinition<EnrollmentDegreeTableRow>[] = [
-        { key: 'id', label: 'ID' },
-        { key: 'studentName', label: 'Student Name' },
-        { key: 'degreeName', label: 'Degree Name' },
-        { key: 'status', label: 'Status' },
+    const columns: ColumnDefinition<AssignedStudentsTableRow>[] = [
+        { key: 'studentId', label: 'ID' },
+        { key: 'fullName', label: 'Student Name' },
+        { key: 'carnet', label: 'Carnet' },
+        { key: 'relationType', label: 'Kinship' },
+        { key: 'emergencyContact', label: 'Emergency Contact' },
+        { key: 'routePhoto', label: 'Photo' },
+        { key: 'age', label: 'Age' },
         { key: 'actions', label: 'Actions' }
     ];
 
@@ -134,7 +118,7 @@
         emit('toggle-status', record.id, record.status)
     }
 
-    function deleteRow(record: EnrollmentDegreeTableRow) {
+    function deleteRow(record: AssignedStudentsTableRow) {
         emit('delete', record.id)
     }
 </script>

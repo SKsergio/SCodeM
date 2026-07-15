@@ -28,6 +28,21 @@ export interface managerStudentResponseDTO {
     relationType: ParentType
 }
 
+export interface AssignedStudentDetailResponse {
+    id: number,
+    studentId: number,
+    fullName: string,
+    carnet: string,
+    relationType: string,
+    emergencyContact: boolean,
+    routePhoto: string,
+    age: number,
+}
+
+export interface AssignedStudentsTableRow extends AssignedStudentDetailResponse{
+    actions?: string
+}
+
 
 export interface EnrollmentDegreeTableRow extends managerStudentResponseDTO{
     actions?: string

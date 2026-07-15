@@ -37,7 +37,7 @@
 
 
             <section class="generate_inscription_section">
-                <h1>Current student in this Degree</h1>
+                <h1>student to this Degree</h1>
                 <div>
                     <button :disabled="alumnosPreInscritos.length === 0" @click="$emit('generate-enrollment')">
                         Generar inscripción
