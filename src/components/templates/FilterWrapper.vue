@@ -52,7 +52,6 @@ const onLeave = (el: Element) => {
 
     void htmlEl.offsetHeight; // Forzar reflow
 
-    // Animar hacia 0
     htmlEl.style.height = '0';
     htmlEl.style.paddingTop = '0';
     htmlEl.style.paddingBottom = '0';
