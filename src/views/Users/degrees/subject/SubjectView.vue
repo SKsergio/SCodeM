@@ -10,7 +10,7 @@
 
              <!-- filtros -->
             <BtnFilterComponent @click="showFilters = !showFilters" />
-            <FilterWrapper v-if="showFilters" >
+            <FilterWrapper :show="showFilters" >
                 <filters-component :endpoint="endpoint" :store_id="storeId" :config="degreeFilters"></filters-component>
             </FilterWrapper>
 

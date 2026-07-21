@@ -11,7 +11,6 @@
 </script>
 
 <style scoped>
-    @import url('../../../css/globalClases.css');
     .logo{
         width: 40%;
         max-width: 400px;

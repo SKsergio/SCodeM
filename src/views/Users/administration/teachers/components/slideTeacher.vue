@@ -2,7 +2,7 @@
     <div class="slide_container">
         <!-- filtros -->
         <BtnFilterComponent @click="showFilters = !showFilters" />
-        <FilterWrapper v-if="showFilters">
+        <FilterWrapper :show="showFilters">
             <FilterComponent @apply-filters="handleFilters"></FilterComponent>
         </FilterWrapper>
 

@@ -392,3 +392,21 @@
     font-family: var(--font-v1);
     color: var(--color-text1);
 }
+
+/*animaciones*/
+/* 1. Estado activo de la animación (duración y tipo de curva) */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+    overflow: hidden; /* Crucial para que el contenido no se desborde mientras se encoje */
+    max-height: 400px; /* Debe ser un poco mayor al alto real de tus filtros desplegados */
+}
+
+/* 2. Estado inicial (antes de entrar) y estado final (al terminar de salir) */
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
