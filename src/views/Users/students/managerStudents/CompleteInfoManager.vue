@@ -98,9 +98,10 @@
         </div>
 
         <!-- manejo de los estudiantes asociados -->
-        <slideManagerStudents 
-           ></slideManagerStudents>
-    </div>
+        <slideManagerStudents
+           @toggle-relation="handleToggleRelation"
+           @delete="handleDelete"></slideManagerStudents>
+    </div> 
 </template>
 
 <script lang="ts" setup>
@@ -121,6 +122,7 @@ import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { Gender } from '@/enum/GenderEnum';
 import { managerStudentResponseDTO } from '@/interfaces/ManagerStudents/ManagerStudentsInterface.js';
 import { formatDate } from '@/utils/FormatDates';
+import { ParentType } from '@/enum/ParentType';
 
 const router = useRouter();
 const route = useRoute();
@@ -149,7 +151,7 @@ const managerStudentState = useManagerStudents();
 const { getDetail } = managerState;
 
 provide("managerStudentsContext", managerStudentState);
-const { loading, deleteRecord, fetchByManagerId } = managerStudentState
+const { loading, deleteRecord, updateRecord, fetchByManagerId } = managerStudentState
 
 const detailManager = ref<ManagerFullResponse>(getFullManagerData());
 const photoPreview = ref<string>('');
@@ -161,6 +163,34 @@ const genderLabel = computed(() => {
     return '---';
 });
 
+const handleDelete = async (id: number) => {
+    try {
+        if (id) {
+            const deleted = await ShowDeleteAlert(() => deleteRecord(id));
+            if (deleted) {
+                await getByManagerId(currentManagerId.value as number);
+            }
+        }
+    } catch (error) {
+        console.error("No se pudo eliminar el curso");
+        console.error(error);
+    } 
+}
+
+const handleToggleRelation = async (id: number, newRelationType: ParentType, newEmergencyContact: boolean) => {
+    try {
+        if (id) {
+            await updateRecord(id, {
+                relationType: newRelationType,
+                emergencyContact: newEmergencyContact
+            });
+            await getByManagerId(currentManagerId.value as number);
+        }
+    } catch (error) {
+        console.error("No se pudo editar el registro");
+        console.error(error);
+    }
+}
 
 const sendData = async () => {
     // const ok = await ShowCreateAlert(()=> handleGenerateEnrollment());
@@ -194,11 +224,19 @@ const loadDetail = async () => {
         photoPreview.value = detailManager.value.routePhoto
             ? `${prefijo}${detailManager.value.routePhoto}`
             : '';
-        await fetchByManagerId(currentManagerId.value);
+        await getByManagerId(currentManagerId.value);
     } else {
         console.warn("No se proporcionó ningún ID de encargado.");
     }
 }
+
+const getByManagerId = async (managerId: number) => {
+    try {
+        await managerStudentState.fetchByManagerId(managerId);
+    } catch (error) {
+        console.error("Error al obtener los estudiantes asociados al encargado:", error);
+    }
+};
 </script>
 
 <style scoped>

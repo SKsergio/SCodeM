@@ -14,7 +14,7 @@
                     </template>
 
                     <template #cell-relationType="{ row }">
-                        <select v-model="row.relationType" @change="$emit('update-relation', row.id, row.relationType)">
+                        <select v-model="row.relationType">
                             <option value="PARENT">Padre/Madre</option>
                             <option value="GUARDIAN">Tutor</option>
                             <option value="OTHER">Otro</option>
@@ -25,14 +25,13 @@
                         <input
                             type="checkbox"
                             v-model="row.emergencyContact"
-                            @change="$emit('update-emergency-contact', row.id, row.emergencyContact)"
                         />
                     </template>
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
                             <button @click="deleteRow(row)">Delete</button>
-                            <button @click="deleteRow(row)">Editar</button>
+                            <button @click="toggleRelation(row)">Editar</button>
                         </div>
                     </template>
 
@@ -55,6 +54,7 @@
     import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
     import { StudentTableRow } from '@/interfaces/students/studentInterface';
     import { AssignedStudentsTableRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
+    import { ParentType } from '@/enum/ParentType';
 
     const prefijo = import.meta.env.VITE_BASE_URL;
 
@@ -65,7 +65,7 @@
     }>();
 
     const emit = defineEmits<{
-        (e: 'toggle-status', id: number, newStatus: StatusEnum): void,
+        (e: 'toggle-relation', id: number, newRelationType: ParentType, newEmergencyContact: boolean): void,
         (e: 'view-details', id: number): void,
         (e: 'add-student', student: StudentSimpleResponse): void,
         (e: 'remove-student', studentId: number): void,
@@ -114,8 +114,8 @@
         { key: 'actions', label: 'Actions' }
     ];
 
-    function toggleStatus(record: EnrollmentDegreeTableRow) {
-        emit('toggle-status', record.id, record.status)
+    function toggleRelation(record: AssignedStudentsTableRow) {
+        emit('toggle-relation', record.id, record.relationType, record.emergencyContact)
     }
 
     function deleteRow(record: AssignedStudentsTableRow) {

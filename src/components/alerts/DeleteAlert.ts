@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 
 export const ShowDeleteAlert = (fn:()=> Promise<void>) => { //pasamos la funcion como parametro
-        Swal.fire({
+        return Swal.fire({
             title: '¿Estás seguro de eliminar el registro?',
             text: 'Esta acción no se puede deshacer.',
             icon: 'warning',
@@ -17,10 +17,13 @@ export const ShowDeleteAlert = (fn:()=> Promise<void>) => { //pasamos la funcion
             if (result.isConfirmed) {
                 try {
                     await fn(); // Espera a que la función asíncrona termine
+                    return true;
                 } catch (e) {
                     console.error('Error al eliminar:', e);
                     Swal.fire('Error', 'No se pudo eliminar el elemento.', 'error');
+                    return false;
                 }
             }
+            return false;
         })
     }

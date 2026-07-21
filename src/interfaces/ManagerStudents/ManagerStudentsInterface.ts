@@ -33,7 +33,7 @@ export interface AssignedStudentDetailResponse {
     studentId: number,
     fullName: string,
     carnet: string,
-    relationType: string,
+    relationType: ParentType,
     emergencyContact: boolean,
     routePhoto: string,
     age: number,
