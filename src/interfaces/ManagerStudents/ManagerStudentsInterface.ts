@@ -1,4 +1,5 @@
 import { ParentType } from "@/enum/ParentType"
+import { StudentSimpleResponse } from "@/interfaces/students/studentInterface"
 
 //crear
 export interface ManagerStudentRequest{
@@ -40,6 +41,13 @@ export interface AssignedStudentDetailResponse {
 }
 
 export interface AssignedStudentsTableRow extends AssignedStudentDetailResponse{
+    actions?: string
+}
+
+//fila de un estudiante encontrado en el buscador, aun no guardado como asociacion
+export interface PendingManagerStudentRow extends StudentSimpleResponse{
+    relationType: ParentType | null,
+    emergencyContact: boolean,
     actions?: string
 }
 

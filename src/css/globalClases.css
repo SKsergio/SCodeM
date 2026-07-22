@@ -358,7 +358,6 @@
     --ms-ring-width: 1px;
     --ms-ring-color: #3b82f6; 
     
-    /* El menú desplegable (la lista de opciones) */
     --ms-dropdown-bg: var(--color-sixth); /* Fondo oscuro del menú */
     --ms-dropdown-border-color: #3f4041;
     
@@ -379,7 +378,6 @@
     --ms-spinner-color: #3b82f6;
 }
 
-/* modal de tablita */
 /* CONTENEDOR PRINCIPAL: Layout de 2 columnas */
 .form_table_container {
     display: flex;
@@ -393,8 +391,6 @@
     color: var(--color-text1);
 }
 
-/*animaciones*/
-/* 1. Estado activo de la animación (duración y tipo de curva) */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
@@ -402,7 +398,6 @@
     max-height: 400px; /* Debe ser un poco mayor al alto real de tus filtros desplegados */
 }
 
-/* 2. Estado inicial (antes de entrar) y estado final (al terminar de salir) */
 .slide-fade-enter-from,
 .slide-fade-leave-to {
     max-height: 0;

@@ -3,7 +3,8 @@
         <table class="table-outline">
             <thead>
                 <tr>
-                    <th v-for="col in columns" :key="String(col.key)">
+                    <th v-for="col in columns" :key="String(col.key)" :class="`col-${String(col.key)}`"
+                        :style="col.width ? { width: col.width } : undefined">
                         {{ col.label }}
                     </th>
                 </tr>
@@ -11,7 +12,8 @@
 
             <tbody>
                 <tr v-for="(row, i) in rows" :key="row.id ?? i">
-                    <td v-for="col in columns" :key="String(col.key)">
+                    <td v-for="col in columns" :key="String(col.key)" :class="`col-${String(col.key)}`"
+                        :style="col.width ? { width: col.width } : undefined">
 
                         <slot :name="`cell-${String(col.key)}`" :row="row" :column="col">
                             {{ row[col.key] }}

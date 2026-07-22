@@ -99,8 +99,14 @@
 
         <!-- manejo de los estudiantes asociados -->
         <slideManagerStudents
+           :pending-students="pendingStudents"
+           :fetch-students="fetchStudentsForSelect"
            @toggle-relation="handleToggleRelation"
-           @delete="handleDelete"></slideManagerStudents>
+           @delete="handleDelete"
+           @add-student="handleAddStudent"
+           @remove-student="handleRemoveStudent"
+           @save-student="handleSaveStudent"
+        ></slideManagerStudents>
     </div> 
 </template>
 
@@ -115,6 +121,8 @@ import { useManagerStudents } from '@/composables/useManagerStudents.js';
 import { ManagerFullResponse } from '@/interfaces/managers/ManagerInterface.js';
 import { AssignedStudentResponse } from '@/interfaces/managers/ManagerInterface.js';
 import slideManagerStudents from './components/slideManagerStudents.vue';
+import { useStudents } from '@/composables/useStudent';
+
 
 // IMPORTAMOS EL SERVICIO DE ESTUDIANTES AQUÍ EN EL PADRE
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
@@ -123,6 +131,8 @@ import { Gender } from '@/enum/GenderEnum';
 import { managerStudentResponseDTO } from '@/interfaces/ManagerStudents/ManagerStudentsInterface.js';
 import { formatDate } from '@/utils/FormatDates';
 import { ParentType } from '@/enum/ParentType';
+import { PendingManagerStudentRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
+import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
 
 const router = useRouter();
 const route = useRoute();
@@ -150,12 +160,15 @@ const managerStudentState = useManagerStudents();
 // Instanciamos el servicio de estudiantes
 const { getDetail } = managerState;
 
+const { getSelects } = useStudents();
+
 provide("managerStudentsContext", managerStudentState);
-const { loading, deleteRecord, updateRecord, fetchByManagerId } = managerStudentState
+const { loading, deleteRecord, updateRecord, createRecord } = managerStudentState
 
 const detailManager = ref<ManagerFullResponse>(getFullManagerData());
 const photoPreview = ref<string>('');
 const prefijo = import.meta.env.VITE_BASE_URL;
+const pendingStudents = ref<PendingManagerStudentRow[]>([]);
 
 const genderLabel = computed(() => {
     if (detailManager.value.gender === Gender.M) return 'Masculino';
@@ -191,6 +204,56 @@ const handleToggleRelation = async (id: number, newRelationType: ParentType, new
         console.error(error);
     }
 }
+
+const handleAddStudent = (student: StudentSimpleResponse) => {
+    const yaPendiente = pendingStudents.value.some(s => s.id === student.id);
+    const yaAsignado = managerStudentState.studentsByManager.value.some(s => s.studentId === student.id);
+
+    if (!yaPendiente && !yaAsignado) {
+        pendingStudents.value.push({
+            ...student,
+            relationType: null,
+            emergencyContact: false,
+        });
+    }
+};
+
+const handleRemoveStudent = (studentId: number) => {
+    pendingStudents.value = pendingStudents.value.filter(s => s.id !== studentId);
+};
+
+const handleSaveStudent = async (row: PendingManagerStudentRow) => {
+    try {
+        if (!row.relationType || !currentManagerId.value) return;
+
+        await createRecord({
+            studentId: row.id,
+            managerId: currentManagerId.value,
+            relationType: row.relationType,
+            emergencyContact: row.emergencyContact,
+        });
+
+        handleRemoveStudent(row.id);
+        await getByManagerId(currentManagerId.value);
+    } catch (error) {
+        console.error("No se pudo asociar al estudiante", error);
+    }
+};
+
+const fetchStudentsForSelect = async (query: string) => {
+    if (!query) return []; 
+    try {
+        const students = await getSelects({ search: query });
+        return students.map(s => ({
+            value: s.id,
+            label: s.fullName,
+            originalData: s
+        }));
+    } catch (e) {
+        console.error("Error buscando alumnos", e);
+        return [];
+    }
+};
 
 const sendData = async () => {
     // const ok = await ShowCreateAlert(()=> handleGenerateEnrollment());
