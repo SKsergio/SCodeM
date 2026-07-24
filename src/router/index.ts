@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { decodeJwt } from '@/utils/jwt'
+import type { JwtPayload } from '@/interfaces/Auth/LoginInterface'
 
 // Importación de vistas del usuario normal
 import DashboarLayaout from '@/views/Users/DashboarLayaout.vue'
@@ -115,11 +117,13 @@ const router = createRouter({
 // ==========================================
 // EL POLICÍA DE LAS RUTAS (Route Guard)
 // ==========================================
-router.beforeEach((to, from, next) => {
-    // Busca si hay un token guardado
-    const isAuthenticated = !!localStorage.getItem('auth_token');
+router.beforeEach((to, _from, next) => {
+    // Busca si hay un token guardado y que no esté vencido
+    const token = localStorage.getItem('auth_token');
+    const claims = token ? decodeJwt<JwtPayload>(token) : null;
+    const isAuthenticated = !!claims && claims.exp * 1000 > Date.now();
 
-    // Si la ruta requiere estar logueado y NO hay token...
+    // Si la ruta requiere estar logueado y NO hay token (o venció)...
     if (to.meta.requiresAuth && !isAuthenticated) {
         // Lo pateamos de vuelta al login
         next({ name: 'Login' });

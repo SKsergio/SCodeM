@@ -15,6 +15,8 @@ const api = ky.create({
             (_request, _options, response) => {
                 if (response.status === 401) {
                     localStorage.removeItem('auth_token');
+                    localStorage.removeItem('auth_user');
+                    localStorage.removeItem('must_change_password');
                     window.location.href = '/login';
                 }
             }

@@ -58,21 +58,9 @@ const changePassword = async () => {
 
     try {
 
-        await fetch(
-            'http://127.0.0.1:8080/api/auth/change-password',
-            {
-                method:'POST',
-
-                headers:{
-                    'Content-Type':'application/json',
-                    Authorization:`Bearer ${localStorage.getItem('auth_token')}`
-                },
-
-                body: JSON.stringify({
-                    newPassword: password.value
-                })
-            }
-        )
+        await httPost('auth/change-password', {
+            newPassword: password.value
+        })
 
         localStorage.setItem(
             'must_change_password',

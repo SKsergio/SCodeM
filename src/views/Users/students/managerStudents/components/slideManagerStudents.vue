@@ -121,7 +121,6 @@
         (e: 'delete', id: number): void,
     }>();
 
-    // --- ESTADO LOCAL DEL MULTISELECT ---
     const alumnoSeleccionadoId = ref(null);
 
     const onStudentSelect = (selectedOption: any, optionObject: any) => {
@@ -144,9 +143,6 @@
         { value: ParentType.HERMANO, label: 'Hermano' }
     ];
 
-    // El dropdown del Multiselect se teletransporta a <body> (append-to-body),
-    // asi que las variables de tema de .custom-select-modal no le llegan por herencia.
-    // Mientras este componente esta montado, le damos las mismas variables a <body>.
     onMounted(() => {
         document.body.classList.add('manager-students-ms-theme');
     });
@@ -201,9 +197,6 @@
 </script>
 
 <style>
-/* Mismos valores que .custom-select-modal (globalClases.css), pero aplicados a
-   body solo mientras este componente vive, para que el dropdown teletransportado
-   con append-to-body herede el theming sin afectar al resto de la app. */
 body.manager-students-ms-theme {
     --ms-bg: var(--color-primary);
     --ms-font-color: #ffffff;

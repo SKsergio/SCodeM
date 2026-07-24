@@ -1,22 +1,23 @@
 import { httPost } from '@/services/api';
-import type { LoginRequest, LoginResponse, AuthUser } from '@/interfaces/Auth/LoginInterface'; 
+import { decodeJwt } from '@/utils/jwt';
+import type { LoginRequest, LoginResponse, JwtPayload, AuthUser } from '@/interfaces/Auth/LoginInterface';
 
 export const useAuth = () => {
-    
+
     const login = async (credentials: LoginRequest): Promise<boolean> => {
         try {
             // Mandamos el email y password, esperamos el token y el user
             const response = await httPost<LoginRequest, LoginResponse>('auth/login', credentials);
-            
+
             if (response.token) {
 
-                // token
+                // token (fuente de verdad para rol/permisos/tenant)
                 localStorage.setItem(
                     'auth_token',
                     response.token
                 );
 
-                // usuario
+                // identidad global (solo id/email, tal como la manda el backend)
                 localStorage.setItem(
                     'auth_user',
                     JSON.stringify(response.user)
@@ -40,21 +41,49 @@ export const useAuth = () => {
     const logout = () => {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
+        localStorage.removeItem('must_change_password');
         window.location.href = '/login';
     };
 
-    const isAuthenticated = (): boolean => {
-        return !!localStorage.getItem('auth_token');
+    // Claims vigentes del token (rol, permisos, tenant). Se leen directo del JWT
+    // para que nunca queden desincronizados de lo que el backend realmente firmó.
+    const getTokenClaims = (): JwtPayload | null => {
+        const token = localStorage.getItem('auth_token');
+        if (!token) return null;
+        return decodeJwt<JwtPayload>(token);
     };
 
-    // Función extra de regalo: para obtener el usuario actual en cualquier componente
+    const isAuthenticated = (): boolean => {
+        const claims = getTokenClaims();
+        if (!claims) return false;
+        return claims.exp * 1000 > Date.now();
+    };
+
+    // Usuario actual = identidad global (id/email) + claims del token (role/permissions/tenantId)
     const getCurrentUser = (): AuthUser | null => {
         const userStr = localStorage.getItem('auth_user');
-        if (userStr) {
-            return JSON.parse(userStr) as AuthUser;
-        }
-        return null;
+        const claims = getTokenClaims();
+        if (!userStr || !claims) return null;
+
+        const globalUser = JSON.parse(userStr);
+
+        return {
+            ...globalUser,
+            role: claims.role,
+            permissions: claims.permissions,
+            tenantId: claims.tenantId
+        };
     };
 
-    return { login, logout, isAuthenticated, getCurrentUser };
+    const hasPermission = (permission: string): boolean => {
+        const claims = getTokenClaims();
+        return !!claims?.permissions.includes(permission);
+    };
+
+    const hasRole = (role: string): boolean => {
+        const claims = getTokenClaims();
+        return claims?.role === role;
+    };
+
+    return { login, logout, isAuthenticated, getCurrentUser, hasPermission, hasRole };
 };
