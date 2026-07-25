@@ -34,7 +34,7 @@ export const useAuth = () => {
             return false;
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
-            throw error; // Lo lanzamos para que el formulario muestre el error
+            throw error;
         }
     };
 
