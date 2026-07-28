@@ -35,6 +35,9 @@
                     </label>
                 </div>
             </div>
+            <div>
+                <h1>Tenants</h1>
+            </div>
             <!-- BOTON LOGOUT -->
                 <button
                     @click="logout"
@@ -62,7 +65,8 @@
     import {menuItems} from '@/utils/Menu' //importando la estructura del menu
     import { MenuItems } from '@/interfaces/templates/MenuInterFace';
     import { useAuth } from '@/composables/useAuth';
-
+    import { useTenants } from '@/composables/useTenant';
+    import { TenantSimpleResponse } from '@/interfaces/templates/TenantInterface.js';
 
 
     //variables and consts
@@ -74,6 +78,10 @@
     const currentUser = getCurrentUser();
     console.log(currentUser);
 
+
+    const tenantsAvailable = ref<TenantSimpleResponse[]>([]);
+    //tenants
+    const {getSelects} = useTenants();
 
     // Emitir eventos al padre
     const emit = defineEmits(['update:isActiveSignal']);
@@ -100,16 +108,19 @@
     };
 
     // Agregar el evento cuando se monta el componente
-   onMounted(() => {
+    onMounted(async() => {
+        console.log("HOLAAAAA");
+        
+        items.value = menuItems.filter(item =>
+            item.roles.includes(currentUser?.role || '')
+        );
 
-       items.value = menuItems.filter(item =>
-           item.roles.includes(currentUser?.role || '')
-       );
-
-       window.addEventListener('resize', updateMenuState);
-
-       updateMenuState();
-   });
+        //obetener todos los tenants
+        tenantsAvailable.value = await getSelects()
+        console.log(tenantsAvailable);
+        window.addEventListener('resize', updateMenuState);
+        updateMenuState();
+    });
 
     // Remover el evento cuando el componente se destruye
     onUnmounted(() => {

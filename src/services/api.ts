@@ -1,4 +1,6 @@
 import ky, { HTTPError } from "ky";
+import { decodeJwt } from "@/utils/jwt";
+import type { JwtPayload } from "@/interfaces/Auth/LoginInterface";
 
 const api = ky.create({
     prefixUrl: 'http://127.0.0.1:8080/api/',
@@ -8,6 +10,13 @@ const api = ky.create({
                 const token = localStorage.getItem('auth_token');
                 if (token) {
                     request.headers.set('Authorization', `Bearer ${token}`);
+
+                    // El tenantId se lee directo del JWT (fuente de verdad),
+                    // no se duplica en localStorage para evitar desincronización.
+                    const claims = decodeJwt<JwtPayload>(token);
+                    if (claims?.tenantId) {
+                        request.headers.set('X-Tenant-ID', String(claims.tenantId));
+                    }
                 }
             }
         ],
