@@ -7,7 +7,7 @@
 
         <!-- cabecera -->
         <HeaderComponent
-            :show-add="canEdit"
+            :show-add="true"
             :title="'Cursos'"
             @open-modal="handleCreate()">
         </HeaderComponent>
@@ -15,7 +15,6 @@
 
         <!-- contendedor -->
         <slideCourse
-            :can-edit="canEdit"
             @edit="handleEdit"
             @delete="handleDelete"
             @toggle-status="handleStatus">
@@ -36,7 +35,6 @@
 
 <script lang="ts" setup>
     import { onMounted, ref, provide } from 'vue';
-    import { useAuth } from '@/composables/useAuth';
     import { useCourse } from '@/composables/useCourse';
     import { useCatalogue } from '@/composables/useCatalogue';
     import { useTeachers } from '@/composables/useTeachers';
@@ -58,13 +56,6 @@
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 
     const isModalOpen = ref(false);
-    const { getCurrentUser } = useAuth();
-
-    const currentUser = getCurrentUser();
-
-    const canEdit =
-        currentUser?.role === 'ADMIN' ||
-        currentUser?.role === 'TEACHER';
     const courseState = useCourse();
     const requestCourseData = ref<CourseEditResponse>();
 

@@ -21,3 +21,10 @@ export interface TenantSimpleResponse{
     name:string
     nit:string
 }
+
+export interface userTenantSummaryDTO{
+    tenantId: number,
+    tenantName: string,
+    roleName:string
+}
+   

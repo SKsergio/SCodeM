@@ -7,7 +7,7 @@
 
         <!-- cabecera -->
 <HeaderComponent
-    :show-add="canEdit"
+    :show-add="true"
     :title="'Evaluaciones'"
     @open-modal="handleCreate()">
 </HeaderComponent>
@@ -16,7 +16,6 @@
 
         <!-- contendedor -->
         <slideEvaluations
-            :can-edit="canEdit"
             @edit="handleEdit"
             @delete="handleDelete"
             @toggle-status="handleStatus"
@@ -50,17 +49,9 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
-    import { useAuth } from '@/composables/useAuth';
 
 
     const isModalOpen = ref(false);
-    const { getCurrentUser } = useAuth();
-
-    const currentUser = getCurrentUser();
-
-    const canEdit =
-        currentUser?.role === 'ADMIN' ||
-        currentUser?.role === 'TEACHER';
     const isGradeBookOpen = ref(false);
     const selectedEvaluationId = ref<number | null>(null);
     const evaluationState = useEvaluations();

@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :show-add="canEdit" :title="'Maestros'" @open-modal="handleCreate()">
+        <HeaderComponent :show-add="true" :title="'Maestros'" @open-modal="handleCreate()">
         </HeaderComponent>
 
         <!-- contendedor -->
@@ -27,19 +27,11 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { TeacherEditResponse } from '@/interfaces/Teacher/TeacherInterface';
-    import { useAuth } from '@/composables/useAuth';
 
     const isModalOpen = ref(false);
     const teacherState = useTeachers();
     const requestTeacherData = ref<TeacherEditResponse>();
-    const { getCurrentUser } = useAuth();
 
-    const currentUser = getCurrentUser();
-
-
-
-    const canEdit =
-        currentUser?.role === 'ADMIN';
     // 2. Proveemos ese estado exacto al hijo
     provide("teacherContext", teacherState);
     const { loading, fetchAll, getOntetoEdit, deleteRecord } = teacherState;

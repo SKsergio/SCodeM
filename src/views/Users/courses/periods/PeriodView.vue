@@ -8,7 +8,7 @@
         <!-- cabecera -->
 
         <HeaderComponent
-            :show-add="canEdit"
+            :show-add="true"
             :title="'Periodos'"
             @open-modal="handleCreate()">
         </HeaderComponent>
@@ -16,7 +16,6 @@
 
         <!-- contendedor -->
                 <slidePeriods
-                    :can-edit="canEdit"
                     @edit="handleEdit"
                     @delete="handleDelete"
                     @toggle-status="handleStatus">
@@ -29,7 +28,6 @@
 
 <script lang="ts" setup>
 import { onMounted, provide, ref } from 'vue';
-import { useAuth } from '@/composables/useAuth';
 import slidePeriods from './components/slidePeriods.vue';
 import modalCrearEditar from './components/modalCrearEditar.vue';
 import { usePeriod } from '@/composables/usePeriod';
@@ -43,13 +41,6 @@ import { StatusEnum } from '@/enum/StatusEnum';
 import { statusRequest } from '@/interfaces/StatusRequest';
 
 const isModalOpen = ref(false);
-const { getCurrentUser } = useAuth();
-
-    const currentUser = getCurrentUser();
-
-    const canEdit =
-        currentUser?.role === 'ADMIN' ||
-        currentUser?.role === 'TEACHER';
 const periodState = usePeriod();
 const requestPeriodData = ref<PeriodResponse>();
 

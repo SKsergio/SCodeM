@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :show-add="canEdit" :title="'Grados Especificos'" @open-modal="handleCreate"></HeaderComponent>
+        <HeaderComponent :show-add="true" :title="'Grados Especificos'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
         <slideSpecificDegree @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideSpecificDegree>
@@ -40,14 +40,6 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
-    import { useAuth } from '@/composables/useAuth';
-    
-    const { getCurrentUser } = useAuth();
-    const currentUser = getCurrentUser();
-
-    const canEdit =
-    currentUser?.role === 'ADMIN' ||
-    currentUser?.role === 'TEACHER';
 
     const isModalOpen = ref(false);
     const degreeDetailState = useDegreeDetail();

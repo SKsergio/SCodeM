@@ -10,13 +10,6 @@ const api = ky.create({
                 const token = localStorage.getItem('auth_token');
                 if (token) {
                     request.headers.set('Authorization', `Bearer ${token}`);
-
-                    // El tenantId se lee directo del JWT (fuente de verdad),
-                    // no se duplica en localStorage para evitar desincronización.
-                    const claims = decodeJwt<JwtPayload>(token);
-                    if (claims?.tenantId) {
-                        request.headers.set('X-Tenant-ID', String(claims.tenantId));
-                    }
                 }
             }
         ],

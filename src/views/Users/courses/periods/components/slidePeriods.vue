@@ -19,9 +19,7 @@
 
                     <template #cell-actions="{ row }">
 
-                        <div
-                            class="actions"
-                            v-if="props.canEdit">
+                        <div class="actions">
 
                             <button @click="editRow(row)">
                                 Update
@@ -75,9 +73,6 @@
         pagination,
         fetchAll
     } = inject('periodContext') as ReturnType<typeof usePeriod>;
-    const props = defineProps<{
-        canEdit: boolean
-    }>();
 
     //VARIABLES
     const showFilters = ref(false);

@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :show-add="canEdit" :title="'Encargados'" @open-modal="handleCreate()">
+        <HeaderComponent :show-add="true" :title="'Encargados'" @open-modal="handleCreate()">
         </HeaderComponent>
 
         <!-- contendedor -->
@@ -28,20 +28,12 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { ManagerEditResponse, ManagerFullResponse } from '@/interfaces/managers/ManagerInterface';
-    import { useAuth } from '@/composables/useAuth';
 
     const isModalOpen = ref(false);
     const managerState = useManagers();
     const requestManagerData = ref<ManagerEditResponse>();
     const fullManagerData = ref<ManagerFullResponse>();
-    const { getCurrentUser } = useAuth();
 
-    const currentUser = getCurrentUser();
-
-
-
-    const canEdit =
-        currentUser?.role === 'ADMIN';
     // 2. Proveemos ese estado exacto al hijo
     provide("managerContext", managerState);
     const { loading, fetchAll, getOntetoEdit, deleteRecord, getDetail } = managerState;

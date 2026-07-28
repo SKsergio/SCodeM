@@ -5,7 +5,7 @@
         </div>
         <div>
             <HeaderComponent
-                :show-add="canEdit"
+                :show-add="true"
                 :title="'Evaluations'"
                 @open-modal="handleCreate()">
             </HeaderComponent>
