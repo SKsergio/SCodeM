@@ -26,6 +26,12 @@ const api = ky.create({
     }
 });
 
+// Parsea el body como JSON solo si realmente hay contenido.
+async function parseJsonBody<T>(response: Response): Promise<T> {
+    const text = await response.text();
+    return (text ? JSON.parse(text) : undefined) as T;
+}
+
 //get generic function
 export async function httpGet<T>(endpoint: string): Promise<T> {
     try {
@@ -72,7 +78,7 @@ export async function httpPatch<TReq, TRes>(endpoint: string, data: TReq): Promi
         }
 
         const response = await api.patch(`${endpoint}`, options);
-        return response.json<TRes>();
+        return parseJsonBody<TRes>(response);
     } catch (error) {
         if (error instanceof HTTPError) {
             const backendError = await error.response.json();
@@ -99,7 +105,7 @@ export async function httpPut<TReq, TRes>(endpoint: string, data: TReq): Promise
         }
 
         const response = await api.put(`${endpoint}`, options);
-        return response.json<TRes>();
+        return parseJsonBody<TRes>(response);
     } catch (error) {
         if (error instanceof HTTPError) {
             const backendError = await error.response.json();
@@ -129,7 +135,7 @@ export async function httPost<TReq, TRes>(endpoint: string, data: TReq): Promise
         
 
         const response = await api.post(`${endpoint}`, options);
-        return response.json<TRes>();
+        return parseJsonBody<TRes>(response);
     } catch (error) {
         if (error instanceof HTTPError) {
             const backendError = await error.response.json();

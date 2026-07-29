@@ -60,6 +60,11 @@ export const useAuth = () => {
     };
 
     const switchTenant = async (targetTenantId: number): Promise<boolean> => {
+        // Ya estamos en ese tenant: no tiene sentido pegarle al backend de nuevo.
+        if (targetTenantId === tenantId.value) {
+            return true;
+        }
+
         try {
             const payload = { targetTenantId };
             const response = await httPost<{ targetTenantId: number }, LoginResponse>('auth/switch-tenant', payload);

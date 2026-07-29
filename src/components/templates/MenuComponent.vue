@@ -68,18 +68,16 @@ import { userTenantSummaryDTO } from '@/interfaces/templates/TenantInterface.js'
 import Multiselect from '@vueform/multiselect';
 import '@vueform/multiselect/themes/default.css';
 
-
 //variables and consts
 const sidebar: Ref<HTMLElement | null> = ref(null)//manejando tipos del DOM con ts
 let isActive: Ref<boolean> = ref(false)//tipando un boolenado con vue and ts
 let Sicked: Ref<boolean> = ref(false)
 const items = ref<MenuItems[]>([]) //tipadno el array de los items del Menu
-const { logout, currentUser } = useAuth();
+const { logout, currentUser, switchTenant, currentTenantId, getTenantByUser } = useAuth();
 
 const tenantsAvailable = ref<userTenantSummaryDTO[]>([]);
 //tenants
-const { getTenantByUser } = useAuth();
-const targetTenant = ref<number>;
+const targetTenant: Ref<number> = ref(currentTenantId.value ?? 0);
 
 // Emitir eventos al padre
 const emit = defineEmits(['update:isActiveSignal']);
@@ -92,6 +90,14 @@ const props = defineProps<{
 // chequear los cambios que puedan surgir en el padre
 watch(() => props.isActiveSignal, (newVal: boolean) => {
     isActive.value = newVal
+})
+
+
+//chequear cambio de tenant
+watch(() => targetTenant.value, async (newVal: number) => {
+    if (newVal) {
+        await switchTenant(newVal);
+    }
 })
 
 // Estado del ancho de la ventana
