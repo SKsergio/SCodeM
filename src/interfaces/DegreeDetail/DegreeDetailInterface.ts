@@ -5,7 +5,8 @@ import { TeacherSimpleResponse } from "../Teacher/TeacherInterface"
 //interfaz de request
 export interface DegreeDetailRequest {
     ability: number,
-    year: number,
+    startDate: string;
+    endDate: string;
     degreeId: number | null,
     tutorId: number | null,
     sectionId: number | null
@@ -16,6 +17,8 @@ export interface DegreeDetailResponse{
     id:number,
     ability: number,
     year: number,
+    startDate: string;
+    endDate: string;
     fullName: string,
     status: StatusEnum,
     sectionName: string,
@@ -32,6 +35,8 @@ export interface DegreeDetailFullResponse{
     totalStudents: number,
     availableSlots: number
     year: number,
+    startDate: string;
+    endDate: string;
     section: CatalogueSimpleResponse,
     degree: CatalogueSimpleResponse,
     tutor: TeacherSimpleResponse

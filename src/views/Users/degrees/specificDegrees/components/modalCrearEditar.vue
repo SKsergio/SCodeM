@@ -16,27 +16,31 @@
 
                     <div class="form-group">
                         <label>Section</label>
-                        <Multiselect v-model="newDegreeDetail.sectionId" class="custom-select-modal" :options="props.sections" valueProp="id"
-                            label="name" :searchable="true" placeholder="select a section..." />
+                        <Multiselect v-model="newDegreeDetail.sectionId" class="custom-select-modal"
+                            :options="props.sections" valueProp="id" label="name" :searchable="true"
+                            placeholder="select a section..." />
                     </div>
 
                     <div class="form-group">
                         <label>Tutor in charge</label>
-                        <Multiselect v-model="newDegreeDetail.tutorId" class="custom-select-modal" :options="props.tutors" valueProp="id"
-                            label="fullName" :searchable="true" placeholder="select a tutor..." />
+                        <Multiselect v-model="newDegreeDetail.tutorId" class="custom-select-modal"
+                            :options="props.tutors" valueProp="id" label="fullName" :searchable="true"
+                            placeholder="select a tutor..." />
                     </div>
                 </section>
 
                 <section class="inputs_modal">
                     <div class="input__ct">
                         <label for="ability">Ability</label>
-                        <input class="input_st" type="number" max="50" min="0" id="ability" v-model.number="newDegreeDetail.ability">
+                        <input class="input_st" type="number" max="50" min="0" id="ability"
+                            v-model.number="newDegreeDetail.ability">
                     </div>
 
-                    <div class="input__ct">
+                    <!-- <div class="input__ct">
                         <label for="year">Year</label>
-                        <input class="input_st" type="number" :max="currentYear" min="1900" id="year" v-model.number="newDegreeDetail.year">
-                    </div>
+                        <input class="input_st" type="number" :max="currentYear" min="1900" id="year"
+                            v-model.number="newDegreeDetail.year">
+                    </div> -->
                 </section>
             </div>
 
@@ -71,12 +75,30 @@
                                 <label>Ability</label>
                                 <p>{{ newDegreeDetail.ability }}</p>
                             </div>
-                            <div class="field half">
+
+                            <!-- <div class="field half">
                                 <label>Year</label>
                                 <p>{{ newDegreeDetail.year }}</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
+
+
+                    <section class="inputs_modal">
+                        <div class="input__ct">
+                            <label for="ability">Start Date</label>
+                            <VueDatePicker v-model="newDegreeDetail.startDate" locale="es" format="yyyy-MM-dd"
+                                model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                                auto-apply />
+                        </div>
+
+                        <div class="input__ct">
+                            <label for="year">End Date</label>
+                            <VueDatePicker v-model="newDegreeDetail.endDate" locale="es" format="yyyy-MM-dd"
+                                model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                                auto-apply />
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -95,6 +117,8 @@
 import Multiselect from '@vueform/multiselect';
 import CloseIcon from '~icons/ri/close-large-line'
 import '@vueform/multiselect/themes/default.css';
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
 import { DegreeDetailEditResponse, DegreeDetailRequest } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
@@ -105,7 +129,7 @@ import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import type{ useDegreeDetail } from '@/composables/useDegreeDetail';
+import type { useDegreeDetail } from '@/composables/useDegreeDetail';
 import { ApiError } from '@/interfaces/ApiError';
 
 //inyeccion de funcines
@@ -138,7 +162,8 @@ const show = computed({
 //INICIALIZACIONES
 const getInitialDegreeDetail = (): DegreeDetailRequest => ({
     ability: null as unknown as number,
-    year: 2026,
+    startDate: '',
+    endDate: '',
     degreeId: null,
     tutorId: null,
     sectionId: null
@@ -184,7 +209,7 @@ const validateForm = (): string | null => {
     if (!newDegreeDetail.value.tutorId) {
         return 'Selecciona un tutor'
     }
-    
+
     // Validar que ability no esté vacío y no sea mayor a 50
     if (newDegreeDetail.value.ability === null || newDegreeDetail.value.ability === undefined) {
         return 'La capacidad es requerida'
@@ -195,23 +220,23 @@ const validateForm = (): string | null => {
     if (newDegreeDetail.value.ability < 0) {
         return 'La capacidad no puede ser menor a 0'
     }
-    
+
     // Validar que year no esté vacío y no sea mayor al año actual
-    if (!newDegreeDetail.value.year) {
-        return 'El año es requerido'
-    }
-    if (newDegreeDetail.value.year > currentYear.value) {
-        return `El año no puede ser mayor al año actual (${currentYear.value})`
-    }
-    if (newDegreeDetail.value.year < 1900) {
-        return 'El año no puede ser menor a 1900'
-    }
-    
+    // if (!newDegreeDetail.value.year) {
+    //     return 'El año es requerido'
+    // }
+    // if (newDegreeDetail.value.year > currentYear.value) {
+    //     return `El año no puede ser mayor al año actual (${currentYear.value})`
+    // }
+    // if (newDegreeDetail.value.year < 1900) {
+    //     return 'El año no puede ser menor a 1900'
+    // }
+
     return null
 }
 
 const saveData = async () => {
-     try {
+    try {
         if (props.degreeDetail?.id) {
             await updateRecord(props.degreeDetail.id, newDegreeDetail.value)
         } else {
@@ -225,7 +250,7 @@ const saveData = async () => {
 
 const sendData = async () => {
     const validationError = validateForm()
-    
+
     if (validationError) {
         const errorObj: ApiError = {
             status: 400,
@@ -234,7 +259,7 @@ const sendData = async () => {
         ErrorAlert(errorObj)
         return
     }
-    
+
     const ok = await ShowCreateAlert(saveData)
 
     if (ok) {
@@ -276,7 +301,7 @@ const getTutorName = (id: number | null) => {
 </script>
 
 <style scoped>
-.inputs_modal{
+.inputs_modal {
     display: flex;
     flex-direction: row;
     justify-content: center;
