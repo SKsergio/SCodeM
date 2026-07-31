@@ -6,7 +6,7 @@
         </div>
 
         <!-- cabecera -->
-        <HeaderComponent :show-add="true" :title="'Grados Especificos'" @open-modal="handleCreate"></HeaderComponent>
+        <HeaderComponent :show-add="true" :title="'Ciclos Academicos'" @open-modal="handleCreate"></HeaderComponent>
 
         <!-- contendedor -->
         <slideSpecificDegree @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus"></slideSpecificDegree>

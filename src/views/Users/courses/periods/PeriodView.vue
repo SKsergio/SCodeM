@@ -59,8 +59,6 @@ const handleEdit = async (id: number) => {
     try {
         const data = await getDetail(id);
         requestPeriodData.value = data;
-        console.log(requestPeriodData.value);
-
         isModalOpen.value = true;
     } catch (error) {
         console.error("No se pudo cargar la información para editar");

@@ -31,16 +31,26 @@
 
                 <section class="inputs_modal">
                     <div class="input__ct">
+                        <label for="ability">Start Date</label>
+                        <VueDatePicker v-model="newDegreeDetail.startDate" locale="es" format="yyyy-MM-dd"
+                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                            auto-apply />
+                    </div>
+
+                    <div class="input__ct">
+                        <label for="year">End Date</label>
+                        <VueDatePicker v-model="newDegreeDetail.endDate" locale="es" format="yyyy-MM-dd"
+                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                            auto-apply />
+                    </div>
+                </section>
+
+                <section class="inputs_modal">
+                    <div class="input__ct">
                         <label for="ability">Ability</label>
                         <input class="input_st" type="number" max="50" min="0" id="ability"
                             v-model.number="newDegreeDetail.ability">
                     </div>
-
-                    <!-- <div class="input__ct">
-                        <label for="year">Year</label>
-                        <input class="input_st" type="number" :max="currentYear" min="1900" id="year"
-                            v-model.number="newDegreeDetail.year">
-                    </div> -->
                 </section>
             </div>
 
@@ -72,33 +82,25 @@
                     <div class="field-group">
                         <div class="field-row">
                             <div class="field half">
-                                <label>Ability</label>
-                                <p>{{ newDegreeDetail.ability }}</p>
+                                <label>Fecha Inicio</label>
+                                <p>{{ newDegreeDetail.startDate }}</p>
                             </div>
 
-                            <!-- <div class="field half">
-                                <label>Year</label>
-                                <p>{{ newDegreeDetail.year }}</p>
-                            </div> -->
+                            <div class="field half">
+                                <label>Fecha Fin</label>
+                                <p>{{ newDegreeDetail.endDate }}</p>
+                            </div>
                         </div>
                     </div>
 
-
-                    <section class="inputs_modal">
-                        <div class="input__ct">
-                            <label for="ability">Start Date</label>
-                            <VueDatePicker v-model="newDegreeDetail.startDate" locale="es" format="yyyy-MM-dd"
-                                model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
-                                auto-apply />
+                    <div class="field-group">
+                        <div class="field-row">
+                            <div class="field half">
+                                <label>Ability</label>
+                                <p>{{ newDegreeDetail.ability }}</p>
+                            </div>
                         </div>
-
-                        <div class="input__ct">
-                            <label for="year">End Date</label>
-                            <VueDatePicker v-model="newDegreeDetail.endDate" locale="es" format="yyyy-MM-dd"
-                                model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
-                                auto-apply />
-                        </div>
-                    </section>
+                    </div>
                 </div>
             </div>
         </div>

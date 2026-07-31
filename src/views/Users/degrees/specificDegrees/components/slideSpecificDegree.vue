@@ -85,7 +85,8 @@
         { key: 'sectionName', label: 'Section Name' },
         { key: 'tutorName', label: 'Tutor' },
         { key: 'ability', label: 'Ability' },
-        { key: 'year', label: 'year' },
+        { key: 'startDate', label: 'Start Date' },
+        { key: 'endDate', label: 'End Date' },
         { key: 'status', label: 'Status'},
         { key: 'actions', label: 'Actions' }
     ];
