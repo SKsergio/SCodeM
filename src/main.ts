@@ -4,6 +4,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import { createI18n } from 'vue-i18n'
+import { vTooltip } from './directives/vTooltip.js'
 
 //idiomas
 import es from './locals/es.json';
@@ -34,5 +35,6 @@ app
   .use(router)
   .use(i18n)
   .use(pinia)
+  .directive('tooltip', vTooltip)
   .use(VueAwesomePaginate)
   .mount('#app')

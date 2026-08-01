@@ -24,8 +24,15 @@
                     </template>
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
+                            <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
+                                @click="editRow(row)">
+                                <IconPencil />
+                            </button>
+
+                            <button class="btn btn-sm btn-icon btn-soft-danger" v-tooltip="'Eliminar'"
+                                @click="deleteRow(row)">
+                                <IconDelete />
+                            </button>
                         </div>
                     </template>
 
@@ -50,7 +57,8 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
-
+   
+    
     const {
         records,
         pagination,

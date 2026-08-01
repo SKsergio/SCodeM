@@ -18,31 +18,26 @@
                     </template>
 
                     <template #cell-actions="{ row }">
-
                         <div class="actions">
-
-                            <button @click="editRow(row)">
-                                Update
+                            <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
+                                @click="editRow(row)">
+                                <IconPencil />
                             </button>
 
-                            <button @click="deleteRow(row)">
-                                Delete
+                            <button class="btn btn-sm btn-icon btn-soft-danger" v-tooltip="'Eliminar'"
+                                @click="deleteRow(row)">
+                                <IconDelete />
                             </button>
 
-                            <button
-                                v-if="row.status === StatusEnum.OPEN"
+                            <button v-if="row.status === StatusEnum.OPEN" class="btn btn-sm btn-icon btn-soft-warning"
+                                v-tooltip="'Cerrar'" @click="toggleStatus(row)">
+                                <IconLock />
+                            </button>
+                            <button v-else class="btn btn-sm btn-icon btn-soft-success" v-tooltip="'Abrir'"
                                 @click="toggleStatus(row)">
-                                Close
+                                <IconLockUnlock />
                             </button>
-
-                            <button
-                                v-else
-                                @click="toggleStatus(row)">
-                                Open
-                            </button>
-
                         </div>
-
                     </template>
 
                 </TableGridComponent>
@@ -67,7 +62,11 @@
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
-
+    import IconPencil from '~icons/ri/pencil-line';
+    import IconDelete from '~icons/ri/delete-bin-line';
+    import IconLock from '~icons/ri/lock-line';
+    import IconLockUnlock from '~icons/ri/lock-unlock-line';
+    
     const {
         records,
         pagination,
@@ -86,7 +85,7 @@
     const emit = defineEmits<{
         (e: 'edit', id: number): void,
         (e: 'delete', id: number): void,
-        (e: 'toggle-status', id: number, newStatus:StatusEnum): void,
+        (e: 'toggle-status', id: number, newStatus: StatusEnum): void,
         (e: 'view-details', id: number): void
     }>();
 
@@ -112,7 +111,7 @@
     function toggleStatus(record: PeriodTableRow) {
         emit('toggle-status', record.id, record.status)
     }
-    
+
 
     const handleFilters = async (newFilters: Record<string, any>) => {
         pagination.changePage(0);

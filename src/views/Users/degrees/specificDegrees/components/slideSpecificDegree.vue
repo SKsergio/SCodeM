@@ -15,18 +15,30 @@
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow(row)">Update</button>
-                            <button @click="deleteRow(row)">Delete</button>
-                            <button @click="openInscriptions(row)">Inscriptions</button>
+                            <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
+                                @click="editRow(row)">
+                                <IconPencil />
+                            </button>
+
+                            <button class="btn btn-sm btn-icon btn-soft-danger" v-tooltip="'Eliminar'"
+                                @click="deleteRow(row)">
+                                <IconDelete />
+                            </button>
+
+                            <button class="btn btn-sm btn-icon btn-soft-warning" v-tooltip="'Inscripciones'"
+                                @click="openInscriptions(row)">
+                                <RiUserAddLine />
+                            </button>
+
+                            <button v-if="row.status === StatusEnum.OPEN" class="btn btn-sm btn-icon btn-soft-warning"
+                                v-tooltip="'Cerrar'" @click="toggleStatus(row)">
+                                <IconLock />
+                            </button>
+                            <button v-else class="btn btn-sm btn-icon btn-soft-success" v-tooltip="'Abrir'"
+                                @click="toggleStatus(row)">
+                                <IconLockUnlock />
+                            </button>
                         </div>
-
-                         <button v-if="row.status === StatusEnum.OPEN" @click="toggleStatus(row)">
-                                Close
-                            </button>
-
-                            <button v-else @click="toggleStatus(row)">
-                                Open
-                            </button>
                     </template>
 
                 </TableGridComponent>
@@ -51,6 +63,11 @@
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
+    import IconPencil from '~icons/ri/pencil-line';
+    import IconDelete from '~icons/ri/delete-bin-line';
+    import IconLock from '~icons/ri/lock-line';
+    import IconLockUnlock from '~icons/ri/lock-unlock-line';  
+    import RiUserAddLine from '~icons/ri/user-add-line';  
 
     const router = useRouter();
 

@@ -59,6 +59,18 @@
     --color-fourth2: linear-gradient(315deg, #4dc668 14%, #295c86 45%, #8e1e83 82%);
     --background-publications: linear-gradient(315deg, rgba(10, 54, 65, 0.95) 18%, rgba(18, 85, 97, 0.97) 44%, #1d374d 74%);
     --profile-content:linear-gradient(315deg, #174A42 18%, #228171 38%, #2e6158 62%, #0a4038 83%);
+
+
+    /* botones */
+    --btn-primary: #4f46e5;
+    --btn-primary-soft: #eef2ff;
+    --btn-danger: #dc2626;
+    --btn-danger-soft: #fef2f2;
+    --btn-warning: #d97706;
+    --btn-warning-soft: #fffbeb;
+    --btn-success: #16a34a;
+    --btn-success-soft: #f0fdf4;
+    --btn-radius: 6px;
 }
 .dark_mode{
     /* colores */
@@ -111,6 +123,17 @@
     --backgound-input: #111827;
     --border-input: #374151;
     --texto-input: #E5E7EB;
+
+    /* botones */
+    --btn-primary: #4f46e5;
+    --btn-primary-soft: #0B0F1A;
+    --btn-danger: #dc2626;
+    --btn-danger-soft: #0B0F1A;
+    --btn-warning: #d97706;
+    --btn-warning-soft: #0B0F1A;
+    --btn-success: #16a34a;
+    --btn-success-soft: #0B0F1A;
+    --btn-radius: 6px;
 
 }
 

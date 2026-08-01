@@ -24,9 +24,20 @@
                     </template>
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button @click="editRow(row)">Editar</button>
-                            <button @click="deleteRow(row)">ELiminar</button>
-                            <button @click="openCompleteInfo(row)">Complete Info</button>
+                            <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
+                                @click="editRow(row)">
+                                <IconPencil />
+                            </button>
+
+                            <button class="btn btn-sm btn-icon btn-soft-danger" v-tooltip="'Eliminar'"
+                                @click="deleteRow(row)">
+                                <IconDelete />
+                            </button>
+
+                            <button class="btn btn-sm btn-icon btn-soft-success" v-tooltip="'Completar Informacion'"
+                                @click="openCompleteInfo(row)">
+                                <RiInfoCardFill   />
+                            </button>
                         </div>
                     </template>
 
@@ -52,6 +63,9 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import IconPencil from '~icons/ri/pencil-line';
+    import IconDelete from '~icons/ri/delete-bin-line';
+    import RiInfoCardFill  from '~icons/ri/info-card-fill';
 
     const router = useRouter();
 
