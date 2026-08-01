@@ -8,7 +8,7 @@
                 <section class="inputs_modal">
                     <div class="input__ct">
                         <label for="ability">Start Date</label>
-                         <VueDatePicker v-model="newPeriod.startDate" locale="es" format="yyyy-MM-dd"
+                        <VueDatePicker v-model="newPeriod.startDate" locale="es" format="yyyy-MM-dd"
                             model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
                             auto-apply />
                     </div>
@@ -20,6 +20,14 @@
                             auto-apply />
                     </div>
                 </section>
+
+                <div class="form-group">
+                        <label>Degree Detail</label>
+
+                        <Multiselect v-model="newPeriod.gradeDetailId" :options="props.degreeDetail" valueProp="id"
+                            label="fullName" class="custom-select-modal" :searchable="true" placeholder="select a specific degree..."
+                            noOptionsText="The list is empty" noResultsText="No results found" />
+                    </div>
             </div>
 
             <div class="previsualizar box_panel">
@@ -39,6 +47,12 @@
                                 <p>{{ newPeriod.endDate }}</p>
                             </div>
                         </div>
+                        <div class="field-row">
+                            <div class="field half">
+                                <label>Degree Detail</label>
+                                <p>{{ getDegreeDetailName(newPeriod.gradeDetailId) }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,19 +69,22 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref, watch } from 'vue';
+import Multiselect from '@vueform/multiselect';
+import '@vueform/multiselect/themes/default.css';
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import CloseIcon from '~icons/ri/close-large-line'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import { PeriodRequest, PeriodResponse } from '@/interfaces/Period/periodInterface';
+import { PeriodEditResponse, PeriodRequest, PeriodResponse } from '@/interfaces/Period/periodInterface';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import type{ usePeriod } from '@/composables/usePeriod';
+import type { usePeriod } from '@/composables/usePeriod';
 
 import { ApiError } from '@/interfaces/ApiError';
+import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
 
 //inyeccion de funcines
 const {
@@ -78,7 +95,8 @@ const {
 //PROPS Y EMITS
 const props = defineProps<{
     modelValue: boolean
-    period?: PeriodResponse | null
+    period?: PeriodEditResponse | null,
+    degreeDetail?: DegreeDetailSimpleResponse[]
 }>();
 
 const emit = defineEmits<{
@@ -96,12 +114,24 @@ const show = computed({
 const getInitialPeriod = (): PeriodRequest => ({
     startDate: "",
     endDate: "",
+    gradeDetailId: 0,
 })
 const newPeriod = ref<PeriodRequest>(getInitialPeriod());
 
 const clean_form = () => {
     newPeriod.value = getInitialPeriod()
 }
+
+const getDegreeDetailName = (id: number | null) => {
+    if (!id) return
+    let degreeCurrent = props.degreeDetail?.find(dg => dg.id === id)
+    if (degreeCurrent) {
+        return degreeCurrent?.fullName
+    } else {
+        return "sin nombre";
+    }
+}
+
 
 watch(
     () => props.modelValue,
@@ -135,12 +165,12 @@ const validateForm = (): string | null => {
     if (!newPeriod.value.endDate) {
         return 'Selecciona una fecha de fin'
     }
-    
+
     return null
 }
 
 const saveData = async () => {
-     try {
+    try {
         if (props.period?.id) {
             await updateRecord(props.period.id, newPeriod.value)
         } else {
@@ -154,7 +184,7 @@ const saveData = async () => {
 
 const sendData = async () => {
     const validationError = validateForm()
-    
+
     if (validationError) {
         const errorObj: ApiError = {
             status: 400,
@@ -163,7 +193,7 @@ const sendData = async () => {
         ErrorAlert(errorObj)
         return
     }
-    
+
     const ok = await ShowCreateAlert(saveData)
 
     if (ok) {
@@ -174,7 +204,7 @@ const sendData = async () => {
 </script>
 
 <style scoped>
-.inputs_modal{
+.inputs_modal {
     display: flex;
     flex-direction: row;
     justify-content: center;

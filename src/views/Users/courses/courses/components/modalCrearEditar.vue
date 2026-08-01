@@ -129,8 +129,6 @@ const props = defineProps<{
     subjects?: CatalogueSimpleResponse[]
 }>();
 
-console.log(props.degreeDetail);
-
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: boolean): void

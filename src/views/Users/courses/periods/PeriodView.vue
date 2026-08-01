@@ -7,22 +7,16 @@
 
         <!-- cabecera -->
 
-        <HeaderComponent
-            :show-add="true"
-            :title="'Periodos'"
-            @open-modal="handleCreate()">
+        <HeaderComponent :show-add="true" :title="'Periodos'" @open-modal="handleCreate()">
         </HeaderComponent>
 
 
         <!-- contendedor -->
-                <slidePeriods
-                    @edit="handleEdit"
-                    @delete="handleDelete"
-                    @toggle-status="handleStatus">
-                </slidePeriods>
+        <slidePeriods @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus">
+        </slidePeriods>
 
         <!-- modal de editar y crear -->
-        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :period="requestPeriodData"></modalCrearEditar>
+        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :degree-detail="degreeSpecificList" :period="requestPeriodData"></modalCrearEditar>
     </div>
 </template>
 
@@ -34,19 +28,27 @@ import { usePeriod } from '@/composables/usePeriod';
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-import { PeriodResponse } from '@/interfaces/Period/periodInterface';
+import { PeriodEditResponse } from '@/interfaces/Period/periodInterface';
 import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
 import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 import { StatusEnum } from '@/enum/StatusEnum';
 import { statusRequest } from '@/interfaces/StatusRequest';
+import { useDegreeDetail } from '@/composables/useDegreeDetail';
+import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+
 
 const isModalOpen = ref(false);
 const periodState = usePeriod();
-const requestPeriodData = ref<PeriodResponse>();
+const requestPeriodData = ref<PeriodEditResponse>();
 
 // 2. Proveemos ese estado exacto al hijo
 provide("periodContext", periodState);
-const { loading, fetchAll, getDetail, deleteRecord, changeStatus } = periodState;
+const { loading, fetchAll, getOntetoEdit, deleteRecord, changeStatus } = periodState;
+
+//servicio de degreeDetail
+const degreeSpecificService = useDegreeDetail();
+const degreeSpecificList = ref<DegreeDetailSimpleResponse[]>([]);
+
 
 const handleCreate = () => {
     requestPeriodData.value = undefined;
@@ -57,8 +59,9 @@ const handleCreate = () => {
 //manejar edicion
 const handleEdit = async (id: number) => {
     try {
-        const data = await getDetail(id);
+        const data = await getOntetoEdit(id);
         requestPeriodData.value = data;
+        console.log(requestPeriodData.value);
         isModalOpen.value = true;
     } catch (error) {
         console.error("No se pudo cargar la información para editar");
@@ -78,18 +81,18 @@ const handleDelete = async (id: number) => {
 
 //manjear abriri y cerrar periodos
 const handleStatus = async (id: number, oldStatus: StatusEnum) => {
-    const statusIntitial =():statusRequest =>({
+    const statusIntitial = (): statusRequest => ({
         newStatus: null as unknown as StatusEnum
     });
 
     if (oldStatus == StatusEnum.OPEN) {
         const newStatus = statusIntitial()
         newStatus.newStatus = StatusEnum.CLOSED
-        CloseRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
-    }else if(oldStatus == StatusEnum.CLOSED){
+        CloseRecordAlert(() => changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+    } else if (oldStatus == StatusEnum.CLOSED) {
         const newStatus = statusIntitial()
         newStatus.newStatus = StatusEnum.OPEN
-        OpenRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+        OpenRecordAlert(() => changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
     }
 }
 
@@ -97,6 +100,11 @@ const handleStatus = async (id: number, oldStatus: StatusEnum) => {
 onMounted(async () => {
     try {
         await fetchAll();
+        const [degreeSpecific] = await Promise.all([
+            degreeSpecificService.getSelects(),
+        ])
+
+        degreeSpecificList.value = degreeSpecific;
     } catch (e) {
         console.error('Falló la carga inicial', e);
     }

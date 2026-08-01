@@ -9,7 +9,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
+import { PeriodEditResponse, PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
 import { StatusEnum } from "@/enum/StatusEnum";
 import { statusRequest } from "@/interfaces/StatusRequest";
 
@@ -97,11 +97,11 @@ export function usePeriod() {
     }
 
     // //obtener para eidcion
-    const getOntetoEdit = async (idRecord: number): Promise<PeriodResponse> => {
+    const getOntetoEdit = async (idRecord: number): Promise<PeriodEditResponse> => {
         loading.value = true;
         try {
             const fullUrl = endpoint + "/edit";
-            const record = await GetOneRecord<PeriodResponse>(fullUrl, idRecord);
+            const record = await GetOneRecord<PeriodEditResponse>(fullUrl, idRecord);
             return record;
         } catch (e) {
             console.error('Error al obtener:', e);
