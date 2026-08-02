@@ -38,8 +38,7 @@ export function usePeriod() {
             pagination.setPaginationData(response.totalElements, response.totalPages);
         } catch (e) {
             error.value = `Error obteniendo datos de ${endpoint}`;
-            //agregar un trowh aca para mostrar una al;erta
-            console.error(e);
+            throw e;
         } finally {
             loading.value = false;
         }
@@ -77,7 +76,7 @@ export function usePeriod() {
         } catch (e) {
             console.error('Error al eliminar:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     };
@@ -106,21 +105,21 @@ export function usePeriod() {
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
-        }finally {
+        } finally {
             loading.value = false;
         }
     }
 
     const getSelects = async (): Promise<PeriodSimpleResponse[]> => {
-            try {
-                const urlFinal = endpoint + "/all"
-                const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
-                return records;
-            } catch (e) {
-                console.error('Error al obtener:', e);
-                throw e;
-            } 
+        try {
+            const urlFinal = endpoint + "/all"
+            const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
         }
+    }
 
     //cambiar estados
     const changeStatus = async (idRecord: number, status: statusRequest): Promise<PeriodResponse> => {

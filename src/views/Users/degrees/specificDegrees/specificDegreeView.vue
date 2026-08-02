@@ -40,6 +40,8 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+    import { ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const degreeDetailState = useDegreeDetail();
@@ -71,6 +73,7 @@
             
             isModalOpen.value = true;
         } catch (error) {
+            ErrorAlert(error as ApiError);
             console.error("No se pudo cargar la información para editar");
             console.error(error);
         }
@@ -81,8 +84,7 @@
         try {
             ShowDeleteAlert(()=>deleteRecord(id));
         } catch (error) {
-            console.error("No se pudo eliminar el grado");
-            console.error(error);
+            ErrorAlert(error as ApiError);
         }
     }
 
@@ -118,7 +120,7 @@
             tutorsList.value = tutors;
 
         } catch (e) {
-            console.error('Falló la carga inicial', e);
+            ErrorAlert(e as ApiError);
         }
     })
 </script>

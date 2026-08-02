@@ -164,7 +164,7 @@
         <section class="btn_section">
             <BtnSaveComponent @save_click="sendData"></BtnSaveComponent>
             <BtnCleanComponent @clean_click="clean_form"></BtnCleanComponent>
-            <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 </template>

@@ -108,7 +108,7 @@
         <section class="btn_section">
             <BtnSaveComponent @save_click="sendData"></BtnSaveComponent>
             <BtnCleanComponent @clean_click="clean_form"></BtnCleanComponent>
-            <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 
@@ -223,16 +223,14 @@ const validateForm = (): string | null => {
         return 'La capacidad no puede ser menor a 0'
     }
 
-    // Validar que year no esté vacío y no sea mayor al año actual
-    // if (!newDegreeDetail.value.year) {
-    //     return 'El año es requerido'
-    // }
-    // if (newDegreeDetail.value.year > currentYear.value) {
-    //     return `El año no puede ser mayor al año actual (${currentYear.value})`
-    // }
-    // if (newDegreeDetail.value.year < 1900) {
-    //     return 'El año no puede ser menor a 1900'
-    // }
+
+    //VALIDAR QUE LAS FECHAS NO ESTEN VACIAS
+    if (!newDegreeDetail.value.startDate) {
+        return 'Selecciona una fecha de inicio'
+    }
+    if (!newDegreeDetail.value.endDate) {
+        return 'Selecciona una fecha de fin'
+    }
 
     return null
 }

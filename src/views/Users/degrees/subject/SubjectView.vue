@@ -36,6 +36,8 @@
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import FiltersComponent from '@/components/generics/FiltersComponent.vue';
     import { degreeFilters } from './filter';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert';
+    import { ApiError } from '@/interfaces/ApiError';
 
     const showFilters = ref(false);
 
@@ -57,8 +59,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar las materias académicas.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar las materias." } as ApiError);
         }
     }
 </script>

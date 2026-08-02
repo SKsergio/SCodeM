@@ -4,11 +4,11 @@
             <Load2Component></Load2Component>
         </div>
         <div>
-            <HeaderComponent
+            <!-- <HeaderComponent
                 :show-add="true"
                 :title="'Evaluations'"
                 @open-modal="handleCreate()">
-            </HeaderComponent>
+            </HeaderComponent> -->
             <div class="conatiner_crud">
                 <SlideComponent :endpoint="endpoint" :store_id="storeId"></SlideComponent>
             </div>
@@ -27,6 +27,8 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
     import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+    import { ApiError } from '@/interfaces/ApiError';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 
     //VARIABLES
     const isModalOpen = ref(false)
@@ -45,8 +47,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar los tipos de evaluaciones académicas.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar los tipos de evaluaciones." } as ApiError);
         }
     }
 </script>

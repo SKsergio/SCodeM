@@ -35,6 +35,8 @@ import { StatusEnum } from '@/enum/StatusEnum';
 import { statusRequest } from '@/interfaces/StatusRequest';
 import { useDegreeDetail } from '@/composables/useDegreeDetail';
 import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+import { ApiError } from '@/interfaces/ApiError.js';
 
 
 const isModalOpen = ref(false);
@@ -64,6 +66,7 @@ const handleEdit = async (id: number) => {
         console.log(requestPeriodData.value);
         isModalOpen.value = true;
     } catch (error) {
+        ErrorAlert(error as ApiError);
         console.error("No se pudo cargar la información para editar");
         console.error(error);
     }
@@ -74,6 +77,7 @@ const handleDelete = async (id: number) => {
     try {
         ShowDeleteAlert(() => deleteRecord(id));
     } catch (error) {
+        ErrorAlert(error as ApiError);
         console.error("No se pudo cargar la información para editar");
         console.error(error);
     }
@@ -106,7 +110,7 @@ onMounted(async () => {
 
         degreeSpecificList.value = degreeSpecific;
     } catch (e) {
-        console.error('Falló la carga inicial', e);
+        ErrorAlert(e as ApiError);
     }
 })
 </script>

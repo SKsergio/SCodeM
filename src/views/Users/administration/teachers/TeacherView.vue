@@ -27,6 +27,8 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { TeacherEditResponse } from '@/interfaces/Teacher/TeacherInterface';
+import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+import { ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const teacherState = useTeachers();
@@ -71,7 +73,7 @@
         try {
             await fetchAll();
         } catch (e) {
-            console.error('Falló la carga inicial', e);
+            ErrorAlert(e as ApiError);
         }
     })
 </script>

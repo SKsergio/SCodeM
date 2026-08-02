@@ -25,6 +25,8 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
     import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+import { ErrorAlert } from '@/components/alerts/ErrorAlert';
+import { ApiError } from '@/interfaces/ApiError';
 
     //VARIABLES
     const isModalOpen = ref(false)
@@ -43,8 +45,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron los tipos de archivos.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar los tipos de archivos." } as ApiError);
         }
     }
 </script>

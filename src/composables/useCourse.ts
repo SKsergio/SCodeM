@@ -38,7 +38,7 @@ export function useCourse() {
             pagination.setPaginationData(response.totalElements, response.totalPages);
         } catch (e) {
             error.value = `Error obteniendo datos de ${endpoint}`;
-            console.error(e);
+            throw e;
         } finally {
             loading.value = false;
         }

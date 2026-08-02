@@ -37,7 +37,8 @@ export function useTeachers() {
             pagination.setPaginationData(response.totalElements, response.totalPages);
         } catch (e) {
             error.value = `Error obteniendo datos de ${endpoint}`;
-            console.error(e);
+            throw new Error("error en carga inicial: "+ e);
+            
         } finally {
             loading.value = false;
         }

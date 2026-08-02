@@ -18,7 +18,7 @@
         </div>
 
         <section class="btn_section">
-            <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 

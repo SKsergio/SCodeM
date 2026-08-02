@@ -67,7 +67,7 @@
 
         <section class="btn_section">
             <BtnSaveComponent @save_click="sendData" v-if="newDetailedEvaluation.status == StatusEnum.OPEN" ></BtnSaveComponent>
-            <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 

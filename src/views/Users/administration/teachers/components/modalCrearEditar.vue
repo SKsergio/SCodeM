@@ -171,7 +171,7 @@
         <section class="btn_section">
             <BtnSaveComponent @save_click="sendData"></BtnSaveComponent>
             <BtnCleanComponent @clean_click="clean_form"></BtnCleanComponent>
-            <BtnCancelComponent @click="closeModal"></BtnCancelComponent>
+            <BtnCancelComponent @cancel_click="closeModal"></BtnCancelComponent>
         </section>
     </BaseModalComponent>
 </template>
@@ -192,6 +192,8 @@
     import type { useTeachers } from '@/composables/useTeachers';
     import Swal from 'sweetalert2';
     import DuiComponent from '@/components/inputs/DuiComponent.vue';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert';
+    import { ApiError } from '@/interfaces/ApiError';
 
     const {
         createRecord,
@@ -292,7 +294,7 @@
         reader.readAsDataURL(file)
     }
 
-    const closeModal = () => {
+    const closeModal = () => {      
         show.value = false
     }
 
@@ -306,7 +308,7 @@
             }
         } catch (error) {
             console.log("ocurrio un error: " + error);
-            throw error;
+            ErrorAlert(error as ApiError);
         }
     }
 

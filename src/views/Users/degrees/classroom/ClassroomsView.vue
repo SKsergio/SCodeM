@@ -25,6 +25,8 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
     import CreateModalComponent from '@/components/modals/CreateModalComponent.vue';
+    import { ApiError } from '@/interfaces/ApiError';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 
 
     //VARIABLES
@@ -44,8 +46,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar los grados académicos.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar los salones de clases." } as ApiError);
         }
     }
 </script>

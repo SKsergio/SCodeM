@@ -38,7 +38,9 @@
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
     import FiltersComponent from '@/components/generics/FiltersComponent.vue';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert';
     import { degreeFilters } from './filters';
+    import { ApiError } from '@/interfaces/ApiError';
 
     //colapsar filtros
     const showFilters = ref(false);
@@ -62,8 +64,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar los grados académicos.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar los grados académicos." } as ApiError);
         }
     }
 

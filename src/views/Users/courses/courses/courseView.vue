@@ -54,6 +54,8 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+    import { ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const courseState = useCourse();
@@ -139,8 +141,7 @@
             subjectList.value = subjects;
 
         } catch (e) {
-            console.error('Falló la carga inicial', e);
-            //argar un swal de error general
+            ErrorAlert(e as ApiError);
         }
     })
 </script>

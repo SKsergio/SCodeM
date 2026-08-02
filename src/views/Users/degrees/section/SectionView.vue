@@ -37,6 +37,8 @@
     import FiltersComponent from '@/components/generics/FiltersComponent.vue';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import { degreeFilters } from './filters';
+import { ErrorAlert } from '@/components/alerts/ErrorAlert';
+import { ApiError } from '@/interfaces/ApiError';
 
 
     const showFilters = ref(false);
@@ -58,8 +60,7 @@
         try {
             await store.fetchAll()
         } catch (error) {
-            console.error("No se pudieron cargar las secciones académicas.");
-            alert("¡Ups! Algo salió mal al obtener los datos.");
+            ErrorAlert({ status: 400, message: "Ocurrió un error al cargar las secciones académicas." } as ApiError);
         }
     }
 </script>

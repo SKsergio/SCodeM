@@ -28,6 +28,8 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { ManagerEditResponse, ManagerFullResponse } from '@/interfaces/managers/ManagerInterface';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+    import { ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const managerState = useManagers();
@@ -72,7 +74,7 @@
         try {
             await fetchAll();
         } catch (e) {
-            console.error('Falló la carga inicial', e);
+            ErrorAlert(e as ApiError);
         }
     })
 </script>

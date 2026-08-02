@@ -32,6 +32,8 @@
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import modalDetailStudents from './components/modalDetailStudents.vue';
     import { StudentEditResponse, StudentFullResponse } from '@/interfaces/students/studentInterface';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+    import { ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const isDetailStudentOpen = ref(false);
@@ -57,8 +59,7 @@
             
             isModalOpen.value = true;
         } catch (error) {
-            console.error("No se pudo cargar la información para editar");
-            console.error(error);
+            ErrorAlert(error as ApiError);
         }
     }
 
@@ -67,8 +68,7 @@
         try {
             ShowDeleteAlert(()=>deleteRecord(id));
         } catch (error) {
-            console.error("No se pudo cargar la información para editar");
-            console.error(error);
+            ErrorAlert(error as ApiError);
         }
     }
 
@@ -77,9 +77,8 @@
             const data = await getDetail(id);
             fullStudent.value = data;
             isDetailStudentOpen.value = true;
-        } catch (error) {
-            console.error("No se pudo cargar la información detallada" + error);
-            throw error;
+        } catch (e) {
+            ErrorAlert(e as ApiError);
         }
     }
 
@@ -88,7 +87,7 @@
         try {
             await fetchAll();
         } catch (e) {
-            console.error('Falló la carga inicial', e);
+            ErrorAlert(e as ApiError);
         }
     })
 </script>

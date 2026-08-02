@@ -49,6 +49,8 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
+import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+import { ApiError } from '@/interfaces/ApiError.js';
 
 
     const isModalOpen = ref(false);
@@ -83,6 +85,7 @@
 
             isModalOpen.value = true;
         } catch (error) {
+            ErrorAlert(error as ApiError);
             console.error("No se pudo cargar la información para editar");
             console.error(error);
         }
@@ -93,6 +96,7 @@
         try {
             ShowDeleteAlert(() => deleteRecord(id));
         } catch (error) {
+            ErrorAlert(error as ApiError);
             console.error("No se pudo eliminar el curso");
             console.error(error);
         }
@@ -105,8 +109,8 @@
             selectedEvaluationId.value = id;
             isGradeBookOpen.value = true;
         } catch (error) {
+            ErrorAlert(error as ApiError);
             console.error("No se pudo cargar la información detallada" + error);
-            throw error;
         }
     }
 
@@ -138,8 +142,7 @@
             courseList.value = courses;
 
         } catch (e) {
-            console.error('Falló la carga inicial', e);
-            //argar un swal de error general
+            ErrorAlert(e as ApiError);
         }
     })
 </script>
