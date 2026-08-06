@@ -88,7 +88,7 @@
         }
     }
 
-    //manjear abriri y cerrar periodos
+    //manjear abriri y cerrar ciclos academicos
     const handleStatus = async (id: number, oldStatus: StatusEnum) => {
         const statusIntitial =():statusRequest =>({
             newStatus: null as unknown as StatusEnum
@@ -97,11 +97,11 @@
         if (oldStatus == StatusEnum.OPEN) {
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.CLOSED
-            CloseRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Ciclo Académico", "esta accion afectara los cursos asociados")
         }else if(oldStatus == StatusEnum.CLOSED){
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.OPEN
-            OpenRecordAlert(()=>changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+            OpenRecordAlert(()=>changeStatus(id, newStatus), "Ciclo Académico", "esta accion afectara los cursos asociados")
         }
     }
 

@@ -1,14 +1,12 @@
 import { StatusEnum } from "@/enum/StatusEnum"
 import { CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
 import { DegreeDetailSimpleResponse } from "../DegreeDetail/DegreeDetailInterface"
-import { PeriodSimpleResponse } from "../Period/periodInterface"
 import { TeacherSimpleResponse } from "../Teacher/TeacherInterface"
 
 //interfaz de request
 export interface CourseRequest {
     valorityUnity: number,
     gradeDetailId: number | null,
-    periodId: number | null,
     teacherId: number | null,
     subjectId: number | null,
 }
@@ -29,6 +27,7 @@ export interface CourseResoponse{
 
 //interfaz para response simple
 export interface CourseSimpleResponse extends Omit<CourseResoponse, "teacherName, gradeDetailName, subjectName, status, valorityUnity">{
+    gradeDetailId: number | null,
 }
 
 export interface CourseFullResponse{
@@ -38,7 +37,6 @@ export interface CourseFullResponse{
     teacher: TeacherSimpleResponse,
     gradeDetail: DegreeDetailSimpleResponse,
     subject: CatalogueSimpleResponse,
-    period: PeriodSimpleResponse,
     totalStudents: number,
     availableSlots: number
     status: StatusEnum,
@@ -55,7 +53,6 @@ export interface CourseTableRow{
     id:number,
     name: string,
     code: string,
-    gradeDetailName: string,
     teacherName: string,
     subjectName: string,
     totalStudents: number,

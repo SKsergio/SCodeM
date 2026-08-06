@@ -10,12 +10,12 @@ import {//importamos las funciones del crud
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { PeriodEditResponse, PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
-import { StatusEnum } from "@/enum/StatusEnum";
 import { statusRequest } from "@/interfaces/StatusRequest";
 
 export function usePeriod() {
     const endpoint = 'catalogue/periods';
     const records = ref<PeriodResponse[]>([]);
+    const periodsByGrade = ref<PeriodSimpleResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
 
@@ -121,6 +121,19 @@ export function usePeriod() {
         }
     }
 
+    //select de periodos para el modal de evaluaciones
+    const getSelectsByGrade = async (gradeId: number): Promise<PeriodSimpleResponse[]> => {
+        try {
+            const urlFinal = endpoint + `/allByGrade/${gradeId}`
+            const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
+            periodsByGrade.value = records;
+            return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
+
     //cambiar estados
     const changeStatus = async (idRecord: number, status: statusRequest): Promise<PeriodResponse> => {
         try {
@@ -140,6 +153,7 @@ export function usePeriod() {
 
     return {
         records,
+        periodsByGrade,
         loading,
         error,
         pagination,
@@ -150,6 +164,7 @@ export function usePeriod() {
         deleteRecord,
         getOntetoEdit,
         changeStatus,
-        getSelects
+        getSelects,
+        getSelectsByGrade
     };
 }

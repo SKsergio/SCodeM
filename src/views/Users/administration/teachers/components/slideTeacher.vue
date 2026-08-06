@@ -57,6 +57,8 @@
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
+    import IconPencil from '~icons/ri/pencil-line';
+    import IconDelete from '~icons/ri/delete-bin-line';
    
     
     const {

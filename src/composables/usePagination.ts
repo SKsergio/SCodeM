@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 
-export function usePagination(defaultSize: number = 12) {
+export function usePagination(defaultSize: number = 10) { // cambiar el tamanio de la paginacion
     const page = ref(0);
     const size = ref(defaultSize);
     const totalElements = ref<number>(0);

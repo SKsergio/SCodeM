@@ -5,6 +5,7 @@ export interface EvaluationRequest{
     name: string,
     description: string,
     percentage: number | null,
+    periodId: number | null,
     startDate:string,
     endDate:string,
     courseId: number

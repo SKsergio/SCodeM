@@ -6,12 +6,11 @@
         </div>
 
         <!-- cabecera -->
-<HeaderComponent
-    :show-add="true"
-    :title="'Evaluaciones'"
-    @open-modal="handleCreate()">
-</HeaderComponent>
-
+        <HeaderComponent
+            :show-add="true"
+            :title="'Evaluaciones'"
+            @open-modal="handleCreate()">
+        </HeaderComponent>
 
 
         <!-- contendedor -->
@@ -23,11 +22,16 @@
         </slideEvaluations>
 
 
-        <modalDetailEvaluation :evaluation-id="selectedEvaluationId" v-model="isGradeBookOpen"
-            :evaluation-full="fullEvaluation"></modalDetailEvaluation>
+        <modalDetailEvaluation 
+            :evaluation-id="selectedEvaluationId"
+            v-model="isGradeBookOpen"
+            :evaluation-full="fullEvaluation">
+        </modalDetailEvaluation>
 
         <!-- modal de editar y crear -->
-        <ModalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :evaluation="requestEvaluationData"
+        <ModalCrearEditar v-model="isModalOpen" 
+            @emitido="fetchAll()" 
+            :evaluation="requestEvaluationData"
             :courses="courseList">
         </ModalCrearEditar>
     </div>
@@ -49,8 +53,10 @@
     import { statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
-import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-import { ApiError } from '@/interfaces/ApiError.js';
+    import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
+    import { ApiError } from '@/interfaces/ApiError.js';
+    import { usePeriod } from '@/composables/usePeriod.js';
+
 
 
     const isModalOpen = ref(false);
@@ -62,6 +68,7 @@ import { ApiError } from '@/interfaces/ApiError.js';
 
     //servicios para selects
     const courseService = useCourse();
+
 
     //selects
     const courseList = ref<CourseSimpleResponse[]>([]);
@@ -136,11 +143,9 @@ import { ApiError } from '@/interfaces/ApiError.js';
             await fetchAll();
             const [courses] = await Promise.all([
                 courseService.getSelects(),
-
             ])
 
             courseList.value = courses;
-
         } catch (e) {
             ErrorAlert(e as ApiError);
         }

@@ -95,6 +95,7 @@
         { key: 'id', label: 'ID' },
         { key: 'startDate', label: 'Start Date' },
         { key: 'endDate', label: 'End Date' },
+        { key: 'gradeDetailName', label: 'Grade Detail Name' },
         { key: 'createdAt', label: 'Created At' },
         { key: 'status', label: 'Status' },
         { key: 'actions', label: 'Actions' }

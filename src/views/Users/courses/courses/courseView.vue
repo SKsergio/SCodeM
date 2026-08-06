@@ -26,7 +26,6 @@
             @emitido="fetchAll()" 
             :course="requestCourseData"
             :degree-detail="degreeSpecificList"
-            :periods="periodsList"
             :teachers="teacherList"
             :subjects="subjectList">
         </ModalCrearEditar>
@@ -45,10 +44,8 @@
     import slideCourse from './components/slideCourse.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
-    import { PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
     import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
     import { CourseEditResponse } from '@/interfaces/Course/CourseInterface';
-    import { usePeriod } from '@/composables/usePeriod';
     import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
     import { statusRequest } from '@/interfaces/StatusRequest';
@@ -63,13 +60,11 @@
 
     //servicios para selects
     const degreeSpecificService = useDegreeDetail();
-    const periodService = usePeriod();
     const tutorsService = useTeachers();
     const subjectsService = useCatalogue<CatalogueSimpleResponse>("subjects");
 
     //selects
     const degreeSpecificList = ref<DegreeDetailSimpleResponse[]>([]);
-    const periodsList = ref<PeriodSimpleResponse[]>([]);
     const teacherList = ref<TeacherSimpleResponse[]>([]);
     const subjectList = ref<CatalogueSimpleResponse[]>([]);
 
@@ -128,15 +123,13 @@
     onMounted(async () => {
         try {
             await fetchAll();
-            const [degreeSpecific, periods, teachers, subjects] = await Promise.all([
+            const [degreeSpecific, teachers, subjects] = await Promise.all([
                 degreeSpecificService.getSelects(),
-                periodService.getSelects(),
                 tutorsService.getSelects(),
                 subjectsService.getSelects(),
             ])
 
             degreeSpecificList.value = degreeSpecific;
-            periodsList.value = periods;
             teacherList.value = teachers;
             subjectList.value = subjects;
 

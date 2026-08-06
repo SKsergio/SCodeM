@@ -98,8 +98,7 @@
     const columns: ColumnDefinition<DegreeDetailTableRow>[] = [
         { key: 'id', label: 'ID' },
         { key: 'fullName', label: 'Name' },
-        { key: 'degreeName', label: 'Degree Name' },
-        { key: 'sectionName', label: 'Section Name' },
+        { key: 'code', label: 'Degree Code' },
         { key: 'tutorName', label: 'Tutor' },
         { key: 'ability', label: 'Ability' },
         { key: 'startDate', label: 'Start Date' },

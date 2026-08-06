@@ -14,11 +14,6 @@
                             noOptionsText="The list is empty" noResultsText="No results found" />
                     </div>
 
-                    <div class="form-group">
-                        <label>Period</label>
-                        <Multiselect v-model="newCourse.periodId" class="custom-select-modal" :options="props.periods" valueProp="id"
-                            label="startDate" :searchable="true" placeholder="Select a period..." />
-                    </div>
 
                     <div class="form-group">
                         <label>Teacher</label>
@@ -74,10 +69,6 @@
                                 <label>Unity Value</label>
                                 <p>{{ newCourse.valorityUnity }}</p>
                             </div>
-                            <div class="field half">
-                                <label>Period</label>
-                                <p>{{getPeriodStartDate(newCourse.periodId) }}</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +101,6 @@ import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import { ApiError } from '@/interfaces/ApiError';
 import { CourseEditResponse, CourseRequest } from '@/interfaces/Course/CourseInterface';
-import { PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
 import { useCourse } from '@/composables/useCourse';
 
 //inyeccion de funcines
@@ -124,7 +114,6 @@ const props = defineProps<{
     modelValue: boolean
     course?: CourseEditResponse
     degreeDetail?: DegreeDetailSimpleResponse[]
-    periods?: PeriodSimpleResponse[]
     teachers?: TeacherSimpleResponse[]
     subjects?: CatalogueSimpleResponse[]
 }>();
@@ -145,7 +134,6 @@ const show = computed({
 const getInitialCourse = (): CourseRequest => ({
     valorityUnity: null as unknown as number,
     gradeDetailId: null,
-    periodId: null,
     teacherId: null,
     subjectId: null
 })
@@ -184,16 +172,12 @@ const validateForm = (): string | null => {
     if (!newCourse.value.gradeDetailId) {
         return 'Selcct a degree detail'
     }
-    if (!newCourse.value.periodId) {
-        return 'Select a period'
-    }
     if (!newCourse.value.teacherId) {
         return 'Select a teacher'
     }
     if (!newCourse.value.subjectId) {
         return 'Select a subject'
     }
-    
     // Validar que ability no esté vacío y no sea mayor a 50
     if (newCourse.value.valorityUnity === null || newCourse.value.valorityUnity === undefined) {
         return 'Valority Unity is required'
@@ -263,16 +247,6 @@ const getTeacherName = (id: number | null) => {
     let teacherCurrent = props.teachers?.find(dg => dg.id === id)
     if (teacherCurrent) {
         return teacherCurrent?.fullName
-    } else {
-        return "sin nombre";
-    }
-}
-
-const getPeriodStartDate = (id: number | null) => {
-    if (!id) return
-    let periodCurrent = props.periods?.find(dg => dg.id === id)
-    if (periodCurrent) {
-        return periodCurrent?.startDate
     } else {
         return "sin nombre";
     }

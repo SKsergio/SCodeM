@@ -20,6 +20,7 @@ export interface DegreeDetailResponse{
     startDate: string;
     endDate: string;
     fullName: string,
+    code: string,
     status: StatusEnum,
     sectionName: string,
     degreeName: string,
@@ -33,6 +34,7 @@ export interface DegreeDetailFullResponse{
     id:number,
     ability: number,
     totalStudents: number,
+    code: string,
     availableSlots: number
     year: number,
     startDate: string;
@@ -46,6 +48,6 @@ export interface DegreeDetailEditResponse extends DegreeDetailRequest{
     id: number; 
 }
 
-export interface DegreeDetailTableRow extends DegreeDetailResponse{
+export interface DegreeDetailTableRow extends Omit<DegreeDetailResponse, "sectionName, degreeName">{
     actions?: string; 
 }

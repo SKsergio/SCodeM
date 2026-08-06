@@ -6,7 +6,7 @@
         <div class="form_container">
             <div class="form_wrapper">
 
-                <section class="selects_modal box_panel">
+                <section class="names box_panel">
                     <div class="input__ct">
                         <label for="name">Name</label>
                         <input class="input_st" type="text" id="name" v-model="newEvaluation.name">
@@ -19,24 +19,30 @@
                 </section>
 
                 <section class="inputs_modal box_panel ">
-                     <div class=" description_modal">
+                    <div class=" description_modal">
                         <label for="description">Description</label>
                         <input class="input_st" type="text" id="description" v-model="newEvaluation.description">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         <label>Course</label>
 
                         <Multiselect v-model="newEvaluation.courseId" :options="props.courses" valueProp="id"
                             label="name" class="custom-select-modal" :searchable="true" placeholder="select a course..."
                             noOptionsText="The list is empty" noResultsText="No results found" />
                     </div>
-                    
+
+                     <div class="form-group">
+                        <label>Period</label>
+                        <Multiselect v-model="newEvaluation.periodId" class="custom-select-modal" :options="periodsByGrade" valueProp="id"
+                            label="startDate" :searchable="true" placeholder="Select a period..." />
+                    </div>
+
                 </section>
 
                 <section class="box_panel">
                     <div class="input__ct">
                         <label for="ability">Start Date</label>
-                         <VueDatePicker v-model="newEvaluation.startDate" locale="es" format="yyyy-MM-dd"
+                        <VueDatePicker v-model="newEvaluation.startDate" locale="es" format="yyyy-MM-dd"
                             model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
                             auto-apply />
                     </div>
@@ -64,12 +70,12 @@
                             </div>
                             <div class="field">
                                 <label>Name</label>
-                                <p>{{ newEvaluation.name }}</p> 
-                            </div> 
+                                <p>{{ newEvaluation.name }}</p>
+                            </div>
                             <div class="field">
                                 <label>Description</label>
-                                <p>{{ newEvaluation.description }}</p> 
-                            </div>                           
+                                <p>{{ newEvaluation.description }}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -91,11 +97,15 @@
                     <div class="divider"></div>
 
                     <div class="field-group">
-                        <div >
+                        <div>
                             <div class="field half">
                                 <label>Available Percentage</label>
                                 <p>{{ percentageAvaliable }}%</p>
                             </div>
+                        </div>
+                        <div class="field half">
+                            <label>Period</label>
+                            <p>{{ getPeriodStartDate(newEvaluation.periodId) }}</p>
                         </div>
                     </div>
                 </div>
@@ -130,9 +140,11 @@ import { ApiError } from '@/interfaces/ApiError';
 import { useEvaluations } from '@/composables/useEvaluations';
 import { EvaluationEditResponse, EvaluationRequest } from '@/interfaces/evaluations/EvaluationInterface';
 import { useCourse } from '@/composables/useCourse';
+import { usePeriod } from '@/composables/usePeriod';
 
 //inyeccion de funcines
 const { getPercentage, percentageAvaliable } = useCourse();
+const { getSelectsByGrade, periodsByGrade } = usePeriod();
 
 const {
     createRecord,
@@ -142,9 +154,10 @@ const {
 //PROPS Y EMITS
 const props = defineProps<{
     modelValue: boolean,
-    evaluation?: EvaluationEditResponse
+    evaluation?: EvaluationEditResponse,
     courses?: CourseSimpleResponse[]
 }>();
+
 
 
 const emit = defineEmits<{
@@ -163,6 +176,7 @@ const getInitialEvaluation = (): EvaluationRequest => ({
     name: '',
     description: '',
     percentage: null,
+    periodId: null,
     startDate: '',
     endDate: '',
     courseId: null as unknown as number
@@ -199,6 +213,9 @@ watch(
     (courseId) => {
         if (courseId) {
             findPercentage();
+            findPeriods(courseId);
+        } else {
+            periodsByGrade.value = [];
         }
     }
 )
@@ -211,6 +228,9 @@ const validateForm = (): string | null => {
     // Validar campos requeridos no estén vacíos
     if (!newEvaluation.value.name) {
         return 'The name is required'
+    }
+    if (!newEvaluation.value.periodId) {
+        return 'Select a period'
     }
     if (!newEvaluation.value.description) {
         return 'The description is required'
@@ -226,13 +246,31 @@ const validateForm = (): string | null => {
     }
     return null
 }
+
 const findPercentage = async () => {
     if (newEvaluation.value.courseId) {
         try {
             await getPercentage(newEvaluation.value.courseId);
         } catch (error) {
             console.error('Error al obtener el porcentaje:', error);
+            ErrorAlert(error as ApiError)
         }
+    }
+}
+
+const findPeriods = async (courseId: number) => {
+    const course = props.courses?.find(c => c.id === courseId);
+
+    if (!course?.gradeDetailId) {
+        periodsByGrade.value = [];
+        return;
+    }
+
+    try {
+        await getSelectsByGrade(course.gradeDetailId);
+    } catch (error) {
+        console.error('Error al obtener los periodos:', error);
+        ErrorAlert(error as ApiError)
     }
 }
 
@@ -244,8 +282,7 @@ const saveData = async () => {
             await createRecord(newEvaluation.value)
         }
     } catch (error) {
-        console.log("ocurrio un error: " + error);
-        throw error;
+        ErrorAlert(error as ApiError)
     }
 }
 
@@ -280,13 +317,24 @@ const getCourseName = (id: number | null) => {
     }
 }
 
+const getPeriodStartDate = (id: number | null) => {
+    if (!id) return
+    let periodCurrent = periodsByGrade.value?.find(dg => dg.id === id)
+    if (periodCurrent) {
+        return periodCurrent?.startDate
+    } else {
+        return "sin nombre";
+    }
+}
+
 </script>
 
 <style scoped>
-.inputs_modal{
+.inputs_modal {
     flex-direction: column;
 }
-.description_modal{
+
+.description_modal {
     width: 100%;
 }
 </style>
