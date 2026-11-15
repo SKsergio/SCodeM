@@ -282,7 +282,7 @@ const saveData = async () => {
             await createRecord(newEvaluation.value)
         }
     } catch (error) {
-        ErrorAlert(error as ApiError)
+        throw error
     }
 }
 
@@ -298,12 +298,19 @@ const sendData = async () => {
         return
     }
 
-    const ok = await ShowCreateAlert(saveData)
+    try {
+        const ok = await ShowCreateAlert(saveData)
 
-    if (ok) {
-        closeModal()
-        emit('emitido', true)
+
+        if (ok) {
+            closeModal()
+            emit('emitido', true)
+        }
+    } catch (error) {
+        ErrorAlert(error as ApiError)
     }
+
+
 }
 
 //obtener los nombres por id
