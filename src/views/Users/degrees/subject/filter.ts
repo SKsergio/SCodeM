@@ -1,4 +1,4 @@
-import { FilterConfig } from "@/interfaces/templates/FilterInterface"
+import { type FilterConfig } from "@/interfaces/templates/FilterInterface"
 export const degreeFilters: FilterConfig[] = [
     // {
     //     type: 'search',

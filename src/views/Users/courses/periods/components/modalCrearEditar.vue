@@ -75,7 +75,7 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import CloseIcon from '~icons/ri/close-large-line'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import { PeriodEditResponse, PeriodRequest, PeriodResponse } from '@/interfaces/Period/periodInterface';
+import { type PeriodEditResponse, type PeriodRequest, type PeriodResponse } from '@/interfaces/Period/periodInterface';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
@@ -83,8 +83,8 @@ import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import type { usePeriod } from '@/composables/usePeriod';
 
-import { ApiError } from '@/interfaces/ApiError';
-import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { type ApiError } from '@/interfaces/ApiError';
+import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
 
 //inyeccion de funcines
 const {

@@ -67,13 +67,13 @@
     import { ref, inject } from 'vue';
     import Multiselect from '@vueform/multiselect';
     import type { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { EnrollmentDegreeTableRow } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type EnrollmentDegreeTableRow } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import { StatusEnum } from '@/enum/StatusEnum';
-    import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
-    import { StudentTableRow } from '@/interfaces/students/studentInterface';
+    import { type StudentSimpleResponse } from '@/interfaces/students/studentInterface';
+    import { type StudentTableRow } from '@/interfaces/students/studentInterface';
 
     const prefijo = import.meta.env.VITE_BASE_URL;
 

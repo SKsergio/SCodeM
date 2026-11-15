@@ -1,6 +1,6 @@
 import { StatusEnum } from "@/enum/StatusEnum"
-import { CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
-import { TeacherSimpleResponse } from "../Teacher/TeacherInterface"
+import { type CatalogueSimpleResponse } from "../Catalogues/CataloguesInterface"
+import { type TeacherSimpleResponse } from "../Teacher/TeacherInterface"
 
 //interfaz de request
 export interface DegreeDetailRequest {

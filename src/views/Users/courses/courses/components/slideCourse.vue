@@ -56,14 +56,14 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import { useRouter } from 'vue-router';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import type { useCourse } from '@/composables/useCourse';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
-    import { CourseTableRow } from '@/interfaces/Course/CourseInterface';
+    import { type CourseTableRow } from '@/interfaces/Course/CourseInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
     import IconPencil from '~icons/ri/pencil-line';
     import IconDelete from '~icons/ri/delete-bin-line';

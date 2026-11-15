@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropsDui } from '@/interfaces/templates/DuiComponentInterface';
+import { type PropsDui } from '@/interfaces/templates/DuiComponentInterface';
 
 const props = withDefaults(defineProps < PropsDui > (), {
     modelValue: '',

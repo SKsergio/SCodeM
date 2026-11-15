@@ -9,7 +9,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { TeacherRequest, TeacherFullResponse, TeacherResponse, TeacherSimpleResponse, TeacherEditResponse } from "@/interfaces/Teacher/TeacherInterface";
+import { type TeacherRequest, type TeacherFullResponse, type TeacherResponse, type TeacherSimpleResponse, type TeacherEditResponse } from "@/interfaces/Teacher/TeacherInterface";
 import { buildFormData } from "@/utils/buildFormData";
 
 export function useTeachers() {

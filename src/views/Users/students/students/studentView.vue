@@ -31,9 +31,9 @@
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import modalDetailStudents from './components/modalDetailStudents.vue';
-    import { StudentEditResponse, StudentFullResponse } from '@/interfaces/students/studentInterface';
+    import { type StudentEditResponse, type StudentFullResponse } from '@/interfaces/students/studentInterface';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-    import { ApiError } from '@/interfaces/ApiError.js';
+    import { type ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const isDetailStudentOpen = ref(false);

@@ -57,14 +57,14 @@
 </template>
 
 <script setup lang="ts">
-import { watch, ref, Ref, onUnmounted, onMounted } from 'vue'; //importando componentes de vue
+import { watch, ref, type Ref, onUnmounted, onMounted } from 'vue'; //importando componentes de vue
 import MoonIcon from '~icons/ri/moon-fill'
 import logoComponent from '../generics/logoComponent.vue'; //importando el logo
 import OptionMenuComponent from '../buttons/OptionMenuComponent.vue'; //importando el componente de items del Menu
 import { menuItems } from '@/utils/Menu' //importando la estructura del menu
-import { MenuItems } from '@/interfaces/templates/MenuInterFace';
+import { type MenuItems } from '@/interfaces/templates/MenuInterFace';
 import { useAuth } from '@/composables/useAuth';
-import { userTenantSummaryDTO } from '@/interfaces/templates/TenantInterface.js';
+import { type userTenantSummaryDTO } from '@/interfaces/templates/TenantInterface.js';
 import Multiselect from '@vueform/multiselect';
 import '@vueform/multiselect/themes/default.css';
 

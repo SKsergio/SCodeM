@@ -1,4 +1,4 @@
-import { InstitutionarPersonInterface } from "../InstitutionalPerson";
+import { type InstitutionarPersonInterface } from "../InstitutionalPerson";
 
 //interfaz para request
 export interface ManagerRequest extends Omit<InstitutionarPersonInterface, 'id'>{

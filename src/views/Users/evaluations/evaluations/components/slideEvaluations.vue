@@ -56,14 +56,14 @@
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import type { useEvaluations } from '@/composables/useEvaluations';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
     import BtnFilterComponent from '@/components/buttons/BtnFilterComponent.vue';
-    import { EvaluationTableRow } from '@/interfaces/evaluations/EvaluationInterface';
+    import { type EvaluationTableRow } from '@/interfaces/evaluations/EvaluationInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
 
     const {

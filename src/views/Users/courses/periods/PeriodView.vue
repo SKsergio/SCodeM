@@ -28,15 +28,15 @@ import { usePeriod } from '@/composables/usePeriod';
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import HeaderComponent from '@/components/templates/HeaderComponent.vue';
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-import { PeriodEditResponse } from '@/interfaces/Period/periodInterface';
+import { type PeriodEditResponse } from '@/interfaces/Period/periodInterface';
 import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
 import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 import { StatusEnum } from '@/enum/StatusEnum';
-import { statusRequest } from '@/interfaces/StatusRequest';
+import { type statusRequest } from '@/interfaces/StatusRequest';
 import { useDegreeDetail } from '@/composables/useDegreeDetail';
-import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-import { ApiError } from '@/interfaces/ApiError.js';
+import { type ApiError } from '@/interfaces/ApiError.js';
 
 
 const isModalOpen = ref(false);

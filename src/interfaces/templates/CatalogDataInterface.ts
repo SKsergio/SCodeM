@@ -1,4 +1,4 @@
-import { AbstractCatalog } from './../Catalogues/CataloguesInterface';
+import { type AbstractCatalog } from './../Catalogues/CataloguesInterface';
 //interface to metaData
 export interface CatalogMetaData<T = AbstractCatalog>{
     title: string;

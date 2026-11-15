@@ -9,7 +9,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { ManagerRequest, ManagerFullResponse, ManagerResponse, ManagerEditResponse, ManagerSimpleResponse } from "@/interfaces/managers/ManagerInterface";
+import { type ManagerRequest, type ManagerFullResponse, type ManagerResponse, type ManagerEditResponse, type ManagerSimpleResponse } from "@/interfaces/managers/ManagerInterface";
 import { buildFormData } from "@/utils/buildFormData";
 
 export function useManagers() {

@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-    import { MenuItems } from '@/interfaces/templates/MenuInterFace';
-    import { ref, Ref } from 'vue';
+    import { type MenuItems } from '@/interfaces/templates/MenuInterFace';
+    import { ref, type Ref } from 'vue';
 
 
     let open_SubMenu: Ref<boolean> = ref(false);

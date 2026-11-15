@@ -87,11 +87,11 @@ import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import { ApiError } from '@/interfaces/ApiError';
-import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-import { BatchEvaluationRequestDTO, EvaluationGradebookTableRow, studentGradeRequest } from '@/interfaces/EvaluationDetail/evaluationDetailInterface';
-import { EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
-import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+import { type ApiError } from '@/interfaces/ApiError';
+import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+import { type BatchEvaluationRequestDTO, type EvaluationGradebookTableRow, type studentGradeRequest } from '@/interfaces/EvaluationDetail/evaluationDetailInterface';
+import { type EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
+import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
 import { StatusEnum } from '@/enum/StatusEnum';
 
 

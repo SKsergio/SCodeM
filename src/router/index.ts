@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { decodeJwt } from '@/utils/jwt'
 import type { JwtPayload } from '@/interfaces/Auth/LoginInterface'
 

@@ -9,8 +9,8 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { PeriodEditResponse, PeriodRequest, PeriodResponse, PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
-import { statusRequest } from "@/interfaces/StatusRequest";
+import { type PeriodEditResponse, type PeriodRequest, type PeriodResponse, type PeriodSimpleResponse } from "@/interfaces/Period/periodInterface";
+import { type statusRequest } from "@/interfaces/StatusRequest";
 
 export function usePeriod() {
     const endpoint = 'catalogue/periods';

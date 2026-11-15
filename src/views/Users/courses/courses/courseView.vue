@@ -43,16 +43,16 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import slideCourse from './components/slideCourse.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
-    import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { CourseEditResponse } from '@/interfaces/Course/CourseInterface';
-    import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { type CourseEditResponse } from '@/interfaces/Course/CourseInterface';
+    import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
-    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { type statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-    import { ApiError } from '@/interfaces/ApiError.js';
+    import { type ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const courseState = useCourse();

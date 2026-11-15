@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Ref, ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { httpPut } from '@/services/api';
 
 export function useEditRecordStore<T>(){
@@ -17,7 +17,7 @@ export function useEditRecordStore<T>(){
 
         async function updateRecord(id:number, updateData:Partial<T>, url:string){
             try {
-                const response = await httpPut(url,updateData, id)
+                const response = await httpPut(url,updateData)
                 console.log(response);
             } catch (error) {
                 console.log(error)

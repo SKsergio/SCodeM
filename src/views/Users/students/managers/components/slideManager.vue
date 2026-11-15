@@ -55,8 +55,8 @@
     import { ref, inject } from 'vue';
     import { formatDate } from '@/utils/FormatDates';
     import { useRouter } from 'vue-router';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { ManagerTableRow } from '@/interfaces/managers/ManagerInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type ManagerTableRow } from '@/interfaces/managers/ManagerInterface';
     import type { useManagers } from '@/composables/useManagers';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';

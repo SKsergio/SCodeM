@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 export function usePagination(defaultSize: number = 10) { // cambiar el tamanio de la paginacion
     const page = ref(0);

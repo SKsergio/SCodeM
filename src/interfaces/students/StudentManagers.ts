@@ -1,4 +1,4 @@
-import { AttachmentInterfaceResponse } from "../Catalogues/FileInterface";
+import { type AttachmentInterfaceResponse } from "../Catalogues/FileInterface";
 
 export interface StudentManagerResponse{
     readonly id:number;

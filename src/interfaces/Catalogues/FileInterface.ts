@@ -1,4 +1,4 @@
-import { TypeFileInterface } from "./CataloguesInterface";
+import { type TypeFileInterface } from "./CataloguesInterface";
 
 export interface AttachmentInterfaceResponse{
     readonly id:number;

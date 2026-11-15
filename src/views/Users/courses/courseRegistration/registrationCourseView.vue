@@ -27,20 +27,19 @@
     import HeaderDetailComponent from '@/components/templates/HeaderDetailComponent.vue';
     import { useRegistrationCourses } from '@/composables/useCourseRegistration';
     import Load2Component from '@/components/loaders/Load2Component.vue';
-    import { DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
-    import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
 
     // IMPORTAMOS EL SERVICIO DE ESTUDIANTES AQUÍ EN EL PADRE
     import { useStudents } from '@/composables/useStudent';
-    import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
+    import { type StudentSimpleResponse } from '@/interfaces/students/studentInterface';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { ShowCreateAlert } from '@/components/alerts/createAlert';
-    import { CourseFullResponse } from '@/interfaces/Course/CourseInterface';
+    import { type CourseFullResponse } from '@/interfaces/Course/CourseInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
-    import { PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
     import { useCourse } from '@/composables/useCourse';
-    import { BatchRegistrationRequestDTO } from '@/interfaces/CourseRegistration/courseRegistrationInterface';
+    import { type BatchRegistrationRequestDTO } from '@/interfaces/CourseRegistration/courseRegistrationInterface';
     import SlideRegistrationCourse from './components/slideRegistrationCourse.vue';
 
     const router = useRouter();
@@ -55,7 +54,6 @@
         teacher: null as unknown as TeacherSimpleResponse,
         gradeDetail: null as unknown as DegreeDetailSimpleResponse,
         subject: null as unknown as CatalogueSimpleResponse,
-        period: null as unknown as PeriodSimpleResponse,
         totalStudents: 0,
         availableSlots: 0,
         status: StatusEnum.OPEN,

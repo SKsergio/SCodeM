@@ -8,7 +8,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { BatchEnrollmentRequestDTO, EnrollmentDegreeFullResponse, EnrollmentDegreeRequest, EnrollmentDegreeResponse, EnrollmentDegreeSimpleResponse } from "@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface";
+import { type BatchEnrollmentRequestDTO, type EnrollmentDegreeFullResponse, type EnrollmentDegreeRequest, type EnrollmentDegreeResponse, type EnrollmentDegreeSimpleResponse } from "@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface";
 
 export function useEnrollmentDegrees() {
     const endpoint = 'core/enrollment-degrees';

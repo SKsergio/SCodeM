@@ -174,7 +174,7 @@
     import CloseIcon from '~icons/ri/close-large-line'
     import VueDatePicker from '@vuepic/vue-datepicker'
     import '@vuepic/vue-datepicker/dist/main.css'
-    import { ManagerEditResponse, ManagerRequest } from '@/interfaces/managers/ManagerInterface';
+    import { type ManagerEditResponse, type ManagerRequest } from '@/interfaces/managers/ManagerInterface';
     import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
     import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
     import { ShowCreateAlert } from '@/components/alerts/createAlert';

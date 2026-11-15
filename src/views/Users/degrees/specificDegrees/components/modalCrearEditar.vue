@@ -122,9 +122,9 @@ import '@vueform/multiselect/themes/default.css';
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-import { DegreeDetailEditResponse, DegreeDetailRequest } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
-import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+import { type DegreeDetailEditResponse, type DegreeDetailRequest } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
 import { computed, inject, ref, watch } from 'vue';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
@@ -132,7 +132,7 @@ import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import type { useDegreeDetail } from '@/composables/useDegreeDetail';
-import { ApiError } from '@/interfaces/ApiError';
+import { type ApiError } from '@/interfaces/ApiError';
 
 //inyeccion de funcines
 const {

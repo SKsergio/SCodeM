@@ -27,9 +27,9 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { ManagerEditResponse, ManagerFullResponse } from '@/interfaces/managers/ManagerInterface';
+    import { type ManagerEditResponse, type ManagerFullResponse } from '@/interfaces/managers/ManagerInterface';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-    import { ApiError } from '@/interfaces/ApiError.js';
+    import { type ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const managerState = useManagers();

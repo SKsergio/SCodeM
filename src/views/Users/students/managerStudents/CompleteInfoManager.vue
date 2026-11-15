@@ -118,8 +118,8 @@ import HeaderDetailComponent from '@/components/templates/HeaderDetailComponent.
 import Load2Component from '@/components/loaders/Load2Component.vue';
 import { useManagers } from '@/composables/useManagers.js';
 import { useManagerStudents } from '@/composables/useManagerStudents.js';
-import { ManagerFullResponse } from '@/interfaces/managers/ManagerInterface.js';
-import { AssignedStudentResponse } from '@/interfaces/managers/ManagerInterface.js';
+import { type ManagerFullResponse } from '@/interfaces/managers/ManagerInterface.js';
+import { type AssignedStudentResponse } from '@/interfaces/managers/ManagerInterface.js';
 import slideManagerStudents from './components/slideManagerStudents.vue';
 import { useStudents } from '@/composables/useStudent';
 
@@ -128,11 +128,11 @@ import { useStudents } from '@/composables/useStudent';
 import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { Gender } from '@/enum/GenderEnum';
-import { managerStudentResponseDTO } from '@/interfaces/ManagerStudents/ManagerStudentsInterface.js';
+import { type managerStudentResponseDTO } from '@/interfaces/ManagerStudents/ManagerStudentsInterface.js';
 import { formatDate } from '@/utils/FormatDates';
 import { ParentType } from '@/enum/ParentType';
-import { PendingManagerStudentRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
-import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
+import { type PendingManagerStudentRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
+import { type StudentSimpleResponse } from '@/interfaces/students/studentInterface';
 
 const router = useRouter();
 const route = useRoute();

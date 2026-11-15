@@ -183,7 +183,7 @@ import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import type { useStudents } from '@/composables/useStudent';
 import Swal from 'sweetalert2';
-import { StudentEditResponse, StudentRequest } from '@/interfaces/students/studentInterface';
+import { type StudentEditResponse, type StudentRequest } from '@/interfaces/students/studentInterface';
 
 const {
     createRecord,

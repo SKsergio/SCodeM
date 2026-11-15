@@ -34,10 +34,10 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import { computed, inject, ref, watch } from 'vue';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
-import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-import { StudentFullResponse } from '@/interfaces/students/studentInterface';
+import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+import { type StudentFullResponse } from '@/interfaces/students/studentInterface';
 import { Gender } from '@/enum/GenderEnum';
-import { ReportCardTableRow } from '@/interfaces/students/AcademicReportInterface';
+import { type ReportCardTableRow } from '@/interfaces/students/AcademicReportInterface';
 
 
 //PROPS Y EMITS

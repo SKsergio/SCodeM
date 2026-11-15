@@ -1,4 +1,4 @@
-import { PaginateResponse } from "@/interfaces/paginateResponse";
+import { type PaginateResponse } from "@/interfaces/paginateResponse";
 import { httpGet, httpDelete, httpPatch, httPost, httpPut } from "../api";
 
 //function to get all records generic

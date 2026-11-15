@@ -2,7 +2,7 @@ import { ref, computed } from 'vue';
 import { httPost } from '@/services/api';
 import { decodeJwt } from '@/utils/jwt';
 import type { LoginRequest, LoginResponse, JwtPayload, AuthUser } from '@/interfaces/Auth/LoginInterface';
-import { userTenantSummaryDTO } from '@/interfaces/templates/TenantInterface';
+import { type userTenantSummaryDTO } from '@/interfaces/templates/TenantInterface';
 import { GetAllRecords } from '@/services/Catalogues/GenericServices';
 
 // ============================================================================

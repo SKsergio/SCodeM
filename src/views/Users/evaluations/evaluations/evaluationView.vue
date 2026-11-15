@@ -45,16 +45,16 @@
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import slideEvaluations from './components/slideEvaluations.vue';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { EvaluationEditResponse, EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
+    import { type EvaluationEditResponse, type EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
     import { useEvaluations } from '@/composables/useEvaluations';
     import modalDetailEvaluation from './components/modalDetailEvaluation.vue';
-    import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+    import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
-    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { type statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-    import { ApiError } from '@/interfaces/ApiError.js';
+    import { type ApiError } from '@/interfaces/ApiError.js';
     import { usePeriod } from '@/composables/usePeriod.js';
 
 

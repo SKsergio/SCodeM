@@ -129,16 +129,16 @@ import '@vueform/multiselect/themes/default.css';
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
 import { computed, inject, ref, watch } from 'vue';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import { ApiError } from '@/interfaces/ApiError';
+import { type ApiError } from '@/interfaces/ApiError';
 import { useEvaluations } from '@/composables/useEvaluations';
-import { EvaluationEditResponse, EvaluationRequest } from '@/interfaces/evaluations/EvaluationInterface';
+import { type EvaluationEditResponse, type EvaluationRequest } from '@/interfaces/evaluations/EvaluationInterface';
 import { useCourse } from '@/composables/useCourse';
 import { usePeriod } from '@/composables/usePeriod';
 

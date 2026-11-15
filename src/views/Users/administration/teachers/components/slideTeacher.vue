@@ -49,8 +49,8 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import { formatDate } from '@/utils/FormatDates';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { TeacherTableRow } from '@/interfaces/Teacher/TeacherInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type TeacherTableRow } from '@/interfaces/Teacher/TeacherInterface';
     import type { useTeachers } from '@/composables/useTeachers';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';

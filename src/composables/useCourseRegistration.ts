@@ -8,7 +8,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { BatchRegistrationRequestDTO, CourseRegistrationFullResponse, CourseRegistrationRequest, CourseRegistrationResponse, CourseRegistrationSimpleResponse } from "@/interfaces/CourseRegistration/courseRegistrationInterface";
+import { type BatchRegistrationRequestDTO, type CourseRegistrationFullResponse, type CourseRegistrationRequest, type CourseRegistrationResponse, type CourseRegistrationSimpleResponse } from "@/interfaces/CourseRegistration/courseRegistrationInterface";
 
 export function useRegistrationCourses() {
     const endpoint = 'core/course-registrations';

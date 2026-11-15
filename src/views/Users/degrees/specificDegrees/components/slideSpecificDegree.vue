@@ -54,8 +54,8 @@
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
     import { useRouter } from 'vue-router';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { DegreeDetailTableRow } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type DegreeDetailTableRow } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import type { useDegreeDetail } from '@/composables/useDegreeDetail';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';

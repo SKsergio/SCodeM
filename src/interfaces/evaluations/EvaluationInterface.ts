@@ -1,5 +1,5 @@
 import { StatusEnum } from "@/enum/StatusEnum"
-import { CourseSimpleResponse } from "../Course/CourseInterface"
+import { type CourseSimpleResponse } from "../Course/CourseInterface"
 
 export interface EvaluationRequest{
     name: string,

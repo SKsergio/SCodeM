@@ -8,7 +8,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { TenantResponse, TenantRequest, TenantSimpleResponse } from "@/interfaces/templates/TenantInterface";
+import { type TenantResponse, type TenantRequest, type TenantSimpleResponse } from "@/interfaces/templates/TenantInterface";
 
 export function useTenants() {
     const endpoint = 'core/tenants';

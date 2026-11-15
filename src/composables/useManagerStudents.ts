@@ -7,7 +7,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { managerStudentResponseDTO, ManagerStudentRequest, ManagerStudentRequestEdit, AssignedStudentDetailResponse } from "@/interfaces/ManagerStudents/ManagerStudentsInterface";
+import { type managerStudentResponseDTO, type ManagerStudentRequest, type ManagerStudentRequestEdit, type AssignedStudentDetailResponse } from "@/interfaces/ManagerStudents/ManagerStudentsInterface";
 
 export function useManagerStudents() {
     const endpoint = 'core/manager-student';

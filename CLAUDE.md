@@ -11,7 +11,8 @@ SCodeM ("notesystem"): a multi-tenant academic management / grades SPA in Vue 3 
 - `npm run dev`: Vite dev server on port 3000, opens the browser. The README says `npm run serve`, but that script does not exist.
 - `npm run build`: production build.
 - `npm run preview`: serve the built output.
-- Type-check: `npx vue-tsc --noEmit`. `vue-tsc` is not in devDependencies, so npx fetches it. Vite itself does not type-check.
+- `npm run type-check`: runs `vue-tsc --noEmit`. Vite itself does not type-check, so run it before considering a change done.
+- `tsconfig.json` extends `@vue/tsconfig` with `verbatimModuleSyntax`: type-only imports must use `import type` / `{ type X }`. `vite.config.ts` is not included in the type check.
 
 There is no test suite and no linter configured.
 

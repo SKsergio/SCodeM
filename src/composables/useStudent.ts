@@ -9,9 +9,9 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { StudentEditResponse, StudentFullResponse, StudentRequest, StudentResponse, StudentSimpleResponse } from "@/interfaces/students/studentInterface";
+import { type StudentEditResponse, type StudentFullResponse, type StudentRequest, type StudentResponse, type StudentSimpleResponse } from "@/interfaces/students/studentInterface";
 import { buildFormData } from "@/utils/buildFormData";
-import { CourseAverageResponse, ReportCardResponse } from "@/interfaces/students/AcademicReportInterface";
+import { type CourseAverageResponse, type ReportCardResponse } from "@/interfaces/students/AcademicReportInterface";
 
 export function useStudents() {
     const endpoint = 'core/students';

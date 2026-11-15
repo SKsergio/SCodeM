@@ -9,8 +9,8 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { DegreeDetailRequest, DegreeDetailResponse, DegreeDetailSimpleResponse, DegreeDetailFullResponse, DegreeDetailEditResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
-import { statusRequest } from "@/interfaces/StatusRequest";
+import { type DegreeDetailRequest, type DegreeDetailResponse, type DegreeDetailSimpleResponse, type DegreeDetailFullResponse, type DegreeDetailEditResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
+import { type statusRequest } from "@/interfaces/StatusRequest";
 
 export function useDegreeDetail() {
     const endpoint = 'core/grade-detail';

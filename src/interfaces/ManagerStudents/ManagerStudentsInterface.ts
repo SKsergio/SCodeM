@@ -1,5 +1,5 @@
 import { ParentType } from "@/enum/ParentType"
-import { StudentSimpleResponse } from "@/interfaces/students/studentInterface"
+import { type StudentSimpleResponse } from "@/interfaces/students/studentInterface"
 
 //crear
 export interface ManagerStudentRequest{

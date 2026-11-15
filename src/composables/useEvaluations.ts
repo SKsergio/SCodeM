@@ -9,8 +9,8 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { EvaluationEditResponse, EvaluationFullResponse, EvaluationRequest, EvaluationResponse, EvaluationSimpleResponse } from "@/interfaces/evaluations/EvaluationInterface";
-import { statusRequest } from "@/interfaces/StatusRequest";
+import { type EvaluationEditResponse, type EvaluationFullResponse, type EvaluationRequest, type EvaluationResponse, type EvaluationSimpleResponse } from "@/interfaces/evaluations/EvaluationInterface";
+import { type statusRequest } from "@/interfaces/StatusRequest";
 
 export function useEvaluations() {
     const endpoint = 'core/evaluations';

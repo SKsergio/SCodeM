@@ -1,5 +1,5 @@
-import { EvaluationResponse } from "../evaluations/EvaluationInterface";
-import { StudentSimpleResponse } from "../students/studentInterface";
+import { type EvaluationResponse } from "../evaluations/EvaluationInterface";
+import { type StudentSimpleResponse } from "../students/studentInterface";
 
 export interface EvaluationDetailRequest {
     evaluationId: number;

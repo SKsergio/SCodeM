@@ -22,8 +22,8 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import BtnSearchComponent from '../buttons/BtnSearchComponent.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { reactive } from 'vue'
-import { FilterConfig } from '@/interfaces/templates/FilterInterface'
-import { FilterType } from '@/interfaces/templates/FilterInterface';
+import { type FilterConfig } from '@/interfaces/templates/FilterInterface'
+import { type FilterType } from '@/interfaces/templates/FilterInterface';
 import selectInputComponent from '../buttons/selectInputComponent.vue'
 
 const componentMap: Record<FilterType, any> = {

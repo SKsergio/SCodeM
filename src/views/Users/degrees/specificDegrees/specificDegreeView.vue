@@ -32,16 +32,16 @@
     import slideSpecificDegree from './components/slideSpecificDegree.vue';
     import { useDegreeDetail } from '@/composables/useDegreeDetail';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
-    import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
-    import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
     import { useTeachers } from '@/composables/useTeachers';
-    import { DegreeDetailEditResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { type DegreeDetailEditResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
     import { StatusEnum } from '@/enum/StatusEnum';
-    import { statusRequest } from '@/interfaces/StatusRequest';
+    import { type statusRequest } from '@/interfaces/StatusRequest';
     import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
     import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
-    import { ApiError } from '@/interfaces/ApiError.js';
+    import { type ApiError } from '@/interfaces/ApiError.js';
 
     const isModalOpen = ref(false);
     const degreeDetailState = useDegreeDetail();

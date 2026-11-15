@@ -31,7 +31,7 @@
 
 </template>
 <script setup lang="ts" generic="T extends { id?: number | string }">
-import { ColumnDefinition } from "@/interfaces/templates/TableInterface";
+import { type ColumnDefinition } from "@/interfaces/templates/TableInterface";
 
 defineProps<{
     rows: T[];

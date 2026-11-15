@@ -182,7 +182,7 @@
     import CloseIcon from '~icons/ri/close-large-line'
     import VueDatePicker from '@vuepic/vue-datepicker'
     import '@vuepic/vue-datepicker/dist/main.css'
-    import { TeacherEditResponse, TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
+    import { type TeacherEditResponse, type TeacherRequest } from '@/interfaces/Teacher/TeacherInterface';
     import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
     import ImageInputComponent from '@/components/inputs/ImageInputComponent.vue';
     import { ShowCreateAlert } from '@/components/alerts/createAlert';
@@ -193,7 +193,7 @@
     import Swal from 'sweetalert2';
     import DuiComponent from '@/components/inputs/DuiComponent.vue';
     import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-    import { ApiError } from '@/interfaces/ApiError';
+    import { type ApiError } from '@/interfaces/ApiError';
 
     const {
         createRecord,

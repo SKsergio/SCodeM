@@ -28,7 +28,7 @@
 <script setup lang="ts">
     import HeaderComponent from '@/components/templates/HeaderComponent.vue';
     import SlideComponent from '@/components/generics/SlideComponent.vue';
-    import { SectionInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
+    import { type SectionInterface } from '@/interfaces/Catalogues/CataloguesInterface';//specific degree interface
     import { useCatalogueStore } from '@/store/CatalogueStore';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { onMounted, ref } from 'vue';
@@ -38,7 +38,7 @@
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import { degreeFilters } from './filters';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import { ApiError } from '@/interfaces/ApiError';
+import { type ApiError } from '@/interfaces/ApiError';
 
 
     const showFilters = ref(false);

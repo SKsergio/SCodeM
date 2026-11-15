@@ -1,5 +1,5 @@
 import { httpGet, httpDelete, httpPatch, httPost } from "../api";
-import { StudentManagerPayload, StudentManagerResponse } from "@/interfaces/students/StudentManagers";
+import { type StudentManagerPayload, type StudentManagerResponse } from "@/interfaces/students/StudentManagers";
 const url = 'students/studentsManagers'
 
 export async function GetAllManagers(): Promise<StudentManagerResponse[]> {

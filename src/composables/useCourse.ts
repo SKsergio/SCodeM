@@ -9,8 +9,8 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { CourseRequest, CourseEditResponse, CourseFullResponse, CourseSimpleResponse, CourseResoponse } from "@/interfaces/Course/CourseInterface";
-import { statusRequest } from "@/interfaces/StatusRequest";
+import { type CourseRequest, type CourseEditResponse, type CourseFullResponse, type CourseSimpleResponse, type CourseResoponse } from "@/interfaces/Course/CourseInterface";
+import { type statusRequest } from "@/interfaces/StatusRequest";
 
 export function useCourse() {
     const endpoint = 'core/courses';

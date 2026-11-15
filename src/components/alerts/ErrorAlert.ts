@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 import { getErrorMessage } from '@/error/getError';
-import { ApiError } from '@/interfaces/ApiError';
+import { type ApiError } from '@/interfaces/ApiError';
 
 
 export const ErrorAlert = (e: ApiError) => { //pasamos la funcion como parametro

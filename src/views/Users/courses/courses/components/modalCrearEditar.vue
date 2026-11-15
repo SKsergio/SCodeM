@@ -90,17 +90,17 @@ import Multiselect from '@vueform/multiselect';
 import CloseIcon from '~icons/ri/close-large-line'
 import '@vueform/multiselect/themes/default.css';
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
-import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-import {DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
-import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+import {type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
 import { computed, inject, ref, watch } from 'vue';
 import BtnCancelComponent from '@/components/buttons/BtnCancelComponent.vue';
 import BtnSaveComponent from '@/components/buttons/BtnSaveComponent.vue';
 import BtnCleanComponent from '@/components/buttons/BtnCleanComponent.vue';
 import { ShowCreateAlert } from '@/components/alerts/createAlert';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert';
-import { ApiError } from '@/interfaces/ApiError';
-import { CourseEditResponse, CourseRequest } from '@/interfaces/Course/CourseInterface';
+import { type ApiError } from '@/interfaces/ApiError';
+import { type CourseEditResponse, type CourseRequest } from '@/interfaces/Course/CourseInterface';
 import { useCourse } from '@/composables/useCourse';
 
 //inyeccion de funcines

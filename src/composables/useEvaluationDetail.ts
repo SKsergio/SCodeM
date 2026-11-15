@@ -7,7 +7,7 @@ import {//importamos las funciones del crud
     GetOneRecord,
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
-import { BatchEvaluationRequestDTO, EvaluationDetailFullResponse, EvaluationDetailRequest, EvaluationDetailResponse, EvaluationGradebook } from "@/interfaces/EvaluationDetail/evaluationDetailInterface";
+import { type BatchEvaluationRequestDTO, type EvaluationDetailFullResponse, type EvaluationDetailRequest, type EvaluationDetailResponse, type EvaluationGradebook } from "@/interfaces/EvaluationDetail/evaluationDetailInterface";
 //interfaces de maestros
 
 export function useEvaluationDetail() {

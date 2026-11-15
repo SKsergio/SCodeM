@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends AbstractCatalog">
-import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+import { type AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
 import CardRecordsComponent from './CardRecordsComponent.vue';
 import { useCatalogueStore } from '@/store/CatalogueStore';
 import { storeToRefs } from 'pinia'

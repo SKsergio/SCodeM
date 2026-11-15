@@ -4,7 +4,7 @@
 
         <form class="form" @submit.prevent="sendForm">
             <section class="input_section" v-for="(field, index) in store.editableFields" :key="index">
-                <InputComponent :field="field" v-model="createRecord[field as keyof typeof createRecord]" />
+                <InputComponent :field="field" v-model="(createRecord as Record<string, unknown>)[field as string]" />
             </section>
 
 
@@ -26,7 +26,7 @@ import { reactive, computed } from 'vue'
 import { useCatalogueStore } from '@/store/CatalogueStore'
 import { InfoMessageAlert } from '../alerts/InfoAlert'
 import { ShowCreateAlert } from '../alerts/createAlert'
-import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface'
+import { type AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface'
 
 const props = defineProps<{
     modelValue: boolean

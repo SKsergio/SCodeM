@@ -1,4 +1,4 @@
-import { MenuItems } from '../interfaces/templates/MenuInterFace';
+import { type MenuItems } from '../interfaces/templates/MenuInterFace';
 
 import IconCap from '~icons/ri/graduation-cap-fill'
 import IdentificationIcon from '~icons/ri/profile-fill'

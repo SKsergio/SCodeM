@@ -9,7 +9,7 @@
             </span>
             <div class="card_content">
                 <div class="inputs__ct" v-for="(field) in fields">
-                    <InputComponent :editable="flag" :field="field" v-model="localRecord[field as keyof typeof localRecord]" />
+                    <InputComponent :editable="flag" :field="field" v-model="(localRecord as Record<string, unknown>)[field as string]" />
                 </div>
                 <h4>Created at: {{ fechaCraacion}}</h4>
 
@@ -30,9 +30,9 @@
     import { ShowUpdateAlert } from '../alerts/UpdateAlert';
     import { InfoMessageAlert } from '../alerts/InfoAlert';
     import { ShowDeleteAlert } from '../alerts/DeleteAlert';
-    import { ref, Ref, computed, reactive} from 'vue';
+    import { ref, type Ref, computed, reactive} from 'vue';
     import { useCatalogueStore } from '@/store/CatalogueStore';
-    import { AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { type AbstractCatalog } from '@/interfaces/Catalogues/CataloguesInterface';
     import BtnDeleteComponent from '../buttons/BtnDeleteComponent.vue';
     import BtnUpdateComponent from '../buttons/BtnUpdateComponent.vue';
     import BtnCancelComponent from '../buttons/BtnCancelComponent.vue';

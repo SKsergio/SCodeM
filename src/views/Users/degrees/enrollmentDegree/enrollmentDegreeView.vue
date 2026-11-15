@@ -28,15 +28,15 @@
     import { useEnrollmentDegrees } from '@/composables/useEnrollmentDegree';
     import Load2Component from '@/components/loaders/Load2Component.vue';
     import { useDegreeDetail } from '@/composables/useDegreeDetail';
-    import { DegreeDetailFullResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
-    import { CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
-    import { TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
+    import { type DegreeDetailFullResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+    import { type CatalogueSimpleResponse } from '@/interfaces/Catalogues/CataloguesInterface';
+    import { type TeacherSimpleResponse } from '@/interfaces/Teacher/TeacherInterface';
     import slideEnrollmentDegree from './components/slideEnrollmentDegree.vue';
 
     // IMPORTAMOS EL SERVICIO DE ESTUDIANTES AQUÍ EN EL PADRE
     import { useStudents } from '@/composables/useStudent';
-    import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
-    import { BatchEnrollmentRequestDTO } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
+    import { type StudentSimpleResponse } from '@/interfaces/students/studentInterface';
+    import { type BatchEnrollmentRequestDTO } from '@/interfaces/EnrollmentDegree/EnrollmentDegreeInterface';
     import { ShowDeleteAlert } from '@/components/alerts/DeleteAlert';
     import { ShowCreateAlert } from '@/components/alerts/createAlert';
 
@@ -49,8 +49,11 @@
         id: null as unknown as number,
         ability: null as unknown as number,
         totalStudents: 0,
+        code: '',
         availableSlots: 0,
         year: 0,
+        startDate: '',
+        endDate: '',
         section: null as unknown as CatalogueSimpleResponse,
         degree: null as unknown as CatalogueSimpleResponse,
         tutor: null as unknown as TeacherSimpleResponse

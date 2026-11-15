@@ -1,5 +1,5 @@
-import { CatalogMetaData } from "@/interfaces/templates/CatalogDataInterface";
-import { AbstractCatalog } from "@/interfaces/Catalogues/CataloguesInterface";
+import { type CatalogMetaData } from "@/interfaces/templates/CatalogDataInterface";
+import { type AbstractCatalog } from "@/interfaces/Catalogues/CataloguesInterface";
 
 
 export function AssambleMetaData <T extends AbstractCatalog>(

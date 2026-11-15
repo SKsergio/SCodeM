@@ -50,8 +50,8 @@
 
 <script lang="ts" setup>
     import { ref, inject } from 'vue';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { StudentTableRow } from '@/interfaces/students/studentInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type StudentTableRow } from '@/interfaces/students/studentInterface';
     import type { useStudents } from '@/composables/useStudent';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';

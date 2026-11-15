@@ -98,11 +98,11 @@
     import Multiselect from '@vueform/multiselect';
     import '@vueform/multiselect/themes/default.css';
     import type { useManagerStudents } from '@/composables/useManagerStudents';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';
     import PaginacionComponent from '@/components/generics/PaginacionComponent.vue';
-    import { StudentSimpleResponse } from '@/interfaces/students/studentInterface';
-    import { AssignedStudentsTableRow, PendingManagerStudentRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
+    import { type StudentSimpleResponse } from '@/interfaces/students/studentInterface';
+    import { type AssignedStudentsTableRow, type PendingManagerStudentRow } from '@/interfaces/ManagerStudents/ManagerStudentsInterface';
     import { ParentType } from '@/enum/ParentType';
 
     const prefijo = import.meta.env.VITE_BASE_URL;

@@ -54,8 +54,8 @@
     import { ref, inject } from 'vue';
     import { formatDate } from '@/utils/FormatDates';
     import type { usePeriod } from '@/composables/usePeriod';
-    import { ColumnDefinition } from '@/interfaces/templates/TableInterface';
-    import { PeriodTableRow } from '@/interfaces/Period/periodInterface';
+    import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
+    import { type PeriodTableRow } from '@/interfaces/Period/periodInterface';
     import FilterWrapper from '@/components/templates/FilterWrapper.vue';
     import FilterComponent from '@/components/generics/FilterComponent.vue';
     import TableGridComponent from '@/components/templates/TableGridComponent.vue';

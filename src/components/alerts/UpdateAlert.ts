@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 import { SuccesAlert } from './successAlert';
 import { ErrorAlert } from './ErrorAlert';
+import type { ApiError } from '@/interfaces/ApiError';
 
 export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<boolean> => {
     return Swal.fire({
@@ -22,7 +23,7 @@ export const ShowUpdateAlert = (code: string, fn: () => Promise<void>): Promise<
                 SuccesAlert('actualizado correctamente')
                 return true;
             } catch (e) {
-                ErrorAlert(e);
+                ErrorAlert(e as ApiError);
             }
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             return false;
