@@ -28,6 +28,22 @@
                     </div>
                 </section>
 
+                <section class="box_panel">
+                    <div class="input__ct">
+                        <label for="ability">Start Date</label>
+                        <VueDatePicker v-model="newCourse.startDate" locale="es" format="yyyy-MM-dd"
+                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                            auto-apply />
+                    </div>
+
+                    <div class="input__ct">
+                        <label for="year">End Date</label>
+                        <VueDatePicker v-model="newCourse.endDate" locale="es" format="yyyy-MM-dd"
+                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
+                            auto-apply />
+                    </div>
+                </section>
+
                 <section class="inputs_modal">
                     <div class="input__ct">
                         <label for="ability">Valority Unity</label>
@@ -57,6 +73,16 @@
                               <div class="field">
                                 <label>Subject Name</label>
                                 <p>{{ getSubjectName(newCourse.subjectId) }}</p>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field half">
+                                <label>Start Date</label>
+                                <p>{{ newCourse.startDate }}</p>
+                            </div>
+                            <div class="field half">
+                                <label>End Date</label>
+                                <p>{{ newCourse.endDate }}</p>
                             </div>
                         </div>
                     </div>
@@ -102,6 +128,7 @@ import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import { type ApiError } from '@/interfaces/ApiError';
 import { type CourseEditResponse, type CourseRequest } from '@/interfaces/Course/CourseInterface';
 import { useCourse } from '@/composables/useCourse';
+import VueDatePicker from '@vuepic/vue-datepicker'
 
 //inyeccion de funcines
 const {
@@ -135,7 +162,9 @@ const getInitialCourse = (): CourseRequest => ({
     valorityUnity: null as unknown as number,
     gradeDetailId: null,
     teacherId: null,
-    subjectId: null
+    subjectId: null,
+    startDate: "",
+    endDate: "",
 })
 const newCourse = ref<CourseRequest>(getInitialCourse());
 
@@ -266,5 +295,12 @@ const getTeacherName = (id: number | null) => {
     padding: 0 !important;
     border: 1px solid var(--color-fourth) !important;
     border-radius: 12px;
+}
+
+.inputs_modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
 }
 </style>

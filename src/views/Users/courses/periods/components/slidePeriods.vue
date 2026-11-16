@@ -95,9 +95,10 @@
         { key: 'id', label: 'ID' },
         { key: 'startDate', label: 'Start Date' },
         { key: 'endDate', label: 'End Date' },
-        { key: 'gradeDetailName', label: 'Grade Detail Name' },
+        { key: 'courseName', label: 'Course Name' },
         { key: 'createdAt', label: 'Created At' },
         { key: 'status', label: 'Status' },
+        { key: 'weight', label: 'Weight' },
         { key: 'actions', label: 'Actions' }
     ];
 

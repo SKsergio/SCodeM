@@ -16,7 +16,7 @@
         </slidePeriods>
 
         <!-- modal de editar y crear -->
-        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :degree-detail="degreeSpecificList" :period="requestPeriodData"></modalCrearEditar>
+        <modalCrearEditar v-model="isModalOpen" @emitido="fetchAll()" :courses="courseList" :period="requestPeriodData"></modalCrearEditar>
     </div>
 </template>
 
@@ -33,10 +33,10 @@ import { CloseRecordAlert } from '@/components/alerts/CloseRecord';
 import { OpenRecordAlert } from '@/components/alerts/OpenRecord';
 import { StatusEnum } from '@/enum/StatusEnum';
 import { type statusRequest } from '@/interfaces/StatusRequest';
-import { useDegreeDetail } from '@/composables/useDegreeDetail';
-import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
 import { ErrorAlert } from '@/components/alerts/ErrorAlert.js';
 import { type ApiError } from '@/interfaces/ApiError.js';
+import type { CourseSimpleResponse } from '@/interfaces/Course/CourseInterface.ts';
+import { useCourse } from '@/composables/useCourse.ts';
 
 
 const isModalOpen = ref(false);
@@ -48,8 +48,8 @@ provide("periodContext", periodState);
 const { loading, fetchAll, getOntetoEdit, deleteRecord, changeStatus } = periodState;
 
 //servicio de degreeDetail
-const degreeSpecificService = useDegreeDetail();
-const degreeSpecificList = ref<DegreeDetailSimpleResponse[]>([]);
+const courseService = useCourse();
+const courseList = ref<CourseSimpleResponse[]>([]);
 
 
 const handleCreate = () => {
@@ -104,11 +104,11 @@ const handleStatus = async (id: number, oldStatus: StatusEnum) => {
 onMounted(async () => {
     try {
         await fetchAll();
-        const [degreeSpecific] = await Promise.all([
-            degreeSpecificService.getSelects(),
+        const [courseSpecific] = await Promise.all([
+            courseService.getSelects(),
         ])
 
-        degreeSpecificList.value = degreeSpecific;
+        courseList.value = courseSpecific;
     } catch (e) {
         ErrorAlert(e as ApiError);
     }

@@ -22,11 +22,17 @@
                 </section>
 
                 <div class="form-group">
-                        <label>Degree Detail</label>
+                    <label>Course</label>
 
-                        <Multiselect v-model="newPeriod.gradeDetailId" :options="props.degreeDetail" valueProp="id"
-                            label="fullName" class="custom-select-modal" :searchable="true" placeholder="select a specific degree..."
-                            noOptionsText="The list is empty" noResultsText="No results found" />
+                    <Multiselect v-model="newPeriod.courseId" :options="props.courses" valueProp="id" label="name"
+                        class="custom-select-modal" :searchable="true" placeholder="select a specific course..."
+                        noOptionsText="The list is empty" noResultsText="No results found" />
+                </div>
+
+                <div class="form-group">
+                        <label for="ability">Weight</label>
+                        <input class="input_st" type="number" max="50" min="0" id="ability"
+                            v-model.number="newPeriod.weight">
                     </div>
             </div>
 
@@ -47,10 +53,16 @@
                                 <p>{{ newPeriod.endDate }}</p>
                             </div>
                         </div>
+                        <div>
+                            <div class="field half">
+                                <label>Weight</label>
+                                <p>{{ newPeriod.weight }} %</p>
+                            </div>
+                        </div>
                         <div class="field-row">
                             <div class="field half">
-                                <label>Degree Detail</label>
-                                <p>{{ getDegreeDetailName(newPeriod.gradeDetailId) }}</p>
+                                <label>Course</label>
+                                <p>{{ getCourseName(newPeriod.courseId) }}</p>
                             </div>
                         </div>
                     </div>
@@ -84,7 +96,7 @@ import { ErrorAlert } from '@/components/alerts/ErrorAlert';
 import type { usePeriod } from '@/composables/usePeriod';
 
 import { type ApiError } from '@/interfaces/ApiError';
-import { type DegreeDetailSimpleResponse } from '@/interfaces/DegreeDetail/DegreeDetailInterface';
+import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
 
 //inyeccion de funcines
 const {
@@ -96,7 +108,7 @@ const {
 const props = defineProps<{
     modelValue: boolean
     period?: PeriodEditResponse | null,
-    degreeDetail?: DegreeDetailSimpleResponse[]
+    courses?: CourseSimpleResponse[]
 }>();
 
 const emit = defineEmits<{
@@ -114,7 +126,8 @@ const show = computed({
 const getInitialPeriod = (): PeriodRequest => ({
     startDate: "",
     endDate: "",
-    gradeDetailId: 0,
+    courseId: 0,
+    weight: 0,
 })
 const newPeriod = ref<PeriodRequest>(getInitialPeriod());
 
@@ -122,11 +135,11 @@ const clean_form = () => {
     newPeriod.value = getInitialPeriod()
 }
 
-const getDegreeDetailName = (id: number | null) => {
+const getCourseName = (id: number | null) => {
     if (!id) return
-    let degreeCurrent = props.degreeDetail?.find(dg => dg.id === id)
-    if (degreeCurrent) {
-        return degreeCurrent?.fullName
+    let courseCurrent = props.courses?.find(cr => cr.id === id)
+    if (courseCurrent) {
+        return courseCurrent?.name
     } else {
         return "sin nombre";
     }

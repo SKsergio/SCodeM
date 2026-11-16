@@ -9,6 +9,8 @@ export interface CourseRequest {
     gradeDetailId: number | null,
     teacherId: number | null,
     subjectId: number | null,
+    startDate: string,
+    endDate: string,
 }
 
 //interfaz para response
@@ -22,11 +24,13 @@ export interface CourseResoponse{
     totalStudents: number,
     status: StatusEnum,
     year:number,
-    valorityUnity: number  
+    valorityUnity: number,
+    startDate: string,
+    endDate: string
 }
 
 //interfaz para response simple
-export interface CourseSimpleResponse extends Omit<CourseResoponse, "teacherName, gradeDetailName, subjectName, status, valorityUnity">{
+export interface CourseSimpleResponse extends Omit<CourseResoponse, "teacherName, gradeDetailName, subjectName, startDate, endDate, valorityUnity">{
     gradeDetailId: number | null,
 }
 
@@ -38,10 +42,13 @@ export interface CourseFullResponse{
     gradeDetail: DegreeDetailSimpleResponse,
     subject: CatalogueSimpleResponse,
     totalStudents: number,
-    availableSlots: number
+    availableSlots: number,
+    evaluatedPercentage: number,
     status: StatusEnum,
     year:number,
-    valorityUnity: number
+    valorityUnity: number,
+    startDate: string,
+    endDate: string
 }
 
 export interface CourseEditResponse extends CourseRequest{
