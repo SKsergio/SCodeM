@@ -27,6 +27,12 @@ export interface DegreeDetailResponse{
     tutorName: string
 }
 
+//interfaz para rango de fechas
+export interface DegreeDetailDateRangeResponse{
+    startDate: string;
+    endDate: string;
+}
+
 export interface DegreeDetailSimpleResponse extends Omit<DegreeDetailResponse, "ability, year">{
 }
 

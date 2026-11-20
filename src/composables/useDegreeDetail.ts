@@ -9,7 +9,7 @@ import {//importamos las funciones del crud
 } from '@/services/Catalogues/GenericServices';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
-import { type DegreeDetailRequest, type DegreeDetailResponse, type DegreeDetailSimpleResponse, type DegreeDetailFullResponse, type DegreeDetailEditResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
+import { type DegreeDetailRequest, type DegreeDetailResponse, type DegreeDetailSimpleResponse, type DegreeDetailFullResponse, type DegreeDetailEditResponse, type DegreeDetailDateRangeResponse } from "@/interfaces/DegreeDetail/DegreeDetailInterface";
 import { type statusRequest } from "@/interfaces/StatusRequest";
 
 export function useDegreeDetail() {
@@ -17,6 +17,7 @@ export function useDegreeDetail() {
     const records = ref<DegreeDetailResponse[]>([]);
     const loading = ref(false);
     const error = ref<String | null>(null);
+    const dateAvailable = ref<DegreeDetailDateRangeResponse>()
 
     //instanciando la paginacion
     const pagination = usePagination();
@@ -94,7 +95,7 @@ export function useDegreeDetail() {
         }
     }
 
-    // //obtener para eidcion
+    //obtener para eidcion
     const getOntetoEdit = async (idRecord: number): Promise<DegreeDetailEditResponse> => {
         loading.value = true;
         try {
@@ -133,6 +134,18 @@ export function useDegreeDetail() {
         }
     }
 
+    //obtener fecha disponible dentro del rango
+    const getRangeDates = async (idGradeDetail: number) => {
+        try {
+            const urlFinal = endpoint + "/range-dates"
+            const response = await GetOneRecord<DegreeDetailDateRangeResponse>(urlFinal, idGradeDetail);
+            dateAvailable.value = response;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
+
     watch([pagination.page, pagination.size], () => {
         fetchAll();
     });
@@ -149,6 +162,8 @@ export function useDegreeDetail() {
         deleteRecord,
         getOntetoEdit,
         changeStatus,
-        getSelects
+        getSelects,
+        getRangeDates,
+        dateAvailable
     };
 }

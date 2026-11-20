@@ -252,7 +252,6 @@ const findPercentage = async () => {
         try {
             await getPercentage(newEvaluation.value.courseId);
         } catch (error) {
-            console.error('Error al obtener el porcentaje:', error);
             ErrorAlert(error as ApiError)
         }
     }
@@ -269,7 +268,6 @@ const findPeriods = async (courseId: number) => {
     try {
         await getSelectsByGrade(course.gradeDetailId);
     } catch (error) {
-        console.error('Error al obtener los periodos:', error);
         ErrorAlert(error as ApiError)
     }
 }

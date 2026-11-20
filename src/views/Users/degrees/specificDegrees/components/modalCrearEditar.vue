@@ -1,5 +1,5 @@
 <template>
-    <BaseModalComponent v-model="show" title="Register new Degree" :custom-class="'modal-width-pt theme-modal-manager'">
+    <BaseModalComponent v-model="show" title="Register new Cycle" :custom-class="'modal-width-pt theme-modal-manager'">
         <CloseIcon class="icon_close" @click="closeModal" />
 
         <div class="form_container">
