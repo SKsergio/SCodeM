@@ -1,4 +1,6 @@
 import Swal from 'sweetalert2'
+import { ErrorAlert } from './ErrorAlert';
+import { type ApiError } from '@/interfaces/ApiError';
 
 export const ShowDeleteAlert = (fn:()=> Promise<void>) => { //pasamos la funcion como parametro
         return Swal.fire({
@@ -20,7 +22,7 @@ export const ShowDeleteAlert = (fn:()=> Promise<void>) => { //pasamos la funcion
                     return true;
                 } catch (e) {
                     console.error('Error al eliminar:', e);
-                    Swal.fire('Error', 'No se pudo eliminar el elemento.', 'error');
+                    ErrorAlert(e as ApiError);
                     return false;
                 }
             }

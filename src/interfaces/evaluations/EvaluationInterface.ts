@@ -1,5 +1,6 @@
 import { StatusEnum } from "@/enum/StatusEnum"
 import { type CourseSimpleResponse } from "../Course/CourseInterface"
+import { type PeriodSimpleResponse } from "../Period/periodInterface"
 
 export interface EvaluationRequest{
     name: string,
@@ -27,9 +28,10 @@ export interface EvaluationSimpleResponse extends Omit<EvaluationResponse, "desc
 
 export interface EvaluationFullResponse extends Omit<EvaluationResponse, "courseName">{
     course: CourseSimpleResponse
+    period: PeriodSimpleResponse
 }
 
-export interface EvaluationEditResponse extends EvaluationRequest{
+export interface EvaluationEditResponse extends Omit<EvaluationRequest, "courseId">{
     id: number
 }
 

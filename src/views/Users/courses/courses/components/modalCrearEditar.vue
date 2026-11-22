@@ -11,9 +11,9 @@
                     <h3 class="section-title section-title--divided">Assignment</h3>
 
                     <div class="form-group">
-                        <label>Degree Detail</label>
+                        <label>Degree Detail <span v-if="isEdit" class="hint">(cannot be changed)</span></label>
                         <Multiselect v-model="newCourse.gradeDetailId" :options="props.degreeDetail" valueProp="id"
-                            label="fullName" class="custom-select-modal" :searchable="true"
+                            label="fullName" class="custom-select-modal" :searchable="true" :disabled="isEdit"
                             placeholder="Select a specific degree..." noOptionsText="The list is empty"
                             noResultsText="No results found" />
                     </div>
@@ -28,9 +28,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Subject</label>
+                            <label>Subject <span v-if="hasPeriods" class="hint">(the course has periods)</span></label>
                             <Multiselect v-model="newCourse.subjectId" class="custom-select-modal"
                                 :options="props.subjects" valueProp="id" label="name" :searchable="true"
+                                :disabled="hasPeriods"
                                 placeholder="Select a subject..." noOptionsText="The list is empty"
                                 noResultsText="No results found" />
                         </div>
@@ -50,7 +51,7 @@
                 <section class="box_panel panel_col">
                     <h3 class="section-title section-title--divided">Evaluation</h3>
 
-                    <div class="input__ct input__ct--narrow">
+                    <div class="input__ct">
                         <label for="valority-unity">Valority Unity <span class="hint">(0 - 50)</span></label>
                         <input class="input_st" type="number" max="50" min="0" id="valority-unity"
                             v-model.number="newCourse.valorityUnity">
@@ -129,6 +130,7 @@ import { type ApiError } from '@/interfaces/ApiError';
 import { type CourseEditResponse, type CourseRequest } from '@/interfaces/Course/CourseInterface';
 import { useCourse } from '@/composables/useCourse';
 import { useDegreeDetail } from '@/composables/useDegreeDetail';
+import { usePeriod } from '@/composables/usePeriod';
 import DateRangeField from '@/components/generics/DateRangeField.vue';
 import { getDateRangeError } from '@/utils/dateRange';
 
@@ -140,6 +142,7 @@ const {
 
 //instancia propia del modal, solo se usa para consultar el rango de fechas
 const { getRangeDates, dateAvailable } = useDegreeDetail()
+const { getSelects: getPeriodsOfCourse } = usePeriod()
 
 //PROPS Y EMITS
 const props = defineProps<{
@@ -161,7 +164,8 @@ const show = computed({
 })
 
 const EMPTY = '—'
-const modalTitle = computed(() => props.course?.id ? 'Edit Course' : 'Register New Course')
+const isEdit = computed(() => !!props.course?.id)
+const modalTitle = computed(() => isEdit.value ? 'Edit Course' : 'Register New Course')
 
 //INICIALIZACIONES
 const getInitialCourse = (): CourseRequest => ({
@@ -175,20 +179,39 @@ const getInitialCourse = (): CourseRequest => ({
 const newCourse = ref<CourseRequest>(getInitialCourse());
 
 const clean_form = () => {
-    newCourse.value = getInitialCourse()
+    const initial = getInitialCourse()
+    newCourse.value = {
+        ...initial,
+        gradeDetailId: isEdit.value ? newCourse.value.gradeDetailId : initial.gradeDetailId,
+        subjectId: hasPeriods.value ? newCourse.value.subjectId : initial.subjectId,
+    }
 }
 
 watch(
     () => props.modelValue,
     (isOpen) => {
         if (isOpen && props.course) {
-            const { id: _id, ...courseData } = props.course;
+            const { id, ...courseData } = props.course;
             newCourse.value = { ...courseData };
+            checkPeriods(id);
         } else {
-            clean_form();
+            newCourse.value = getInitialCourse()
+            hasPeriods.value = false
         }
     }
 )
+
+const hasPeriods = ref(false)
+
+const checkPeriods = async (courseId: number) => {
+    hasPeriods.value = false
+    try {
+        const periods = await getPeriodsOfCourse(courseId)
+        hasPeriods.value = periods.length > 0
+    } catch (error) {
+        console.error('Error al obtener los periodos del curso:', error);
+    }
+}
 
 //RANGO DE FECHAS DISPONIBLES
 const loadingRange = ref(false)

@@ -7,10 +7,12 @@ import {//importamos las funciones del crud
     GetOneRecord,
     GetAllRecords
 } from '@/services/Catalogues/GenericServices';
+import { httpGet } from '@/services/api';
 import { usePagination } from "./usePagination";
 //interfaces de maestros
 import { type CourseRequest, type CourseEditResponse, type CourseFullResponse, type CourseSimpleResponse, type CourseResoponse } from "@/interfaces/Course/CourseInterface";
 import { type statusRequest } from "@/interfaces/StatusRequest";
+import { type DateRange } from "@/utils/dateRange";
 
 export function useCourse() {
     const endpoint = 'core/courses';
@@ -121,16 +123,27 @@ export function useCourse() {
         }
     }
 
-    const getPercentage = async (idCourse: number) => {
+    const getPercentage = async (idCourse: number, idPeriod: number) => {
         try {
-            const urlFinal = endpoint + "/percentage"
-            const response = await GetOneRecord<{ availablePercentage: number }>(urlFinal, idCourse);
+            const urlFinal = `${endpoint}/${idCourse}/periods/${idPeriod}/percentage`
+            const response = await httpGet<{ availablePercentage: number }>(urlFinal);
             percentageAvaliable.value = response.availablePercentage;
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
         }
     }
+    
+    const getRangeDates = async (idCourse: number): Promise<DateRange> => {
+        try {
+            const urlFinal = endpoint + "/range-dates"
+            return await GetOneRecord<DateRange>(urlFinal, idCourse);
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
+
     //cambiar estados
     const changeStatus = async (idRecord: number, status: statusRequest): Promise<CourseResoponse> => {
         try {
@@ -162,6 +175,7 @@ export function useCourse() {
         getOntetoEdit,
         getSelects,
         getPercentage,
+        getRangeDates,
         changeStatus
     };
 }

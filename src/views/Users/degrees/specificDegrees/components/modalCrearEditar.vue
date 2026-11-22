@@ -307,6 +307,10 @@ const getTutorName = (id: number | null) => {
     justify-content: center;
     gap: 10px;
 }
+
+.inputs_modal > .input__ct {
+    flex: 1;
+}
 </style>
 
 <style>

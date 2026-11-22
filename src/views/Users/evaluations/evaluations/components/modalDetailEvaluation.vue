@@ -42,6 +42,20 @@
                                 <p>{{ newDetailedEvaluation.daysRemaning }}</p>
                             </div>
                         </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Period</label>
+                                <p>{{ newDetailedEvaluation.period?.name || 'N/A' }}</p>
+                            </div>
+                            <div class="field">
+                                <label>Period Dates</label>
+                                <p v-if="newDetailedEvaluation.period">
+                                    {{ newDetailedEvaluation.period.startDate }} &rarr; {{ newDetailedEvaluation.period.endDate }}
+                                </p>
+                                <p v-else>N/A</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,6 +106,7 @@ import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
 import { type BatchEvaluationRequestDTO, type EvaluationGradebookTableRow, type studentGradeRequest } from '@/interfaces/EvaluationDetail/evaluationDetailInterface';
 import { type EvaluationFullResponse } from '@/interfaces/evaluations/EvaluationInterface';
 import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
+import { type PeriodSimpleResponse } from '@/interfaces/Period/periodInterface';
 import { StatusEnum } from '@/enum/StatusEnum';
 
 
@@ -110,7 +125,8 @@ const getInitialFullEvaluation = (): EvaluationFullResponse => ({
     endDate: '',
     status: StatusEnum.OPEN,
     daysRemaning: 0,
-    course: null as unknown as CourseSimpleResponse
+    course: null as unknown as CourseSimpleResponse,
+    period: null as unknown as PeriodSimpleResponse
 });
 
 const newDetailedEvaluation = ref<EvaluationFullResponse>(getInitialFullEvaluation());

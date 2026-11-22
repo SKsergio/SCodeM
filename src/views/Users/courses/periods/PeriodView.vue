@@ -12,7 +12,7 @@
 
 
         <!-- contendedor -->
-        <slidePeriods @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus">
+        <slidePeriods :courses="courseList" @edit="handleEdit" @delete="handleDelete" @toggle-status="handleStatus">
         </slidePeriods>
 
         <!-- modal de editar y crear -->
@@ -63,7 +63,6 @@ const handleEdit = async (id: number) => {
     try {
         const data = await getOntetoEdit(id);
         requestPeriodData.value = data;
-        console.log(requestPeriodData.value);
         isModalOpen.value = true;
     } catch (error) {
         ErrorAlert(error as ApiError);
@@ -92,11 +91,11 @@ const handleStatus = async (id: number, oldStatus: StatusEnum) => {
     if (oldStatus == StatusEnum.OPEN) {
         const newStatus = statusIntitial()
         newStatus.newStatus = StatusEnum.CLOSED
-        CloseRecordAlert(() => changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+        CloseRecordAlert(() => changeStatus(id, newStatus), "Periodo", "Se cerraran todas las evaluaciones del periodo. Sus evaluaciones deben sumar 100%.")
     } else if (oldStatus == StatusEnum.CLOSED) {
         const newStatus = statusIntitial()
         newStatus.newStatus = StatusEnum.OPEN
-        OpenRecordAlert(() => changeStatus(id, newStatus), "Periodo", "esta accion afectara los cursos asociados")
+        OpenRecordAlert(() => changeStatus(id, newStatus), "Periodo", "El curso del periodo debe estar abierto para poder reabrirlo.")
     }
 }
 

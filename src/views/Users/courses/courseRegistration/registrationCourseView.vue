@@ -56,9 +56,12 @@
         subject: null as unknown as CatalogueSimpleResponse,
         totalStudents: 0,
         availableSlots: 0,
+        evaluatedPercentage: 0,
         status: StatusEnum.OPEN,
         year: 0,
         valorityUnity: 0,
+        startDate: '',
+        endDate: '',
     })
 
     const registrationState = useRegistrationCourses();

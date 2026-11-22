@@ -16,6 +16,7 @@
                     <template #cell-actions="{ row }">
                         <div class="actions">
 
+                            <template v-if="row.status !== StatusEnum.CLOSED">
                             <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
                                 @click="editRow(row)">
                                 <IconPencil />
@@ -25,6 +26,7 @@
                                 @click="deleteRow(row)">
                                 <IconDelete />
                             </button>
+                            </template>
 
                             <button class="btn btn-sm btn-icon btn-soft-warning" v-tooltip="'Inscripciones'"
                                 @click="openInscriptions(row)">

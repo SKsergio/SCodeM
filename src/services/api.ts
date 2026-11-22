@@ -57,6 +57,11 @@ export async function httpDelete(endpoint: string): Promise<void> {
             return
         }
     } catch (error) {
+        if (error instanceof HTTPError) {
+            const backendError = await parseJsonBody(error.response).catch(() => undefined);
+            console.log(`Error en DELETE ${endpoint}:`, backendError);
+            throw backendError ?? error
+        }
         console.log(`Error en DELETE ${endpoint}:`, error);
         throw error
     }

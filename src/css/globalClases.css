@@ -342,6 +342,10 @@
     gap: 14px;
 }
 
+.panel_col > .input__ct {
+    width: 100%;
+}
+
 /* variante de titulo con linea divisoria */
 .section-title--divided {
     margin: 0;
@@ -363,10 +367,6 @@
     width: 100%;
 }
 
-.input__ct--narrow {
-    width: 50%;
-}
-
 /* mensaje de error bajo un campo */
 .field_error {
     margin: 0;
@@ -377,10 +377,6 @@
 @media (max-width: 860px) {
     .row_2 {
         grid-template-columns: 1fr;
-    }
-
-    .input__ct--narrow {
-        width: 100%;
     }
 }
 

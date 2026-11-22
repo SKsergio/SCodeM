@@ -3,7 +3,7 @@
         <!-- filtros -->
         <BtnFilterComponent @click="showFilters = !showFilters" />
         <FilterWrapper :show="showFilters">
-            <FilterComponent @apply-filters="handleFilters"></FilterComponent>
+            <FilterComponent :config="filterConfig" @apply-filters="handleFilters"></FilterComponent>
         </FilterWrapper>
 
         <div class="conatiner_crud">
@@ -19,8 +19,8 @@
 
                     <template #cell-actions="{ row }">
                         <div class="actions">
-                            <button class="btn btn-sm btn-icon btn-soft-primary" v-tooltip="'Editar'"
-                                @click="editRow(row)">
+                            <button v-if="row.status === StatusEnum.OPEN" class="btn btn-sm btn-icon btn-soft-primary"
+                                v-tooltip="'Editar'" @click="editRow(row)">
                                 <IconPencil />
                             </button>
 
@@ -51,7 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, inject } from 'vue';
+    import { ref, inject, computed } from 'vue';
+    import { type FilterConfig } from '@/interfaces/templates/FilterInterface';
+    import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
     import { formatDate } from '@/utils/FormatDates';
     import type { usePeriod } from '@/composables/usePeriod';
     import { type ColumnDefinition } from '@/interfaces/templates/TableInterface';
@@ -73,6 +75,22 @@
         fetchAll
     } = inject('periodContext') as ReturnType<typeof usePeriod>;
 
+    const props = defineProps<{
+        courses?: CourseSimpleResponse[]
+    }>();
+
+    const filterConfig = computed<FilterConfig[]>(() => [
+        {
+            type: 'select',
+            key: 'courseId',
+            placeholder: 'Course',
+            options: [
+                { label: 'All courses', value: null },
+                ...(props.courses ?? []).map(c => ({ label: c.name, value: c.id }))
+            ]
+        }
+    ]);
+
     //VARIABLES
     const showFilters = ref(false);
 
@@ -93,6 +111,7 @@
     //tabla
     const columns: ColumnDefinition<PeriodTableRow>[] = [
         { key: 'id', label: 'ID' },
+        { key: 'name', label: 'Name' },
         { key: 'startDate', label: 'Start Date' },
         { key: 'endDate', label: 'End Date' },
         { key: 'courseName', label: 'Course Name' },

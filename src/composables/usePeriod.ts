@@ -110,10 +110,10 @@ export function usePeriod() {
         }
     }
 
-    const getSelects = async (): Promise<PeriodSimpleResponse[]> => {
+    const getSelects = async (courseId?: number): Promise<PeriodSimpleResponse[]> => {
         try {
             const urlFinal = endpoint + "/all"
-            const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
+            const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal, { courseId });
             return records;
         } catch (e) {
             console.error('Error al obtener:', e);
@@ -128,6 +128,16 @@ export function usePeriod() {
             const records = await GetAllRecords<PeriodSimpleResponse>(urlFinal);
             periodsByGrade.value = records;
             return records;
+        } catch (e) {
+            console.error('Error al obtener:', e);
+            throw e;
+        }
+    }
+
+    const getByCourse = async (courseId: number): Promise<PeriodResponse[]> => {
+        try {
+            const response = await GetRecords<PeriodResponse>(endpoint, { courseId, page: 0, size: 100 });
+            return [...response.content].sort((a, b) => a.startDate.localeCompare(b.startDate));
         } catch (e) {
             console.error('Error al obtener:', e);
             throw e;
@@ -165,6 +175,7 @@ export function usePeriod() {
         getOntetoEdit,
         changeStatus,
         getSelects,
-        getSelectsByGrade
+        getSelectsByGrade,
+        getByCourse
     };
 }

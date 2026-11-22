@@ -17,7 +17,7 @@
 
                        <div class="actions">
 
-                           <button @click="editRow(row)">
+                           <button v-if="row.status === StatusEnum.OPEN" @click="editRow(row)">
                                Update
                            </button>
 

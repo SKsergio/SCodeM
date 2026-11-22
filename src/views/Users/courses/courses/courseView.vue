@@ -112,11 +112,11 @@
         if (oldStatus == StatusEnum.OPEN) {
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.CLOSED
-            CloseRecordAlert(()=>changeStatus(id, newStatus), "Cursos", "esta accion afectara las evaluaciones asociadas")
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Curso", "Se cerraran todos sus periodos y evaluaciones. Los pesos de los periodos deben sumar 100% y las evaluaciones de cada periodo tambien.")
         }else if(oldStatus == StatusEnum.CLOSED){
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.OPEN
-            OpenRecordAlert(()=>changeStatus(id, newStatus), "Cursos", "esta accion afectara los evaluaciones asociadas")
+            OpenRecordAlert(()=>changeStatus(id, newStatus), "Curso", "El ciclo del curso debe estar abierto para poder reabrirlo.")
         }
     }
 

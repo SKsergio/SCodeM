@@ -97,7 +97,7 @@
         if (oldStatus == StatusEnum.OPEN) {
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.CLOSED
-            CloseRecordAlert(()=>changeStatus(id, newStatus), "Ciclo Académico", "esta accion afectara los cursos asociados")
+            CloseRecordAlert(()=>changeStatus(id, newStatus), "Ciclo Académico", "Se cerraran todos sus cursos, periodos y evaluaciones. Cada curso debe tener periodos que sumen 100% y evaluaciones completas.")
         }else if(oldStatus == StatusEnum.CLOSED){
             const newStatus = statusIntitial()
             newStatus.newStatus = StatusEnum.OPEN

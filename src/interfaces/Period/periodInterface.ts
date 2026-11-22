@@ -2,15 +2,17 @@ import { StatusEnum } from "@/enum/StatusEnum";
 
 
 export interface PeriodRequest {
+    name: string;
     startDate: string;
     endDate: string;
     weight: number;
     courseId: number;
 }
 
-//para periodso utilizamos la misma en fullResponse y reponse de paginacion, para editar tambien usamos esta
+//para periodso utilizamos la misma en fullResponse y reponse de paginacion
 export interface PeriodResponse {
     id: number;
+    name: string;
     startDate: string;
     endDate: string;
     courseName: string;
@@ -19,12 +21,20 @@ export interface PeriodResponse {
     createdAt: string;
 }
 
-export interface PeriodEditResponse extends PeriodRequest{
-    id: number; 
+export interface PeriodEditResponse extends PeriodRequest {
+    id: number;
+    status: StatusEnum;
+    createdAt: string;
 }
 
-export interface PeriodSimpleResponse extends Omit<PeriodResponse, "status, weight, createdAt, courseName"> {}
+export interface PeriodSimpleResponse {
+    id: number;
+    name: string;
+    startDate: string;
+    endDate: string;
+    courseId: number;
+}
 
 export interface PeriodTableRow extends PeriodResponse {
-    actions?: string; 
+    actions?: string;
 }

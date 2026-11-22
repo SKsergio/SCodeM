@@ -1,5 +1,5 @@
 <template>
-    <BaseModalComponent v-model="show" title="Register new Evaluation"
+    <BaseModalComponent v-model="show" :title="modalTitle"
         :custom-class="'modal-width-pt theme-modal-manager'">
         <CloseIcon class="icon_close" @click="closeModal" />
 
@@ -24,35 +24,28 @@
                         <input class="input_st" type="text" id="description" v-model="newEvaluation.description">
                     </div>
                     <div class="form-group">
-                        <label>Course</label>
+                        <label>Course <span v-if="isEdit" class="hint">(cannot be changed)</span></label>
 
-                        <Multiselect v-model="newEvaluation.courseId" :options="props.courses" valueProp="id"
-                            label="name" class="custom-select-modal" :searchable="true" placeholder="select a course..."
+                        <Multiselect v-model="newEvaluation.courseId" :options="courseOptions" valueProp="id"
+                            label="name" class="custom-select-modal" :searchable="true" :disabled="isEdit"
+                            placeholder="select a course..."
                             noOptionsText="The list is empty" noResultsText="No results found" />
                     </div>
 
                      <div class="form-group">
                         <label>Period</label>
-                        <Multiselect v-model="newEvaluation.periodId" class="custom-select-modal" :options="periodsByGrade" valueProp="id"
-                            label="startDate" :searchable="true" placeholder="Select a period..." />
+                        <Multiselect v-model="newEvaluation.periodId" class="custom-select-modal" :options="openPeriods"
+                            valueProp="id" label="name" :searchable="true" :loading="loadingPeriods"
+                            placeholder="Select a period..." noOptionsText="The course has no open periods"
+                            noResultsText="No results found" />
                     </div>
 
                 </section>
 
                 <section class="box_panel">
-                    <div class="input__ct">
-                        <label for="ability">Start Date</label>
-                        <VueDatePicker v-model="newEvaluation.startDate" locale="es" format="yyyy-MM-dd"
-                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
-                            auto-apply />
-                    </div>
-
-                    <div class="input__ct">
-                        <label for="year">End Date</label>
-                        <VueDatePicker v-model="newEvaluation.endDate" locale="es" format="yyyy-MM-dd"
-                            model-type="yyyy-MM-dd" :teleport="true" class="picker" :enable-time-picker="false"
-                            auto-apply />
-                    </div>
+                    <DateRangeField v-model:start-date="newEvaluation.startDate"
+                        v-model:end-date="newEvaluation.endDate" :range="periodRange"
+                        empty-text="Select a period to see the available date range." />
                 </section>
             </div>
 
@@ -105,7 +98,7 @@
                         </div>
                         <div class="field half">
                             <label>Period</label>
-                            <p>{{ getPeriodStartDate(newEvaluation.periodId) }}</p>
+                            <p>{{ selectedPeriod?.name ?? '—' }}</p>
                         </div>
                     </div>
                 </div>
@@ -126,8 +119,6 @@
 import Multiselect from '@vueform/multiselect';
 import CloseIcon from '~icons/ri/close-large-line'
 import '@vueform/multiselect/themes/default.css';
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
 import BaseModalComponent from '@/components/modals/BaseModalComponent.vue';
 import { type CourseSimpleResponse } from '@/interfaces/Course/CourseInterface';
 import { computed, inject, ref, watch } from 'vue';
@@ -141,10 +132,13 @@ import { useEvaluations } from '@/composables/useEvaluations';
 import { type EvaluationEditResponse, type EvaluationRequest } from '@/interfaces/evaluations/EvaluationInterface';
 import { useCourse } from '@/composables/useCourse';
 import { usePeriod } from '@/composables/usePeriod';
+import { type PeriodResponse } from '@/interfaces/Period/periodInterface';
+import DateRangeField from '@/components/generics/DateRangeField.vue';
+import { type DateRange, getDateRangeError } from '@/utils/dateRange';
+import { StatusEnum } from '@/enum/StatusEnum';
 
-//inyeccion de funcines
 const { getPercentage, percentageAvaliable } = useCourse();
-const { getSelectsByGrade, periodsByGrade } = usePeriod();
+const { getByCourse, getOntetoEdit: getPeriodToEdit } = usePeriod();
 
 const {
     createRecord,
@@ -171,6 +165,13 @@ const show = computed({
     set: v => emit('update:modelValue', v)
 })
 
+const isEdit = computed(() => !!props.evaluation?.id)
+const modalTitle = computed(() => isEdit.value ? 'Edit Evaluation' : 'Register new Evaluation')
+
+const courseOptions = computed(() =>
+    isEdit.value ? props.courses : props.courses?.filter(c => c.status === StatusEnum.OPEN)
+)
+
 //INICIALIZACIONES
 const getInitialEvaluation = (): EvaluationRequest => ({
     name: '',
@@ -184,41 +185,78 @@ const getInitialEvaluation = (): EvaluationRequest => ({
 const newEvaluation = ref<EvaluationRequest>(getInitialEvaluation());
 
 const clean_form = () => {
-    newEvaluation.value = getInitialEvaluation()
-    percentageAvaliable.value = 0;
+    //al editar el curso no se puede cambiar, asi que se conserva
+    const courseId = isEdit.value ? newEvaluation.value.courseId : getInitialEvaluation().courseId
+    newEvaluation.value = { ...getInitialEvaluation(), courseId }
 }
 
 watch(
     () => props.modelValue,
     (isOpen) => {
-        if (isOpen) {
-            if (isOpen && props.evaluation) {
-
-                const { ...cleanData } = props.evaluation;
-
-                newEvaluation.value = {
-                    ...cleanData,
-                };
-            } else {
-                clean_form();
-            }
+        if (isOpen && props.evaluation) {
+            const { id: _id, ...cleanData } = props.evaluation;
+            newEvaluation.value = { ...getInitialEvaluation(), ...cleanData };
+            findCourseOfPeriod(cleanData.periodId);
         } else {
-            clean_form()
+            newEvaluation.value = getInitialEvaluation()
         }
     }
 )
 
-watch(
-    () => newEvaluation.value.courseId,
-    (courseId) => {
-        if (courseId) {
-            findPercentage();
-            findPeriods(courseId);
-        } else {
-            periodsByGrade.value = [];
+const findCourseOfPeriod = async (periodId: number | null) => {
+    if (!periodId) return
+    try {
+        const period = await getPeriodToEdit(periodId)
+        if (newEvaluation.value.periodId === periodId) {
+            newEvaluation.value.courseId = period.courseId
         }
+    } catch (error) {
+        ErrorAlert(error as ApiError)
     }
+}
+
+const coursePeriods = ref<PeriodResponse[]>([])
+const loadingPeriods = ref(false)
+
+const openPeriods = computed(() => coursePeriods.value.filter(p => p.status === StatusEnum.OPEN))
+const selectedPeriod = computed(() => coursePeriods.value.find(p => p.id === newEvaluation.value.periodId))
+const periodRange = computed<DateRange | null>(() =>
+    selectedPeriod.value ? { startDate: selectedPeriod.value.startDate, endDate: selectedPeriod.value.endDate } : null
 )
+
+const findPeriods = async (courseId: number | null) => {
+    coursePeriods.value = []
+    if (!courseId) return
+
+    loadingPeriods.value = true
+    try {
+        const periods = await getByCourse(courseId)
+        if (newEvaluation.value.courseId !== courseId) return
+        coursePeriods.value = periods
+        if (!openPeriods.value.some(p => p.id === newEvaluation.value.periodId)) {
+            newEvaluation.value.periodId = null
+        }
+    } catch (error) {
+        ErrorAlert(error as ApiError)
+    } finally {
+        loadingPeriods.value = false
+    }
+}
+
+watch(() => newEvaluation.value.courseId, findPeriods)
+
+const findPercentage = async () => {
+    percentageAvaliable.value = 0
+    const { courseId, periodId } = newEvaluation.value
+    if (!courseId || !periodId) return
+    try {
+        await getPercentage(courseId, periodId);
+    } catch (error) {
+        ErrorAlert(error as ApiError)
+    }
+}
+
+watch(() => [newEvaluation.value.courseId, newEvaluation.value.periodId], findPercentage)
 
 const closeModal = () => {
     show.value = false
@@ -244,32 +282,15 @@ const validateForm = (): string | null => {
     if (!newEvaluation.value.courseId) {
         return 'Select a course'
     }
+    const dateError = getDateRangeError(newEvaluation.value.startDate, newEvaluation.value.endDate, periodRange.value)
+    if (dateError) {
+        return dateError
+    }
+    const percentage = newEvaluation.value.percentage
+    if (percentage === null || Number.isNaN(percentage) || percentage <= 0) {
+        return 'The percentage must be greater than 0'
+    }
     return null
-}
-
-const findPercentage = async () => {
-    if (newEvaluation.value.courseId) {
-        try {
-            await getPercentage(newEvaluation.value.courseId);
-        } catch (error) {
-            ErrorAlert(error as ApiError)
-        }
-    }
-}
-
-const findPeriods = async (courseId: number) => {
-    const course = props.courses?.find(c => c.id === courseId);
-
-    if (!course?.gradeDetailId) {
-        periodsByGrade.value = [];
-        return;
-    }
-
-    try {
-        await getSelectsByGrade(course.gradeDetailId);
-    } catch (error) {
-        ErrorAlert(error as ApiError)
-    }
 }
 
 const saveData = async () => {
@@ -322,15 +343,6 @@ const getCourseName = (id: number | null) => {
     }
 }
 
-const getPeriodStartDate = (id: number | null) => {
-    if (!id) return
-    let periodCurrent = periodsByGrade.value?.find(dg => dg.id === id)
-    if (periodCurrent) {
-        return periodCurrent?.startDate
-    } else {
-        return "sin nombre";
-    }
-}
 
 </script>
 
@@ -341,5 +353,10 @@ const getPeriodStartDate = (id: number | null) => {
 
 .description_modal {
     width: 100%;
+}
+
+.hint {
+    font-weight: 400;
+    color: var(--color-text1);
 }
 </style>
