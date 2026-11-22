@@ -3,7 +3,7 @@ import { decodeJwt } from "@/utils/jwt";
 import type { JwtPayload } from "@/interfaces/Auth/LoginInterface";
 
 const api = ky.create({
-    prefixUrl: 'http://127.0.0.1:8080/api/',
+    prefixUrl: import.meta.env.VITE_API_PREFIX ?? 'http://127.0.0.1:8080/api/',
     hooks: {
         beforeRequest: [
             request => {
